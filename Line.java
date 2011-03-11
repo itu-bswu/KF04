@@ -4,13 +4,13 @@ import java.awt.geom.Point2D;
  * Line class
  */
 public class Line {
-	private Point2D startPoint;
-	private Point2D endPoint;
+	private Point2D.Double startPoint;
+	private Point2D.Double endPoint;
 	
 	/**
 	 * Constructor
 	 */
-	public Line(Point2D startPoint, Point2D endPoint) {
+	public Line(Point2D.Double startPoint, Point2D.Double endPoint) {
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 	}
@@ -18,13 +18,13 @@ public class Line {
 	/**
 	 * Get start point
 	 */
-	public Point2D getStartPoint() {
+	public Point2D.Double getStartPoint() {
 		return startPoint;
 	}
 	/**
 	 * Get end point
 	 */
-	public Point2D getEndPoint() {
+	public Point2D.Double getEndPoint() {
 		return endPoint;
 	}
 }
