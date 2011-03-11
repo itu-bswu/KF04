@@ -1,11 +1,13 @@
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 import java.awt.geom.Point2D;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
@@ -15,8 +17,16 @@ import javax.swing.JFrame;
  */
 public class View extends JFrame{
 	
+	private static final long serialVersionUID = 1L;
+	
 	// felter
 	Canvas canvas;
+	private JButton upButton;
+	private JButton leftButton;
+	private JButton downButton;
+	private JButton rightButton;
+	private JButton zoomInButton;
+	private JButton zoomOutButton;
 
 	/**
 	 * Creates the frame with the given header title and an initial set of lines to be drawn.
@@ -53,9 +63,29 @@ public class View extends JFrame{
 	// Filips
 	private void createContent() {
 		Container outer = this.getContentPane();
-		
-		// test
+		outer.setLayout(new GridLayout(1,2));
 		outer.add(canvas);
+		JPanel menuPanel = new JPanel();
+		menuPanel.setLayout(new GridLayout(2,1));
+		outer.add(menuPanel);
+		JPanel navigationPanel = new JPanel();
+		menuPanel.add(navigationPanel);
+		navigationPanel.setLayout(new BorderLayout());
+		upButton = new JButton("^");
+		navigationPanel.add(upButton,BorderLayout.NORTH);
+		leftButton = new JButton(">");
+		navigationPanel.add(leftButton,BorderLayout.EAST);
+		downButton = new JButton("v");
+		navigationPanel.add(downButton,BorderLayout.SOUTH);
+		rightButton = new JButton("<");
+		navigationPanel.add(rightButton,BorderLayout.WEST);
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new GridLayout(2,1));
+		zoomInButton = new JButton("+");
+		centerPanel.add(zoomInButton);
+		zoomOutButton = new JButton("-");
+		centerPanel.add(zoomOutButton);
+		navigationPanel.add(centerPanel,BorderLayout.CENTER);
 	}
 	
 	/**
