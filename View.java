@@ -1,7 +1,8 @@
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.awt.geom.Point2D;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -32,13 +33,21 @@ public class View extends JFrame{
 		this.setVisible(true);
 		System.out.println("finished setup");
 	}
-	
+
 	/**
 	 * Repaints the entire frame, with the new lines to be shown.
 	 * @param l The new array of lines.
 	 */
 	public void repaint(Line[] l){
 		canvas.updateLines(l);
+	}
+	
+	/**
+	 * Tells the ratio of the windows resolution.
+	 * @return The screen's width divided by the screen's height.
+	 */
+	public double getRatio(){
+		return this.getWidth()/this.getHeight();
 	}
 
 	// Filips
