@@ -21,6 +21,12 @@ public class View extends JFrame{
 	
 	// felter
 	Canvas canvas;
+	private JButton upButton;
+	private JButton leftButton;
+	private JButton downButton;
+	private JButton rightButton;
+	private JButton zoomInButton;
+	private JButton zoomOutButton;
 
 	/**
 	 * Creates the frame with the given header title and an initial set of lines to be drawn.
@@ -57,16 +63,21 @@ public class View extends JFrame{
 		JPanel navigationPanel = new JPanel();
 		menuPanel.add(navigationPanel);
 		navigationPanel.setLayout(new BorderLayout());
-		navigationPanel.add(new JButton("^"),BorderLayout.NORTH);
-		navigationPanel.add(new JButton(">"),BorderLayout.EAST);
-		navigationPanel.add(new JButton("v"),BorderLayout.SOUTH);
-		navigationPanel.add(new JButton("<"),BorderLayout.WEST);
+		upButton = new JButton("^");
+		navigationPanel.add(upButton,BorderLayout.NORTH);
+		leftButton = new JButton(">");
+		navigationPanel.add(leftButton,BorderLayout.EAST);
+		downButton = new JButton("v");
+		navigationPanel.add(downButton,BorderLayout.SOUTH);
+		rightButton = new JButton("<");
+		navigationPanel.add(rightButton,BorderLayout.WEST);
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(2,1));
-		centerPanel.add(new JButton("+"));
-		centerPanel.add(new JButton("-"));
+		zoomInButton = new JButton("+");
+		centerPanel.add(zoomInButton);
+		zoomOutButton = new JButton("-");
+		centerPanel.add(zoomOutButton);
 		navigationPanel.add(centerPanel,BorderLayout.CENTER);
-		
 	}
 	
 	/**
