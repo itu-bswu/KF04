@@ -62,38 +62,30 @@ public class View extends JFrame{
 
 	// Filips
 	private void createContent() {
-		// creating objects
 		Container outer = this.getContentPane();
+		outer.setLayout(new GridLayout(1,2));
+		outer.add(canvas);
 		JPanel menuPanel = new JPanel();
-		JPanel navigationPanel = new JPanel();
-		JPanel centerPanel = new JPanel();
-		
-		upButton = new JButton("^");
-		leftButton = new JButton(">");
-		downButton = new JButton("v");
-		rightButton = new JButton("<");
-		zoomInButton = new JButton("+");
-		zoomOutButton = new JButton("-");
-		
-		// setting layouts and borders
-		outer.setLayout(new BorderLayout());
 		menuPanel.setLayout(new GridLayout(2,1));
-		navigationPanel.setLayout(new BorderLayout());
-		centerPanel.setLayout(new GridLayout(2,1));
-		
-		// adding inside each other
-		outer.add(canvas,BorderLayout.CENTER);
-		outer.add(menuPanel,BorderLayout.WEST);
+		outer.add(menuPanel);
+		JPanel navigationPanel = new JPanel();
 		menuPanel.add(navigationPanel);
-		
+		navigationPanel.setLayout(new BorderLayout());
+		upButton = new JButton("^");
 		navigationPanel.add(upButton,BorderLayout.NORTH);
+		leftButton = new JButton(">");
 		navigationPanel.add(leftButton,BorderLayout.EAST);
+		downButton = new JButton("v");
 		navigationPanel.add(downButton,BorderLayout.SOUTH);
+		rightButton = new JButton("<");
 		navigationPanel.add(rightButton,BorderLayout.WEST);
-		navigationPanel.add(centerPanel,BorderLayout.CENTER);
-		
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new GridLayout(2,1));
+		zoomInButton = new JButton("+");
 		centerPanel.add(zoomInButton);
+		zoomOutButton = new JButton("-");
 		centerPanel.add(zoomOutButton);
+		navigationPanel.add(centerPanel,BorderLayout.CENTER);
 	}
 	
 	/**
