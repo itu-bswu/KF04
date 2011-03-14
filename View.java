@@ -4,11 +4,13 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
+import java.awt.event.ActionListener;
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
  * 
@@ -42,6 +44,30 @@ public class View extends JFrame{
 		this.setSize(300, 300);
 		this.setVisible(true);
 		System.out.println("finished setup");
+	}
+	
+	public void addUpListener(ActionListener actionListener) {
+		upButton.addActionListener(actionListener);
+	}
+	
+	public void addDownListener(ActionListener actionListener) {
+		downButton.addActionListener(actionListener);
+	}
+	
+	public void addLeftListener(ActionListener actionListener) {
+		leftButton.addActionListener(actionListener);
+	}
+	
+	public void addRightListener(ActionListener actionListener) {
+		rightButton.addActionListener(actionListener);
+	}
+	
+	public void addInListener(ActionListener actionListener) {
+		zoomInButton.addActionListener(actionListener);
+	}
+	
+	public void addOutListener(ActionListener actionListener) {
+		zoomOutButton.addActionListener(actionListener);
 	}
 
 	/**
@@ -129,4 +155,5 @@ public class View extends JFrame{
 		new View("X marks the spot",new Line[]{new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75)),
 				new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75))});
 	}
+
 }
