@@ -11,15 +11,7 @@ public class Map {
 	private Point2D startPoint;  	//In meters
 	private Point2D endPoint;		//In meters
 	private graphlib.Graph<KrakEdge,KrakNode> graph; 
-	private HashSet<KrakEdge> edges;
-	
-	/*
-	 * 	private String nodeFile = "data/kdv_node_unload";
-	 *	private String edgeFile = "data/kdv_unload";
-	 * 	KrakLoader.graphFromFiles(nodeFile, edgeFile);
-	 */
-	
-	
+	private HashSet<KrakEdge> edges;	
 	
 	/**
 	 * Constructor
