@@ -8,12 +8,10 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.event.ActionListener;
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
  * 
