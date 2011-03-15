@@ -20,6 +20,7 @@ public class Map {
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
 		this.graph = graph;
+		bounds = outerBounds();
 		updateEdges();
 	}
 	
@@ -90,11 +91,6 @@ public class Map {
 	
 	/**
 	 * Move around on the map
-	 * 
-	 * Maybe not as clean as it could be.
-	 * 
-	 * I need the DIrectionclass!!!
-	 * 
 	 */
 	public void move(Direction d,double length) {
 		
@@ -115,18 +111,29 @@ public class Map {
 	
 	/**
 	 * Get lines
-	 * Why convert to array? couldn't the draw.
 	 */
 	public Collection<Line> getLines() {
 		HashSet<Line> lines = new HashSet<Line>();
 		
 		for (KrakEdge e : edges) {
-			Point2D.Double firstPoint = new Point2D.Double(e.getStart().getX(),e.getStart().getY());
-			Point2D.Double secondPoint = new Point2D.Double(e.getEnd().getX(),e.getEnd().getY());
+			Point2D.Double firstPoint = relativePoint(e.getStart().getX(),e.getStart().getY());
+			Point2D.Double secondPoint = relativePoint(e.getEnd().getX(),e.getEnd().getY());
 			lines.add(new Line(firstPoint,secondPoint));
 		}
 		
 		return lines;
+	}
+	
+	/**
+	 * Relative Point
+	 * Takes two coordinates and returnes a point relative to the screen
+	 */
+	private Point2D.Double relativePoint(double x,double y) {
+		
+		double nx = (x-bounds.getX()) / bounds.getWidth(); 
+		double ny = (y-bounds.getY()) / bounds.getHeight();
+		
+		return new Point2D.Double(nx,ny);
 	}
 	
 }
