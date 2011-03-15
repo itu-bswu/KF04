@@ -3,6 +3,7 @@ import graphlib.Graph;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -27,7 +28,8 @@ public class Control {
 	 */
 	public Control() {
 		try {
-			g = KrakLoader.graphFromFiles(nodeFile, edgeFile);
+			//g = KrakLoader.graphFromFiles(nodeFile, edgeFile);
+			g = KrakLoader.graphFromFiles(new File(nodeFile).getAbsolutePath(), new File(edgeFile).getAbsolutePath());
 		} catch (IOException e) {
 			//TODO Catch exception
 			e.printStackTrace();
