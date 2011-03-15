@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,6 +8,8 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
 import java.util.Collection;
 import java.util.HashSet;
@@ -21,6 +24,9 @@ import javax.swing.JPanel;
  *
  */
 public class View extends JFrame{
+	
+	public static final double WINDOW_RATIO = 4./3;
+	public static final int START_WIDTH = 400;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -42,13 +48,41 @@ public class View extends JFrame{
 		super(header);
 		canvas = new Canvas(first_lines);
 		createContent();
+		setResizeListener();
 		
 		this.pack();
-		this.setSize(300, 300);
+		this.setSize(START_WIDTH,(int) (START_WIDTH/WINDOW_RATIO));
 		this.setVisible(true);
 		System.out.println("finished setup");
 	}
 	
+	private void setResizeListener() {
+		this.addComponentListener(new ComponentListener(){
+			
+			private int last_width = START_WIDTH;
+			private int last_height = (int)(START_WIDTH/WINDOW_RATIO);
+
+			@Override
+			public void componentHidden(ComponentEvent arg0) {}
+			@Override
+			public void componentMoved(ComponentEvent arg0) {}
+			@Override
+			public void componentShown(ComponentEvent arg0) {}
+			
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Dimension new_dim = getSize();
+				if(new_dim.width != last_width){
+					setSize(new_dim.width,(int)(new_dim.width/WINDOW_RATIO));
+				}else if(new_dim.height != last_height){
+					setSize((int)(new_dim.height*WINDOW_RATIO),new_dim.height);
+				}
+				last_width = new_dim.width;
+				last_height = new_dim.height;
+			}
+		});
+	}
+
 	public void addUpListener(ActionListener actionListener) {
 		upButton.addActionListener(actionListener);
 	}
