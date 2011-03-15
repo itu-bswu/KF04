@@ -1,4 +1,3 @@
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +14,7 @@ public class QuadTreeNode<T extends KrakEdge> {
 
 	@SuppressWarnings("unchecked")
 	public QuadTreeNode(Rectangle2D.Double bounds, Set<T> content){
+		System.out.println("creating QuadTreeNode of size "+content.size());
 		// if there are too much content
 		if(content.size() > MAX_CONTENT){
 			// The sub-bounds

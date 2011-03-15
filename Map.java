@@ -73,6 +73,7 @@ public class Map {
 	 * Get bounds
 	 */
 	private Rectangle2D outerBounds() {
+		System.out.println("establishing outer bounds of map");
 		
 		double minX = -1;
 		double minY = -1;

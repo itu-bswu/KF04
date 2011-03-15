@@ -2,7 +2,6 @@ import graphlib.Graph;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 
@@ -28,6 +27,7 @@ public class Control {
 	 * Contstructor for class Control
 	 */
 	public Control() {
+		System.out.println("creating Control");
 		try {
 			//g = KrakLoader.graphFromFiles(nodeFile, edgeFile);
 			g = KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
@@ -35,6 +35,7 @@ public class Control {
 			//TODO Catch exception
 			e.printStackTrace();
 		}
+		System.out.println("done loading data");
 		m = new Map(g);
 		v = new View(NAME, m.getLines());
 		addListeners();
