@@ -187,7 +187,7 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	 * @return Iterator over the outgoing edges.
 	 */
 	public Iterator<E> outGoingEdges(Node n) {
-		return getEdges().get(n.index).iterator();
+		return edges.get(n.index).iterator();
 	}
 
 	/**
