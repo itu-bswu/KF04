@@ -197,7 +197,7 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	 * 
 	 * @return Set containing all unique outgoing edges.
 	 */
-	public Iterator<E> outGoingEdges () {
+	public Set<E> outGoingEdges () {
 		Set<E> newEdges = new HashSet<E>();
 		for (List<E> l : this.edges) {
 			for (E e : l) {
@@ -205,7 +205,7 @@ public class Graph<E extends Edge<N>, N extends Node> {
 			}
 		}
 		
-		return newEdges.iterator();
+		return newEdges;
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	 * 
 	 * @return Set containing all unique incoming edges.
 	 */
-	public Iterator<E> incomingEdges () {
+	public Set<E> incomingEdges () {
 		Set<E> newEdges = new HashSet<E>();
 		for (List<E> l : this.reverse_edges) {
 			for (E e : l) {
@@ -232,6 +232,6 @@ public class Graph<E extends Edge<N>, N extends Node> {
 			}
 		}
 		
-		return newEdges.iterator();
+		return newEdges;
 	}
 }

@@ -5,6 +5,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import graphlib.Graph;
 
@@ -94,7 +95,7 @@ public class KrakLoader {
 				.getHeapMemoryUsage().getUsed() / (1000000));
 		HashSet<KrakEdge> seenBefore = new HashSet<KrakEdge>();
 		int count = 0;
-		for (ArrayList<KrakEdge> edges : graph.getEdges()) {
+		for (List<KrakEdge> edges : graph.getEdges()) {
 			for (KrakEdge edge : edges) {
 				if (!seenBefore.contains(edge)) {
 					seenBefore.add(edge);
