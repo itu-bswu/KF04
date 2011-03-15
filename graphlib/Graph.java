@@ -2,6 +2,7 @@ package graphlib;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +23,7 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	 * list. This means an undirected edge (a,b) can be found in edges[a] and
 	 * edges[b], and the Edge object referenced in both is the same
 	 */
-	private ArrayList<ArrayList<E>> edges;
+	private List<List<E>> edges;
 
 	/**
 	 * In order to allow traversing the graph against normal edge directions
@@ -37,12 +38,12 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	 * for undirected edges, ,one for directed edges in the normal direction,
 	 * and one storing directed edges backwards.
 	 */
-	private ArrayList<ArrayList<E>> reverse_edges;
+	private List<List<E>> reverse_edges;
 
 	/**
 	 * An array of Node objects, representing the nodes of the graph
 	 */
-	private ArrayList<N> nodes;
+	private List<N> nodes;
 
 	/**
 	 * A counter storing the total number of edges in the graph
@@ -52,17 +53,17 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	/**
 	 * Creates an edge-less graph on the Node objects in the array list.
 	 */
-	public Graph(ArrayList<N> nodes) {
+	public Graph(List<N> nodes) {
 		int numNodes = nodes.size();
 
 		// NB: To match the indexes 1,2,... used in the file
 		// we leave an empty slot for node 0
 
-		edges = new ArrayList<ArrayList<E>>(numNodes + 1);
-		reverse_edges = new ArrayList<ArrayList<E>>(numNodes + 1);
+		edges = new ArrayList<List<E>>(numNodes + 1);
+		reverse_edges = new ArrayList<List<E>>(numNodes + 1);
 
 		for (int i = 0; i <= numNodes + 1; i++) {
-			getEdges().add(new ArrayList<E>(3));
+			edges.add(new ArrayList<E>(3));
 			reverse_edges.add(new ArrayList<E>(1));
 		}
 
@@ -76,8 +77,19 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	/**
 	 * @return Edges
 	 */
-	public ArrayList<ArrayList<E>> getEdges() {
+	public List<List<E>> getEdges() {
 		return edges;
+	}
+	
+	/**
+	 * @return Reverse edges
+	 */
+	public List<List<E>> getReverseEdges () {
+		return reverse_edges;
+	}
+	
+	public List<N> getNodes () {
+		return nodes;
 	}
 
 	/**
