@@ -10,6 +10,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.util.Collection;
 import java.util.HashSet;
@@ -201,7 +202,6 @@ public class View extends JFrame{
 
 		@Override
 		public void paint(Graphics g){
-			System.out.println("painting...");
 			g.setColor(Color.BLACK);
 			for(Line l : lines){
 				// TODO Skrive kode for individuel farve
