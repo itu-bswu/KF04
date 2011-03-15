@@ -3,6 +3,7 @@ import graphlib.Graph;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 /**
@@ -60,7 +61,8 @@ public class Control {
 						}});
 		v.addInListener(new ActionListener(){
 						public void actionPerformed(ActionEvent arg0){
-							m.zoom(new Point2D.Double(ZOOM_LENGTH, ZOOM_LENGTH), new Point2D.Double(1-ZOOM_LENGTH, 1-ZOOM_LENGTH));
+							m.
+							m.zoom(ZOOM_LENGTH, ZOOM_LENGTH1,-ZOOM_LENGTH, 1-ZOOM_LENGTH);
 							v.repaint(m.getLines());
 						}});
 		v.addOutListener(new ActionListener(){
@@ -68,5 +70,13 @@ public class Control {
 							m.zoom(new Point2D.Double(-ZOOM_LENGTH, -ZOOM_LENGTH), new Point2D.Double(1+ZOOM_LENGTH, 1+ZOOM_LENGTH));
 							v.repaint(m.getLines());
 						}});
+	}
+	
+	private Rectangle2D.Double makeRect(double a, double b, double c, double d){
+		double e = Math.abs(Math.abs(a) - Math.abs(b));
+		double f = Math.abs(Math.abs(c) - Math.abs(d));
+		Rectangle2D.Double r = new Rectangle2D.Double(a, b, c, d);
+		return r;
+		
 	}
 }
