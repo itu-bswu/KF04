@@ -1,4 +1,5 @@
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,8 +10,7 @@ import graphlib.Graph;
  */
 public class Map {
 	
-	private Point2D startPoint = new Point2D.Double(0,100000);  	//In meters
-	private Point2D endPoint = new Point2D.Double(0,100000);		//In meters
+	private Rectangle2D bounds;
 	private Graph<KrakEdge,KrakNode> graph; 
 	private HashSet<KrakEdge> edges;
 	
@@ -26,9 +26,8 @@ public class Map {
 	/**
 	 * Zoom in or out of the graph
 	 */
-	public void zoom(Point2D point1, Point2D point2) {
-		startPoint = point1;
-		endPoint = point2;
+	public void zoom(Rectangle2D view) {
+		this.bounds = outerBounds(); 
 		updateEdges();
 	}
 	
@@ -36,11 +35,7 @@ public class Map {
 	 * Update edges
 	 */
 	private void updateEdges() {
-		//Iterator over all edge
-		
-		System.out.print("?");
-		System.out.println(graph.outGoingEdges());
-		
+		//Iterator over all edge		
 		for(KrakEdge edge : graph.outGoingEdges()) {			
 			if (isInside(edge)) {
 				edges.add(edge);
@@ -49,11 +44,6 @@ public class Map {
 			}
 		}
 	}
-	
-	/**
-	 * Find boundries
-	 */
-	
 	
 	
 	/**
@@ -68,11 +58,34 @@ public class Map {
 	}
 	
 	public Boolean isInside(KrakNode n) {
-		if(n.getX() < startPoint.getX()) return false;
-		if(n.getX() > endPoint.getX()) return false;
-		if(n.getY() < startPoint.getY()) return false;
-		if(n.getY() > endPoint.getY()) return false;
-		return true;
+		return bounds.contains(new Point2D.Double(n.getX(),n.getY()));
+	}
+	
+	/**
+	 * Get bounds
+	 */
+	public Rectangle2D getBounds() {
+		return bounds;
+	}
+	
+	/**
+	 * Get bounds
+	 */
+	private Rectangle2D outerBounds() {
+		
+		double minX = -1;
+		double minY = -1;
+		double maxX = -1;
+		double maxY = -1;
+		
+		for(KrakNode node : graph.getNodes()) {			
+			if ((node.getX() < minX)||(minX == -1)) minX = node.getX();
+			if ((node.getX() > maxX)||(maxX == -1)) maxX = node.getX();
+			if ((node.getY() < minY)||(minY == -1)) minY = node.getY();
+			if ((node.getY() > maxY)||(maxY == -1)) maxY = node.getY();
+		}
+		
+		return new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY);
 	}
 	
 	/**
@@ -85,12 +98,11 @@ public class Map {
 	 */
 	public void move(Direction d,double length) {
 		
-		double horizontalChange	= d.coordinatepoint().getX() * Math.abs(startPoint.getX()-endPoint.getX() * length);
-		double verticalChange	= d.coordinatepoint().getY() * Math.abs(startPoint.getY()-endPoint.getY()) * length;
+		double horizontalChange	= d.coordinatepoint().getX() * bounds.getWidth() * length;
+		double verticalChange	= d.coordinatepoint().getY() * bounds.getHeight() * length;
+				
+		bounds.setRect(bounds.getX()+horizontalChange, bounds.getY()+verticalChange, bounds.getWidth(), bounds.getHeight());
 		
-		startPoint.setLocation(startPoint.getX()+horizontalChange,startPoint.getY()+verticalChange);
-		endPoint.setLocation(endPoint.getX()+horizontalChange,endPoint.getY()+verticalChange);
-
 		updateEdges();
 	}
 	

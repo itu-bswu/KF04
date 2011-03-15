@@ -16,8 +16,8 @@ public class Control {
 	private static final double MOVE_LENGTH = 0.30;
 	private static final double ZOOM_LENGTH = 0.15;
 	private static final String NAME = "Map";
-	private String nodeFile = "C:/Users/Jakob Melnyk/workspace/KF04/src/data/Charlottenlund/kdv_node_unload.txt";
-	private String edgeFile = "C:/Users/Jakob Melnyk/workspace/KF04/src/data/Charlottenlund/kdv_unload.txt";
+	private String nodeFile = "data/kdv_node_unload.txt";
+	private String edgeFile = "data/kdv_unload.txt";
 	private View v;
 	private Map m;
 	private Graph g;
