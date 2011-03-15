@@ -1,9 +1,11 @@
 package graphlib;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Stores a graph using an adjacency list. The graph can contain any mix of
@@ -189,6 +191,22 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	public Iterator<E> outGoingEdges(Node n) {
 		return edges.get(n.index).iterator();
 	}
+	
+	/**
+	 * Get all unique outgoing edges.
+	 * 
+	 * @return Set containing all unique outgoing edges.
+	 */
+	public Iterator<E> outGoingEdges () {
+		Set<E> newEdges = new HashSet<E>();
+		for (List<E> l : this.edges) {
+			for (E e : l) {
+				newEdges.add(e);
+			}
+		}
+		
+		return newEdges.iterator();
+	}
 
 	/**
 	 * Returns an iterator over all incoming edges (excludes undirected edges)
@@ -199,5 +217,21 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	 */
 	public Iterator<E> incomingEdges(Node n) {
 		return reverse_edges.get(n.index).iterator();
+	}
+	
+	/**
+	 * Get all unique incoming edges.
+	 * 
+	 * @return Set containing all unique incoming edges.
+	 */
+	public Iterator<E> incomingEdges () {
+		Set<E> newEdges = new HashSet<E>();
+		for (List<E> l : this.reverse_edges) {
+			for (E e : l) {
+				newEdges.add(e);
+			}
+		}
+		
+		return newEdges.iterator();
 	}
 }
