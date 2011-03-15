@@ -41,8 +41,6 @@ public class Map {
 		//Iterator over all edge		
 		for(KrakEdge edge : graph.outGoingEdges()) {
 			
-			System.out.println(edge);
-			
 			if (isInside(edge)) {
 				edges.add(edge);
 			}else{
@@ -140,7 +138,7 @@ public class Map {
 	private Point2D.Double relativePoint(double x,double y) {
 		
 		double nx = (x-bounds.getX()) / bounds.getWidth(); 
-		double ny = (y-bounds.getY()) / bounds.getHeight();
+		double ny = 1-(y-bounds.getY()) / bounds.getHeight();
 		
 		return new Point2D.Double(nx,ny);
 	}
