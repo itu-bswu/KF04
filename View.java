@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.Color;
@@ -7,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -88,30 +91,40 @@ public class View extends JFrame{
 
 	// Filips
 	private void createContent() {
+		// creating objects
 		Container outer = this.getContentPane();
-		outer.setLayout(new GridLayout(1,2));
-		outer.add(canvas);
 		JPanel menuPanel = new JPanel();
-		menuPanel.setLayout(new GridLayout(2,1));
-		outer.add(menuPanel);
 		JPanel navigationPanel = new JPanel();
-		menuPanel.add(navigationPanel);
-		navigationPanel.setLayout(new BorderLayout());
-		upButton = new JButton("^");
-		navigationPanel.add(upButton,BorderLayout.NORTH);
-		leftButton = new JButton(">");
-		navigationPanel.add(leftButton,BorderLayout.EAST);
-		downButton = new JButton("v");
-		navigationPanel.add(downButton,BorderLayout.SOUTH);
-		rightButton = new JButton("<");
-		navigationPanel.add(rightButton,BorderLayout.WEST);
 		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new GridLayout(2,1));
+		
+		upButton = new JButton("^");
+		leftButton = new JButton(">");
+		downButton = new JButton("v");
+		rightButton = new JButton("<");
 		zoomInButton = new JButton("+");
-		centerPanel.add(zoomInButton);
 		zoomOutButton = new JButton("-");
+		
+		// layouts & borders
+		outer.setLayout(new BorderLayout());
+		navigationPanel.setLayout(new BorderLayout());
+		navigationPanel.setMaximumSize(new Dimension(150,150));
+		centerPanel.setLayout(new GridLayout(2,1));
+		
+		// adding structure
+		outer.add(canvas,BorderLayout.CENTER);
+		outer.add(menuPanel,BorderLayout.WEST);
+		menuPanel.add(navigationPanel);
+		
+		navigationPanel.add(upButton,BorderLayout.NORTH);
+		navigationPanel.add(leftButton,BorderLayout.EAST);
+		navigationPanel.add(downButton,BorderLayout.SOUTH);
+		navigationPanel.add(rightButton,BorderLayout.WEST);
+		centerPanel.add(zoomInButton);
 		centerPanel.add(zoomOutButton);
 		navigationPanel.add(centerPanel,BorderLayout.CENTER);
+		
+		// Boxlayout is a bitch and needs to go last
+		menuPanel.setLayout(new BoxLayout(menuPanel,BoxLayout.Y_AXIS));
 	}
 	
 	/**
