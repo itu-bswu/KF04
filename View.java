@@ -1,17 +1,19 @@
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import javax.swing.BoxLayout;
+import java.util.Collection;
+import java.util.HashSet;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
  * 
@@ -36,7 +38,7 @@ public class View extends JFrame{
 	 * @param header The title for the frame.
 	 * @param first_lines The initial lines to be shown.
 	 */
-	public View(String header, Line[] first_lines){
+	public View(String header, Collection<Line> first_lines){
 		super(header);
 		canvas = new Canvas(first_lines);
 		createContent();
@@ -73,9 +75,9 @@ public class View extends JFrame{
 
 	/**
 	 * Repaints the entire frame, with the new lines to be shown.
-	 * @param l The new array of lines.
+	 * @param l The new Collection of lines.
 	 */
-	public void repaint(Line[] l){
+	public void repaint(Collection<Line> l){
 		canvas.updateLines(l);
 	}
 	
@@ -93,38 +95,57 @@ public class View extends JFrame{
 		Container outer = this.getContentPane();
 		JPanel menuPanel = new JPanel();
 		JPanel navigationPanel = new JPanel();
-		JPanel centerPanel = new JPanel();
 		
 		upButton = new JButton("^");
-		leftButton = new JButton(">");
+		leftButton = new JButton("<");
 		downButton = new JButton("v");
-		rightButton = new JButton("<");
+		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
 		
 		// layouts & borders
 		outer.setLayout(new BorderLayout());
-		navigationPanel.setLayout(new BorderLayout());
-		navigationPanel.setMaximumSize(new Dimension(150,150));
-		centerPanel.setLayout(new GridLayout(2,1));
+		navigationPanel.setLayout(new GridBagLayout());
+		//navigationPanel.setMinimumSize(new Dimension(200,200));
+		menuPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		// adding structure
 		outer.add(canvas,BorderLayout.CENTER);
 		outer.add(menuPanel,BorderLayout.WEST);
 		menuPanel.add(navigationPanel);
 		
-		navigationPanel.add(upButton,BorderLayout.NORTH);
-		navigationPanel.add(leftButton,BorderLayout.EAST);
-		navigationPanel.add(downButton,BorderLayout.SOUTH);
-		navigationPanel.add(rightButton,BorderLayout.WEST);
-		centerPanel.add(zoomInButton);
-		centerPanel.add(zoomOutButton);
-		navigationPanel.add(centerPanel,BorderLayout.CENTER);
-		
-		// Boxlayout is a bitch and needs to go last
-		menuPanel.setLayout(new BoxLayout(menuPanel,BoxLayout.Y_AXIS));
+		setupNavigation(navigationPanel);
 	}
 	
+	private void setupNavigation(JPanel nav) {
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		
+		c.gridx = 1;
+		c.gridy = 0;
+		c.gridheight = 2;
+		nav.add(upButton,c);
+		
+		c.gridy = 4;
+		nav.add(downButton,c);
+		
+		c.weightx = -1;
+		c.gridx = 0;
+		c.gridy = 2;
+		nav.add(leftButton,c);
+		
+		c.gridx = 2;
+		nav.add(rightButton,c);
+		
+		c.weightx = 0;
+		c.gridheight = 1;
+		c.gridx = 1;
+		nav.add(zoomInButton,c);
+		
+		c.gridy = 3;
+		nav.add(zoomOutButton,c);
+	}
+
 	/**
 	 * The canvas that displays lines.
 	 * @author Emil
@@ -133,13 +154,13 @@ public class View extends JFrame{
 	private class Canvas extends JComponent{
 		private static final long serialVersionUID = 1L;
 
-		private Line[] lines;
+		private Collection<Line> lines;
 		
-		public Canvas(Line[] lines){
-			this.lines = lines;
+		public Canvas(Collection<Line> first_lines){
+			this.lines = first_lines;
 		}
 
-		public void updateLines(Line[] lines){
+		public void updateLines(Collection<Line> lines){
 			this.lines = lines;
 			this.repaint();
 		}
@@ -163,8 +184,11 @@ public class View extends JFrame{
 	 * @param args
 	 */
 	public static void main(String[] args){
-		new View("X marks the spot",new Line[]{new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75)),
-				new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75))});
+		Collection<Line> x = new HashSet<Line>();
+		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75)));
+		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75)));
+		
+		new View("X marks the spot",x);
 	}
 
 }
