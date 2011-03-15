@@ -6,6 +6,7 @@ public class QuadTree<T extends KrakEdge>{
 	QuadTreeNode<T> root;
 
 	public QuadTree(Rectangle2D.Double bounds, Set<T> content){
+		System.out.println("creating QuadTree");
 		root = new QuadTreeNode<T>(bounds,content);
 	}
 	

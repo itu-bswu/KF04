@@ -10,9 +10,9 @@ import graphlib.Graph;
  */
 public class Map {
 	
-	private Rectangle2D bounds;
+	private Rectangle2D.Double bounds;
 	private Graph<KrakEdge,KrakNode> graph; 
-	private HashSet<KrakEdge> edges;
+	private QuadTree<KrakEdge> qt;
 	
 	/**
 	 * Constructor
@@ -21,32 +21,15 @@ public class Map {
 	public Map(Graph<KrakEdge,KrakNode> graph) {
 		System.out.println("Map object created");
 		this.graph = graph;
-		this.edges = new HashSet<KrakEdge>();
 		bounds = outerBounds();
-		updateEdges();
+		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
 	}
 	
 	/**
 	 * Zoom in or out of the graph
 	 */
-	public void zoom(Rectangle2D view) {
-		this.bounds = outerBounds(); 
-		updateEdges();
-	}
-	
-	/**
-	 * Update edges
-	 */
-	private void updateEdges() {
-		//Iterator over all edge		
-		for(KrakEdge edge : graph.outGoingEdges()) {
-			
-			if (isInside(edge)) {
-				edges.add(edge);
-			}else{
-				edges.remove(edge);
-			}
-		}
+	public void zoom(Rectangle2D.Double view) {
+		this.bounds = view; 
 	}
 	
 	
@@ -68,14 +51,14 @@ public class Map {
 	/**
 	 * Get bounds
 	 */
-	public Rectangle2D getBounds() {
+	public Rectangle2D.Double getBounds() {
 		return bounds;
 	}
 	
 	/**
 	 * Get bounds
 	 */
-	private Rectangle2D outerBounds() {
+	private Rectangle2D.Double outerBounds() {
 		System.out.println("establishing outer bounds of map");
 		
 		double minX = -1;
@@ -105,15 +88,6 @@ public class Map {
 		double verticalChange	= d.coordinatepoint().getY() * bounds.getHeight() * length;
 				
 		bounds.setRect(bounds.getX()+horizontalChange, bounds.getY()+verticalChange, bounds.getWidth(), bounds.getHeight());
-		
-		updateEdges();
-	}
-	
-	/**
-	 * Get edges from the map
-	 */
-	public HashSet<KrakEdge> getEgdes() {
-		return edges;
 	}
 	
 	/**
@@ -122,7 +96,7 @@ public class Map {
 	public Collection<Line> getLines() {
 		HashSet<Line> lines = new HashSet<Line>();
 		
-		for (KrakEdge e : edges) {
+		for (KrakEdge e : qt.query(bounds)) {
 			Point2D.Double firstPoint = relativePoint(e.getStart().getX(),e.getStart().getY());
 			Point2D.Double secondPoint = relativePoint(e.getEnd().getX(),e.getEnd().getY());
 			lines.add(new Line(firstPoint,secondPoint));
@@ -133,7 +107,7 @@ public class Map {
 	
 	/**
 	 * Relative Point
-	 * Takes two coordinates and returnes a point relative to the screen
+	 * Takes two coordinates and returns a point relative to the screen
 	 */
 	private Point2D.Double relativePoint(double x,double y) {
 		

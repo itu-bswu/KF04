@@ -83,6 +83,15 @@ public class Graph<E extends Edge<N>, N extends Node> {
 		return edges;
 	}
 	
+	public Set<E> getAllEdges(){
+		Set<E> all = new HashSet<E>();
+		for(List<E> l : edges){
+			all.addAll(l);
+		}
+		
+		return all;
+	}
+	
 	/**
 	 * @return Reverse edges
 	 */

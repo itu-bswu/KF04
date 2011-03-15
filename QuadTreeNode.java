@@ -29,26 +29,30 @@ public class QuadTreeNode<T extends KrakEdge> {
 			Set<T> ne_set = new HashSet<T>();
 			Set<T> sw_set = new HashSet<T>();
 			Set<T> se_set = new HashSet<T>();
-			Set<T>[] sets = (Set<T>[]) new Object[]{nw_set,ne_set,sw_set,se_set};
+			ArrayList<Set<T>> sets = new ArrayList<Set<T>>();
+			sets.add(nw_set);
+			sets.add(ne_set);
+			sets.add(sw_set);
+			sets.add(se_set);
 
 			// putting the edges into the right boxes
 			for(KrakEdge edge : content){
 				for(int i = 0 ; i < 4 ; i++){
 					if(rects[i].intersectsLine(edge.getLine())){
-						sets[i].add((T) edge);
+						sets.get(i).add((T) edge);
 					}
 				}
 			}
 			
 			// saving all 4 nodes
 			for(int i = 0 ; i < 4 ; i++){
-				nodes.add(new QuadTreeNode<T>(rects[i], sets[i]));
+				nodes.add(new QuadTreeNode<T>(rects[i], sets.get(i)));
 			}
 
 		}else{
 			contents = content;
-			this.bounds = bounds;
 		}
+		this.bounds = bounds;
 	}
 
 	public boolean isEmpty(){
