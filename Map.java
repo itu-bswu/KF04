@@ -2,30 +2,23 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
+import graphlib.Graph;
 
 /**
  * Map class
  */
 public class Map {
 	
-	private Point2D startPoint;  	//In meters
-	private Point2D endPoint;		//In meters
-	private graphlib.Graph<KrakEdge,KrakNode> graph; 
+	private Point2D startPoint = new Point2D.Double(0,100000);  	//In meters
+	private Point2D endPoint = new Point2D.Double(0,100000);		//In meters
+	private Graph<KrakEdge,KrakNode> graph; 
 	private HashSet<KrakEdge> edges;
-	
-	/*
-	 * 	private String nodeFile = "data/kdv_node_unload";
-	 *	private String edgeFile = "data/kdv_unload";
-	 * 	KrakLoader.graphFromFiles(nodeFile, edgeFile);
-	 */
-	
-	
 	
 	/**
 	 * Constructor
 	 * @throws IOException 
 	 */
-	public Map(graphlib.Graph<KrakEdge,KrakNode> graph) {
+	public Map(Graph<KrakEdge,KrakNode> graph) {
 		this.graph = graph;
 		updateEdges();
 	}
@@ -56,6 +49,11 @@ public class Map {
 			}
 		}
 	}
+	
+	/**
+	 * Find boundries
+	 */
+	
 	
 	
 	/**
