@@ -3,3 +3,4 @@
 **/*.class
 .classpath
 .project
+data/*
