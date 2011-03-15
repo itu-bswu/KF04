@@ -1,6 +1,7 @@
 import java.awt.geom.Point2D;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * Map class
@@ -10,13 +11,15 @@ public class Map {
 	private Point2D startPoint;  	//In meters
 	private Point2D endPoint;		//In meters
 	private graphlib.Graph<KrakEdge,KrakNode> graph; 
-	private HashSet<KrakEdge> edges;
+	private HashSet<KrakEdge> edges;	
 	
 	/**
 	 * Constructor
+	 * @throws IOException 
 	 */
-	public Map() {
-		
+	public Map(graphlib.Graph<KrakEdge,KrakNode> graph) {
+		this.graph = graph;
+		updateEdges();
 	}
 	
 	/**
@@ -32,16 +35,16 @@ public class Map {
 	 * Update edges
 	 */
 	private void updateEdges() {
-		//Iterator over all edges:
-		for(KrakNode node : graph.nodes) {
-			Iterator<KrakEdge> iterator = graph.outGoingEdges(node);
-			while(iterator.hasNext()) {
-				KrakEdge e = iterator.next();
-				if (isInside(e)) {
-					edges.add(e);
-				}else{
-					edges.remove(e);
-				}
+		//Iterator over all edge
+		
+		System.out.print("?");
+		System.out.println(graph.outGoingEdges());
+		
+		for(KrakEdge edge : graph.outGoingEdges()) {			
+			if (isInside(edge)) {
+				edges.add(edge);
+			}else{
+				edges.remove(edge);
 			}
 		}
 	}
@@ -76,26 +79,8 @@ public class Map {
 	 */
 	public void move(Direction d,double length) {
 		
-		double horizontalChange = 0;
-		double verticalChange = 0;
-		
-		switch (1) { //d ?????
-			case (1):	
-				horizontalChange = 1;
-			break;
-			case (2):
-				verticalChange = -1;
-			break;
-			case (3):
-				horizontalChange = -1;
-			break;
-			case(4):
-				verticalChange = 1;
-			break;
-		}
-		
-		horizontalChange	*= Math.abs(startPoint.getX()-endPoint.getX()) * length;
-		verticalChange		*= Math.abs(startPoint.getY()-endPoint.getY()) * length;
+		double horizontalChange	= d.coordinatepoint().getX() * Math.abs(startPoint.getX()-endPoint.getX() * length);
+		double verticalChange	= d.coordinatepoint().getY() * Math.abs(startPoint.getY()-endPoint.getY()) * length;
 		
 		startPoint.setLocation(startPoint.getX()+horizontalChange,startPoint.getY()+verticalChange);
 		endPoint.setLocation(endPoint.getX()+horizontalChange,endPoint.getY()+verticalChange);
@@ -114,14 +99,13 @@ public class Map {
 	 * Get lines
 	 * Why convert to array? couldn't the draw.
 	 */
-	public Line[] getLines() {
-		Line[] lines = new Line[edges.size()];
+	public Collection<Line> getLines() {
+		HashSet<Line> lines = new HashSet<Line>();
 		
-		int i = 0;
 		for (KrakEdge e : edges) {
 			Point2D.Double firstPoint = new Point2D.Double(e.getStart().getX(),e.getStart().getY());
 			Point2D.Double secondPoint = new Point2D.Double(e.getEnd().getX(),e.getEnd().getY());
-			lines[i++] = new Line(firstPoint,secondPoint);
+			lines.add(new Line(firstPoint,secondPoint));
 		}
 		
 		return lines;

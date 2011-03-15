@@ -1,6 +1,9 @@
+import graphlib.Graph;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
 /**
  * Control class for Map system.
@@ -13,14 +16,23 @@ public class Control {
 	private static final double MOVE_LENGTH = 0.30;
 	private static final double ZOOM_LENGTH = 0.15;
 	private static final String NAME = "Map";
+	private String nodeFile = "C:/Users/Jakob Melnyk/workspace/KF04/src/data/Charlottenlund/kdv_node_unload.txt";
+	private String edgeFile = "C:/Users/Jakob Melnyk/workspace/KF04/src/data/Charlottenlund/kdv_unload.txt";
 	private View v;
 	private Map m;
+	private Graph g;
 	
 	/**
 	 * Contstructor for class Control
 	 */
 	public Control() {
-		m = new Map();
+		try {
+			g = KrakLoader.graphFromFiles(nodeFile, edgeFile);
+		} catch (IOException e) {
+			//TODO Catch exception
+			e.printStackTrace();
+		}
+		m = new Map(g);
 		v = new View(NAME, m.getLines());
 		addListeners();
 	}
