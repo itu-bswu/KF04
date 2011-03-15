@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
  * @author Jakob Melnyk
  * @version 11 March - 2011
  */
-
 public class Control {
 	
 	private static final double MOVE_LENGTH = 0.30;
