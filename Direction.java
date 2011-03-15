@@ -1,3 +1,4 @@
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -43,6 +44,23 @@ public enum Direction {
 			return EAST;
 		case SOUTH:
 			return NORTH;
+		}
+		return null;
+	}
+	
+	/**
+	 * Get coordinate point 
+	 */
+	public Point2D coordinatepoint() {
+		switch (this) {
+		case NORTH:
+			return new Point2D.Double(0, -1);
+		case EAST:
+			return new Point2D.Double(1, 0);
+		case WEST:
+			return new Point2D.Double(-1, 0);
+		case SOUTH:
+			return new Point2D.Double(0, 1);
 		}
 		return null;
 	}
