@@ -1,5 +1,7 @@
 import graphlib.Edge;
 import graphlib.Graph;
+
+import java.awt.geom.Line2D;
 import java.util.HashMap;
 
 /**
@@ -60,6 +62,10 @@ public class KrakEdge extends Edge<KrakNode> {
 		TOLEFT = data.TOLEFT;
 		FROMRIGHT = data.FROMRIGHT;
 		TORIGHT = data.TORIGHT;
+	}
+	
+	public Line2D.Double getLine(){
+		return new Line2D.Double(n1.getX(), n1.getY(), n2.getX(), n2.getY());
 	}
 
 	public static void clear() {
