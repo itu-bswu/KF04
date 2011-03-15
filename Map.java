@@ -49,7 +49,7 @@ public class Map {
 	
 	
 	/**
-	 * is inside?
+	 * is inside
 	 * 
 	 * This function is one of the main problems of the project.
 	 * The following is a simple method to check whether or not the end or start node of an edge is inside the viewpoint.
