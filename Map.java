@@ -19,7 +19,9 @@ public class Map {
 	 * @throws IOException 
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
+		System.out.println("Map object created");
 		this.graph = graph;
+		this.edges = new HashSet<KrakEdge>();
 		bounds = outerBounds();
 		updateEdges();
 	}
@@ -37,7 +39,10 @@ public class Map {
 	 */
 	private void updateEdges() {
 		//Iterator over all edge		
-		for(KrakEdge edge : graph.outGoingEdges()) {			
+		for(KrakEdge edge : graph.outGoingEdges()) {
+			
+			System.out.println(edge);
+			
 			if (isInside(edge)) {
 				edges.add(edge);
 			}else{
@@ -78,8 +83,11 @@ public class Map {
 		double minY = -1;
 		double maxX = -1;
 		double maxY = -1;
-		
-		for(KrakNode node : graph.getNodes()) {			
+
+		for(KrakNode node : graph.getNodes()) {
+			
+			if (node == null) continue;
+			
 			if ((node.getX() < minX)||(minX == -1)) minX = node.getX();
 			if ((node.getX() > maxX)||(maxX == -1)) maxX = node.getX();
 			if ((node.getY() < minY)||(minY == -1)) minY = node.getY();
