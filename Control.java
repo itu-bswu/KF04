@@ -2,6 +2,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
+/**
+ * Control class for Map system.
+ * 
+ * @author Jakob Melnyk
+ * @version 11 March - 2011
+ */
+
 public class Control {
 	
 	private static final double MOVE_LENGTH = 0.30;
@@ -14,8 +21,8 @@ public class Control {
 	 * Contstructor for class Control
 	 */
 	public Control() {
-		v = new View(NAME, m.getLines());
 		m = new Map();
+		v = new View(NAME, m.getLines());
 		addListeners();
 	}
 	
