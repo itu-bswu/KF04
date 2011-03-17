@@ -4,6 +4,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * A QuadTree to store KrakEdges for easy access of content at a given area.
+ * @author Emil
+ *
+ * @param <T> The KrakEdge sub-type to store.
+ */
 public class QuadTreeNode<T extends KrakEdge> {
 
 	public static final int MAX_CONTENT = 10000;
@@ -12,6 +18,11 @@ public class QuadTreeNode<T extends KrakEdge> {
 	private Set<T> contents;
 	private List<QuadTreeNode<T>> nodes = new ArrayList<QuadTreeNode<T>>(4);
 
+	/**
+	 * The constructor for creating a QuadTreeNode with the given boundaries and content.
+	 * @param bounds The boundaries of the new QuadTreeNode.
+	 * @param content The content for the new QuadTreeNode.
+	 */
 	@SuppressWarnings("unchecked")
 	public QuadTreeNode(Rectangle2D.Double bounds, Set<T> content){
 		//System.out.print("creating QuadTreeNode of size "+content.size());
@@ -54,43 +65,20 @@ public class QuadTreeNode<T extends KrakEdge> {
 			contents = content;
 		}
 		this.bounds = bounds;
-		
 	}
 
-<<<<<<< HEAD
-public class QuadTreeNode<T extends QuadTreeNode> {
-	public Rectangle bounds;
-	private List<T> contents = new ArrayList<T>();
-	private List<QuadTreeNode<T>> nodes = new ArrayList<QuadTreeNode<T>>(4);
-	
-	public boolean isEmpty(){
-		return nodes.isEmpty();
-	}
-	
-	public List<T> query(Rectangle qarea){
-		//TODO implement query
-		List<T> results = new ArrayList<T>();
-		for(T item : contents){
-			qarea.intersects(item.bounds);
-		}
-		
-		for(QuadTreeNode<T> node : nodes){
-			if(node.isEmpty()){
-				continue;
-			}
-			if(node.bounds.contains(qarea){
-				results.add(node.query(qarea));
-				break;
-			}
-		}
-		
-		return results;
-	}
-=======
+	/**
+	 * Tells is the node has any sub-nodes.
+	 * @return True if the node has sub-nodes.
+	 */
 	public boolean isEmpty(){
 		return nodes.isEmpty();
 	}
 
+	/**
+	 * To find the boundaries of the area that the Node covers.
+	 * @return The boundaries of the area that the Node covers.
+	 */
 	public Rectangle2D.Double getBounds(){
 		return bounds;
 	}
@@ -114,6 +102,4 @@ public class QuadTreeNode<T extends QuadTreeNode> {
 			return contents;
 		}
 	}
-
->>>>>>> 46d1447fd95a36399c759b3135d34133b388d8ba
 }
