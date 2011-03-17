@@ -18,21 +18,20 @@ public class Control {
 	private static final double MOVE_LENGTH = 0.30;
 	private static final double ZOOM_LENGTH = 0.15;
 	private static final String NAME = "Map"; //Name of the window containing the map.
-	private final File dataDir = new File(".", "data"); //Where control needs to look for the nodeFile and edgeFile
-	private final String nodeFile = "kdv_node_unload.txt"; //The nodes used to construct the graph
-	private final String edgeFile = "kdv_unload.txt"; //The edges used to construct the graph
+	//private final File dataDir = new File(".", "data"); //Where control needs to look for the nodeFile and edgeFile
+	private final String nodeFile = "C:/Users/Jakob Melnyk/workspace/KF04/src/data/kdv_node_unload.txt"; //The nodes used to construct the graph
+	private final String edgeFile = "C:/Users/Jakob Melnyk/workspace/KF04/src/data/kdv_unload.txt"; //The edges used to construct the graph
 	private View v;
 	private Map m;
 	private Graph<KrakEdge, KrakNode> g;
-	
 	/**
 	 * Contstructor for class Control
 	 */
 	public Control() {
 		System.out.println("creating Control");
 		try {
-			//g = KrakLoader.graphFromFiles(nodeFile, edgeFile);
-			g = KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
+			g = KrakLoader.graphFromFiles(nodeFile, edgeFile);
+			//g = KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
 		} catch (IOException e) {
 			System.out.println("A problem occured when trying to read input.");
 		}
