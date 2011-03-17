@@ -1,4 +1,5 @@
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,51 +10,27 @@ import graphlib.Graph;
  */
 public class Map {
 	
-	private Point2D startPoint = new Point2D.Double(0,100000);  	//In meters
-	private Point2D endPoint = new Point2D.Double(0,100000);		//In meters
+	private Rectangle2D.Double bounds;
 	private Graph<KrakEdge,KrakNode> graph; 
-	private HashSet<KrakEdge> edges;
+	private QuadTree<KrakEdge> qt;
 	
 	/**
 	 * Constructor
 	 * @throws IOException 
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
+		System.out.println("Map object created");
 		this.graph = graph;
-		updateEdges();
+		bounds = outerBounds();
+		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
 	}
 	
 	/**
 	 * Zoom in or out of the graph
 	 */
-	public void zoom(Point2D point1, Point2D point2) {
-		startPoint = point1;
-		endPoint = point2;
-		updateEdges();
+	public void zoom(Rectangle2D.Double view) {
+		this.bounds = view; 
 	}
-	
-	/**
-	 * Update edges
-	 */
-	private void updateEdges() {
-		//Iterator over all edge
-		
-		System.out.print("?");
-		System.out.println(graph.outGoingEdges());
-		
-		for(KrakEdge edge : graph.outGoingEdges()) {			
-			if (isInside(edge)) {
-				edges.add(edge);
-			}else{
-				edges.remove(edge);
-			}
-		}
-	}
-	
-	/**
-	 * Find boundries
-	 */
-	
 	
 	
 	/**
@@ -68,53 +45,76 @@ public class Map {
 	}
 	
 	public Boolean isInside(KrakNode n) {
-		if(n.getX() < startPoint.getX()) return false;
-		if(n.getX() > endPoint.getX()) return false;
-		if(n.getY() < startPoint.getY()) return false;
-		if(n.getY() > endPoint.getY()) return false;
-		return true;
+		return bounds.contains(new Point2D.Double(n.getX(),n.getY()));
+	}
+	
+	/**
+	 * Get bounds
+	 */
+	public Rectangle2D.Double getBounds() {
+		return bounds;
+	}
+	
+	/**
+	 * Get bounds
+	 */
+	private Rectangle2D.Double outerBounds() {
+		System.out.println("establishing outer bounds of map");
+		
+		double minX = -1;
+		double minY = -1;
+		double maxX = -1;
+		double maxY = -1;
+
+		for(KrakNode node : graph.getNodes()) {
+			
+			if (node == null) continue;
+			
+			if ((node.getX() < minX)||(minX == -1)) minX = node.getX();
+			if ((node.getX() > maxX)||(maxX == -1)) maxX = node.getX();
+			if ((node.getY() < minY)||(minY == -1)) minY = node.getY();
+			if ((node.getY() > maxY)||(maxY == -1)) maxY = node.getY();
+		}
+		
+		return new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY);
 	}
 	
 	/**
 	 * Move around on the map
-	 * 
-	 * Maybe not as clean as it could be.
-	 * 
-	 * I need the DIrectionclass!!!
-	 * 
 	 */
 	public void move(Direction d,double length) {
 		
-		double horizontalChange	= d.coordinatepoint().getX() * Math.abs(startPoint.getX()-endPoint.getX() * length);
-		double verticalChange	= d.coordinatepoint().getY() * Math.abs(startPoint.getY()-endPoint.getY()) * length;
-		
-		startPoint.setLocation(startPoint.getX()+horizontalChange,startPoint.getY()+verticalChange);
-		endPoint.setLocation(endPoint.getX()+horizontalChange,endPoint.getY()+verticalChange);
-
-		updateEdges();
-	}
-	
-	/**
-	 * Get edges from the map
-	 */
-	public HashSet<KrakEdge> getEgdes() {
-		return edges;
+		double horizontalChange	= d.coordinatepoint().getX() * bounds.getWidth() * length;
+		double verticalChange	= d.coordinatepoint().getY() * bounds.getHeight() * length;
+				
+		bounds.setRect(bounds.getX()+horizontalChange, bounds.getY()+verticalChange, bounds.getWidth(), bounds.getHeight());
 	}
 	
 	/**
 	 * Get lines
-	 * Why convert to array? couldn't the draw.
 	 */
 	public Collection<Line> getLines() {
 		HashSet<Line> lines = new HashSet<Line>();
 		
-		for (KrakEdge e : edges) {
-			Point2D.Double firstPoint = new Point2D.Double(e.getStart().getX(),e.getStart().getY());
-			Point2D.Double secondPoint = new Point2D.Double(e.getEnd().getX(),e.getEnd().getY());
+		for (KrakEdge e : qt.query(bounds)) {
+			Point2D.Double firstPoint = relativePoint(e.getStart().getX(),e.getStart().getY());
+			Point2D.Double secondPoint = relativePoint(e.getEnd().getX(),e.getEnd().getY());
 			lines.add(new Line(firstPoint,secondPoint));
 		}
 		
 		return lines;
+	}
+	
+	/**
+	 * Relative Point
+	 * Takes two coordinates and returns a point relative to the screen
+	 */
+	private Point2D.Double relativePoint(double x,double y) {
+		
+		double nx = (x-bounds.getX()) / bounds.getWidth(); 
+		double ny = 1-(y-bounds.getY()) / bounds.getHeight();
+		
+		return new Point2D.Double(nx,ny);
 	}
 	
 }

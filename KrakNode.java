@@ -1,3 +1,5 @@
+import java.awt.geom.Point2D;
+
 import graphlib.Node;
 
 /**
@@ -16,6 +18,10 @@ public class KrakNode extends Node {
 		super(data.KDV);
 		X = data.X_COORD;
 		Y = data.Y_COORD;
+	}
+	
+	public Point2D.Double getPoint(){
+		return new Point2D.Double(X,Y);
 	}
 	
 	/**
