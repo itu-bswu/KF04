@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class QuadTreeNode<T extends KrakEdge> {
 
-	public static final int MAX_CONTENT = 1337;
+	public static final int MAX_CONTENT = 10000;
 
 	private Rectangle2D.Double bounds;
 	private Set<T> contents;
@@ -14,7 +14,8 @@ public class QuadTreeNode<T extends KrakEdge> {
 
 	@SuppressWarnings("unchecked")
 	public QuadTreeNode(Rectangle2D.Double bounds, Set<T> content){
-		System.out.println("creating QuadTreeNode of size "+content.size());
+		//System.out.print("creating QuadTreeNode of size "+content.size());
+		
 		// if there are too much content
 		if(content.size() > MAX_CONTENT){
 			// The sub-bounds
@@ -53,6 +54,7 @@ public class QuadTreeNode<T extends KrakEdge> {
 			contents = content;
 		}
 		this.bounds = bounds;
+		
 	}
 
 	public boolean isEmpty(){
