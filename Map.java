@@ -32,7 +32,7 @@ public class Map {
 	 * @param view The rectangle of the view to zoom to.
 	 */
 
-	public void zoom(Rectangle2D bounds) {
+	public void zoom(Rectangle2D.Double bounds) {
 		this.bounds = bounds;
 		//updateEdges();
 	}
@@ -99,8 +99,6 @@ public class Map {
 		double verticalChange	= d.coordinatepoint().getY() * bounds.getHeight() * length;
 				
 		bounds.setRect(bounds.getX()+horizontalChange, bounds.getY()+verticalChange, bounds.getWidth(), bounds.getHeight());
-		
-		updateEdges();
 	}
 	
 	/**
