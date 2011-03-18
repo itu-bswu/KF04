@@ -1,6 +1,5 @@
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import graphlib.Graph;
@@ -16,34 +15,34 @@ public class Map {
 	
 	/**
 	 * Constructor
-	 * @throws IOException 
+	 * 
+	 * Initialize variables. 
+	 * Set the map to look at the entire graph.
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
 		System.out.println("Map object created");
 		this.graph = graph;
 		this.edges = new HashSet<KrakEdge>();
-		bounds = outerBounds();
+		this.bounds = outerBounds();
 		updateEdges();
 	}
 	
 	/**
 	 * Zoom in or out of the graph
+	 * @param view The rectangle of the view to zoom to.
 	 */
-	public void zoom(Rectangle2D view) {
-		this.bounds = outerBounds(); 
+	public void zoom(Rectangle2D bounds) {
+		this.bounds = bounds;
 		updateEdges();
 	}
 	
 	/**
-	 * Update edges
+	 * Removes all edges outside the bounds and adds all inside. 
 	 */
 	private void updateEdges() {
 		//Iterator over all edge		
 		for(KrakEdge edge : graph.outGoingEdges()) {
-			
-			System.out.println(edge);
-			
-			if (isInside(edge)) {
+			if (insideBounds(edge)) {
 				edges.add(edge);
 			}else{
 				edges.remove(edge);
@@ -51,31 +50,35 @@ public class Map {
 		}
 	}
 	
-	
 	/**
-	 * is inside
-	 * 
-	 * This function is one of the main problems of the project.
-	 * The following is a simple method to check whether or not the end or start node of an edge is inside the viewpoint.
-	 * But this does not solve the actual problem.  
+	 * Checks whether an KrakEdge is inside the bounds
+	 * @param e	The KrakEdge to check
+	 * @return Is the KrakNode inside or not
 	 */
-	public Boolean isInside(KrakEdge e) {
-		return (isInside(e.getStart())||isInside(e.getEnd()));
+	private Boolean insideBounds(KrakEdge e) {
+		return (insideBounds(e.getStart())||insideBounds(e.getEnd()));
 	}
 	
-	public Boolean isInside(KrakNode n) {
+	/**
+	 * Checks whether an KrakEdge is inside the bounds
+	 * @param n	The KrakNode to check
+	 * @return Is the KrakNode inside or not
+	 */
+	private Boolean insideBounds(KrakNode n) {
 		return bounds.contains(new Point2D.Double(n.getX(),n.getY()));
 	}
 	
 	/**
-	 * Get bounds
+	 * Get the bounds of the map. The bounds are what the user is currently looking at
+	 * @return The bounds
 	 */
 	public Rectangle2D getBounds() {
 		return bounds;
 	}
 	
 	/**
-	 * Get bounds
+	 * Get the the bounds of the smallest possible rectangle, still showing the entire graph.
+	 * @return The outer bounds
 	 */
 	private Rectangle2D outerBounds() {
 		
@@ -98,7 +101,9 @@ public class Map {
 	}
 	
 	/**
-	 * Move around on the map
+	 * Move the bounds in a specified direction. The length is how far to move in percentage of the screen.
+	 * @param	d	The direction to move (4 directions)
+	 * @param	length	The length to move (in percentage of the screen)
 	 */
 	public void move(Direction d,double length) {
 		
@@ -112,20 +117,23 @@ public class Map {
 	
 	/**
 	 * Get edges from the map
+	 * @return All edges shown by the map.
 	 */
-	public HashSet<KrakEdge> getEgdes() {
+	private HashSet<KrakEdge> getEgdes() {
+		//TODO What is this method used for? Why is it part of the map interface?
 		return edges;
 	}
 	
 	/**
-	 * Get lines
+	 * Get all lines corresponding to the edges shown in the map. 
+	 * @return All the lines.
 	 */
 	public Collection<Line> getLines() {
 		HashSet<Line> lines = new HashSet<Line>();
 		
 		for (KrakEdge e : edges) {
-			Point2D.Double firstPoint = relativePoint(e.getStart().getX(),e.getStart().getY());
-			Point2D.Double secondPoint = relativePoint(e.getEnd().getX(),e.getEnd().getY());
+			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
+			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 			lines.add(new Line(firstPoint,secondPoint));
 		}
 		
@@ -134,12 +142,14 @@ public class Map {
 	
 	/**
 	 * Relative Point
-	 * Takes two coordinates and returnes a point relative to the screen
+	 * Takes two coordinates and returns a point relative to the screen
+	 * @param coordinates A point of coordinates on the map.
+	 * @return The point on the screen corresponding to the coordinates given.
 	 */
-	private Point2D.Double relativePoint(double x,double y) {
+	private Point2D.Double relativePoint(Point2D coordinates) {
 		
-		double nx = (x-bounds.getX()) / bounds.getWidth(); 
-		double ny = (y-bounds.getY()) / bounds.getHeight();
+		double nx = (coordinates.getX()-bounds.getX()) / bounds.getWidth(); 
+		double ny = (coordinates.getY()-bounds.getY()) / bounds.getHeight();
 		
 		return new Point2D.Double(nx,ny);
 	}
