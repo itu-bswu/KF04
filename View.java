@@ -226,9 +226,8 @@ public class View extends JFrame{
 
 		@Override
 		public void paint(Graphics g){
-			g.setColor(Color.BLACK);
 			for(Line l : lines){
-				// TODO Skrive kode for individuel farve
+				g.setColor(l.getRoadColor());
 				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
 						(int)(l.getStartPoint().y*this.getHeight()),
 						(int)(l.getEndPoint().x*this.getWidth()),
@@ -243,8 +242,8 @@ public class View extends JFrame{
 	 */
 	public static void main(String[] args){
 		Collection<Line> x = new HashSet<Line>();
-		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75)));
-		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75)));
+		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),new Color(0x000000)));
+		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),new Color(0x000000)));
 		
 		new View("X marks the spot",x);
 	}
