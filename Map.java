@@ -28,12 +28,28 @@ public class Map {
 	}
 	
 	/**
-	 * Update the graph
+	 * Update the bounds
 	 * @param view The rectangle of the view to zoom to.
 	 */
 	public void updateBounds(Rectangle2D.Double bounds) {
 		this.bounds = bounds;
 		qt.query(bounds);
+	}
+	
+	/**
+	 * Get the Width of the bounds
+	 * @return The width of the bounds
+	 */
+	public double getBoundsWidth() {
+		return bounds.width;
+	}
+	
+	/**
+	 * Get the height of the bounds
+	 * @return The height of the bounds
+	 */
+	public double getBoundsHeight() {
+		return bounds.height;
 	}
 	
 	/**
