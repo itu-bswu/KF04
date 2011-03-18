@@ -9,9 +9,9 @@ import graphlib.Graph;
  */
 public class Map {
 	
-	private Rectangle2D bounds;
+	private Rectangle2D.Double bounds;
 	private Graph<KrakEdge,KrakNode> graph; 
-	private HashSet<KrakEdge> edges;
+	private QuadTree<KrakEdge> qt;
 	
 	/**
 	 * Constructor
@@ -22,32 +22,19 @@ public class Map {
 	public Map(Graph<KrakEdge,KrakNode> graph) {
 		System.out.println("Map object created");
 		this.graph = graph;
-		this.edges = new HashSet<KrakEdge>();
-		this.bounds = outerBounds();
-		updateEdges();
+		bounds = outerBounds();
+		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
+		//updateEdges();
 	}
 	
 	/**
 	 * Zoom in or out of the graph
 	 * @param view The rectangle of the view to zoom to.
 	 */
+
 	public void zoom(Rectangle2D bounds) {
 		this.bounds = bounds;
-		updateEdges();
-	}
-	
-	/**
-	 * Removes all edges outside the bounds and adds all inside. 
-	 */
-	private void updateEdges() {
-		//Iterator over all edge		
-		for(KrakEdge edge : graph.outGoingEdges()) {
-			if (insideBounds(edge)) {
-				edges.add(edge);
-			}else{
-				edges.remove(edge);
-			}
-		}
+		//updateEdges();
 	}
 	
 	/**
@@ -72,7 +59,7 @@ public class Map {
 	 * Get the bounds of the map. The bounds are what the user is currently looking at
 	 * @return The bounds
 	 */
-	public Rectangle2D getBounds() {
+	public Rectangle2D.Double getBounds() {
 		return bounds;
 	}
 	
@@ -80,7 +67,8 @@ public class Map {
 	 * Get the the bounds of the smallest possible rectangle, still showing the entire graph.
 	 * @return The outer bounds
 	 */
-	private Rectangle2D outerBounds() {
+	private Rectangle2D.Double outerBounds() {
+		System.out.println("establishing outer bounds of map");
 		
 		double minX = -1;
 		double minY = -1;
@@ -116,22 +104,12 @@ public class Map {
 	}
 	
 	/**
-	 * Get edges from the map
-	 * @return All edges shown by the map.
-	 */
-	private HashSet<KrakEdge> getEgdes() {
-		//TODO What is this method used for? Why is it part of the map interface?
-		return edges;
-	}
-	
-	/**
 	 * Get all lines corresponding to the edges shown in the map. 
 	 * @return All the lines.
 	 */
 	public Collection<Line> getLines() {
 		HashSet<Line> lines = new HashSet<Line>();
-		
-		for (KrakEdge e : edges) {
+		for (KrakEdge e : qt.query(bounds)) {
 			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 			lines.add(new Line(firstPoint,secondPoint));

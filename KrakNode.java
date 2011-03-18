@@ -20,6 +20,11 @@ public class KrakNode extends Node {
 		Y = data.Y_COORD;
 	}
 	
+	/**
+	 * Get the points of the node.
+	 * 
+	 * @return Point object.
+	 */
 	public Point2D.Double getPoint(){
 		return new Point2D.Double(X,Y);
 	}

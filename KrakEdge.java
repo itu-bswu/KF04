@@ -25,6 +25,12 @@ public class KrakEdge extends Edge<KrakNode> {
 	public final int FROMRIGHT;
 	public final int TORIGHT;
 
+	/**
+	 * Constructor for objects of class KrakEdge.
+	 * 
+	 * @param data The EdgeData object for KrakEdge.
+	 * @param graph The graph object.
+	 */
 	public KrakEdge(EdgeData data, Graph<KrakEdge, KrakNode> graph) {
 		this.n1 = graph.getNode(data.FNODE);
 		this.n2 = graph.getNode(data.TNODE);
@@ -64,10 +70,18 @@ public class KrakEdge extends Edge<KrakNode> {
 		TORIGHT = data.TORIGHT;
 	}
 	
+	/**
+	 * Convert KrakEdge to Line.
+	 * 
+	 * @return Line from KrakEdge.
+	 */
 	public Line2D.Double getLine(){
 		return new Line2D.Double(n1.getX(), n1.getY(), n2.getX(), n2.getY());
 	}
 
+	/**
+	 * Clear KrakEdge.
+	 */
 	public static void clear() {
 		interner = null;
 	}
