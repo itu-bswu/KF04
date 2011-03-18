@@ -2,6 +2,8 @@ import graphlib.Graph;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -19,8 +21,8 @@ public class Control {
 	private static final double ZOOM_LENGTH = 0.15;
 	private static final String NAME = "Map"; //Name of the window containing the map.
 	private final File dataDir = new File(".", "data"); //Where control needs to look for the nodeFile and edgeFile
-	private final String nodeFile = "C:/Users/Jakob Melnyk/workspace/KF04/src/data/kdv_node_unload.txt"; //The nodes used to construct the graph
-	private final String edgeFile = "C:/Users/Jakob Melnyk/workspace/KF04/src/data/kdv_unload.txt"; //The edges used to construct the graph
+	private final String nodeFile = "kdv_node_unload.txt"; //The nodes used to construct the graph
+	private final String edgeFile = "kdv_unload.txt"; //The edges used to construct the graph
 	private View v;
 	private Map m;
 	private Graph<KrakEdge, KrakNode> g;
@@ -31,7 +33,6 @@ public class Control {
 	public Control() {
 		System.out.println("creating Control");
 		try {
-			g = KrakLoader.graphFromFiles(nodeFile, edgeFile);
 			g = KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
 		} catch (IOException e) {
 			System.out.println("A problem occured when trying to read input.");
@@ -89,5 +90,16 @@ public class Control {
 									old.height + old.height * ZOOM_LENGTH)); //height is increased by the zoom_length
 							v.repaint(m.getLines());
 						}});
+		//Listener for "mouse zoom"
+		/*v.addCanvasMouseListener(new MouseAdapter(){
+			
+			public void mousePressed(MouseEvent e){
+				
+			}
+			public void mouseReleased(MouseEvent e){
+				
+			}
+		});
+			*/
 		}
-}
+	}
