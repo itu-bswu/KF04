@@ -84,26 +84,50 @@ public class View extends JFrame{
 		});
 	}
 
+	/**
+	 * Adds an ActionListener to the Up-button in the navigation-panel.
+	 * @param actionListener The ActionListener for the button.
+	 */
 	public void addUpListener(ActionListener actionListener) {
 		upButton.addActionListener(actionListener);
 	}
 	
+	/**
+	 * Adds an ActionListener to the Down-button in the navigation-panel.
+	 * @param actionListener The ActionListener for the button.
+	 */
 	public void addDownListener(ActionListener actionListener) {
 		downButton.addActionListener(actionListener);
 	}
 	
+	/**
+	 * Adds an ActionListener to the Left-button in the navigation-panel.
+	 * @param actionListener The ActionListener for the button.
+	 */
 	public void addLeftListener(ActionListener actionListener) {
 		leftButton.addActionListener(actionListener);
 	}
 	
+	/**
+	 * Adds an ActionListener to the Right-button in the navigation-panel.
+	 * @param actionListener The ActionListener for the button.
+	 */
 	public void addRightListener(ActionListener actionListener) {
 		rightButton.addActionListener(actionListener);
 	}
 	
+	/**
+	 * Adds an ActionListener to the ZoomIn-button in the navigation-panel.
+	 * @param actionListener The ActionListener for the button.
+	 */
 	public void addInListener(ActionListener actionListener) {
 		zoomInButton.addActionListener(actionListener);
 	}
 	
+	/**
+	 * Adds an ActionListener to the ZoomOut-button in the navigation-panel.
+	 * @param actionListener The ActionListener for the button.
+	 */
 	public void addOutListener(ActionListener actionListener) {
 		zoomOutButton.addActionListener(actionListener);
 	}
@@ -121,7 +145,7 @@ public class View extends JFrame{
 	 * @return The screen's width divided by the screen's height.
 	 */
 	public double getRatio(){
-		return this.getWidth()/this.getHeight();
+		return WINDOW_RATIO;
 	}
 
 	// Filips
