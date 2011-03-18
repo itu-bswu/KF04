@@ -129,8 +129,7 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	/**
 	 * Adds the given edge to the graph
 	 * 
-	 * @param e
-	 *            Edge to add
+	 * @param e Edge to add
 	 */
 	public void addEdge(E e) {
 		if (e.getN1().index >= getEdges().size() || e.getN2().index >= getEdges().size()) {
@@ -193,8 +192,7 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	 * Returns an iterator over all outgoing edges (includes undirected edges)
 	 * from the node n
 	 * 
-	 * @param n
-	 *            Node to get outgoing edges from.
+	 * @param n Node to get outgoing edges from.
 	 * @return Iterator over the outgoing edges.
 	 */
 	public Iterator<E> outGoingEdges(Node n) {
@@ -220,8 +218,7 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	/**
 	 * Returns an iterator over all incoming edges (excludes undirected edges)
 	 * 
-	 * @param n
-	 *            Node to get incoming edges from.
+	 * @param n Node to get incoming edges from.
 	 * @return Iterator over the incoming edges.
 	 */
 	public Iterator<E> incomingEdges(Node n) {

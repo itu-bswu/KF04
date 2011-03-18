@@ -2,13 +2,15 @@ import graphlib.Graph;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Control class for Map system.
+ * Control class for the Map system.
  * 
  * @author Jakob Melnyk
  * @version 11 March - 2011
@@ -31,7 +33,6 @@ public class Control {
 	public Control() {
 		System.out.println("creating Control");
 		try {
-			//g = KrakLoader.graphFromFiles(nodeFile, edgeFile);
 			g = KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
 		} catch (IOException e) {
 			System.out.println("A problem occured when trying to read input.");
@@ -89,5 +90,16 @@ public class Control {
 									old.height + old.height * ZOOM_LENGTH)); //height is increased by the zoom_length
 							v.repaint(m.getLines());
 						}});
+		//Listener for "mouse zoom"
+		/*v.addCanvasMouseListener(new MouseAdapter(){
+			
+			public void mousePressed(MouseEvent e){
+				
+			}
+			public void mouseReleased(MouseEvent e){
+				
+			}
+		});
+			*/
 		}
-}
+	}
