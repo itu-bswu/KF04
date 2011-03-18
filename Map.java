@@ -116,118 +116,95 @@ public class Map {
 			switch(e.type){
 			case 1:
 				//motorvej
-				//red
-				roadColor = new Color(0xf05a5a);
+				roadColor = RoadColor.Red.getColor();
 				break;
 			case 2:
 				//Motortrafikvej
-				//red
-				roadColor = new Color(0xf05a5a);
+				roadColor = RoadColor.Red.getColor();
 				break;
 			case 3:
 				//Primærrute > 6 meter
-				//yellow
-				roadColor = new Color(0xf6f64d);
+				roadColor = RoadColor.Yellow.getColor();
 				break;
 			case 4:
 				//Sekundærrute > 6 meter
-				//yellow
-				roadColor = new Color(0xf6f64d);
+				roadColor = RoadColor.Yellow.getColor();
 				break;
 			case 5:
 				//Vej 3 - 6 meter
-				//orange
-				roadColor = new Color(0xfba819);
+				roadColor = RoadColor.Orange.getColor();
 				break;
 			case 6:
 				//Anden vej
-				//orange
-				roadColor = new Color(0xfba819);
+				roadColor = RoadColor.Orange.getColor();
 				break;
 			case 8:
 				//sti
-				//gray
-				roadColor = new Color(0xb1b0af);
+				roadColor = RoadColor.Grey.getColor();
 				break;
 			case 10:
 				//markvej
-				//orange
-				roadColor = new Color(0xfba819);
+				roadColor = RoadColor.Orange.getColor();
 				break;
 			case 11:
 				//gågader
-				//grå
-				roadColor = new Color(0xbcbcbc);
+				roadColor = RoadColor.Grey.getColor();
 				break;
 			case 21:
 				//proj. motorvej
-				//blue
-				roadColor = new Color(0x90e7dc);
+				roadColor = RoadColor.Blue.getColor();
 				break;
 			case 22:
 				//proj. motortrafikvej
-				//blue
-				roadColor = new Color(0x90e7dc);
+				roadColor = RoadColor.Blue.getColor();
 				break;
 			case 23:
 				//proj. primærvej
-				//blue
-				roadColor = new Color(0x90e7dc);
+				roadColor = RoadColor.Blue.getColor();
 				break;
 			case 24:
 				//proj. sekundærvej
-				//blue
-				roadColor = new Color(0x90e7dc);
+				roadColor = RoadColor.Blue.getColor();
 				break;
 			case 25:
 				//Proj. vej 3-6 m
-				//blue
-				roadColor = new Color(0x90e7dc);
+				roadColor = RoadColor.Blue.getColor();
 				break;
 			case 26:
 				//Proj. vej < 3 m
-				//blue
-				roadColor = new Color(0x90e7dc);
+				roadColor = RoadColor.Blue.getColor();
 				break;
 			case 28:
 				//Proj. sti
-				//blue
-				roadColor = new Color(0x90e7dc);
+				roadColor = RoadColor.Blue.getColor();
 				break;
 			case 31:
 				//Motorvejsafkørsel
-				//red
-				roadColor = new Color(0xf05a5a);
+				roadColor = RoadColor.Red.getColor();
 				break;
 			case 32:
 				//Motortrafikvejsafkørsel
-				//red
-				roadColor = new Color(0xf05a5a);
+				roadColor = RoadColor.Red.getColor();
 				break;
 			case 33:
 				//Primærvejsafkørsel
-				//yellow
-				roadColor = new Color(0xf6f64d);
+				roadColor = RoadColor.Yellow.getColor();
 				break;
 			case 34:
 				//Sekundærvejsafkørsel
-				//yellow
-				roadColor = new Color(0xf6f64d);
+				roadColor = RoadColor.Yellow.getColor();
 				break;
 			case 35:
 				//Anden vejafkørsel
-				//yellow
-				roadColor = new Color(0xf6f64d);
+				roadColor = RoadColor.Yellow.getColor();
 				break;
 			case 41:
 				//Motorvejstunnel
-				//red
-				roadColor = new Color(0xf05a5a);
+				roadColor = RoadColor.Red.getColor();
 				break;
 			case 42:
 				//Motortrafikvejstunnel
-				//red
-				roadColor = new Color(0xf05a5a);
+				roadColor = RoadColor.Red.getColor();
 				break;
 
 			}
