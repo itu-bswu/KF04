@@ -4,14 +4,20 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Point;
+
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.HashSet;
 import javax.swing.JComponent;
@@ -25,14 +31,14 @@ import javax.swing.JPanel;
  *
  */
 public class View extends JFrame{
-	
+
 	public static final double WINDOW_RATIO = 4./3;
 	public static final int START_WIDTH = 400;
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	// felter
-	Canvas canvas;
+	private Canvas canvas;
 	private JButton upButton;
 	private JButton leftButton;
 	private JButton downButton;
@@ -47,19 +53,54 @@ public class View extends JFrame{
 	 */
 	public View(String header, Collection<Line> first_lines){
 		super(header);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		canvas = new Canvas(first_lines);
 		createContent();
 		setResizeListener();
-		
+		canvasListener();
+
 		this.pack();
 		this.setSize(START_WIDTH,(int) (START_WIDTH/WINDOW_RATIO));
 		this.setVisible(true);
 		System.out.println("finished setup");
 	}
-	
+
+	private void canvasListener() {
+		MouseAdapter m = new MouseAdapter(){
+
+			private Point start = null;
+			private BufferedImage img = null;
+
+			@Override
+			public void mousePressed(MouseEvent e){
+				System.out.println("mouse pressed");
+				start = e.getPoint();
+				img = new BufferedImage(canvas.getWidth(),canvas.getHeight(),BufferedImage.TYPE_INT_RGB);
+				Graphics g = img.getGraphics();
+				g.setColor(canvas.getBackground());
+				g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+				canvas.paint(g);
+			}
+
+			@Override
+			public void mouseDragged(MouseEvent e){
+				System.out.println("mouse dragged");
+				Point end = e.getPoint();
+				Graphics g = canvas.getGraphics();
+				g.drawImage(img, 0, 0, null);
+				g.drawRect(start.x, start.y, end.x - start.x, end.y - start.y);
+				g.dispose();
+			}
+		};
+
+		this.addCanvasMouseListener(m);
+		canvas.addMouseMotionListener(m);
+	}
+
 	private void setResizeListener() {
 		this.addComponentListener(new ComponentListener(){
-			
+
 			private int last_width = START_WIDTH;
 			private int last_height = (int)(START_WIDTH/WINDOW_RATIO);
 
@@ -69,7 +110,7 @@ public class View extends JFrame{
 			public void componentMoved(ComponentEvent arg0) {}
 			@Override
 			public void componentShown(ComponentEvent arg0) {}
-			
+
 			@Override
 			public void componentResized(ComponentEvent e) {
 				Dimension new_dim = getSize();
@@ -91,7 +132,7 @@ public class View extends JFrame{
 	public void addUpListener(ActionListener actionListener) {
 		upButton.addActionListener(actionListener);
 	}
-	
+
 	/**
 	 * Adds an ActionListener to the Down-button in the navigation-panel.
 	 * @param actionListener The ActionListener for the button.
@@ -99,7 +140,7 @@ public class View extends JFrame{
 	public void addDownListener(ActionListener actionListener) {
 		downButton.addActionListener(actionListener);
 	}
-	
+
 	/**
 	 * Adds an ActionListener to the Left-button in the navigation-panel.
 	 * @param actionListener The ActionListener for the button.
@@ -107,7 +148,7 @@ public class View extends JFrame{
 	public void addLeftListener(ActionListener actionListener) {
 		leftButton.addActionListener(actionListener);
 	}
-	
+
 	/**
 	 * Adds an ActionListener to the Right-button in the navigation-panel.
 	 * @param actionListener The ActionListener for the button.
@@ -115,7 +156,7 @@ public class View extends JFrame{
 	public void addRightListener(ActionListener actionListener) {
 		rightButton.addActionListener(actionListener);
 	}
-	
+
 	/**
 	 * Adds an ActionListener to the ZoomIn-button in the navigation-panel.
 	 * @param actionListener The ActionListener for the button.
@@ -123,7 +164,7 @@ public class View extends JFrame{
 	public void addInListener(ActionListener actionListener) {
 		zoomInButton.addActionListener(actionListener);
 	}
-	
+
 	/**
 	 * Adds an ActionListener to the ZoomOut-button in the navigation-panel.
 	 * @param actionListener The ActionListener for the button.
@@ -133,74 +174,90 @@ public class View extends JFrame{
 	}
 
 	/**
+	 * Adds a MouseListener to the canvas component.
+	 * @param m The MouseListener for the canvas.
+	 */
+	public void addCanvasMouseListener(MouseListener m){
+		System.out.println("adding mouselistener to canvas");
+		canvas.addMouseListener(m);
+	}
+
+	/**
 	 * Repaints the entire frame, with the new lines to be shown.
 	 * @param l The new Collection of lines.
 	 */
 	public void repaint(Collection<Line> l){
 		canvas.updateLines(l);
 	}
-	
+
 	/**
 	 * Tells the ratio of the windows resolution.
 	 * @return The screen's width divided by the screen's height.
 	 */
 	public double getRatio(){
-		return WINDOW_RATIO;
+		return canvas.getWidth()/(double)canvas.getHeight();
+	}
+	
+	public int getCanvasWidth(){
+		return canvas.getWidth();
+	}
+	
+	public int getCanvasHeight(){
+		return canvas.getHeight();
 	}
 
-	// Filips
 	private void createContent() {
 		// creating objects
 		Container outer = this.getContentPane();
 		JPanel menuPanel = new JPanel();
 		JPanel navigationPanel = new JPanel();
-		
+
 		upButton = new JButton("^");
 		leftButton = new JButton("<");
 		downButton = new JButton("v");
 		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
-		
+
 		// layouts & borders
 		outer.setLayout(new BorderLayout());
 		navigationPanel.setLayout(new GridBagLayout());
 		//navigationPanel.setMinimumSize(new Dimension(200,200));
 		menuPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
+
 		// adding structure
 		outer.add(canvas,BorderLayout.CENTER);
 		outer.add(menuPanel,BorderLayout.WEST);
 		menuPanel.add(navigationPanel);
-		
+
 		setupNavigation(navigationPanel);
 	}
-	
+
 	private void setupNavigation(JPanel nav) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
-		
+
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridheight = 2;
 		nav.add(upButton,c);
-		
+
 		c.gridy = 4;
 		nav.add(downButton,c);
-		
+
 		c.weightx = -1;
 		c.gridx = 0;
 		c.gridy = 2;
 		nav.add(leftButton,c);
-		
+
 		c.gridx = 2;
 		nav.add(rightButton,c);
-		
+
 		c.weightx = 0;
 		c.gridheight = 1;
 		c.gridx = 1;
 		nav.add(zoomInButton,c);
-		
+
 		c.gridy = 3;
 		nav.add(zoomOutButton,c);
 	}
@@ -214,7 +271,7 @@ public class View extends JFrame{
 		private static final long serialVersionUID = 1L;
 
 		private Collection<Line> lines;
-		
+
 		public Canvas(Collection<Line> first_lines){
 			this.lines = first_lines;
 		}
@@ -234,9 +291,10 @@ public class View extends JFrame{
 						(int)(l.getEndPoint().x*this.getWidth()),
 						(int)(l.getEndPoint().y*this.getHeight()));
 			}
+			g.dispose();
 		}
 	}
-	
+
 	/**
 	 * Testing the View
 	 * @param args
@@ -245,7 +303,7 @@ public class View extends JFrame{
 		Collection<Line> x = new HashSet<Line>();
 		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75)));
 		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75)));
-		
+
 		new View("X marks the spot",x);
 	}
 
