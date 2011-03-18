@@ -15,44 +15,25 @@ public class Map {
 	
 	/**
 	 * Constructor
-	 * 
 	 * Initialize variables. 
 	 * Set the map to look at the entire graph.
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
 		System.out.println("Map object created");
 		this.graph = graph;
+		System.out.println(graph);
 		bounds = outerBounds();
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
-		//updateEdges();
+		qt.query(bounds);
 	}
 	
 	/**
 	 * Zoom in or out of the graph
 	 * @param view The rectangle of the view to zoom to.
 	 */
-
-	public void zoom(Rectangle2D bounds) {
+	public void updateBounds(Rectangle2D.Double bounds) {
 		this.bounds = bounds;
-		//updateEdges();
-	}
-	
-	/**
-	 * Checks whether an KrakEdge is inside the bounds
-	 * @param e	The KrakEdge to check
-	 * @return Is the KrakNode inside or not
-	 */
-	private Boolean insideBounds(KrakEdge e) {
-		return (insideBounds(e.getStart())||insideBounds(e.getEnd()));
-	}
-	
-	/**
-	 * Checks whether an KrakEdge is inside the bounds
-	 * @param n	The KrakNode to check
-	 * @return Is the KrakNode inside or not
-	 */
-	private Boolean insideBounds(KrakNode n) {
-		return bounds.contains(new Point2D.Double(n.getX(),n.getY()));
+		qt.query(bounds);
 	}
 	
 	/**
@@ -68,7 +49,7 @@ public class Map {
 	 * @return The outer bounds
 	 */
 	private Rectangle2D.Double outerBounds() {
-		System.out.println("establishing outer bounds of map");
+		System.out.println("Establishing outer bounds of map");
 		
 		double minX = -1;
 		double minY = -1;
@@ -89,21 +70,6 @@ public class Map {
 	}
 	
 	/**
-	 * Move the bounds in a specified direction. The length is how far to move in percentage of the screen.
-	 * @param	d	The direction to move (4 directions)
-	 * @param	length	The length to move (in percentage of the screen)
-	 */
-	public void move(Direction d,double length) {
-		
-		double horizontalChange	= d.coordinatepoint().getX() * bounds.getWidth() * length;
-		double verticalChange	= d.coordinatepoint().getY() * bounds.getHeight() * length;
-				
-		bounds.setRect(bounds.getX()+horizontalChange, bounds.getY()+verticalChange, bounds.getWidth(), bounds.getHeight());
-		
-		updateEdges();
-	}
-	
-	/**
 	 * Get all lines corresponding to the edges shown in the map. 
 	 * @return All the lines.
 	 */
@@ -114,7 +80,6 @@ public class Map {
 			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 			lines.add(new Line(firstPoint,secondPoint));
 		}
-		
 		return lines;
 	}
 	
