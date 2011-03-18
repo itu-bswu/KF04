@@ -28,7 +28,7 @@ public class Map {
 	}
 	
 	/**
-	 * Zoom in or out of the graph
+	 * Update the graph
 	 * @param view The rectangle of the view to zoom to.
 	 */
 	public void updateBounds(Rectangle2D.Double bounds) {
@@ -67,6 +67,19 @@ public class Map {
 		}
 		
 		return new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY);
+	}
+	
+	/**
+	 * Move the bounds in a specified direction. The length is how far to move in percentage of the screen.
+	 * @param	d	The direction to move (4 directions)
+	 * @param	length	The length to move (in percentage of the screen)
+	 */
+	public void move(Direction d,double length) {
+		
+		double horizontalChange	= d.coordinatepoint().getX() * bounds.getWidth() * length;
+		double verticalChange	= d.coordinatepoint().getY() * bounds.getHeight() * length;
+				
+		bounds.setRect(bounds.getX()+horizontalChange, bounds.getY()+verticalChange, bounds.getWidth(), bounds.getHeight());
 	}
 	
 	/**
