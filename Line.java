@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 /**
@@ -6,13 +7,15 @@ import java.awt.geom.Point2D;
 public class Line {
 	private Point2D.Double startPoint;
 	private Point2D.Double endPoint;
+	private Color roadColor;
 	
 	/**
 	 * Constructor
 	 */
-	public Line(Point2D.Double startPoint, Point2D.Double endPoint) {
+	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor) {
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
+		this.roadColor = roadColor;
 	}
 	
 	/**
@@ -26,5 +29,12 @@ public class Line {
 	 */
 	public Point2D.Double getEndPoint() {
 		return endPoint;
+	}
+
+	/**
+	 * @return the roadColor
+	 */
+	public Color getRoadColor() {
+		return roadColor;
 	}
 }

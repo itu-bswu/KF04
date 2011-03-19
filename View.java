@@ -4,9 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Point;
-
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -32,7 +30,6 @@ import javax.swing.JPanel;
  */
 public class View extends JFrame{
 
-	public static final double WINDOW_RATIO = 4./3;
 	public static final int START_WIDTH = 400;
 
 	private static final long serialVersionUID = 1L;
@@ -51,19 +48,21 @@ public class View extends JFrame{
 	 * @param header The title for the frame.
 	 * @param first_lines The initial lines to be shown.
 	 */
-	public View(String header, Collection<Line> first_lines){
+	public View(String header, Collection<Line> first_lines, double startRatio){
 		super(header);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		canvas = new Canvas(first_lines);
+		
 		createContent();
-		setResizeListener();
+		//setResizeListener();
 		canvasListener();
 
-		this.pack();
-		this.setSize(START_WIDTH,(int) (START_WIDTH/WINDOW_RATIO));
+		this.setSize(800,600);
 		this.setVisible(true);
-		System.out.println("finished setup");
+		canvas.setSize(new Dimension(canvas.getWidth(), (int)(canvas.getWidth()/startRatio)));
+		
+		System.out.println("finished view setup");
 	}
 
 	private void canvasListener() {
@@ -74,22 +73,45 @@ public class View extends JFrame{
 
 			@Override
 			public void mousePressed(MouseEvent e){
-				System.out.println("mouse pressed");
 				start = e.getPoint();
 				img = new BufferedImage(canvas.getWidth(),canvas.getHeight(),BufferedImage.TYPE_INT_RGB);
 				Graphics g = img.getGraphics();
 				g.setColor(canvas.getBackground());
 				g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 				canvas.paint(g);
+				g.dispose();
 			}
 
 			@Override
 			public void mouseDragged(MouseEvent e){
-				System.out.println("mouse dragged");
 				Point end = e.getPoint();
+
 				Graphics g = canvas.getGraphics();
 				g.drawImage(img, 0, 0, null);
-				g.drawRect(start.x, start.y, end.x - start.x, end.y - start.y);
+				// draw the rectangle the right way (else it will be filled)
+				if(start.x < end.x && start.y < end.y){
+					// pulled right down
+					g.drawRect(start.x, start.y, end.x - start.x, end.y - start.y);
+				}else if(start.x < end.x && start.y > end.y){
+					// pulled right up
+					g.drawRect(start.x, end.y, end.x - start.x,start.y - end.y);
+				}else if(start.x > end.x && start.y < end.y){
+					// pulled left down
+					g.drawRect(end.x, start.y, start.x - end.x, end.y - start.y);
+				}else{
+					// pullef left up
+					g.drawRect(end.x, end.y, start.x - end.x, start.y - end.y);
+				}
+
+				g.dispose();
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e){
+				Graphics g = canvas.getGraphics();
+				g.drawImage(img, 0, 0, null);
+				start = null;
+				img = null;
 				g.dispose();
 			}
 		};
@@ -98,32 +120,32 @@ public class View extends JFrame{
 		canvas.addMouseMotionListener(m);
 	}
 
-	private void setResizeListener() {
-		this.addComponentListener(new ComponentListener(){
-
-			private int last_width = START_WIDTH;
-			private int last_height = (int)(START_WIDTH/WINDOW_RATIO);
-
-			@Override
-			public void componentHidden(ComponentEvent arg0) {}
-			@Override
-			public void componentMoved(ComponentEvent arg0) {}
-			@Override
-			public void componentShown(ComponentEvent arg0) {}
-
-			@Override
-			public void componentResized(ComponentEvent e) {
-				Dimension new_dim = getSize();
-				if(new_dim.width != last_width){
-					setSize(new_dim.width,(int)(new_dim.width/WINDOW_RATIO));
-				}else if(new_dim.height != last_height){
-					setSize((int)(new_dim.height*WINDOW_RATIO),new_dim.height);
-				}
-				last_width = new_dim.width;
-				last_height = new_dim.height;
-			}
-		});
-	}
+//	private void setResizeListener() {
+//		this.addComponentListener(new ComponentListener(){
+//
+//			private int last_width = START_WIDTH;
+//			private int last_height = (int)(START_WIDTH/WINDOW_RATIO);
+//
+//			@Override
+//			public void componentHidden(ComponentEvent arg0) {}
+//			@Override
+//			public void componentMoved(ComponentEvent arg0) {}
+//			@Override
+//			public void componentShown(ComponentEvent arg0) {}
+//
+//			@Override
+//			public void componentResized(ComponentEvent e) {
+//				Dimension new_dim = getSize();
+//				if(new_dim.width != last_width){
+//					setSize(new_dim.width,(int)(new_dim.width/WINDOW_RATIO));
+//				}else if(new_dim.height != last_height){
+//					setSize((int)(new_dim.height*WINDOW_RATIO),new_dim.height);
+//				}
+//				last_width = new_dim.width;
+//				last_height = new_dim.height;
+//			}
+//		});
+//	}
 
 	/**
 	 * Adds an ActionListener to the Up-button in the navigation-panel.
@@ -191,17 +213,17 @@ public class View extends JFrame{
 	}
 
 	/**
-	 * Tells the ratio of the windows resolution.
-	 * @return The screen's width divided by the screen's height.
+	 * Tells the width of the canvas component in pixel.
+	 * @return the width in pixel
 	 */
-	public double getRatio(){
-		return canvas.getWidth()/(double)canvas.getHeight();
-	}
-	
 	public int getCanvasWidth(){
 		return canvas.getWidth();
 	}
-	
+
+	/**
+	 * Tells the height of the canvas component in pixel.
+	 * @return the height in pixel
+	 */
 	public int getCanvasHeight(){
 		return canvas.getHeight();
 	}
@@ -283,9 +305,8 @@ public class View extends JFrame{
 
 		@Override
 		public void paint(Graphics g){
-			g.setColor(Color.BLACK);
 			for(Line l : lines){
-				// TODO Skrive kode for individuel farve
+				g.setColor(l.getRoadColor());
 				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
 						(int)(l.getStartPoint().y*this.getHeight()),
 						(int)(l.getEndPoint().x*this.getWidth()),
@@ -301,10 +322,9 @@ public class View extends JFrame{
 	 */
 	public static void main(String[] args){
 		Collection<Line> x = new HashSet<Line>();
-		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75)));
-		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75)));
+		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK));
+		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK));
 
-		new View("X marks the spot",x);
+		new View("X marks the spot",x,1.0);
 	}
-
 }
