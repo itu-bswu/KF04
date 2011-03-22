@@ -62,14 +62,6 @@ public class Map {
 	}
 
 	/**
-	 * Get the ratio of the map
-	 * @return The ratio
-	 */
-	public double getRatio() {
-		return bounds.width/bounds.height;
-	}
-	
-	/**
 	 * Get the the bounds of the smallest possible rectangle, still showing the entire graph.
 	 * @return The outer bounds
 	 */
@@ -117,108 +109,107 @@ public class Map {
 		for (KrakEdge e : qt.query(bounds)) {
 			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
-			
 			//Choosing the right color to each line
 			Color roadColor = new Color(0x000000);
-			switch(e.type) {
+			switch(e.type){
 			case 1:
 				//motorvej
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 			case 2:
 				//Motortrafikvej
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 			case 3:
 				//Primærrute > 6 meter
-				roadColor = RoadColor.Yellow.getColor();
+				roadColor = Color.YELLOW;
 				break;
 			case 4:
 				//Sekundærrute > 6 meter
-				roadColor = RoadColor.Yellow.getColor();
+				roadColor = Color.YELLOW;
 				break;
 			case 5:
 				//Vej 3 - 6 meter
-				roadColor = RoadColor.Orange.getColor();
+				roadColor = Color.ORANGE;
 				break;
 			case 6:
 				//Anden vej
-				roadColor = RoadColor.Orange.getColor();
+				roadColor = Color.ORANGE;
 				break;
 			case 8:
 				//sti
-				roadColor = RoadColor.Grey.getColor();
+				roadColor = Color.GRAY;
 				break;
 			case 10:
 				//markvej
-				roadColor = RoadColor.Orange.getColor();
+				roadColor = Color.ORANGE;
 				break;
 			case 11:
 				//gågader
-				roadColor = RoadColor.Grey.getColor();
+				roadColor = Color.GRAY;
 				break;
 			case 21:
 				//proj. motorvej
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 22:
 				//proj. motortrafikvej
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 23:
 				//proj. primærvej
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 24:
 				//proj. sekundærvej
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 25:
 				//Proj. vej 3-6 m
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 26:
 				//Proj. vej < 3 m
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 28:
 				//Proj. sti
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 31:
 				//Motorvejsafkørsel
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 			case 32:
 				//Motortrafikvejsafkørsel
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 			case 33:
 				//Primærvejsafkørsel
-				roadColor = RoadColor.Yellow.getColor();
+				roadColor = Color.YELLOW;
 				break;
 			case 34:
 				//Sekundærvejsafkørsel
-				roadColor = RoadColor.Yellow.getColor();
+				roadColor = Color.YELLOW;
 				break;
 			case 35:
 				//Anden vejafkørsel
-				roadColor = RoadColor.Yellow.getColor();
+				roadColor = Color.YELLOW;
 				break;
 			case 41:
 				//Motorvejstunnel
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 			case 42:
 				//Motortrafikvejstunnel
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
-	
+
 			}
 			lines.add(new Line(firstPoint,secondPoint,roadColor));
 		}
 		return lines;
-	}	
+	}
 
 	/**
 	 * Relative Point
