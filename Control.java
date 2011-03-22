@@ -2,6 +2,8 @@ import graphlib.Graph;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -49,7 +51,7 @@ public class Control {
 		v.addUpListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double old = m.getBounds();
-				m.updateBounds(new Rectangle2D.Double(old.x, old.y + (-1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
+				m.updateBounds(new Rectangle2D.Double(old.x, old.y - (1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
 				v.repaint(m.getLines());
 			}});
 		//Listener for "move-down" button.
@@ -63,7 +65,7 @@ public class Control {
 		v.addLeftListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double old = m.getBounds();
-				m.updateBounds(new Rectangle2D.Double(old.x + (1 * old.width * MOVE_LENGTH), old.y, old.width, old.height));
+				m.updateBounds(new Rectangle2D.Double(old.x - (1 * old.width * MOVE_LENGTH), old.y, old.width, old.height));
 				v.repaint(m.getLines());
 			}});
 		//Listener for "move-right" button.
@@ -116,6 +118,15 @@ public class Control {
 								p.width/v.getCanvasWidth() * m.getBounds().width,
 								p.height/v.getCanvasHeight() * m.getBounds().height));
 				v.repaint(m.getLines());
+			}
+		});
+		//
+		v.addCanvasComponentListener(new ComponentAdapter(){
+			private int oldWidth = v.getCanvasWidth();
+			private int oldHeight = v.getCanvasHeight();
+			
+			public void componentResize(ComponentEvent e){
+				//TODO implemenent this sheeeit
 			}
 		});
 	}
