@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Point;
 
 import javax.swing.JButton;
@@ -55,19 +56,16 @@ public class View extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		canvas = new Canvas(first_lines);
-		
+
 		createContent();
-		//setResizeListener();
 		canvasListener();
 
 		this.setSize(800,600);
 		this.setVisible(true);
-		System.out.println(canvas.getWidth()+","+canvas.getHeight());
-		
+
 		canvas.setPreferredSize(new Dimension(canvas.getWidth(), (int)(canvas.getWidth()/startRatio)));
 		pack();
-		System.out.println(canvas.getWidth()+","+canvas.getHeight());
-		
+
 		System.out.println("finished view setup");
 	}
 
@@ -75,17 +73,10 @@ public class View extends JFrame{
 		MouseAdapter m = new MouseAdapter(){
 
 			private Point start = null;
-			private BufferedImage img = null;
 
 			@Override
 			public void mousePressed(MouseEvent e){
 				start = e.getPoint();
-				img = new BufferedImage(canvas.getWidth(),canvas.getHeight(),BufferedImage.TYPE_INT_RGB);
-				Graphics g = img.getGraphics();
-				g.setColor(canvas.getBackground());
-				g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-				canvas.paint(g);
-				g.dispose();
 			}
 
 			@Override
@@ -93,7 +84,8 @@ public class View extends JFrame{
 				Point end = e.getPoint();
 
 				Graphics g = canvas.getGraphics();
-				g.drawImage(img, 0, 0, null);
+				g.drawImage(canvas.getImage(), 0, 0, null);
+
 				// draw the rectangle the right way (else it will be filled)
 				if(start.x < end.x && start.y < end.y){
 					// pulled right down
@@ -105,7 +97,7 @@ public class View extends JFrame{
 					// pulled left down
 					g.drawRect(end.x, start.y, start.x - end.x, end.y - start.y);
 				}else{
-					// pullef left up
+					// pulled left up
 					g.drawRect(end.x, end.y, start.x - end.x, start.y - end.y);
 				}
 
@@ -114,44 +106,14 @@ public class View extends JFrame{
 
 			@Override
 			public void mouseReleased(MouseEvent e){
-				Graphics g = canvas.getGraphics();
-				g.drawImage(img, 0, 0, null);
+				canvas.repaint();
 				start = null;
-				img = null;
-				g.dispose();
 			}
 		};
 
 		this.addCanvasMouseListener(m);
 		canvas.addMouseMotionListener(m);
 	}
-
-//	private void setResizeListener() {
-//		this.addComponentListener(new ComponentListener(){
-//
-//			private int last_width = START_WIDTH;
-//			private int last_height = (int)(START_WIDTH/WINDOW_RATIO);
-//
-//			@Override
-//			public void componentHidden(ComponentEvent arg0) {}
-//			@Override
-//			public void componentMoved(ComponentEvent arg0) {}
-//			@Override
-//			public void componentShown(ComponentEvent arg0) {}
-//
-//			@Override
-//			public void componentResized(ComponentEvent e) {
-//				Dimension new_dim = getSize();
-//				if(new_dim.width != last_width){
-//					setSize(new_dim.width,(int)(new_dim.width/WINDOW_RATIO));
-//				}else if(new_dim.height != last_height){
-//					setSize((int)(new_dim.height*WINDOW_RATIO),new_dim.height);
-//				}
-//				last_width = new_dim.width;
-//				last_height = new_dim.height;
-//			}
-//		});
-//	}
 
 	/**
 	 * Adds an ActionListener to the Up-button in the navigation-panel.
@@ -208,7 +170,7 @@ public class View extends JFrame{
 	public void addCanvasMouseListener(MouseListener m){
 		canvas.addMouseListener(m);
 	}
-	
+
 	/**
 	 * Adds a ComponentListener to the canvas component. This is to get events
 	 * from resizing the window and such.
@@ -307,25 +269,46 @@ public class View extends JFrame{
 		private static final long serialVersionUID = 1L;
 
 		private Collection<Line> lines;
+		private BufferedImage img = null;
 
 		public Canvas(Collection<Line> first_lines){
 			this.lines = first_lines;
 		}
+		
+		public Image getImage(){
+			return img;
+		}
 
 		public void updateLines(Collection<Line> lines){
 			this.lines = lines;
+			drawOffScreen();
 			this.repaint();
 		}
 
-		@Override
-		public void paint(Graphics g){
-			System.out.println("paint size: "+this.getWidth()+","+this.getHeight()+" lines="+lines.size());
+		public void drawOffScreen(){
+			img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
+			Graphics g = img.getGraphics();
+
+			// draw background
+			g.setColor(getBackground());
+			g.fillRect(0, 0, getWidth(), getHeight());
+			// draw lines
 			for(Line l : lines){
 				g.setColor(l.getRoadColor());
 				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
 						(int)(l.getStartPoint().y*this.getHeight()),
 						(int)(l.getEndPoint().x*this.getWidth()),
 						(int)(l.getEndPoint().y*this.getHeight()));
+			}
+			g.dispose();
+		}
+
+		@Override
+		public void paint(Graphics g){
+			if(img != null){
+				g.drawImage(img, 0, 0, null);
+			}else{
+				drawOffScreen();
 			}
 			g.dispose();
 		}
