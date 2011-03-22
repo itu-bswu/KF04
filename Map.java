@@ -16,44 +16,41 @@ public class Map {
 
 	/**
 	 * Constructor
-	 * 
 	 * Initialize variables. 
 	 * Set the map to look at the entire graph.
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
 		System.out.println("Map object created");
 		this.graph = graph;
+		System.out.println(graph);
 		bounds = outerBounds();
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
-		//updateEdges();
+		qt.query(bounds);
 	}
 
 	/**
-	 * Zoom in or out of the graph
+	 * Update the bounds
 	 * @param view The rectangle of the view to zoom to.
 	 */
-
-	public void zoom(Rectangle2D.Double bounds) {
+	public void updateBounds(Rectangle2D.Double bounds) {
 		this.bounds = bounds;
-		//updateEdges();
+		qt.query(bounds);
 	}
 
 	/**
-	 * Checks whether an KrakEdge is inside the bounds
-	 * @param e	The KrakEdge to check
-	 * @return Is the KrakNode inside or not
+	 * Get the Width of the bounds
+	 * @return The width of the bounds
 	 */
-	private Boolean insideBounds(KrakEdge e) {
-		return (insideBounds(e.getStart())||insideBounds(e.getEnd()));
+	public double getBoundsWidth() {
+		return bounds.width;
 	}
 
 	/**
-	 * Checks whether an KrakEdge is inside the bounds
-	 * @param n	The KrakNode to check
-	 * @return Is the KrakNode inside or not
+	 * Get the height of the bounds
+	 * @return The height of the bounds
 	 */
-	private Boolean insideBounds(KrakNode n) {
-		return bounds.contains(new Point2D.Double(n.getX(),n.getY()));
+	public double getBoundsHeight() {
+		return bounds.height;
 	}
 
 	/**
@@ -69,6 +66,7 @@ public class Map {
 	 * @return The outer bounds
 	 */
 	private Rectangle2D.Double outerBounds() {
+		
 		System.out.println("establishing outer bounds of map");
 
 		double minX = -1;
@@ -116,101 +114,100 @@ public class Map {
 			switch(e.type){
 			case 1:
 				//motorvej
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 			case 2:
 				//Motortrafikvej
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 			case 3:
 				//Primærrute > 6 meter
-				roadColor = RoadColor.Yellow.getColor();
+				roadColor = Color.YELLOW;
 				break;
 			case 4:
 				//Sekundærrute > 6 meter
-				roadColor = RoadColor.Yellow.getColor();
+				roadColor = Color.YELLOW;
 				break;
 			case 5:
 				//Vej 3 - 6 meter
-				roadColor = RoadColor.Orange.getColor();
+				roadColor = Color.ORANGE;
 				break;
 			case 6:
 				//Anden vej
-				roadColor = RoadColor.Orange.getColor();
+				roadColor = Color.ORANGE;
 				break;
 			case 8:
 				//sti
-				roadColor = RoadColor.Grey.getColor();
+				roadColor = Color.GRAY;
 				break;
 			case 10:
 				//markvej
-				roadColor = RoadColor.Orange.getColor();
+				roadColor = Color.ORANGE;
 				break;
 			case 11:
 				//gågader
-				roadColor = RoadColor.Grey.getColor();
+				roadColor = Color.GRAY;
 				break;
 			case 21:
 				//proj. motorvej
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 22:
 				//proj. motortrafikvej
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 23:
 				//proj. primærvej
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 24:
 				//proj. sekundærvej
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 25:
 				//Proj. vej 3-6 m
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 26:
 				//Proj. vej < 3 m
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 28:
 				//Proj. sti
-				roadColor = RoadColor.Blue.getColor();
+				roadColor = Color.BLUE;
 				break;
 			case 31:
 				//Motorvejsafkørsel
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 			case 32:
 				//Motortrafikvejsafkørsel
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 			case 33:
 				//Primærvejsafkørsel
-				roadColor = RoadColor.Yellow.getColor();
+				roadColor = Color.YELLOW;
 				break;
 			case 34:
 				//Sekundærvejsafkørsel
-				roadColor = RoadColor.Yellow.getColor();
+				roadColor = Color.YELLOW;
 				break;
 			case 35:
 				//Anden vejafkørsel
-				roadColor = RoadColor.Yellow.getColor();
+				roadColor = Color.YELLOW;
 				break;
 			case 41:
 				//Motorvejstunnel
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 			case 42:
 				//Motortrafikvejstunnel
-				roadColor = RoadColor.Red.getColor();
+				roadColor = Color.RED;
 				break;
 
 			}
 			lines.add(new Line(firstPoint,secondPoint,roadColor));
 		}
-
 		return lines;
 	}
 
