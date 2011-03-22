@@ -102,15 +102,18 @@ public class Control {
 			}
 			
 			public void mouseReleased(MouseEvent e){
-				if(a == null) return; //Tries to catch 
+				if(a == null) return; //Tries to catch null pointer from weird mouse events. 
 				b = e.getPoint();
 				p = convertPointsToRectangle(a, b);
+				if(p.width < v.getCanvasWidth()/100 || p.height < v.getCanvasHeight()/100) return;
 				double ratio = v.getCanvasWidth() / v.getCanvasHeight();
 				if(p.width < p.height){
 					p.width = (int) ratio * p.height; 
+					p.x -= (int) p.width/4.0;
 				}
 				else{
 					p.height = (int) p.width / ratio;
+					p.y -= (int) p.height/4.0;
 				}
 				m.updateBounds(
 						new Rectangle2D.Double(p.x/v.getCanvasWidth() * m.getBounds().width + m.getBounds().x,
