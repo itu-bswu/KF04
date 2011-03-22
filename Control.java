@@ -126,6 +126,19 @@ public class Control {
 								(p.height/v.getCanvasHeight()) * m.getBounds().height));
 				v.repaint(m.getLines());
 			}
+			
+			// display closest road's name
+			public void mouseClicked(MouseEvent e){
+				System.out.println("mouse clicked");
+				Rectangle2D.Double map = m.getBounds();
+				// convert pixel to meters
+				double x_m = map.x + (e.getX()/v.getCanvasWidth())*map.width;
+				double y_m = map.y + (e.getX()/v.getCanvasHeight())*map.height;
+				
+				// set label to closest road
+				v.setLabel(m.getClosestRoad(new Point2D.Double(x_m,y_m)));
+				System.out.println("done with road finding");
+			}
 		});
 		//
 		v.addCanvasComponentListener(new ComponentAdapter(){

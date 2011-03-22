@@ -237,7 +237,8 @@ public class Map {
 		return new Point2D.Double(nx,ny);
 	}
 
-	private String closestRoad(Point2D.Double point){
+	public String getClosestRoad(Point2D.Double point){
+		System.out.println("Finding closest road");
 		// get all nearby roads
 		Set<KrakEdge> all = qt.query(new Rectangle2D.Double(point.x-this.ROAD_SEARCH_DISTANCE,point.y-this.ROAD_SEARCH_DISTANCE,
 				point.x+this.ROAD_SEARCH_DISTANCE,point.x+this.ROAD_SEARCH_DISTANCE));
