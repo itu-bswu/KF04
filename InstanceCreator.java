@@ -33,6 +33,10 @@ public class InstanceCreator {
 		Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 
 		File outFile = new File(outEdgeFile);
+		
+		System.out.println(": " + outFile);
+		
+		
 		outFile.getParentFile().mkdirs();
 		outFile.createNewFile();
 

@@ -228,7 +228,7 @@ public class Map {
 	private Point2D.Double relativePoint(Point2D coordinates) {
 
 		double nx = 					 (coordinates.getX()-bounds.getX()) / bounds.getWidth(); 
-		double ny = bounds.getHeight() - (coordinates.getY()-bounds.getY()) / bounds.getHeight();
+		double ny = 1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight();
 
 		return new Point2D.Double(nx,ny);
 	}
