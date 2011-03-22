@@ -5,13 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
-import java.awt.Rectangle;
 
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,8 +23,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.border.LineBorder;
 
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
@@ -67,8 +63,6 @@ public class View extends JFrame{
 		this.setSize(800,600);
 		this.setVisible(true);
 		System.out.println(canvas.getWidth()+","+canvas.getHeight());
-		Rectangle old = canvas.getBounds();
-		canvas.setBounds(old.x,old.y,old.width,(int) (old.width/startRatio));
 		
 		canvas.setPreferredSize(new Dimension(canvas.getWidth(), (int)(canvas.getWidth()/startRatio)));
 		pack();
