@@ -78,7 +78,7 @@ public class Control {
 			public void actionPerformed(ActionEvent arg0){
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
 				Rectangle2D.Double old = m.getBounds();
-				m.zoom(zoomRect(ZOOM_LENGTH, true, old));
+				m.updateBounds(zoomRect(ZOOM_LENGTH, true, old));
 				v.repaint(m.getLines());
 			}});
 		//Listener for "zoom-out" button.
@@ -86,10 +86,9 @@ public class Control {
 			public void actionPerformed(ActionEvent arg0){
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
 				Rectangle2D.Double old = m.getBounds();
-				m.zoom(zoomRect(ZOOM_LENGTH, false, old));
+				m.updateBounds(zoomRect(ZOOM_LENGTH, false, old));
 				v.repaint(m.getLines());
 			}});
->>>>>>> b5463e9f650b04e0a06cf61582921ecc0f2037cf
 		//Listener for "mouse zoom"
 		v.addCanvasMouseListener(new MouseAdapter(){
 			private Point a = null;
@@ -111,7 +110,7 @@ public class Control {
 				else{
 					p.height = (int) p.width / ratio;
 				}
-				m.zoom(
+				m.updateBounds(
 						new Rectangle2D.Double(p.x/v.getCanvasWidth() * m.getBounds().width + m.getBounds().x,
 								p.y/v.getCanvasHeight() * m.getBounds().height + m.getBounds().y,
 								p.width/v.getCanvasWidth() * m.getBounds().width,
