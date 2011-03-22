@@ -5,11 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
+
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,6 +18,8 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.HashSet;
+
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -60,7 +62,11 @@ public class View extends JFrame{
 
 		this.setSize(800,600);
 		this.setVisible(true);
-		canvas.setSize(new Dimension(canvas.getWidth(), (int)(canvas.getWidth()/startRatio)));
+		System.out.println(canvas.getWidth()+","+canvas.getHeight());
+		
+		canvas.setPreferredSize(new Dimension(canvas.getWidth(), (int)(canvas.getWidth()/startRatio)));
+		pack();
+		System.out.println(canvas.getWidth()+","+canvas.getHeight());
 		
 		System.out.println("finished view setup");
 	}
@@ -252,8 +258,8 @@ public class View extends JFrame{
 		// layouts & borders
 		outer.setLayout(new BorderLayout());
 		navigationPanel.setLayout(new GridBagLayout());
-		//navigationPanel.setMinimumSize(new Dimension(200,200));
 		menuPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		menuPanel.setBorder(BorderFactory.createTitledBorder("Navigation"));
 
 		// adding structure
 		outer.add(canvas,BorderLayout.CENTER);
@@ -313,6 +319,7 @@ public class View extends JFrame{
 
 		@Override
 		public void paint(Graphics g){
+			System.out.println("paint size: "+this.getWidth()+","+this.getHeight());
 			for(Line l : lines){
 				g.setColor(l.getRoadColor());
 				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
