@@ -85,8 +85,10 @@ public class KrakLoader {
 	public static void main(String[] args) throws IOException {
 		// String dir = "..\\instance\\Valby\\";
 		// String dir = "..\\instance\\Charlottenlund\\";
-		String dir = "..\\instance\\Sjaelland\\";
+		//String dir = "..\\instance\\Sjaelland\\";
 		// String dir = "..\\krakdata\\";
+		String dir = "..\\data\\";
+		
 		Graph<KrakEdge, KrakNode> graph = graphFromFiles(dir
 				+ "kdv_node_unload.txt", dir + "kdv_unload.txt");
 		System.out.printf("Graph has %d edges%n", graph.getEdgeCount());

@@ -2,7 +2,25 @@ import java.awt.geom.Rectangle2D;
 import java.util.Set;
 
 public class QuadTree<T extends KrakEdge>{
-
+	
+	/**
+	 * Quad tree node
+	 * 
+	 * Filip giver vejene niveauer.
+	 * 
+	 * Jeg skal gemme vejene i den specifikke quadnote.
+	 * Hver quadnote skal have en int værdi om hvor dybt den er i systemet.
+	 * 
+	 * Når quadnotene dannes skal de store edges gemmes i de høje noder
+	 * 
+	 * Når der bedes om edges skal man angive et dybte niveau man vil gå ned
+	 * 
+	 * alle edges med denne eller mindre dybte skal returneres
+	 * 
+	 * 
+	 * QuadTree note skal have en "isLevel(egde,niveau)" metode til at angive om en vej er en bestemt type.
+	 */
+	
 	QuadTreeNode<T> root;
 
 	public QuadTree(Rectangle2D.Double bounds, Set<T> content){

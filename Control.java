@@ -51,14 +51,14 @@ public class Control {
 		v.addUpListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double old = m.getBounds();
-				m.updateBounds(new Rectangle2D.Double(old.x, old.y - (1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
+				m.updateBounds(new Rectangle2D.Double(old.x, old.y + (1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
 				v.repaint(m.getLines());
 			}});
 		//Listener for "move-down" button.
 		v.addDownListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double old = m.getBounds();
-				m.updateBounds(new Rectangle2D.Double(old.x, old.y + (1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
+				m.updateBounds(new Rectangle2D.Double(old.x, old.y - (1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
 				v.repaint(m.getLines());
 			}});
 		//Listener for "move-left" button.
@@ -96,6 +96,7 @@ public class Control {
 			private Point a = null;
 			private Point b = null;
 			private Rectangle2D.Double p = null;
+			private Rectangle2D.Double temp = null;
 			
 			public void mousePressed(MouseEvent e){
 				a = e.getPoint();
@@ -104,22 +105,25 @@ public class Control {
 			public void mouseReleased(MouseEvent e){
 				if(a == null) return; //Tries to catch null pointer from weird mouse events. 
 				b = e.getPoint();
+				b.y = -b.y;
 				p = convertPointsToRectangle(a, b);
-				if(p.width < v.getCanvasWidth()/100 || p.height < v.getCanvasHeight()/100) return;
-				double ratio = v.getCanvasWidth() / v.getCanvasHeight();
-				if(p.width < p.height){
-					p.width = (int) ratio * p.height * 1.1; 
-					p.x *= 0.9;
+				temp = convertPointsToRectangle(a, b);
+				
+				if(temp.width < v.getCanvasWidth()/100 || temp.height < v.getCanvasHeight()/100) return; //Prevents the user from zooming in way too much.
+				
+				if(v.getCanvasHeight() * (temp.width/v.getCanvasWidth()) > temp.height){
+					p.height = v.getCanvasHeight() * temp.width/v.getCanvasWidth();
+					p.y = temp.y - (p.height - temp.height) / 2;
 				}
 				else{
-					p.height = (int) p.width / ratio * 1.1;
-					p.y *= 0.9;
+					p.width = v.getCanvasWidth() * temp.height/v.getCanvasHeight();
+					p.x = temp.x - (p.width - temp.width) / 2;
 				}
 				m.updateBounds(
-						new Rectangle2D.Double(p.x/v.getCanvasWidth() * m.getBounds().width + m.getBounds().x,
-								p.y/v.getCanvasHeight() * m.getBounds().height + m.getBounds().y,
-								p.width/v.getCanvasWidth() * m.getBounds().width,
-								p.height/v.getCanvasHeight() * m.getBounds().height));
+						new Rectangle2D.Double((p.x/v.getCanvasWidth()) * m.getBounds().width + m.getBounds().x,
+								(p.y/v.getCanvasHeight()) * m.getBounds().height + m.getBounds().y,
+								(p.width/v.getCanvasWidth()) * m.getBounds().width,
+								(p.height/v.getCanvasHeight()) * m.getBounds().height));
 				v.repaint(m.getLines());
 			}
 		});
@@ -129,24 +133,26 @@ public class Control {
 			private int oldHeight = v.getCanvasHeight();
 			
 			public void componentResize(ComponentEvent e){
-				//TODO implemenent this sheeeit
+				//TODO implement this shit
 			}
 		});
 	}
+	
 	private Rectangle2D.Double zoomRect(double factor, boolean zoom, Rectangle2D.Double old){
 		if(zoom){
 			return new Rectangle2D.Double(old.x + factor * old.width, //x is increased by the factor in proportion to the width
 					old.y + factor * old.height, //y is increased by the factor in proportion to the height
-					old.width - factor * old.width, //width is decreased by the factor
-					old.height - factor * old.height); //height is decreased by the factor
+					old.width - factor * old.width * 2, //width is decreased by the factor
+					old.height - factor * old.height * 2); //height is decreased by the factor
 		}
 		else{
 			return new Rectangle2D.Double(old.x - old.width * factor, //x is decreased by the factor in proportion to the width
 					old.y - old.height * factor, //y is decreased by the factor in proportion to the height
-					old.width + old.width * factor, //width is increased by the factor
-					old.height + old.height * factor);//height is increased by the factor
+					old.width + old.width * factor * 2, //width is increased by the factor
+					old.height + old.height * factor * 2);//height is increased by the factor
 		}
 	}
+	
 	private Rectangle2D.Double convertPointsToRectangle(Point a, Point b){
 
 		Rectangle2D.Double p;
