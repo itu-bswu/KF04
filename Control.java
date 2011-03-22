@@ -49,28 +49,28 @@ public class Control {
 		v.addUpListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double old = m.getBounds();
-				m.zoom(new Rectangle2D.Double(old.x, old.y + (-1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
+				m.updateBounds(new Rectangle2D.Double(old.x, old.y + (-1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
 				v.repaint(m.getLines());
 			}});
 		//Listener for "move-down" button.
 		v.addDownListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double old = m.getBounds();
-				m.zoom(new Rectangle2D.Double(old.x, old.y + (1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
+				m.updateBounds(new Rectangle2D.Double(old.x, old.y + (1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
 				v.repaint(m.getLines());
 			}});
 		//Listener for "move-left" button.
 		v.addLeftListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double old = m.getBounds();
-				m.zoom(new Rectangle2D.Double(old.x + (1 * old.width * MOVE_LENGTH), old.y, old.width, old.height));
+				m.updateBounds(new Rectangle2D.Double(old.x + (1 * old.width * MOVE_LENGTH), old.y, old.width, old.height));
 				v.repaint(m.getLines());
 			}});
 		//Listener for "move-right" button.
 		v.addRightListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double old = m.getBounds();
-				m.zoom(new Rectangle2D.Double(old.x + (1 * old.width * MOVE_LENGTH), old.y, old.width, old.height));
+				m.updateBounds(new Rectangle2D.Double(old.x + (1 * old.width * MOVE_LENGTH), old.y, old.width, old.height));
 				v.repaint(m.getLines());
 			}});
 		//Listener for "zoom-in" button.
@@ -94,11 +94,13 @@ public class Control {
 			private Point a = null;
 			private Point b = null;
 			private Rectangle2D.Double p = null;
+			
 			public void mousePressed(MouseEvent e){
 				a = e.getPoint();
 			}
+			
 			public void mouseReleased(MouseEvent e){
-				if(a == null) return;
+				if(a == null) return; //Tries to catch 
 				b = e.getPoint();
 				p = convertPointsToRectangle(a, b);
 				double ratio = v.getCanvasWidth() / v.getCanvasHeight();
