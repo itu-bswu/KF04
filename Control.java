@@ -89,6 +89,7 @@ public class Control {
 				m.zoom(zoomRect(ZOOM_LENGTH, false, old));
 				v.repaint(m.getLines());
 			}});
+>>>>>>> b5463e9f650b04e0a06cf61582921ecc0f2037cf
 		//Listener for "mouse zoom"
 		v.addCanvasMouseListener(new MouseAdapter(){
 			private Point a = null;

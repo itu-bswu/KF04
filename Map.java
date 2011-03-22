@@ -16,44 +16,41 @@ public class Map {
 
 	/**
 	 * Constructor
-	 * 
 	 * Initialize variables. 
 	 * Set the map to look at the entire graph.
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
 		System.out.println("Map object created");
 		this.graph = graph;
+		System.out.println(graph);
 		bounds = outerBounds();
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
-		//updateEdges();
+		qt.query(bounds);
 	}
 
 	/**
-	 * Zoom in or out of the graph
+	 * Update the bounds
 	 * @param view The rectangle of the view to zoom to.
 	 */
-
-	public void zoom(Rectangle2D.Double bounds) {
+	public void updateBounds(Rectangle2D.Double bounds) {
 		this.bounds = bounds;
-		//updateEdges();
+		qt.query(bounds);
 	}
 
 	/**
-	 * Checks whether an KrakEdge is inside the bounds
-	 * @param e	The KrakEdge to check
-	 * @return Is the KrakNode inside or not
+	 * Get the Width of the bounds
+	 * @return The width of the bounds
 	 */
-	private Boolean insideBounds(KrakEdge e) {
-		return (insideBounds(e.getStart())||insideBounds(e.getEnd()));
+	public double getBoundsWidth() {
+		return bounds.width;
 	}
 
 	/**
-	 * Checks whether an KrakEdge is inside the bounds
-	 * @param n	The KrakNode to check
-	 * @return Is the KrakNode inside or not
+	 * Get the height of the bounds
+	 * @return The height of the bounds
 	 */
-	private Boolean insideBounds(KrakNode n) {
-		return bounds.contains(new Point2D.Double(n.getX(),n.getY()));
+	public double getBoundsHeight() {
+		return bounds.height;
 	}
 
 	/**
@@ -69,6 +66,7 @@ public class Map {
 	 * @return The outer bounds
 	 */
 	private Rectangle2D.Double outerBounds() {
+		
 		System.out.println("establishing outer bounds of map");
 
 		double minX = -1;
@@ -210,7 +208,10 @@ public class Map {
 			}
 			lines.add(new Line(firstPoint,secondPoint,roadColor));
 		}
+<<<<<<< HEAD
+=======
 
+>>>>>>> b5463e9f650b04e0a06cf61582921ecc0f2037cf
 		return lines;
 	}
 
