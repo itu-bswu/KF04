@@ -60,6 +60,14 @@ public class Map {
 	public Rectangle2D.Double getBounds() {
 		return bounds;
 	}
+	
+	/**
+	 * Get ratio
+	 * @return the ratio
+	 */
+	public double getRatio() {
+		return bounds.width/bounds.height;
+	}
 
 	/**
 	 * Get the the bounds of the smallest possible rectangle, still showing the entire graph.
