@@ -319,7 +319,7 @@ public class View extends JFrame{
 
 		@Override
 		public void paint(Graphics g){
-			System.out.println("paint size: "+this.getWidth()+","+this.getHeight());
+			System.out.println("paint size: "+this.getWidth()+","+this.getHeight()+" lines="+lines.size());
 			for(Line l : lines){
 				g.setColor(l.getRoadColor());
 				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 

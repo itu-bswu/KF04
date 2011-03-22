@@ -37,4 +37,9 @@ public class Line {
 	public Color getRoadColor() {
 		return roadColor;
 	}
+	
+	@Override
+	public String toString(){
+		return "x1="+startPoint.x+" y1="+startPoint.y+" x2="+endPoint.x+" y2="+endPoint.y+" color="+roadColor;
+	}
 }
