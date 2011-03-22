@@ -1,3 +1,4 @@
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import java.util.Set;
 public class QuadTreeNode<T extends KrakEdge> {
 
 	public static final int MAX_CONTENT = 10000;
+	public static final int MAX_DISTANCE_POINT = 10;
 
 	private Rectangle2D.Double bounds;
 	private Set<T> contents;

@@ -23,6 +23,7 @@ import java.util.HashSet;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -45,6 +46,7 @@ public class View extends JFrame{
 	private JButton rightButton;
 	private JButton zoomInButton;
 	private JButton zoomOutButton;
+	private JLabel infobar;
 
 	/**
 	 * Creates the frame with the given header title and an initial set of lines to be drawn.
@@ -203,6 +205,14 @@ public class View extends JFrame{
 	public int getCanvasHeight(){
 		return canvas.getHeight();
 	}
+	
+	/**
+	 * Changes the text at the bottom of the window.
+	 * @param text The new text
+	 */
+	public void setLabel(String text){
+		infobar.setText(text);
+	}
 
 	private void createContent() {
 		// creating objects
@@ -216,6 +226,7 @@ public class View extends JFrame{
 		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
+		infobar = new JLabel("Emil rocks!");
 
 		// layouts & borders
 		outer.setLayout(new BorderLayout());
@@ -226,6 +237,7 @@ public class View extends JFrame{
 		// adding structure
 		outer.add(canvas,BorderLayout.CENTER);
 		outer.add(menuPanel,BorderLayout.WEST);
+		outer.add(infobar,BorderLayout.SOUTH);
 		menuPanel.add(navigationPanel);
 
 		setupNavigation(navigationPanel);

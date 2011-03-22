@@ -3,12 +3,16 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
+
 import graphlib.Graph;
 
 /**
  * Map class
  */
 public class Map {
+
+	private static final int ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
 	private Graph<KrakEdge,KrakNode> graph; 
@@ -60,7 +64,7 @@ public class Map {
 	public Rectangle2D.Double getBounds() {
 		return bounds;
 	}
-	
+
 	/**
 	 * Get ratio
 	 * @return the ratio
@@ -74,7 +78,7 @@ public class Map {
 	 * @return The outer bounds
 	 */
 	private Rectangle2D.Double outerBounds() {
-		
+
 		System.out.println("establishing outer bounds of map");
 
 		double minX = -1;
@@ -231,5 +235,29 @@ public class Map {
 		double ny = 1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight();
 
 		return new Point2D.Double(nx,ny);
+	}
+
+	private String closestRoad(Point2D.Double point){
+		// get all nearby roads
+		Set<KrakEdge> all = qt.query(new Rectangle2D.Double(point.x-this.ROAD_SEARCH_DISTANCE,point.y-this.ROAD_SEARCH_DISTANCE,
+				point.x+this.ROAD_SEARCH_DISTANCE,point.x+this.ROAD_SEARCH_DISTANCE));
+
+		// find the closest
+		double distance = Integer.MAX_VALUE;
+		KrakEdge closest = null;
+
+		for(KrakEdge edge : all){
+			double cur_dist = edge.getLine().ptLineDist(point);
+			if(cur_dist < distance){
+				distance = cur_dist;
+				closest = edge;
+			}
+		}
+
+		// return the name of the edge (road)
+		if(closest != null){
+			return closest.roadname;
+		}
+		return "";
 	}
 }
