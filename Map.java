@@ -227,5 +227,4 @@ public class Map {
 
 		return new Point2D.Double(nx,ny);
 	}
-
 }

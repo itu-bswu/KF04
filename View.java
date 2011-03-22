@@ -200,8 +200,16 @@ public class View extends JFrame{
 	 * @param m The MouseListener for the canvas.
 	 */
 	public void addCanvasMouseListener(MouseListener m){
-		System.out.println("adding mouselistener to canvas");
 		canvas.addMouseListener(m);
+	}
+	
+	/**
+	 * Adds a ComponentListener to the canvas component. This is to get events
+	 * from resizing the window and such.
+	 * @param c The ComponentListener for the canvas.
+	 */
+	public void addCanvasComponentListener(ComponentListener c){
+		canvas.addComponentListener(c);
 	}
 
 	/**
