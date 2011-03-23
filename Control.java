@@ -36,15 +36,21 @@ public class Control {
 	public Control() {
 		System.out.println("creating Control");
 		Graph<KrakEdge, KrakNode> g = null;
+		printRAM();
 		try {
 			g = KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
 		} catch (IOException e) {
 			System.out.println("A problem occured when trying to read input.");
 		}
+		printRAM();
 		System.out.println("Done loading data");
 		m = new Map(g);
-		v = new View(NAME, m.getLines(), m.getRatio());
+		printRAM();
+		v = new View(NAME, m.getRatio());
+		printRAM();
+		v.repaint(m.getLines());
 		addListeners();
+		printRAM();
 	}
 
 	private void addListeners(){
@@ -188,5 +194,9 @@ public class Control {
 			}
 		}
 		return p;
+	}
+	
+	private static void printRAM(){
+		System.out.println("Used Memory: "+(Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024)+" mb");
 	}
 }

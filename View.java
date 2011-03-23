@@ -53,11 +53,11 @@ public class View extends JFrame{
 	 * @param header The title for the frame.
 	 * @param first_lines The initial lines to be shown.
 	 */
-	public View(String header, Collection<Line> first_lines, double startRatio){
+	public View(String header, double startRatio){
 		super(header);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		canvas = new Canvas(first_lines);
+		canvas = new Canvas();
 
 		createContent();
 		canvasListener();
@@ -280,24 +280,19 @@ public class View extends JFrame{
 	private class Canvas extends JComponent{
 		private static final long serialVersionUID = 1L;
 
-		private Collection<Line> lines;
+		//private Collection<Line> lines;
 		private BufferedImage img = null;
-
-		public Canvas(Collection<Line> first_lines){
-			this.lines = first_lines;
-		}
 		
 		public Image getImage(){
 			return img;
 		}
 
 		public void updateLines(Collection<Line> lines){
-			this.lines = lines;
-			drawOffScreen();
+			drawOffScreen(lines);
 			this.repaint();
 		}
 
-		public void drawOffScreen(){
+		public void drawOffScreen(Collection<Line> lines){
 			img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
 			Graphics g = img.getGraphics();
 
@@ -319,8 +314,6 @@ public class View extends JFrame{
 		public void paint(Graphics g){
 			if(img != null){
 				g.drawImage(img, 0, 0, null);
-			}else{
-				drawOffScreen();
 			}
 			g.dispose();
 		}
@@ -335,6 +328,7 @@ public class View extends JFrame{
 		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK));
 		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK));
 
-		new View("X marks the spot",x,1.0);
+		View v = new View("X marks the spot",1.0);
+		v.repaint(x);
 	}
 }
