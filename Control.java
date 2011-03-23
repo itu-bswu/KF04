@@ -28,13 +28,14 @@ public class Control {
 	private final String edgeFile = "kdv_unload.txt"; //The edges used to construct the graph
 	private View v;
 	private Map m;
-	private Graph<KrakEdge, KrakNode> g;
+	//private Graph<KrakEdge, KrakNode> g;
 
 	/**
 	 * Contstructor for class Control
 	 */
 	public Control() {
 		System.out.println("creating Control");
+		Graph<KrakEdge, KrakNode> g = null;
 		try {
 			g = KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
 		} catch (IOException e) {

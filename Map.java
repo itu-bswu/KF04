@@ -3,6 +3,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import graphlib.Graph;
@@ -15,7 +16,7 @@ public class Map {
 	private static final int ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
-	private Graph<KrakEdge,KrakNode> graph; 
+	//private Graph<KrakEdge,KrakNode> graph; 
 	private QuadTree<KrakEdge> qt;
 
 	/**
@@ -25,9 +26,9 @@ public class Map {
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
 		System.out.println("Map object created");
-		this.graph = graph;
+		//this.graph = graph;
 		System.out.println(graph);
-		bounds = outerBounds();
+		bounds = outerBounds(graph.getNodes());
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
 		qt.query(bounds);
 	}
@@ -75,9 +76,10 @@ public class Map {
 
 	/**
 	 * Get the the bounds of the smallest possible rectangle, still showing the entire graph.
+	 * @param list 
 	 * @return The outer bounds
 	 */
-	private Rectangle2D.Double outerBounds() {
+	private Rectangle2D.Double outerBounds(List<KrakNode> list) {
 
 		System.out.println("establishing outer bounds of map");
 
@@ -86,7 +88,7 @@ public class Map {
 		double maxX = -1;
 		double maxY = -1;
 
-		for(KrakNode node : graph.getNodes()) {
+		for(KrakNode node : list) {
 
 			if (node == null) continue;
 
