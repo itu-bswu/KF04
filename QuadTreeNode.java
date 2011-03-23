@@ -27,7 +27,7 @@ public class QuadTreeNode<T extends KrakEdge> {
 	@SuppressWarnings("unchecked")
 	public QuadTreeNode(Rectangle2D.Double bounds, Set<T> content){
 		//System.out.print("creating QuadTreeNode of size "+content.size());
-		
+
 		// if there are too much content
 		if(content.size() > MAX_CONTENT){
 			// The sub-bounds
@@ -56,7 +56,7 @@ public class QuadTreeNode<T extends KrakEdge> {
 					}
 				}
 			}
-			
+
 			// saving all 4 nodes
 			for(int i = 0 ; i < 4 ; i++){
 				nodes.add(new QuadTreeNode<T>(rects[i], sets.get(i)));
@@ -95,7 +95,14 @@ public class QuadTreeNode<T extends KrakEdge> {
 			for(QuadTreeNode<T> item : nodes){
 				// if sub-node is within rectangle
 				if(item.getBounds().intersects(qarea)){
-					results.addAll(item.query(qarea));
+					Set<T> temp = item.query(qarea);
+					if(temp.size() > 0){
+						if(results.size() == 0){
+							results = item.query(qarea);
+						}else{
+							results.addAll(item.query(qarea));
+						}
+					}
 				}
 			}
 			return results;
