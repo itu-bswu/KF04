@@ -107,12 +107,13 @@ public class Control {
 			
 			public void mousePressed(MouseEvent e){
 				a = e.getPoint();
+				a.y = v.getCanvasHeight() -  a.y;
 			}
 			
 			public void mouseReleased(MouseEvent e){
 				if(a == null) return; //Tries to catch null pointer from weird mouse events. 
 				b = e.getPoint();
-				b.y = -b.y;
+				b.y = v.getCanvasHeight() - b.y;
 				p = convertPointsToRectangle(a, b);
 				temp = convertPointsToRectangle(a, b);
 				
@@ -128,7 +129,7 @@ public class Control {
 				}
 				m.updateBounds(
 						new Rectangle2D.Double((p.x/v.getCanvasWidth()) * m.getBounds().width + m.getBounds().x,
-								(p.y/v.getCanvasHeight()) * m.getBounds().height + m.getBounds().y,
+								((p.y)/v.getCanvasHeight()) * m.getBounds().height + m.getBounds().y,
 								(p.width/v.getCanvasWidth()) * m.getBounds().width,
 								(p.height/v.getCanvasHeight()) * m.getBounds().height));
 				v.repaint(m.getLines());
@@ -140,7 +141,7 @@ public class Control {
 				Rectangle2D.Double map = m.getBounds();
 				// convert pixel to meters
 				double x_m = map.x + (e.getX()/v.getCanvasWidth())*map.width;
-				double y_m = map.y + (e.getX()/v.getCanvasHeight())*map.height;
+				double y_m = map.y + (e.getY()/v.getCanvasHeight())*map.height;
 				
 				// set label to closest road
 				v.setLabel(m.getClosestRoad(new Point2D.Double(x_m,y_m)));
