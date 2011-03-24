@@ -137,15 +137,20 @@ public class Control {
 			
 			// display closest road's name
 			public void mouseClicked(MouseEvent e){
-				System.out.println("mouse clicked");
+				System.out.println("mouse clicked: x="+e.getX()+", y="+e.getY());
 				Rectangle2D.Double map = m.getBounds();
 				// convert pixel to meters
-				double x_m = map.x + (e.getX()/v.getCanvasWidth())*map.width;
-				double y_m = map.y + (e.getY()/v.getCanvasHeight())*map.height;
+				double x_m = map.x + ((double)e.getX()/v.getCanvasWidth())*map.width;
+				double y_m = map.y + (1 - (double)e.getY()/v.getCanvasHeight())*map.height;
+				
+				System.out.println("map coords: x="+x_m+", y="+y_m);
+				
+				System.out.println("y relation: view= "+(double)e.getY()/v.getCanvasHeight()+", map="+(1-(y_m-map.y)/map.height));
 				
 				// set label to closest road
-				v.setLabel(m.getClosestRoad(new Point2D.Double(x_m,y_m)));
-				System.out.println("done with road finding");
+				String result = m.getClosestRoad(new Point2D.Double(x_m,y_m));
+				v.setLabel(result);
+				System.out.println("found road: "+result);
 			}
 		});
 		//

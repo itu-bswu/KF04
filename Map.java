@@ -242,15 +242,17 @@ public class Map {
 	public String getClosestRoad(Point2D.Double point){
 		System.out.println("Finding closest road");
 		// get all nearby roads
-		Set<KrakEdge> all = qt.query(new Rectangle2D.Double(point.x-this.ROAD_SEARCH_DISTANCE,point.y-this.ROAD_SEARCH_DISTANCE,
-				point.x+this.ROAD_SEARCH_DISTANCE,point.x+this.ROAD_SEARCH_DISTANCE));
+		Set<KrakEdge> all = qt.query(new Rectangle2D.Double(point.x-Map.ROAD_SEARCH_DISTANCE,point.y-Map.ROAD_SEARCH_DISTANCE,
+				point.x+Map.ROAD_SEARCH_DISTANCE,point.y+Map.ROAD_SEARCH_DISTANCE));
 
 		// find the closest
 		double distance = Integer.MAX_VALUE;
 		KrakEdge closest = null;
 
+		System.out.println(all.size()+" roads within 200 meters");
 		for(KrakEdge edge : all){
 			double cur_dist = edge.getLine().ptLineDist(point);
+			//System.out.println("\t"+edge.roadname+" is "+(int)cur_dist+" meters away");
 			if(cur_dist < distance){
 				distance = cur_dist;
 				closest = edge;
