@@ -31,7 +31,7 @@ public class QuadTree<T extends KrakEdge>{
 		System.out.print("creating QuadTree ... ");
 		Stopwatch timer = new Stopwatch();
 		root = new QuadTreeNode<T>(bounds,content);
-		System.out.printf("%.2f sec\n",timer.getTime());
+		timer.printTime();
 	}
 
 	/**

@@ -119,16 +119,19 @@ public class Map {
 	 * @return All the lines.
 	 */
 	public Collection<Line> getLines() {
+		Stopwatch timer = new Stopwatch("Making Lines");
 		HashSet<Line> lines = new HashSet<Line>();
 		for (KrakEdge e : qt.query(bounds)) {
 			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 			//Choosing the right color to each line
 			Color roadColor = new Color(0x000000);
+			int thickness = 1;
 			switch(e.type){
 			case 1:
 				//motorvej
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 			case 2:
 				//Motortrafikvej
@@ -220,8 +223,10 @@ public class Map {
 				break;
 
 			}
-			lines.add(new Line(firstPoint,secondPoint,roadColor));
+			lines.add(new Line(firstPoint,secondPoint,roadColor,thickness));
+			// TODO: Thickness (last argument) should be chosen
 		}
+		timer.printTime();
 		return lines;
 	}
 
@@ -258,9 +263,11 @@ public class Map {
 				closest = edge;
 			}
 		}
+		
 
 		// return the name of the edge (road)
 		if(closest != null){
+			System.out.println("found road: "+closest.roadname+" "+distance+" meters away");
 			return closest.roadname;
 		}
 		return "";
