@@ -105,6 +105,7 @@ public class QuadTreeNode<T extends KrakEdge> {
 					}
 				}
 			}
+			//System.out.println("sending back "+results.size()+" edges");
 			return results;
 		}else{
 			return contents;
