@@ -148,9 +148,7 @@ public class Control {
 				System.out.println("y relation: view= "+(double)e.getY()/v.getCanvasHeight()+", map="+(1-(y_m-map.y)/map.height));
 				
 				// set label to closest road
-				String result = m.getClosestRoad(new Point2D.Double(x_m,y_m));
-				v.setLabel(result);
-				System.out.println("found road: "+result);
+				v.setLabel(m.getClosestRoad(new Point2D.Double(x_m,y_m)));
 			}
 		});
 		//

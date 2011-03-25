@@ -25,6 +25,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
@@ -226,7 +227,7 @@ public class View extends JFrame{
 		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
-		infobar = new JLabel("Emil rocks!");
+		infobar = new JLabel("Emil rocks!",SwingConstants.CENTER);
 
 		// layouts & borders
 		outer.setLayout(new BorderLayout());

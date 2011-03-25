@@ -258,9 +258,11 @@ public class Map {
 				closest = edge;
 			}
 		}
+		
 
 		// return the name of the edge (road)
 		if(closest != null){
+			System.out.println("found road: "+closest.roadname+" "+distance+" meters away");
 			return closest.roadname;
 		}
 		return "";
