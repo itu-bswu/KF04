@@ -220,7 +220,8 @@ public class Map {
 				break;
 
 			}
-			lines.add(new Line(firstPoint,secondPoint,roadColor));
+			lines.add(new Line(firstPoint,secondPoint,roadColor,1));
+			// TODO: Thickness (last argument) should be chosen
 		}
 		return lines;
 	}
