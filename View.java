@@ -1,7 +1,9 @@
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -25,6 +27,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
@@ -226,7 +229,7 @@ public class View extends JFrame{
 		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
-		infobar = new JLabel("Emil rocks!");
+		infobar = new JLabel("Emil rocks!",SwingConstants.CENTER);
 
 		// layouts & borders
 		outer.setLayout(new BorderLayout());
@@ -294,7 +297,7 @@ public class View extends JFrame{
 
 		public void drawOffScreen(Collection<Line> lines){
 			img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
-			Graphics g = img.getGraphics();
+			Graphics2D g = (Graphics2D) img.getGraphics();
 
 			// draw background
 			g.setColor(getBackground());
@@ -302,6 +305,7 @@ public class View extends JFrame{
 			// draw lines
 			for(Line l : lines){
 				g.setColor(l.getRoadColor());
+				g.setStroke(new BasicStroke(l.getThickness()));
 				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
 						(int)(l.getStartPoint().y*this.getHeight()),
 						(int)(l.getEndPoint().x*this.getWidth()),
@@ -325,8 +329,8 @@ public class View extends JFrame{
 	 */
 	public static void main(String[] args){
 		Collection<Line> x = new HashSet<Line>();
-		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK));
-		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK));
+		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1));
+		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2));
 
 		View v = new View("X marks the spot",1.0);
 		v.repaint(x);

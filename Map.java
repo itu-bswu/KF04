@@ -220,7 +220,8 @@ public class Map {
 				break;
 
 			}
-			lines.add(new Line(firstPoint,secondPoint,roadColor));
+			lines.add(new Line(firstPoint,secondPoint,roadColor,1));
+			// TODO: Thickness (last argument) should be chosen
 		}
 		return lines;
 	}
@@ -258,9 +259,11 @@ public class Map {
 				closest = edge;
 			}
 		}
+		
 
 		// return the name of the edge (road)
 		if(closest != null){
+			System.out.println("found road: "+closest.roadname+" "+distance+" meters away");
 			return closest.roadname;
 		}
 		return "";
