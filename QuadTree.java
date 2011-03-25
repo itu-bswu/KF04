@@ -23,10 +23,14 @@ public class QuadTree<T extends KrakEdge>{
 	
 	QuadTreeNode<T> root;
 
-	public QuadTree(Rectangle2D.Double bounds, Set<T> content){
+	public QuadTree(Rectangle2D.Double bounds, Set<T> content) {
 		System.out.print("creating QuadTree ... ");
 		Stopwatch timer = new Stopwatch();
-		root = new QuadTreeNode<T>(bounds,content);
+		int zoomLevel = 0;
+		
+		// Kald divide funktionen. Lav derefter en ny node der får sættet med de største veje. (set1)
+		
+		root = new QuadTreeNode<T>(bounds,content,zoomLevel);
 		System.out.printf("%.2f sec\n",timer.getTime());
 	}
 
@@ -35,7 +39,18 @@ public class QuadTree<T extends KrakEdge>{
 	 * @param qarea The rectangle for which to find all KrakEdges
 	 * @return A Set with all KrakEdges within the given Rectangle
 	 */
-	public Set<T> query(Rectangle2D.Double qarea){
-		return root.query(qarea);
+	public Set<T> query(Rectangle2D.Double qarea, int zoomLevel){
+		return root.query(qarea, zoomLevel);
 	}
+	
+	/**
+	 * Divide the types of roads into different sets.
+	 * 
+	 * If zoomLevel is too high, return null;
+	 */
+	public static Set<KrakEdge> getEdges(int zoomLevel) {
+		return null;
+	}
+	
+	
 }
