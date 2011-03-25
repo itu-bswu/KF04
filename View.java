@@ -296,6 +296,7 @@ public class View extends JFrame{
 		}
 
 		public void drawOffScreen(Collection<Line> lines){
+			Stopwatch timer = new Stopwatch("Drawing");
 			img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
 			Graphics2D g = (Graphics2D) img.getGraphics();
 
@@ -312,6 +313,7 @@ public class View extends JFrame{
 						(int)(l.getEndPoint().y*this.getHeight()));
 			}
 			g.dispose();
+			timer.printTime();
 		}
 
 		@Override

@@ -24,10 +24,9 @@ public class QuadTree<T extends KrakEdge>{
 	QuadTreeNode<T> root;
 
 	public QuadTree(Rectangle2D.Double bounds, Set<T> content){
-		System.out.print("creating QuadTree ... ");
-		Stopwatch timer = new Stopwatch();
+		Stopwatch timer = new Stopwatch("Creating QuadTree");
 		root = new QuadTreeNode<T>(bounds,content);
-		System.out.printf("%.2f sec\n",timer.getTime());
+		timer.printTime();
 	}
 
 	/**
