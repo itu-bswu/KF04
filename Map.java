@@ -13,23 +13,17 @@ import graphlib.Graph;
  */
 public class Map {
 
-	private static final double ROAD_SEARCH_DISTANCE = 0.2;
+	private static final double ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
-	//private Graph<KrakEdge,KrakNode> graph; 
 	private QuadTree<KrakEdge> qt;
 
-	private final int ZOOMVALUE = 10000;
-	
 	/**
 	 * Constructor
 	 * Initialize variables. 
 	 * Set the map to look at the entire graph.
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
-		System.out.println("Map object created");
-		//this.graph = graph;
-		System.out.println(graph);
 		bounds = outerBounds(graph.getNodes());
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
 	}
@@ -48,8 +42,8 @@ public class Map {
 	public int zoomLevel() {
 		return 5;//(int)(bounds.width*bounds.height/ZOOMVALUE);
 	}
-	
-	
+
+
 	/**
 	 * Get the Width of the bounds
 	 * @return The width of the bounds
@@ -258,30 +252,37 @@ public class Map {
 	 * @return
 	 */
 	public String getClosestRoad(Point2D.Double point){
-		System.out.println("Finding closest road");
+		//System.out.println("Finding closest road");
 		// get all nearby roads
-		//TODO Kunne man evt hente de roads fra et hurtigere sted? map f.eks. ?? Er der t¾nkt over dette? - Jens
-		Set<KrakEdge> all = qt.query(new Rectangle2D.Double(point.x-Map.ROAD_SEARCH_DISTANCE,point.y-Map.ROAD_SEARCH_DISTANCE,
-				point.x+Map.ROAD_SEARCH_DISTANCE,point.x+Map.ROAD_SEARCH_DISTANCE));
+
+		//System.out.println(point);
+
+		Rectangle2D.Double search_area = new Rectangle2D.Double(point.x - Map.ROAD_SEARCH_DISTANCE,
+				point.y - Map.ROAD_SEARCH_DISTANCE,
+				2*Map.ROAD_SEARCH_DISTANCE,
+				2*Map.ROAD_SEARCH_DISTANCE);
+		Set<KrakEdge> all = qt.query(search_area);
 
 		// find the closest
 		double distance = Integer.MAX_VALUE;
 		KrakEdge closest = null;
 
-		System.out.println(all.size()+" roads within 200 meters");
+		//System.out.println(all.size()+" roads within 200 meters");
 		for(KrakEdge edge : all){
-			double cur_dist = edge.getLine().ptLineDist(point);
-			//System.out.println("\t"+edge.roadname+" is "+(int)cur_dist+" meters away");
-			if(cur_dist < distance){
-				distance = cur_dist;
-				closest = edge;
+			if(edge.roadname.length() > 1){
+				double cur_dist = edge.getLine().ptSegDist(point);
+				//System.out.println("\t"+edge.roadname+" is "+(int)cur_dist+" meters away");
+				if(cur_dist < distance){
+					distance = cur_dist;
+					closest = edge;
+				}
 			}
 		}
-		
+
 
 		// return the name of the edge (road)
 		if(closest != null){
-			System.out.printf("found road: "+closest.roadname+" %.2f meters away\n",distance);
+			//System.out.printf("found road: "+closest.roadname+" %.2f meters away\n",distance);
 			return closest.roadname;
 		}
 		return "";

@@ -172,8 +172,9 @@ public class View extends JFrame{
 	 * Adds a MouseListener to the canvas component.
 	 * @param m The MouseListener for the canvas.
 	 */
-	public void addCanvasMouseListener(MouseListener m){
+	public void addCanvasMouseListener(MouseAdapter m){
 		canvas.addMouseListener(m);
+		canvas.addMouseMotionListener(m);
 	}
 
 	/**

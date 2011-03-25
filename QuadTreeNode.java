@@ -13,7 +13,6 @@ import java.util.Set;
 public class QuadTreeNode<T extends KrakEdge> {
 
 	public static final int MAX_CONTENT = 10000;
-	public static final int MAX_DISTANCE_POINT = 10;
 
 	private Rectangle2D.Double bounds;
 	private Set<T> contents;
@@ -31,10 +30,10 @@ public class QuadTreeNode<T extends KrakEdge> {
 		// if there are too much content
 		if(content.size() > MAX_CONTENT){
 			// The sub-bounds
-			Rectangle2D.Double nw = new Rectangle2D.Double(bounds.x, bounds.y, bounds.width/2, bounds.height/2);
-			Rectangle2D.Double ne = new Rectangle2D.Double(bounds.x+bounds.width/2, bounds.y, bounds.width/2, bounds.height/2);
-			Rectangle2D.Double sw = new Rectangle2D.Double(bounds.x, bounds.y+bounds.height/2, bounds.width/2, bounds.height/2);
-			Rectangle2D.Double se = new Rectangle2D.Double(bounds.x+bounds.width/2, bounds.y+bounds.height/2, bounds.width/2, bounds.height/2);
+			Rectangle2D.Double nw = new Rectangle2D.Double(bounds.x, bounds.y, bounds.width/2.0, bounds.height/2.0);
+			Rectangle2D.Double ne = new Rectangle2D.Double(bounds.x+bounds.width/2.0, bounds.y, bounds.width/2.0, bounds.height/2.0);
+			Rectangle2D.Double sw = new Rectangle2D.Double(bounds.x, bounds.y+bounds.height/2.0, bounds.width/2.0, bounds.height/2.0);
+			Rectangle2D.Double se = new Rectangle2D.Double(bounds.x+bounds.width/2.0, bounds.y+bounds.height/2.0, bounds.width/2.0, bounds.height/2.0);
 			Rectangle2D.Double[] rects = new Rectangle2D.Double[]{nw,ne,sw,se};
 
 			// the sets of Krakedges

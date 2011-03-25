@@ -34,7 +34,6 @@ public class Control {
 	 * Contstructor for class Control
 	 */
 	public Control() {
-		System.out.println("creating Control");
 		Graph<KrakEdge, KrakNode> g = null;
 		printRAM();
 		try {
@@ -119,31 +118,11 @@ public class Control {
 				fixRatio(p, m.getBounds());
 				m.updateBounds(p);
 				v.repaint(m.getLines());
-				/*b.y = v.getCanvasHeight() - b.y;
-				p = pointsToRectangle(a, b);
-				temp = pointsToRectangle(a, b);
-
-				if(temp.width < v.getCanvasWidth()/100 || temp.height < v.getCanvasHeight()/100) return; //Prevents the user from zooming in way too much.
-
-				if(v.getCanvasHeight() * (temp.width/v.getCanvasWidth()) > temp.height){
-					p.height = v.getCanvasHeight() * temp.width/v.getCanvasWidth();
-					p.y = temp.y - (p.height - temp.height) / 2;
-				}
-				else{
-					p.width = v.getCanvasWidth() * temp.height/v.getCanvasHeight();
-					p.x = temp.x - (p.width - temp.width) / 2;
-				}
-				m.updateBounds(
-						point2DToRectangle(
-								pixelToUTM(new Point((int) p.x, (int) p.y)),
-								pixelToUTM(new Point((int) (p.width + p.x), (int) (p.height + p.y))
-								)));
-				 */
 			}
 
 			// display closest road's name
-			public void mouseClicked(MouseEvent e){
-				System.out.println("mouse clicked");
+			@Override
+			public void mouseMoved(MouseEvent e){
 				// set label to closest road
 				v.setLabel(m.getClosestRoad(pixelToUTM(e.getPoint())));
 			}
