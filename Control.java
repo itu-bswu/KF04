@@ -113,9 +113,9 @@ public class Control {
 			public void mouseReleased(MouseEvent e){
 				if(a == null) return; //Tries to catch null pointer from weird mouse events. 
 				b = e.getPoint();
-				b.y = v.getCanvasHeight() - b.y;
-				p = convertPointsToRectangle(a, b);
-				temp = convertPointsToRectangle(a, b);
+				//b.y = v.getCanvasHeight() - b.y;
+				p = pointsToRectangle(a, b);
+				temp = pointsToRectangle(a, b);
 				
 				if(temp.width < v.getCanvasWidth()/100 || temp.height < v.getCanvasHeight()/100) return; //Prevents the user from zooming in way too much.
 				
@@ -128,27 +128,23 @@ public class Control {
 					p.x = temp.x - (p.width - temp.width) / 2;
 				}
 				m.updateBounds(
-						new Rectangle2D.Double((p.x/v.getCanvasWidth()) * m.getBounds().width + m.getBounds().x,
-								((p.y)/v.getCanvasHeight()) * m.getBounds().height + m.getBounds().y,
-								(p.width/v.getCanvasWidth()) * m.getBounds().width,
-								(p.height/v.getCanvasHeight()) * m.getBounds().height));
+						point2DToRectangle(
+								pixelToUTM(new Point((int) p.x, (int) p.y)),
+								pixelToUTM(new Point((int) (p.width + p.x), (int) (p.height + p.y))
+								)));
+						/*(p.x/v.getCanvasWidth()) * m.getBounds().width + m.getBounds().x,
+						((p.y)/v.getCanvasHeight()) * m.getBounds().height + m.getBounds().y,
+						(p.width/v.getCanvasWidth()) * m.getBounds().width,
+						(p.height/v.getCanvasHeight()) * m.getBounds().height)*/
 				v.repaint(m.getLines());
 			}
 			
 			// display closest road's name
 			public void mouseClicked(MouseEvent e){
-				System.out.println("mouse clicked: x="+e.getX()+", y="+e.getY());
-				Rectangle2D.Double map = m.getBounds();
-				// convert pixel to meters
-				double x_m = map.x + ((double)e.getX()/v.getCanvasWidth())*map.width;
-				double y_m = map.y + (1 - (double)e.getY()/v.getCanvasHeight())*map.height;
-				
-				System.out.println("map coords: x="+x_m+", y="+y_m);
-				
-				System.out.println("y relation: view= "+(double)e.getY()/v.getCanvasHeight()+", map="+(1-(y_m-map.y)/map.height));
-				
+				System.out.println("mouse clicked");
 				// set label to closest road
-				v.setLabel(m.getClosestRoad(new Point2D.Double(x_m,y_m)));
+				v.setLabel(m.getClosestRoad(pixelToUTM(e.getPoint())));
+				System.out.println("done with road finding");
 			}
 		});
 		//
@@ -177,8 +173,7 @@ public class Control {
 		}
 	}
 	
-	private Rectangle2D.Double convertPointsToRectangle(Point a, Point b){
-
+	private Rectangle2D.Double pointsToRectangle(Point a, Point b){
 		Rectangle2D.Double p;
 		if(b.x < a.x){
 			if(b.y < a.y){
@@ -200,7 +195,20 @@ public class Control {
 		return p;
 	}
 	
+	private Rectangle2D.Double point2DToRectangle(Point2D.Double a, Point2D.Double b){
+		return new Rectangle2D.Double(a.x, a.y, (b.x - a.x), (b.y - a.y));
+	}
+	
 	private static void printRAM(){
 		System.out.println("Used Memory: "+(Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024)+" mb");
 	}
+	
+	private Point2D.Double pixelToUTM(Point e){
+		Rectangle2D.Double map = m.getBounds();
+		e.y = v.getCanvasHeight() - e.y;
+		// convert pixel to meters
+		double x_m = map.x + (e.getX()/v.getCanvasWidth()) * map.width;
+		double y_m = map.y + (e.getY()/v.getCanvasHeight()) * map.height;
+		return new Point2D.Double(x_m, y_m);
+		}
 }
