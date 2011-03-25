@@ -85,4 +85,12 @@ public class KrakEdge extends Edge<KrakNode> {
 	public static void clear() {
 		interner = null;
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public String toString() {
+		return "E("+ (int)(n1.getX()-722467) + "," + (int)(n1.getY()-6183245) + ")";
+	}
 }

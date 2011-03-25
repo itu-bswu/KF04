@@ -19,6 +19,8 @@ public class Map {
 	//private Graph<KrakEdge,KrakNode> graph; 
 	private QuadTree<KrakEdge> qt;
 
+	private final int ZOOMVALUE = 10000;
+	
 	/**
 	 * Constructor
 	 * Initialize variables. 
@@ -30,7 +32,6 @@ public class Map {
 		System.out.println(graph);
 		bounds = outerBounds(graph.getNodes());
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
-		qt.query(bounds);
 	}
 
 	/**
@@ -39,9 +40,16 @@ public class Map {
 	 */
 	public void updateBounds(Rectangle2D.Double bounds) {
 		this.bounds = bounds;
-		qt.query(bounds);
 	}
 
+	/**
+	 * Calculates the zoom Level from the bounds
+	 */
+	public int zoomLevel() {
+		return 5;//(int)(bounds.width*bounds.height/ZOOMVALUE);
+	}
+	
+	
 	/**
 	 * Get the Width of the bounds
 	 * @return The width of the bounds
@@ -121,7 +129,7 @@ public class Map {
 	public Collection<Line> getLines() {
 		Stopwatch timer = new Stopwatch("Making Lines");
 		HashSet<Line> lines = new HashSet<Line>();
-		for (KrakEdge e : qt.query(bounds)) {
+		for (KrakEdge e : qt.query(bounds,zoomLevel())) {
 			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 			//Choosing the right color to each line
@@ -244,11 +252,17 @@ public class Map {
 		return new Point2D.Double(nx,ny);
 	}
 
+	/**
+	 * 
+	 * @param point
+	 * @return
+	 */
 	public String getClosestRoad(Point2D.Double point){
 		System.out.println("Finding closest road");
 		// get all nearby roads
-		Set<KrakEdge> all = qt.query(new Rectangle2D.Double(point.x-Map.ROAD_SEARCH_DISTANCE,point.y-Map.ROAD_SEARCH_DISTANCE,
-				point.x+Map.ROAD_SEARCH_DISTANCE,point.y+Map.ROAD_SEARCH_DISTANCE));
+		//TODO Kunne man evt hente de roads fra et hurtigere sted? map f.eks. ?? Er der t¾nkt over dette? - Jens
+		Set<KrakEdge> all = qt.query(new Rectangle2D.Double(point.x-this.ROAD_SEARCH_DISTANCE,point.y-this.ROAD_SEARCH_DISTANCE,
+				point.x+this.ROAD_SEARCH_DISTANCE,point.x+this.ROAD_SEARCH_DISTANCE),zoomLevel());
 
 		// find the closest
 		double distance = Integer.MAX_VALUE;
@@ -267,7 +281,7 @@ public class Map {
 
 		// return the name of the edge (road)
 		if(closest != null){
-			System.out.println("found road: "+closest.roadname+" "+distance+" meters away");
+			System.out.printf("found road: "+closest.roadname+" %.2f meters away/n",distance);
 			return closest.roadname;
 		}
 		return "";

@@ -146,7 +146,6 @@ public class Control {
 				System.out.println("mouse clicked");
 				// set label to closest road
 				v.setLabel(m.getClosestRoad(pixelToUTM(e.getPoint())));
-				System.out.println("done with road finding");
 			}
 		});
 		//
@@ -154,8 +153,24 @@ public class Control {
 			private int oldWidth = v.getCanvasWidth();
 			private int oldHeight = v.getCanvasHeight();
 
-			public void componentResize(ComponentEvent e){
-				//TODO implement this shit
+			@Override
+			public void componentResized(ComponentEvent e){
+				Stopwatch timer = new Stopwatch("Adjusting to resize");
+				Rectangle2D.Double map = m.getBounds();
+				int newWidth = v.getCanvasWidth();
+				int newHeight = v.getCanvasHeight();
+				
+				double x_adjust = map.width*(((double)newWidth - oldWidth)/oldWidth);
+				double y_adjust = map.height*(((double)newHeight - oldHeight)/oldHeight);
+				
+				m.updateBounds(new Rectangle2D.Double(map.x, map.y - y_adjust, map.width + x_adjust,
+						map.height + y_adjust));
+				
+				oldWidth = newWidth;
+				oldHeight = newHeight;
+				
+				timer.printTime();
+				v.repaint(m.getLines());
 			}
 		});
 	}
