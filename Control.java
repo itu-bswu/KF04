@@ -103,22 +103,30 @@ public class Control {
 			private Point a = null;
 			private Point b = null;
 			private Rectangle2D.Double p = null;
-			private Rectangle2D.Double temp = null;
-			
+			//private Rectangle2D.Double temp = null;
+
 			public void mousePressed(MouseEvent e){
 				a = e.getPoint();
 				a.y = v.getCanvasHeight() -  a.y;
 			}
-			
+
 			public void mouseReleased(MouseEvent e){
-				if(a == null) return; //Tries to catch null pointer from weird mouse events. 
+				if(a == null) return; //Tries to catch null pointer from weird mouse events.
+				
 				b = e.getPoint();
-				//b.y = v.getCanvasHeight() - b.y;
+				p = point2DToRectangle(pixelToUTM(a), pixelToUTM(b));
+				
+				if(p.width < v.getCanvasWidth()/100 || p.height < v.getCanvasHeight()/100) return; //Prevents the user from zooming in way too much.
+				
+				fixRatio(p, m.getBounds());
+				m.updateBounds(p);
+				v.repaint(m.getLines());
+				/*b.y = v.getCanvasHeight() - b.y;
 				p = pointsToRectangle(a, b);
 				temp = pointsToRectangle(a, b);
-				
+
 				if(temp.width < v.getCanvasWidth()/100 || temp.height < v.getCanvasHeight()/100) return; //Prevents the user from zooming in way too much.
-				
+
 				if(v.getCanvasHeight() * (temp.width/v.getCanvasWidth()) > temp.height){
 					p.height = v.getCanvasHeight() * temp.width/v.getCanvasWidth();
 					p.y = temp.y - (p.height - temp.height) / 2;
@@ -132,13 +140,9 @@ public class Control {
 								pixelToUTM(new Point((int) p.x, (int) p.y)),
 								pixelToUTM(new Point((int) (p.width + p.x), (int) (p.height + p.y))
 								)));
-						/*(p.x/v.getCanvasWidth()) * m.getBounds().width + m.getBounds().x,
-						((p.y)/v.getCanvasHeight()) * m.getBounds().height + m.getBounds().y,
-						(p.width/v.getCanvasWidth()) * m.getBounds().width,
-						(p.height/v.getCanvasHeight()) * m.getBounds().height)*/
-				v.repaint(m.getLines());
+				*/
 			}
-			
+
 			// display closest road's name
 			public void mouseClicked(MouseEvent e){
 				System.out.println("mouse clicked");
@@ -151,13 +155,13 @@ public class Control {
 		v.addCanvasComponentListener(new ComponentAdapter(){
 			private int oldWidth = v.getCanvasWidth();
 			private int oldHeight = v.getCanvasHeight();
-			
+
 			public void componentResize(ComponentEvent e){
 				//TODO implement this shit
 			}
 		});
 	}
-	
+
 	private Rectangle2D.Double zoomRect(double factor, boolean zoom, Rectangle2D.Double old){
 		if(zoom){
 			return new Rectangle2D.Double(old.x + factor * old.width, //x is increased by the factor in proportion to the width
@@ -172,8 +176,8 @@ public class Control {
 					old.height + old.height * factor * 2);//height is increased by the factor
 		}
 	}
-	
-	private Rectangle2D.Double pointsToRectangle(Point a, Point b){
+
+	private Rectangle2D.Double pointToRectangle(Point a, Point b){
 		Rectangle2D.Double p;
 		if(b.x < a.x){
 			if(b.y < a.y){
@@ -194,15 +198,15 @@ public class Control {
 		}
 		return p;
 	}
-	
+
 	private Rectangle2D.Double point2DToRectangle(Point2D.Double a, Point2D.Double b){
 		return new Rectangle2D.Double(a.x, a.y, (b.x - a.x), (b.y - a.y));
 	}
-	
+
 	private static void printRAM(){
 		System.out.println("Used Memory: "+(Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024)+" mb");
 	}
-	
+
 	private Point2D.Double pixelToUTM(Point e){
 		Rectangle2D.Double map = m.getBounds();
 		e.y = v.getCanvasHeight() - e.y;
@@ -210,5 +214,18 @@ public class Control {
 		double x_m = map.x + (e.getX()/v.getCanvasWidth()) * map.width;
 		double y_m = map.y + (e.getY()/v.getCanvasHeight()) * map.height;
 		return new Point2D.Double(x_m, y_m);
+	}
+	
+	private void fixRatio(Rectangle2D.Double a, Rectangle2D.Double b){
+		if(a.width < a.height){
+			double temp = a.width;	
+			a.width = (b.width/b.height) * a.height;
+			a.x = a.x - (a.width - temp) / 2;
+			}
+		else{
+			double temp = a.height;	
+			a.height = a.width / (b.width/b.height);
+			a.y = a.y - (a.height - temp) / 2;
 		}
+	}
 }
