@@ -92,6 +92,7 @@ public class Graph<E extends Edge<N>, N extends Node> {
 		return all;
 	}
 	
+	
 	/**
 	 * @return Reverse edges
 	 */

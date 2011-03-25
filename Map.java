@@ -127,16 +127,19 @@ public class Map {
 	 * @return All the lines.
 	 */
 	public Collection<Line> getLines() {
+		Stopwatch timer = new Stopwatch("Making Lines");
 		HashSet<Line> lines = new HashSet<Line>();
 		for (KrakEdge e : qt.query(bounds,zoomLevel())) {
 			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 			//Choosing the right color to each line
 			Color roadColor = new Color(0x000000);
+			int thickness = 1;
 			switch(e.type){
 			case 1:
 				//motorvej
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 			case 2:
 				//Motortrafikvej
@@ -228,8 +231,10 @@ public class Map {
 				break;
 
 			}
-			lines.add(new Line(firstPoint,secondPoint,roadColor));
+			lines.add(new Line(firstPoint,secondPoint,roadColor,thickness));
+			// TODO: Thickness (last argument) should be chosen
 		}
+		timer.printTime();
 		return lines;
 	}
 
@@ -263,16 +268,20 @@ public class Map {
 		double distance = Integer.MAX_VALUE;
 		KrakEdge closest = null;
 
+		System.out.println(all.size()+" roads within 200 meters");
 		for(KrakEdge edge : all){
 			double cur_dist = edge.getLine().ptLineDist(point);
+			//System.out.println("\t"+edge.roadname+" is "+(int)cur_dist+" meters away");
 			if(cur_dist < distance){
 				distance = cur_dist;
 				closest = edge;
 			}
 		}
+		
 
 		// return the name of the edge (road)
 		if(closest != null){
+			System.out.println("found road: "+closest.roadname+" "+distance+" meters away");
 			return closest.roadname;
 		}
 		return "";

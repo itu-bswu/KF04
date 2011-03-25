@@ -31,30 +31,34 @@ public class QuadTreeNode<T extends KrakEdge> {
 		this.bounds = bounds;
 		this.zoomDepth = zoomDepth;
 		
-		
+		System.out.println("Number of edges:" + edges.size()); 
+		System.out.println(this); 
 		
 		if(edges.size() > MAX_CONTENT){
 			//Hvis der ikke er plads, split
-			split((Set<KrakEdge>) edges);
 			
-			
+			System.out.println("IKKE PLADS"); 
+			split((Set<KrakEdge>) edges,zoomDepth);
 			
 			
 		}else{
+			
+			
+			System.out.println("PLADS"); 
+			
 			//Hvis der er plads, set content, og split med mindre veje
 			contents = edges;
-			split(QuadTree.getEdges(zoomDepth + 1));
+			split(QuadTree.getEdges(zoomDepth + 1),zoomDepth+1);
+			
 			
 		}
-		
-		System.out.println(this); 
 		
 	}
 
 	/**
 	 * Splits the rectangle into four smaller rectangles. Each of these rectangles is set to contain the set of edges that intersects them.
 	 */
-	private void split(Set<KrakEdge> set) {
+	private void split(Set<KrakEdge> set,int zoomLevel) {
 		
 		if (set == null) {return;};
 		
@@ -88,7 +92,7 @@ public class QuadTreeNode<T extends KrakEdge> {
 
 		// saving all 4 nodes
 		for(int i = 0 ; i < 4 ; i++){
-			nodes.add(new QuadTreeNode<T>(rects[i], sets.get(i), zoomDepth+1));
+			nodes.add(new QuadTreeNode<T>(rects[i], sets.get(i), zoomLevel));
 		}
 	}
 	
@@ -120,6 +124,8 @@ public class QuadTreeNode<T extends KrakEdge> {
 			str += " - ";
 		
 		str += "Node("+ (int)(bounds.x-722467) + "," + (int)(bounds.y-6183245) + ")";
+		
+		str += "depth: " + zoomDepth;
 		
 		if (contents != null) {
 			str += " :" + contents;
@@ -155,6 +161,7 @@ public class QuadTreeNode<T extends KrakEdge> {
 					}
 				}
 			}
+			//System.out.println("sending back "+results.size()+" edges");
 			return results;
 		}else{
 			return contents;
