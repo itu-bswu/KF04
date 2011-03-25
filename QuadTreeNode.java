@@ -31,20 +31,20 @@ public class QuadTreeNode<T extends KrakEdge> {
 		this.bounds = bounds;
 		this.zoomDepth = zoomDepth;
 		
-		System.out.println("Number of edges:" + edges.size()); 
-		System.out.println(this); 
+//		System.out.println("Number of edges:" + edges.size()); 
+//		System.out.println(this); 
 		
 		if(edges.size() > MAX_CONTENT){
 			//Hvis der ikke er plads, split
 			
-			System.out.println("IKKE PLADS"); 
+//			System.out.println("IKKE PLADS"); 
 			split((Set<KrakEdge>) edges,zoomDepth);
 			
 			
 		}else{
 			
 			
-			System.out.println("PLADS"); 
+//			System.out.println("PLADS"); 
 			
 			//Hvis der er plads, set content, og split med mindre veje
 			contents = edges;
