@@ -107,17 +107,15 @@ public class Control {
 
 			public void mousePressed(MouseEvent e){
 				a = e.getPoint();
-				a.y = v.getCanvasHeight() -  a.y;
+				//a.y = v.getCanvasHeight() -  a.y;
 			}
 
 			public void mouseReleased(MouseEvent e){
 				if(a == null) return; //Tries to catch null pointer from weird mouse events.
-				
+
 				b = e.getPoint();
+				if(Math.abs(b.x - a.x) < v.getCanvasWidth()/100 || Math.abs(b.y - a.y) < v.getCanvasHeight()/100) return; //Prevents the user from zooming in way too much.
 				p = point2DToRectangle(pixelToUTM(a), pixelToUTM(b));
-				
-				if(p.width < v.getCanvasWidth()/100 || p.height < v.getCanvasHeight()/100) return; //Prevents the user from zooming in way too much.
-				
 				fixRatio(p, m.getBounds());
 				m.updateBounds(p);
 				v.repaint(m.getLines());
@@ -140,7 +138,7 @@ public class Control {
 								pixelToUTM(new Point((int) p.x, (int) p.y)),
 								pixelToUTM(new Point((int) (p.width + p.x), (int) (p.height + p.y))
 								)));
-				*/
+				 */
 			}
 
 			// display closest road's name
@@ -192,7 +190,7 @@ public class Control {
 		}
 	}
 
-	private Rectangle2D.Double pointToRectangle(Point a, Point b){
+	private Rectangle2D.Double point2DToRectangle(Point2D.Double a, Point2D.Double b){
 		Rectangle2D.Double p;
 		if(b.x < a.x){
 			if(b.y < a.y){
@@ -214,10 +212,6 @@ public class Control {
 		return p;
 	}
 
-	private Rectangle2D.Double point2DToRectangle(Point2D.Double a, Point2D.Double b){
-		return new Rectangle2D.Double(a.x, a.y, (b.x - a.x), (b.y - a.y));
-	}
-
 	private static void printRAM(){
 		System.out.println("Used Memory: "+(Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024)+" mb");
 	}
@@ -226,20 +220,21 @@ public class Control {
 		Rectangle2D.Double map = m.getBounds();
 		e.y = v.getCanvasHeight() - e.y;
 		// convert pixel to meters
-		double x_m = map.x + (e.getX()/v.getCanvasWidth()) * map.width;
-		double y_m = map.y + (e.getY()/v.getCanvasHeight()) * map.height;
+		double x_m = map.x + (e.getX() / (double) v.getCanvasWidth()) * map.width;
+		double y_m = map.y + (e.getY() / (double) v.getCanvasHeight()) * map.height;
 		return new Point2D.Double(x_m, y_m);
 	}
-	
+
 	private void fixRatio(Rectangle2D.Double a, Rectangle2D.Double b){
+		double ratio = b.width / b.height;
 		if(a.width < a.height){
 			double temp = a.width;	
-			a.width = (b.width/b.height) * a.height;
+			a.width = ratio * a.height;
 			a.x = a.x - (a.width - temp) / 2;
-			}
+		}
 		else{
 			double temp = a.height;	
-			a.height = a.width / (b.width/b.height);
+			a.height = a.width / ratio;
 			a.y = a.y - (a.height - temp) / 2;
 		}
 	}

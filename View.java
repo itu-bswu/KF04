@@ -208,7 +208,7 @@ public class View extends JFrame{
 	public int getCanvasHeight(){
 		return canvas.getHeight();
 	}
-	
+
 	/**
 	 * Changes the text at the bottom of the window.
 	 * @param text The new text
@@ -285,7 +285,7 @@ public class View extends JFrame{
 
 		//private Collection<Line> lines;
 		private BufferedImage img = null;
-		
+
 		public Image getImage(){
 			return img;
 		}
@@ -296,24 +296,26 @@ public class View extends JFrame{
 		}
 
 		public void drawOffScreen(Collection<Line> lines){
-			Stopwatch timer = new Stopwatch("Drawing");
-			img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
-			Graphics2D g = (Graphics2D) img.getGraphics();
+			if(getWidth() > 0 && getHeight() > 0){
+				Stopwatch timer = new Stopwatch("Drawing");
+				img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
+				Graphics2D g = (Graphics2D) img.getGraphics();
 
-			// draw background
-			g.setColor(getBackground());
-			g.fillRect(0, 0, getWidth(), getHeight());
-			// draw lines
-			for(Line l : lines){
-				g.setColor(l.getRoadColor());
-				g.setStroke(new BasicStroke(l.getThickness()));
-				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
-						(int)(l.getStartPoint().y*this.getHeight()),
-						(int)(l.getEndPoint().x*this.getWidth()),
-						(int)(l.getEndPoint().y*this.getHeight()));
+				// draw background
+				g.setColor(getBackground());
+				g.fillRect(0, 0, getWidth(), getHeight());
+				// draw lines
+				for(Line l : lines){
+					g.setColor(l.getRoadColor());
+					g.setStroke(new BasicStroke(l.getThickness()));
+					g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
+							(int)(l.getStartPoint().y*this.getHeight()),
+							(int)(l.getEndPoint().x*this.getWidth()),
+							(int)(l.getEndPoint().y*this.getHeight()));
+				}
+				g.dispose();
+				timer.printTime();
 			}
-			g.dispose();
-			timer.printTime();
 		}
 
 		@Override
