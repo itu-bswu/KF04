@@ -88,21 +88,33 @@ public class View extends JFrame{
 			public void mouseDragged(MouseEvent e){
 				Point end = e.getPoint();
 
-				Graphics g = canvas.getGraphics();
+				Graphics2D g = (Graphics2D) canvas.getGraphics();
 				g.drawImage(canvas.getImage(), 0, 0, null);
 
 				// draw the rectangle the right way (else it will be filled)
 				if(start.x < end.x && start.y < end.y){
 					// pulled right down
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(start.x, start.y, end.x - start.x, end.y - start.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(start.x, start.y, end.x - start.x, end.y - start.y);
 				}else if(start.x < end.x && start.y > end.y){
 					// pulled right up
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(start.x, end.y, end.x - start.x,start.y - end.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(start.x, end.y, end.x - start.x,start.y - end.y);
 				}else if(start.x > end.x && start.y < end.y){
 					// pulled left down
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(end.x, start.y, start.x - end.x, end.y - start.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(end.x, start.y, start.x - end.x, end.y - start.y);
 				}else{
 					// pulled left up
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(end.x, end.y, start.x - end.x, start.y - end.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(end.x, end.y, start.x - end.x, start.y - end.y);
 				}
 

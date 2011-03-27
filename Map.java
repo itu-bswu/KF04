@@ -281,10 +281,10 @@ public class Map {
 
 
 		// return the name of the edge (road)
-		if(closest != null){
+		if(closest != null && distance < 200){
 			//System.out.printf("found road: "+closest.roadname+" %.2f meters away\n",distance);
 			return closest.roadname;
 		}
-		return "";
+		return " ";
 	}
 }
