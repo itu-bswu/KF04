@@ -56,7 +56,7 @@ public class View extends JFrame{
 	 * @param header The title for the frame.
 	 * @param first_lines The initial lines to be shown.
 	 */
-	public View(String header, double startRatio){
+	public View(String header, float startRatio){
 		super(header);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -349,7 +349,7 @@ public class View extends JFrame{
 		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1));
 		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2));
 
-		View v = new View("X marks the spot",1.0);
+		View v = new View("X marks the spot",(float) 1.0);
 		v.repaint(x);
 	}
 }

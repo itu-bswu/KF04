@@ -7,8 +7,8 @@ import graphlib.Node;
  * global id number, while KDV# is assumed to be continuous in the loaded file.
  */
 public class KrakNode extends Node {
-	private double X; // Geographic X, meter East in UTM zone 32
-	private double Y; // Geographic Y, meter North of Equator
+	private float X; // Geographic X, meter East in UTM zone 32
+	private float Y; // Geographic Y, meter North of Equator
 
 	/**
 	 * Constructor for objects of class KrakNode.
@@ -32,14 +32,14 @@ public class KrakNode extends Node {
 	/**
 	 * @return The geographic X coordinate, meter East in UTM zone 32
 	 */
-	public double getX() {
+	public float getX() {
 		return X;
 	}
 
 	/**
 	 * @return The geographic Y coordinate, meter North of Equator
 	 */
-	public double getY() {
+	public float getY() {
 		return Y;
 	}
 

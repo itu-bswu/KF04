@@ -13,7 +13,7 @@ import graphlib.Graph;
  */
 public class Map {
 
-	private static final double ROAD_SEARCH_DISTANCE = 200;
+	private static final float ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
 	private QuadTree<KrakEdge> qt;
@@ -48,16 +48,16 @@ public class Map {
 	 * Get the Width of the bounds
 	 * @return The width of the bounds
 	 */
-	public double getBoundsWidth() {
-		return bounds.width;
+	public float getBoundsWidth() {
+		return (float) bounds.width;
 	}
 
 	/**
 	 * Get the height of the bounds
 	 * @return The height of the bounds
 	 */
-	public double getBoundsHeight() {
-		return bounds.height;
+	public float getBoundsHeight() {
+		return (float) bounds.height;
 	}
 
 	/**
@@ -72,8 +72,8 @@ public class Map {
 	 * Get ratio
 	 * @return the ratio
 	 */
-	public double getRatio() {
-		return bounds.width/bounds.height;
+	public float getRatio() {
+		return (float) (bounds.width/bounds.height);
 	}
 
 	/**
@@ -85,19 +85,19 @@ public class Map {
 
 		System.out.println("establishing outer bounds of map");
 
-		double minX = -1;
-		double minY = -1;
-		double maxX = -1;
-		double maxY = -1;
+		float minX = -1;
+		float minY = -1;
+		float maxX = -1;
+		float maxY = -1;
 
 		for(KrakNode node : list) {
 
 			if (node == null) continue;
 
-			if ((node.getX() < minX)||(minX == -1)) minX = node.getX();
-			if ((node.getX() > maxX)||(maxX == -1)) maxX = node.getX();
-			if ((node.getY() < minY)||(minY == -1)) minY = node.getY();
-			if ((node.getY() > maxY)||(maxY == -1)) maxY = node.getY();
+			if ((node.getX() < minX)||(minX == -1)) minX = (float) node.getX();
+			if ((node.getX() > maxX)||(maxX == -1)) maxX = (float) node.getX();
+			if ((node.getY() < minY)||(minY == -1)) minY = (float) node.getY();
+			if ((node.getY() > maxY)||(maxY == -1)) maxY = (float) node.getY();
 		}
 
 		return new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY);
@@ -108,10 +108,10 @@ public class Map {
 	 * @param	d	The direction to move (4 directions)
 	 * @param	length	The length to move (in percentage of the screen)
 	 */
-	public void move(Direction d,double length) {
+	public void move(Direction d,float length) {
 
-		double horizontalChange	= d.coordinatepoint().getX() * bounds.getWidth() * length;
-		double verticalChange	= d.coordinatepoint().getY() * bounds.getHeight() * length;
+		float horizontalChange	= (float) (d.coordinatepoint().getX() * bounds.getWidth() * length);
+		float verticalChange	= (float) (d.coordinatepoint().getY() * bounds.getHeight() * length);
 
 		bounds.setRect(bounds.getX()+horizontalChange, bounds.getY()+verticalChange, bounds.getWidth(), bounds.getHeight());
 	}
@@ -240,8 +240,8 @@ public class Map {
 	 */
 	private Point2D.Double relativePoint(Point2D coordinates) {
 
-		double nx = 					 (coordinates.getX()-bounds.getX()) / bounds.getWidth(); 
-		double ny = 1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight();
+		float nx = 					 (float) ((coordinates.getX()-bounds.getX()) / bounds.getWidth()); 
+		float ny = (float) (1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight());
 
 		return new Point2D.Double(nx,ny);
 	}
@@ -264,7 +264,7 @@ public class Map {
 		Set<KrakEdge> all = qt.query(search_area);
 
 		// find the closest
-		double distance = Integer.MAX_VALUE;
+		float distance = Integer.MAX_VALUE;
 		KrakEdge closest = null;
 
 		//System.out.println(all.size()+" roads within 200 meters");
@@ -273,7 +273,7 @@ public class Map {
 				double cur_dist = edge.getLine().ptSegDist(point);
 				//System.out.println("\t"+edge.roadname+" is "+(int)cur_dist+" meters away");
 				if(cur_dist < distance){
-					distance = cur_dist;
+					distance = (float) cur_dist;
 					closest = edge;
 				}
 			}
