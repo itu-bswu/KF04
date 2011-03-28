@@ -16,6 +16,7 @@ public class Map {
 	private static final double ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
+	private final Rectangle2D.Double maxBounds;
 	private QuadTree<KrakEdge> qt;
 
 	/**
@@ -24,7 +25,8 @@ public class Map {
 	 * Set the map to look at the entire graph.
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
-		bounds = outerBounds(graph.getNodes());
+		maxBounds = outerBounds(graph.getNodes());
+		bounds = maxBounds;
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
 	}
 
@@ -39,7 +41,7 @@ public class Map {
 	/**
 	 * Calculates the zoom Level from the bounds
 	 */
-	public int zoomLevel() {
+	private int zoomLevel() {
 		return 5;//(int)(bounds.width*bounds.height/ZOOMVALUE);
 	}
 
@@ -75,6 +77,13 @@ public class Map {
 	public double getRatio() {
 		return bounds.width/bounds.height;
 	}
+	
+	/**
+	 * Sets the Map boundaries back to the outer bounds calculated at start-up.
+	 */
+	public void resetView(){
+		bounds = maxBounds;
+	}
 
 	/**
 	 * Get the the bounds of the smallest possible rectangle, still showing the entire graph.
@@ -101,19 +110,6 @@ public class Map {
 		}
 
 		return new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY);
-	}
-
-	/**
-	 * Move the bounds in a specified direction. The length is how far to move in percentage of the screen.
-	 * @param	d	The direction to move (4 directions)
-	 * @param	length	The length to move (in percentage of the screen)
-	 */
-	public void move(Direction d,double length) {
-
-		double horizontalChange	= d.coordinatepoint().getX() * bounds.getWidth() * length;
-		double verticalChange	= d.coordinatepoint().getY() * bounds.getHeight() * length;
-
-		bounds.setRect(bounds.getX()+horizontalChange, bounds.getY()+verticalChange, bounds.getWidth(), bounds.getHeight());
 	}
 
 	/**

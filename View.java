@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -70,8 +71,6 @@ public class View extends JFrame{
 
 		canvas.setPreferredSize(new Dimension(canvas.getWidth(), (int)(canvas.getWidth()/startRatio)));
 		pack();
-
-		System.out.println("finished view setup");
 	}
 
 	private void canvasListener() {
@@ -197,6 +196,23 @@ public class View extends JFrame{
 	public void addCanvasComponentListener(ComponentListener c){
 		canvas.addComponentListener(c);
 	}
+	
+	/**
+	 * Adds a KeyListener to all focusable components in the view, this
+	 * ensures that we receive info when a key is pressed no matter what
+	 * component is focused at that time.
+	 */
+	@Override
+	public void addKeyListener(KeyListener k){
+		super.addKeyListener(k);
+		canvas.addKeyListener(k);
+		upButton.addKeyListener(k);
+		leftButton.addKeyListener(k);
+		downButton.addKeyListener(k);
+		rightButton.addKeyListener(k);
+		zoomInButton.addKeyListener(k);
+		zoomOutButton.addKeyListener(k);
+	}
 
 	/**
 	 * Repaints the entire frame, with the new lines to be shown.
@@ -242,7 +258,7 @@ public class View extends JFrame{
 		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
-		infobar = new JLabel("Emil rocks!",SwingConstants.CENTER);
+		infobar = new JLabel(" ",SwingConstants.CENTER);
 
 		// layouts & borders
 		outer.setLayout(new BorderLayout());

@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -136,18 +139,30 @@ public class Control {
 				Rectangle2D.Double map = m.getBounds();
 				int newWidth = v.getCanvasWidth();
 				int newHeight = v.getCanvasHeight();
-				
+
 				double x_adjust = map.width*(((double)newWidth - oldWidth)/oldWidth);
 				double y_adjust = map.height*(((double)newHeight - oldHeight)/oldHeight);
-				
+
 				m.updateBounds(new Rectangle2D.Double(map.x, map.y - y_adjust, map.width + x_adjust,
 						map.height + y_adjust));
-				
+
 				oldWidth = newWidth;
 				oldHeight = newHeight;
-				
+
 				timer.printTime();
 				v.repaint(m.getLines());
+			}
+		});
+
+		v.addKeyListener(new KeyAdapter(){
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// ESCAPE
+				if(e.getKeyCode() == 27){
+					m.resetView();
+					v.repaint(m.getLines());
+				}
 			}
 		});
 	}
