@@ -88,21 +88,33 @@ public class View extends JFrame{
 			public void mouseDragged(MouseEvent e){
 				Point end = e.getPoint();
 
-				Graphics g = canvas.getGraphics();
+				Graphics2D g = (Graphics2D) canvas.getGraphics();
 				g.drawImage(canvas.getImage(), 0, 0, null);
 
 				// draw the rectangle the right way (else it will be filled)
 				if(start.x < end.x && start.y < end.y){
 					// pulled right down
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(start.x, start.y, end.x - start.x, end.y - start.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(start.x, start.y, end.x - start.x, end.y - start.y);
 				}else if(start.x < end.x && start.y > end.y){
 					// pulled right up
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(start.x, end.y, end.x - start.x,start.y - end.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(start.x, end.y, end.x - start.x,start.y - end.y);
 				}else if(start.x > end.x && start.y < end.y){
 					// pulled left down
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(end.x, start.y, start.x - end.x, end.y - start.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(end.x, start.y, start.x - end.x, end.y - start.y);
 				}else{
 					// pulled left up
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(end.x, end.y, start.x - end.x, start.y - end.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(end.x, end.y, start.x - end.x, start.y - end.y);
 				}
 
@@ -172,8 +184,9 @@ public class View extends JFrame{
 	 * Adds a MouseListener to the canvas component.
 	 * @param m The MouseListener for the canvas.
 	 */
-	public void addCanvasMouseListener(MouseListener m){
+	public void addCanvasMouseListener(MouseAdapter m){
 		canvas.addMouseListener(m);
+		canvas.addMouseMotionListener(m);
 	}
 
 	/**
@@ -208,7 +221,7 @@ public class View extends JFrame{
 	public int getCanvasHeight(){
 		return canvas.getHeight();
 	}
-	
+
 	/**
 	 * Changes the text at the bottom of the window.
 	 * @param text The new text
@@ -285,7 +298,7 @@ public class View extends JFrame{
 
 		//private Collection<Line> lines;
 		private BufferedImage img = null;
-		
+
 		public Image getImage(){
 			return img;
 		}
@@ -296,24 +309,26 @@ public class View extends JFrame{
 		}
 
 		public void drawOffScreen(Collection<Line> lines){
-			Stopwatch timer = new Stopwatch("Drawing");
-			img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
-			Graphics2D g = (Graphics2D) img.getGraphics();
+			if(getWidth() > 0 && getHeight() > 0){
+				Stopwatch timer = new Stopwatch("Drawing");
+				img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
+				Graphics2D g = (Graphics2D) img.getGraphics();
 
-			// draw background
-			g.setColor(getBackground());
-			g.fillRect(0, 0, getWidth(), getHeight());
-			// draw lines
-			for(Line l : lines){
-				g.setColor(l.getRoadColor());
-				g.setStroke(new BasicStroke(l.getThickness()));
-				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
-						(int)(l.getStartPoint().y*this.getHeight()),
-						(int)(l.getEndPoint().x*this.getWidth()),
-						(int)(l.getEndPoint().y*this.getHeight()));
+				// draw background
+				g.setColor(getBackground());
+				g.fillRect(0, 0, getWidth(), getHeight());
+				// draw lines
+				for(Line l : lines){
+					g.setColor(l.getRoadColor());
+					g.setStroke(new BasicStroke(l.getThickness()));
+					g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
+							(int)(l.getStartPoint().y*this.getHeight()),
+							(int)(l.getEndPoint().x*this.getWidth()),
+							(int)(l.getEndPoint().y*this.getHeight()));
+				}
+				g.dispose();
+				timer.printTime();
 			}
-			g.dispose();
-			timer.printTime();
 		}
 
 		@Override

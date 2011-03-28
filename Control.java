@@ -119,8 +119,8 @@ public class Control {
 			}
 
 			// display closest road's name
-			public void mouseClicked(MouseEvent e){
-				System.out.println("mouse clicked");
+			@Override
+			public void mouseMoved(MouseEvent e){
 				// set label to closest road
 				v.setLabel(m.getClosestRoad(pixelToUTM(e.getPoint())));
 			}
