@@ -27,7 +27,6 @@ public class Map {
 	 * Set the map to look at the entire graph.
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
-		System.out.println("Map object created");
 		//this.graph = graph;
 		System.out.println(graph);
 		bounds = outerBounds(graph.getNodes());
