@@ -65,8 +65,8 @@ public class Map {
 	/**
 	 * Sets the Map boundaries back to the outer bounds calculated at start-up.
 	 */
-	public void resetView(){
-		bounds = maxBounds;
+	public Rectangle2D.Double originalView(){
+		return maxBounds;
 	}
 
 	/**

@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -159,7 +160,9 @@ public class Control {
 			public void keyReleased(KeyEvent e) {
 				// ESCAPE
 				if(e.getKeyCode() == 27){
-					m.resetView();
+					Rectangle2D.Double temp = (Double) m.originalView().clone();
+					fixRatio(temp,m.getBounds());
+					m.updateBounds(temp);
 					v.repaint(m.getLines());
 				}
 			}
