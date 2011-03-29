@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Map {
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
 		maxBounds = outerBounds(graph.getNodes());
-		bounds = maxBounds;
+		bounds = originalBounds();
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
 	}
 
@@ -65,8 +66,8 @@ public class Map {
 	/**
 	 * Sets the Map boundaries back to the outer bounds calculated at start-up.
 	 */
-	public Rectangle2D.Double originalView(){
-		return maxBounds;
+	public Rectangle2D.Double originalBounds(){
+		return new Rectangle2D.Double(maxBounds.x, maxBounds.y, maxBounds.width, maxBounds.height);
 	}
 
 	/**
@@ -76,7 +77,7 @@ public class Map {
 	 */
 	private Rectangle2D.Double outerBounds(List<KrakNode> list) {
 
-		System.out.println("establishing outer bounds of map");
+		System.out.println("Establishing outer bounds of map");
 
 		float minX = -1;
 		float minY = -1;
@@ -220,8 +221,8 @@ public class Map {
 	 */
 	private Point2D.Double relativePoint(Point2D coordinates) {
 
-		float nx = 					 (float) ((coordinates.getX()-bounds.getX()) / bounds.getWidth()); 
-		float ny = (float) (1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight());
+		float nx = (float) (	(coordinates.getX()-bounds.getX()) / bounds.getWidth()	); 
+		float ny = (float) (1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight()	);
 
 		return new Point2D.Double(nx,ny);
 	}
@@ -258,7 +259,6 @@ public class Map {
 				}
 			}
 		}
-
 
 		// return the name of the edge (road)
 		if(closest != null && distance < 200){
