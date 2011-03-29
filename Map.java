@@ -39,14 +39,6 @@ public class Map {
 	}
 
 	/**
-	 * Calculates the zoom Level from the bounds
-	 */
-	private int zoomLevel() {
-		return 5;//(int)(bounds.width*bounds.height/ZOOMVALUE);
-	}
-
-
-	/**
 	 * Get the Width of the bounds
 	 * @return The width of the bounds
 	 */
@@ -69,20 +61,12 @@ public class Map {
 	public Rectangle2D.Double getBounds() {
 		return bounds;
 	}
-
-	/**
-	 * Get ratio
-	 * @return the ratio
-	 */
-	public float getRatio() {
-		return (float) (bounds.width/bounds.height);
-	}
 	
 	/**
 	 * Sets the Map boundaries back to the outer bounds calculated at start-up.
 	 */
-	public void resetView(){
-		bounds = maxBounds;
+	public Rectangle2D.Double originalView(){
+		return maxBounds;
 	}
 
 	/**
@@ -110,19 +94,6 @@ public class Map {
 		}
 
 		return new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY);
-	}
-
-	/**
-	 * Move the bounds in a specified direction. The length is how far to move in percentage of the screen.
-	 * @param	d	The direction to move (4 directions)
-	 * @param	length	The length to move (in percentage of the screen)
-	 */
-	public void move(Direction d,float length) {
-
-		float horizontalChange	= (float) (d.coordinatepoint().getX() * bounds.getWidth() * length);
-		float verticalChange	= (float) (d.coordinatepoint().getY() * bounds.getHeight() * length);
-
-		bounds.setRect(bounds.getX()+horizontalChange, bounds.getY()+verticalChange, bounds.getWidth(), bounds.getHeight());
 	}
 
 	/**
