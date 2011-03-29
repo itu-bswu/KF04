@@ -16,6 +16,7 @@ public class Map {
 	private static final float ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
+	private final Rectangle2D.Double maxBounds;
 	private QuadTree<KrakEdge> qt;
 
 	/**
@@ -24,7 +25,8 @@ public class Map {
 	 * Set the map to look at the entire graph.
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
-		bounds = outerBounds(graph.getNodes());
+		maxBounds = outerBounds(graph.getNodes());
+		bounds = maxBounds;
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
 	}
 
@@ -39,7 +41,7 @@ public class Map {
 	/**
 	 * Calculates the zoom Level from the bounds
 	 */
-	public int zoomLevel() {
+	private int zoomLevel() {
 		return 5;//(int)(bounds.width*bounds.height/ZOOMVALUE);
 	}
 
@@ -74,6 +76,13 @@ public class Map {
 	 */
 	public float getRatio() {
 		return (float) (bounds.width/bounds.height);
+	}
+	
+	/**
+	 * Sets the Map boundaries back to the outer bounds calculated at start-up.
+	 */
+	public void resetView(){
+		bounds = maxBounds;
 	}
 
 	/**
