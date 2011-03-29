@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Map {
 	 */
 	public Map(Graph<KrakEdge,KrakNode> graph) {
 		maxBounds = outerBounds(graph.getNodes());
-		bounds = maxBounds;
+		bounds = originalBounds();
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
 	}
 
@@ -65,8 +66,8 @@ public class Map {
 	/**
 	 * Sets the Map boundaries back to the outer bounds calculated at start-up.
 	 */
-	public Rectangle2D.Double originalView(){
-		return maxBounds;
+	public Rectangle2D.Double originalBounds(){
+		return new Rectangle2D.Double(maxBounds.x, maxBounds.y, maxBounds.width, maxBounds.height);
 	}
 
 	/**

@@ -160,8 +160,8 @@ public class Control {
 			public void keyReleased(KeyEvent e) {
 				// ESCAPE
 				if(e.getKeyCode() == 27){
-					Rectangle2D.Double temp = (Double) m.originalView().clone();
-					fixRatio(temp,m.getBounds());
+					Rectangle2D.Double temp = m.originalBounds();
+					fixRatio(temp, m.getBounds());
 					m.updateBounds(temp);
 					v.repaint(m.getLines());
 				}
@@ -221,12 +221,17 @@ public class Control {
 
 	private void fixRatio(Rectangle2D.Double a, Rectangle2D.Double b){
 		float ratio = (float) (b.width / b.height);
-		if(a.width < a.height){
-			float temp = (float) a.width;	
+
+		// tall
+		if(b.width > b.height){
+			System.out.println("High Window");
+			float temp = (float) a.width;
 			a.width = ratio * a.height;
 			a.x = a.x - (a.width - temp) / 2;
 		}
+		// wide
 		else{
+			System.out.println("Wide Window");
 			float temp = (float) a.height;	
 			a.height = a.width / ratio;
 			a.y = a.y - (a.height - temp) / 2;
