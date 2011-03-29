@@ -39,14 +39,6 @@ public class Map {
 	}
 
 	/**
-	 * Calculates the zoom Level from the bounds
-	 */
-	private int zoomLevel() {
-		return 5;//(int)(bounds.width*bounds.height/ZOOMVALUE);
-	}
-
-
-	/**
 	 * Get the Width of the bounds
 	 * @return The width of the bounds
 	 */
@@ -92,7 +84,7 @@ public class Map {
 	 */
 	private Rectangle2D.Double outerBounds(List<KrakNode> list) {
 
-		System.out.println("establishing outer bounds of map");
+		System.out.println("Establishing outer bounds of map");
 
 		float minX = -1;
 		float minY = -1;
@@ -249,8 +241,8 @@ public class Map {
 	 */
 	private Point2D.Double relativePoint(Point2D coordinates) {
 
-		float nx = 					 (float) ((coordinates.getX()-bounds.getX()) / bounds.getWidth()); 
-		float ny = (float) (1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight());
+		float nx = (float) (	(coordinates.getX()-bounds.getX()) / bounds.getWidth()	); 
+		float ny = (float) (1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight()	);
 
 		return new Point2D.Double(nx,ny);
 	}
@@ -287,7 +279,6 @@ public class Map {
 				}
 			}
 		}
-
 
 		// return the name of the edge (road)
 		if(closest != null && distance < 200){

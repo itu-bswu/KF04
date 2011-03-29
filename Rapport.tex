@@ -54,10 +54,18 @@
 \section{Implementation}
 
 \subsection{Model-View-Control}
+
 \subsection{PixelToUTM}
+
+\subsection{QuadTree og selektering af veje}Vi har optimeret vores kort med et quadtree. Hver gang vi har brug for data om kortet, sender vi quadtræet et rektangel med det område vi ønsker data om. For at optimere visningen vores kort har vi valgt kun at vise nogle vejtyper. Når man kigger på hele Danmark er det ikke interessant at få vist de enkelte småveje, og derfor er der ingen grund til at tegne dem. Samtidig optimere løsningen kortet betydeligt.Implementationen af denne løsning spiller i meget høj grad sammen med implementationen af QuadTree. Inden vi implementerede selekteringen overvejede vi to forskellige måder at få det til at spille sammen med QuadTree på.På den ene side kunne vi allerede i quadtræets rod splitte træet op i flere dele, således at hver dels blade var af en bestemt vejtype.På den anden side kunne vi lader vejetyperne blive opdelt efter dybten i træet, således at de store veje i første omgang blev fordelt i de første knuder, og de mindre vejtyper senere blev fordelt ned igennem træet.De to metoder havde hver deres fordele og ulemper. Den første ville kræve flere node objekter, hvilket ville koste i RAM forbrug. Til gengæld ville alle vejene i denne metode blive lagt i træets blade.Antallet af veje i den enkelte gruppering, samt antallet af grupperinger har været til diskussion. På den ene side vil et stort antal veje ved det enkelte zoom niveau gør det lettere at genkende området. På den anden side vil det gå ud over performance.Vi har besluttet at vise en stor del af vejene, da vi ikke har områdedata til at tegne hvad der er vand og hvad der er land.
+
 \subsection{Control}
+
 \subsection{Map}
+Map klassen står for den del af kortet der vises på skærmen. Den holder feltet <bounds> der er den rektangel af kortet der vises i øjeblikket. Når mapklassen skabes beregner den <bounds> til det mindste rektangel der viser hele kortet.Når View skal tegne kortet skaber map <Line> objekter af de  <krakEdges> som skal vises. Map sørger for at lines har den rigtige farve og tykkelse.
+
 \subsection{Roads}
+
 \subsection{View}
 
 \end{document}
