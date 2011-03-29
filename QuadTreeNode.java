@@ -93,17 +93,10 @@ public class QuadTreeNode<T extends KrakEdge> {
 			for(QuadTreeNode<T> item : nodes){
 				// if sub-node is within rectangle
 				if(item.getBounds().intersects(qarea)){
-					Set<T> temp = item.query(qarea);
-					if(temp.size() > 0){
-						if(results.size() == 0){
-							results = item.query(qarea);
-						}else{
-							results.addAll(item.query(qarea));
-						}
-					}
+					results.addAll(item.query(qarea));
 				}
 			}
-			//System.out.println("sending back "+results.size()+" edges");
+			//System.out.println("\tsending back "+results.size()+" edges");
 			return results;
 		}else{
 			return contents;

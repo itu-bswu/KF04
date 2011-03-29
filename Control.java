@@ -6,10 +6,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -48,7 +48,7 @@ public class Control {
 		System.out.println("Done loading data");
 		m = new Map(g);
 		printRAM();
-		v = new View(NAME, m.getRatio());
+		v = new View(NAME, m.getBoundsWidth()/m.getBoundsHeight());
 		printRAM();
 		v.repaint(m.getLines());
 		addListeners();
@@ -160,7 +160,9 @@ public class Control {
 			public void keyReleased(KeyEvent e) {
 				// ESCAPE
 				if(e.getKeyCode() == 27){
-					m.resetView();
+					Rectangle2D.Double temp = (Double) m.originalView().clone();
+					fixRatio(temp,m.getBounds());
+					m.updateBounds(temp);
 					v.repaint(m.getLines());
 				}
 			}
