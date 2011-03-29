@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.2.21)  29 MAR 2011 14:34
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.2.16)  29 MAR 2011 15:10
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -71,56 +71,56 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 29.
-Missing character: There is no ¾ in font cmr10!
 Missing character: There is no Œ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no ¾ in font cmr10!
 Missing character: There is no ¿ in font cmr10!
 Missing character: There is no Œ in font cmr10!
 Missing character: There is no Œ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no Œ in font cmr10!
 Missing character: There is no ¿ in font cmr10!
-Missing character: There is no ¿ in font cmr10!
-Missing character: There is no ¿ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no ¾ in font cmr10!
-Missing character: There is no ¾ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no ¾ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no ¿ in font cmr10!
-Missing character: There is no ¿ in font cmr10!
-Missing character: There is no ¾ in font cmr10!
-Missing character: There is no ¿ in font cmr10!
-Missing character: There is no ¾ in font cmr10!
-Missing character: There is no ¾ in font cmr10!
-Missing character: There is no ¾ in font cmr10!
-Missing character: There is no ¾ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no ¿ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no Œ in font cmr10!
-Missing character: There is no Œ in font cmr10!
  [2
 
 ]
+Missing character: There is no ¾ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no Œ in font cmr10!
 Missing character: There is no Œ in font cmr10!
 Missing character: There is no Œ in font cmr10!
 Missing character: There is no ¾ in font cmr10!
+Missing character: There is no ¾ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no ¾ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+Missing character: There is no ¾ in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+Missing character: There is no ¾ in font cmr10!
+Missing character: There is no ¾ in font cmr10!
+Missing character: There is no ¾ in font cmr10!
+Missing character: There is no ¾ in font cmr10!
+Missing character: There is no Œ in font cmr10!
 Missing character: There is no ¿ in font cmr10!
 Missing character: There is no Œ in font cmr10!
 Missing character: There is no Œ in font cmr10!
-Missing character: There is no ¿ in font cmr10!
+Missing character: There is no Œ in font cmr10!
+Missing character: There is no Œ in font cmr10!
  [3]
 (./Rapport.aux) ) 
 Here is how much of TeX's memory you used:
  253 strings out of 493747
  2875 string characters out of 3143546
- 53070 words of memory out of 3000000
+ 52070 words of memory out of 3000000
  3614 multiletter control sequences out of 15000+200000
  8811 words of font info for 31 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
@@ -132,7 +132,7 @@ cm/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mr17.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cms
 y10.pfb>
-Output written on Rapport.pdf (4 pages, 82838 bytes).
+Output written on Rapport.pdf (4 pages, 83129 bytes).
 PDF statistics:
  41 PDF objects out of 1000 (max. 8388607)
  28 compressed objects within 1 object stream
