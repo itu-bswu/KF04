@@ -55,6 +55,9 @@ public class Control {
 		printRAM();
 	}
 
+	/**
+	 * Adds listeners to everything useful in the View. Buttons, Component resize, Key-types and Mouse Events.
+	 */
 	private void addListeners(){
 		//Listener for "move-up" button.
 		v.addUpListener(new ActionListener(){
@@ -169,6 +172,14 @@ public class Control {
 		});
 	}
 
+	/**
+	 * Creates a Rectangle that is a zoomed in/out version of another.
+	 * 
+	 * @param factor The factor to zoom with, for example 0.2 for a 20% zoom.
+	 * @param zoom True if zooming IN, else false.
+	 * @param old The original view.
+	 * @return The finished Rectangle
+	 */
 	private Rectangle2D.Double zoomRect(float factor, boolean zoom, Rectangle2D.Double old){
 		if(zoom){
 			return new Rectangle2D.Double(old.x + factor * old.width, //x is increased by the factor in proportion to the width
@@ -184,6 +195,12 @@ public class Control {
 		}
 	}
 
+	/**
+	 * Converts a two Points to a Rectangle. Their relative location is irrelevant.
+	 * @param a The first Point.
+	 * @param b The second Point.
+	 * @return A Rectangle with x,y in the upper left corner.
+	 */
 	private Rectangle2D.Double point2DToRectangle(Point2D.Double a, Point2D.Double b){
 		Rectangle2D.Double p;
 		if(b.x < a.x){
@@ -206,10 +223,18 @@ public class Control {
 		return p;
 	}
 
+	/**
+	 * Prints out the amount of RAM currently used (in MegaBytes)
+	 */
 	private static void printRAM(){
 		System.out.println("Used Memory: "+(Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024)+" mb");
 	}
 
+	/**
+	 * Converts a pixel Point to a point with UTM coordinates.
+	 * @param e The pixel-point from the screen.
+	 * @return The UTM point.
+	 */
 	private Point2D.Double pixelToUTM(Point e){
 		Rectangle2D.Double map = m.getBounds();
 		e.y = v.getCanvasHeight() - e.y;
@@ -219,6 +244,11 @@ public class Control {
 		return new Point2D.Double(x_m, y_m);
 	}
 
+	/**
+	 * Adjusts a Rectangle to have the same ratio as another Rectangle
+	 * @param a The Rectangle to adjust.
+	 * @param b The Rectangle that has the wanted ratio.
+	 */
 	private void fixRatio(Rectangle2D.Double a, Rectangle2D.Double b){
 		float ratio = (float) (b.width / b.height);
 
