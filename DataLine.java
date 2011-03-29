@@ -72,10 +72,10 @@ public class DataLine {
    * the token is an empty string -1 is returned
    * @throws IOException
    */
-  public double getPositiveDouble() throws IOException{
+  public float getPositiveFloat() throws IOException{
     String s = nextToken();
     try{
-      return Double.parseDouble(s);
+      return Float.parseFloat(s);
     }
     catch(Exception e){
       if(s.equals("''")) return -1;

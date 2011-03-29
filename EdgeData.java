@@ -6,7 +6,7 @@ import java.io.IOException;
 public class EdgeData {
 	public int FNODE; // NB: Written by InstanceCreator
 	public int TNODE; // NB: Written by InstanceCreator
-	public final double LENGTH;
+	public final float LENGTH;
 	public final int DAV_DK;
 	public final int DAV_DK_ID;
 	public final int TYP;
@@ -30,7 +30,7 @@ public class EdgeData {
 	public final String FRAKOERSEL;
 	public final int ZONE;
 	public final int SPEED;
-	public final double DRIVETIME;
+	public final float DRIVETIME;
 	public final String ONE_WAY;
 	public final String F_TURN;
 	public final String T_TURN;
@@ -82,7 +82,7 @@ public class EdgeData {
 		try {
 			FNODE = dl.getPositiveInt();
 			TNODE = dl.getPositiveInt();
-			LENGTH = dl.getPositiveDouble();
+			LENGTH = dl.getPositiveFloat();
 			DAV_DK = dl.getPositiveInt();
 			DAV_DK_ID = dl.getPositiveInt();
 			TYP = dl.getPositiveInt();
@@ -106,7 +106,7 @@ public class EdgeData {
 			FRAKOERSEL = dl.getString();
 			ZONE = dl.getPositiveInt();
 			SPEED = dl.getPositiveInt();
-			DRIVETIME = dl.getPositiveDouble();
+			DRIVETIME = dl.getPositiveFloat();
 			ONE_WAY = dl.getString();
 			F_TURN = dl.getString();
 			T_TURN = dl.getString();

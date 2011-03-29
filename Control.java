@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -20,8 +23,8 @@ import java.io.IOException;
  */
 public class Control {
 
-	private static final double MOVE_LENGTH = 0.30;
-	private static final double ZOOM_LENGTH = 0.15;
+	private static final float MOVE_LENGTH = (float) 0.30;
+	private static final float ZOOM_LENGTH = (float) 0.15;
 	private static final String NAME = "Map"; //Name of the window containing the map.
 	private final File dataDir = new File(".", "data"); //Where control needs to look for the nodeFile and edgeFile
 	private final String nodeFile = "kdv_node_unload.txt"; //The nodes used to construct the graph
@@ -34,7 +37,6 @@ public class Control {
 	 * Contstructor for class Control
 	 */
 	public Control() {
-		System.out.println("creating Control");
 		Graph<KrakEdge, KrakNode> g = null;
 		printRAM();
 		try {
@@ -103,11 +105,9 @@ public class Control {
 			private Point a = null;
 			private Point b = null;
 			private Rectangle2D.Double p = null;
-			//private Rectangle2D.Double temp = null;
 
 			public void mousePressed(MouseEvent e){
 				a = e.getPoint();
-				//a.y = v.getCanvasHeight() -  a.y;
 			}
 
 			public void mouseReleased(MouseEvent e){
@@ -119,31 +119,11 @@ public class Control {
 				fixRatio(p, m.getBounds());
 				m.updateBounds(p);
 				v.repaint(m.getLines());
-				/*b.y = v.getCanvasHeight() - b.y;
-				p = pointsToRectangle(a, b);
-				temp = pointsToRectangle(a, b);
-
-				if(temp.width < v.getCanvasWidth()/100 || temp.height < v.getCanvasHeight()/100) return; //Prevents the user from zooming in way too much.
-
-				if(v.getCanvasHeight() * (temp.width/v.getCanvasWidth()) > temp.height){
-					p.height = v.getCanvasHeight() * temp.width/v.getCanvasWidth();
-					p.y = temp.y - (p.height - temp.height) / 2;
-				}
-				else{
-					p.width = v.getCanvasWidth() * temp.height/v.getCanvasHeight();
-					p.x = temp.x - (p.width - temp.width) / 2;
-				}
-				m.updateBounds(
-						point2DToRectangle(
-								pixelToUTM(new Point((int) p.x, (int) p.y)),
-								pixelToUTM(new Point((int) (p.width + p.x), (int) (p.height + p.y))
-								)));
-				 */
 			}
 
 			// display closest road's name
-			public void mouseClicked(MouseEvent e){
-				System.out.println("mouse clicked");
+			@Override
+			public void mouseMoved(MouseEvent e){
 				// set label to closest road
 				v.setLabel(m.getClosestRoad(pixelToUTM(e.getPoint())));
 			}
@@ -159,23 +139,35 @@ public class Control {
 				Rectangle2D.Double map = m.getBounds();
 				int newWidth = v.getCanvasWidth();
 				int newHeight = v.getCanvasHeight();
-				
-				double x_adjust = map.width*(((double)newWidth - oldWidth)/oldWidth);
-				double y_adjust = map.height*(((double)newHeight - oldHeight)/oldHeight);
-				
+
+				float x_adjust = (float) (map.width*(((float)newWidth - oldWidth)/oldWidth));
+				float y_adjust = (float) (map.height*(((float)newHeight - oldHeight)/oldHeight));
+
 				m.updateBounds(new Rectangle2D.Double(map.x, map.y - y_adjust, map.width + x_adjust,
 						map.height + y_adjust));
-				
+
 				oldWidth = newWidth;
 				oldHeight = newHeight;
-				
+
 				timer.printTime();
 				v.repaint(m.getLines());
 			}
 		});
+
+		v.addKeyListener(new KeyAdapter(){
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// ESCAPE
+				if(e.getKeyCode() == 27){
+					m.resetView();
+					v.repaint(m.getLines());
+				}
+			}
+		});
 	}
 
-	private Rectangle2D.Double zoomRect(double factor, boolean zoom, Rectangle2D.Double old){
+	private Rectangle2D.Double zoomRect(float factor, boolean zoom, Rectangle2D.Double old){
 		if(zoom){
 			return new Rectangle2D.Double(old.x + factor * old.width, //x is increased by the factor in proportion to the width
 					old.y + factor * old.height, //y is increased by the factor in proportion to the height
@@ -220,20 +212,20 @@ public class Control {
 		Rectangle2D.Double map = m.getBounds();
 		e.y = v.getCanvasHeight() - e.y;
 		// convert pixel to meters
-		double x_m = map.x + (e.getX() / (double) v.getCanvasWidth()) * map.width;
-		double y_m = map.y + (e.getY() / (double) v.getCanvasHeight()) * map.height;
+		float x_m = (float) (map.x + (e.getX() / (float) v.getCanvasWidth()) * map.width);
+		float y_m = (float) (map.y + (e.getY() / (float) v.getCanvasHeight()) * map.height);
 		return new Point2D.Double(x_m, y_m);
 	}
 
 	private void fixRatio(Rectangle2D.Double a, Rectangle2D.Double b){
-		double ratio = b.width / b.height;
+		float ratio = (float) (b.width / b.height);
 		if(a.width < a.height){
-			double temp = a.width;	
+			float temp = (float) a.width;	
 			a.width = ratio * a.height;
 			a.x = a.x - (a.width - temp) / 2;
 		}
 		else{
-			double temp = a.height;	
+			float temp = (float) a.height;	
 			a.height = a.width / ratio;
 			a.y = a.y - (a.height - temp) / 2;
 		}

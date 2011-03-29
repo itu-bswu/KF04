@@ -1,7 +1,5 @@
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,11 +11,11 @@ import java.util.Set;
 public class QuadTreeNode<T extends KrakEdge> {
 
 	public static final int MAX_CONTENT = 10000;
-	public static final int MAX_DISTANCE_POINT = 10;
 
 	private Rectangle2D.Double bounds;
 	private Set<T> contents;
-	private List<QuadTreeNode<T>> nodes = new ArrayList<QuadTreeNode<T>>(4);
+	QuadTreeNode<T> nw, ne, sw, se;
+	QuadTreeNode[] nodes = { nw, ne, sw, se };
 
 	/**
 	 * The constructor for creating a QuadTreeNode with the given boundaries and content.
@@ -31,10 +29,10 @@ public class QuadTreeNode<T extends KrakEdge> {
 		// if there are too much content
 		if(content.size() > MAX_CONTENT){
 			// The sub-bounds
-			Rectangle2D.Double nw = new Rectangle2D.Double(bounds.x, bounds.y, bounds.width/2, bounds.height/2);
-			Rectangle2D.Double ne = new Rectangle2D.Double(bounds.x+bounds.width/2, bounds.y, bounds.width/2, bounds.height/2);
-			Rectangle2D.Double sw = new Rectangle2D.Double(bounds.x, bounds.y+bounds.height/2, bounds.width/2, bounds.height/2);
-			Rectangle2D.Double se = new Rectangle2D.Double(bounds.x+bounds.width/2, bounds.y+bounds.height/2, bounds.width/2, bounds.height/2);
+			Rectangle2D.Double nw = new Rectangle2D.Double(bounds.x, bounds.y, bounds.width/2.0, bounds.height/2.0);
+			Rectangle2D.Double ne = new Rectangle2D.Double(bounds.x+bounds.width/2.0, bounds.y, bounds.width/2.0, bounds.height/2.0);
+			Rectangle2D.Double sw = new Rectangle2D.Double(bounds.x, bounds.y+bounds.height/2.0, bounds.width/2.0, bounds.height/2.0);
+			Rectangle2D.Double se = new Rectangle2D.Double(bounds.x+bounds.width/2.0, bounds.y+bounds.height/2.0, bounds.width/2.0, bounds.height/2.0);
 			Rectangle2D.Double[] rects = new Rectangle2D.Double[]{nw,ne,sw,se};
 
 			// the sets of Krakedges
@@ -42,24 +40,20 @@ public class QuadTreeNode<T extends KrakEdge> {
 			Set<T> ne_set = new HashSet<T>();
 			Set<T> sw_set = new HashSet<T>();
 			Set<T> se_set = new HashSet<T>();
-			ArrayList<Set<T>> sets = new ArrayList<Set<T>>();
-			sets.add(nw_set);
-			sets.add(ne_set);
-			sets.add(sw_set);
-			sets.add(se_set);
+			Set<T>[] sets = new Set[] { nw_set, ne_set, sw_set, se_set };
 
 			// putting the edges into the right boxes
 			for(KrakEdge edge : content){
 				for(int i = 0 ; i < 4 ; i++){
 					if(rects[i].intersectsLine(edge.getLine())){
-						sets.get(i).add((T) edge);
+						sets[i].add((T) edge);
 					}
 				}
 			}
 
 			// saving all 4 nodes
 			for(int i = 0 ; i < 4 ; i++){
-				nodes.add(new QuadTreeNode<T>(rects[i], sets.get(i)));
+				nodes[i] = new QuadTreeNode<T>(rects[i], sets[i]);
 			}
 
 		}else{
@@ -73,7 +67,11 @@ public class QuadTreeNode<T extends KrakEdge> {
 	 * @return True if the node has sub-nodes.
 	 */
 	public boolean isEmpty(){
-		return nodes.isEmpty();
+		boolean returnVal = true;
+		for (int i = 0; i < nodes.length; i++) {
+			returnVal = returnVal && nodes[i] == null;
+		}
+		return returnVal;
 	}
 
 	/**

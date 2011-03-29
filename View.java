@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -56,7 +57,7 @@ public class View extends JFrame{
 	 * @param header The title for the frame.
 	 * @param first_lines The initial lines to be shown.
 	 */
-	public View(String header, double startRatio){
+	public View(String header, float startRatio){
 		super(header);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -70,8 +71,6 @@ public class View extends JFrame{
 
 		canvas.setPreferredSize(new Dimension(canvas.getWidth(), (int)(canvas.getWidth()/startRatio)));
 		pack();
-
-		System.out.println("finished view setup");
 	}
 
 	private void canvasListener() {
@@ -88,21 +87,33 @@ public class View extends JFrame{
 			public void mouseDragged(MouseEvent e){
 				Point end = e.getPoint();
 
-				Graphics g = canvas.getGraphics();
+				Graphics2D g = (Graphics2D) canvas.getGraphics();
 				g.drawImage(canvas.getImage(), 0, 0, null);
 
 				// draw the rectangle the right way (else it will be filled)
 				if(start.x < end.x && start.y < end.y){
 					// pulled right down
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(start.x, start.y, end.x - start.x, end.y - start.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(start.x, start.y, end.x - start.x, end.y - start.y);
 				}else if(start.x < end.x && start.y > end.y){
 					// pulled right up
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(start.x, end.y, end.x - start.x,start.y - end.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(start.x, end.y, end.x - start.x,start.y - end.y);
 				}else if(start.x > end.x && start.y < end.y){
 					// pulled left down
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(end.x, start.y, start.x - end.x, end.y - start.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(end.x, start.y, start.x - end.x, end.y - start.y);
 				}else{
 					// pulled left up
+					g.setColor(new Color(0,0,1,0.33f));
+					g.fillRect(end.x, end.y, start.x - end.x, start.y - end.y);
+					g.setColor(Color.BLUE);
 					g.drawRect(end.x, end.y, start.x - end.x, start.y - end.y);
 				}
 
@@ -172,8 +183,9 @@ public class View extends JFrame{
 	 * Adds a MouseListener to the canvas component.
 	 * @param m The MouseListener for the canvas.
 	 */
-	public void addCanvasMouseListener(MouseListener m){
+	public void addCanvasMouseListener(MouseAdapter m){
 		canvas.addMouseListener(m);
+		canvas.addMouseMotionListener(m);
 	}
 
 	/**
@@ -183,6 +195,23 @@ public class View extends JFrame{
 	 */
 	public void addCanvasComponentListener(ComponentListener c){
 		canvas.addComponentListener(c);
+	}
+	
+	/**
+	 * Adds a KeyListener to all focusable components in the view, this
+	 * ensures that we receive info when a key is pressed no matter what
+	 * component is focused at that time.
+	 */
+	@Override
+	public void addKeyListener(KeyListener k){
+		super.addKeyListener(k);
+		canvas.addKeyListener(k);
+		upButton.addKeyListener(k);
+		leftButton.addKeyListener(k);
+		downButton.addKeyListener(k);
+		rightButton.addKeyListener(k);
+		zoomInButton.addKeyListener(k);
+		zoomOutButton.addKeyListener(k);
 	}
 
 	/**
@@ -229,7 +258,7 @@ public class View extends JFrame{
 		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
-		infobar = new JLabel("Emil rocks!",SwingConstants.CENTER);
+		infobar = new JLabel(" ",SwingConstants.CENTER);
 
 		// layouts & borders
 		outer.setLayout(new BorderLayout());
@@ -336,7 +365,7 @@ public class View extends JFrame{
 		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1));
 		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2));
 
-		View v = new View("X marks the spot",1.0);
+		View v = new View("X marks the spot",(float) 1.0);
 		v.repaint(x);
 	}
 }

@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class KrakEdge extends Edge<KrakNode> {
 	// sestoft: For sharing roadname strings
 	private static HashMap<String, String> interner = new HashMap<String, String>();
-	public final double length;
+	public final float length;
 	public final int type;
 	public final String roadname;
 	public final int DAV_DK, DAV_DK_ID;
@@ -35,7 +35,7 @@ public class KrakEdge extends Edge<KrakNode> {
 		this.n1 = graph.getNode(data.FNODE);
 		this.n2 = graph.getNode(data.TNODE);
 
-		length = data.LENGTH;
+		length = (float) data.LENGTH;
 		DAV_DK = data.DAV_DK;
 		DAV_DK_ID = data.DAV_DK_ID;
 		type = data.TYP;
