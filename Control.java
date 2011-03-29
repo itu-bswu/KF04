@@ -30,7 +30,6 @@ public class Control {
 	private final String edgeFile = "kdv_unload.txt"; //The edges used to construct the graph
 	private View v;
 	private Map m;
-	//private Graph<KrakEdge, KrakNode> g;
 
 	/**
 	 * Contstructor for class Control
@@ -104,11 +103,13 @@ public class Control {
 			private Point a = null;
 			private Point b = null;
 			private Rectangle2D.Double p = null;
-
+			
+			@Override
 			public void mousePressed(MouseEvent e){
 				a = e.getPoint();
 			}
-
+			
+			@Override
 			public void mouseReleased(MouseEvent e){
 				if(a == null) return; //Tries to catch null pointer from weird mouse events.
 
@@ -183,8 +184,8 @@ public class Control {
 
 	private Rectangle2D.Double point2DToRectangle(Point2D.Double a, Point2D.Double b){
 		Rectangle2D.Double p;
-		if(b.x < a.x){
-			if(b.y < a.y){
+		if(b.x < a.x){ //If the second point is to the left of the first point, then do this 
+			if(b.y < a.y){ //If the second point is above the first point, then do this.
 				p = new Rectangle2D.Double(b.x, b.y, (a.x - b.x), (a.y - b.y));
 			}
 			else{
@@ -193,7 +194,7 @@ public class Control {
 			}
 		}
 		else{
-			if(b. y < a.y){
+			if(b. y < a.y){ //If the second point is above the first point, then do this.
 				p = new Rectangle2D.Double(a.x, b.y, (b.x - a.x), (a.y - b.y));
 			}
 			else{
@@ -209,6 +210,8 @@ public class Control {
 
 	private Point2D.Double pixelToUTM(Point e){
 		Rectangle2D.Double map = m.getBounds();
+		//Inverts the y-value of the point, so that it is converted from the pixel coordinate system to the
+		//UTM coordinate system
 		e.y = v.getCanvasHeight() - e.y;
 		// convert pixel to meters
 		float x_m = (float) (map.x + (e.getX() / (float) v.getCanvasWidth()) * map.width);
@@ -218,6 +221,7 @@ public class Control {
 
 	private void fixRatio(Rectangle2D.Double a, Rectangle2D.Double b){
 		float ratio = (float) (b.width / b.height);
+		
 		if(a.width < a.height){
 			float temp = (float) a.width;	
 			a.width = ratio * a.height;

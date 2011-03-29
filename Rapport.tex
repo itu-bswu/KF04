@@ -1,4 +1,5 @@
 \documentclass[11pt,a4paper,titlepage]{article}
+\usepackage[latin1]{inputenc}
 
 \title{KF04 project report}
 \author{
@@ -7,7 +8,7 @@
 	Niklas Hansen\\
 	Emil Juul Jacobsen\\
 	Filip Hjermind Jensen\\
-	Jens Dahl Moellerhoej\\
+	Jens Dahl Møllerhøj\\
 }
 
 \date{April 5, 2011}
@@ -20,10 +21,9 @@
 
 \clearpage
 
-
-
-\section{Introduction}
 \section{Features}
+This section describes the features we have chosen to include and not to include
+in our Map Of Denmark project for Spring 2011.
 \begin{itemize}
   \item 
 	Mousezoom scales with current window ratio
@@ -36,23 +36,47 @@
   \item 
   	Makes the map bigger when borders of GUI is dragged.
   \item
-  	 Reset zoom level using Escape button.
+  	Reset zoom level using Escape button.
+  \item
+  	Shows less roads when zoomed far out
 \end{itemize}
-
 \subsection{Mousezoom}
-
+	It is possible to zoom in on a specific part of the map by dragging a box
+	around the area to be zoomed in on. The area shown after the zoom will be fixed
+	to the ratio of the map. 
+	
+	This means that it will always show the part of the map that was selected with
+	the mouse, but it will sometimes show more in either the width or the height
+	depending on how the rectangle was drawn.
 \subsection{Move buttons}
-
+	It is possible to navigate the map by using the buttons on the
+	graphical user interface. When the buttons are pressed, the view moves in the
+	direction indicated by the arrow.
 \subsection{Zoom in/out functions}
-
-\subsection{Roadnames on mouseover}
-
-\subsection{Draggable borders}
-
+	It is possible to zoom in and out using the + and - buttons on the graphical
+	user interface. It will do the zoom in/out on the center of the map.
 \subsection{Reset zoom level}
-
+	It is possible to reset the zoom level to what it was when the application
+	started. This is done by pressing escape. This makes it much easier to navigate
+	the map if the user has zoomed in a few times.
+\subsection{Roadnames on mouseover}
+	When mousing over a road on the map, the name of the road is shown at the
+	bottom of the graphical user interface.
+\subsection{Draggable borders}
+\subsection{Less roads when zoomed far out}
+\subsection{Not included}
+	Currently the only way to navigate around the map is to use the buttons on the
+	graphical user interface. We thought about both including a way to move around
+	the map by either dragging with the mouse and/or using the arrow keys on the
+	keyboard. However, we put it aside - for now - as a ``nice, but not
+	must-have''-feature.
+	
+	We have chosen not to let the user select what road types he/she wants to be
+	drawn on the map. We do not feel that this is necessary, because we only draw
+	the bigger roads when zoomed out.
 \section{Implementation}
-
+	This section describes what choices we have made when implementing our Map Of
+	Denmark project for Spring 2011.
 \subsection{Model-View-Control}
 \subsection{PixelToUTM}
 \subsection{Control}
