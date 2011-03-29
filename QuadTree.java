@@ -25,6 +25,8 @@ public class QuadTree<T extends KrakEdge>{
 	public static final int[] part1 = new int[]{0,1,2,3,4,10,21,22,31,32,33,34,35,41,42,43,44,45,46,80};
 	public static final int[] part2 = new int[]{5,11,23,24,25};
 	public static final int[] part3 = new int[]{6,8,26,28,48,95,99};
+	public static final int INNER_LEVEL = 2000;
+	public static final int CENTER_LEVEL = 50000;
 
 	private QuadTreeNode<T> root1;
 	private QuadTreeNode<T> root2;
@@ -88,15 +90,13 @@ public class QuadTree<T extends KrakEdge>{
 	 */
 	public Set<T> query(Rectangle2D.Double qarea){
 		double area = (qarea.width/1000)*(qarea.height/1000);
-		System.out.println("area: "+area+" km2");
+		//System.out.printf("area: %.2f km2\n",area);
 		Set<T> total;
 
 		total = root1.query(qarea);
-		if(area < 50000){
-			System.out.println("searcing layer 2");
+		if(area < CENTER_LEVEL){
 			total.addAll(root2.query(qarea));
-			if(area < 5000){
-				System.out.println("searching layer 3");
+			if(area < INNER_LEVEL){
 				total.addAll(root3.query(qarea));
 			}
 		}

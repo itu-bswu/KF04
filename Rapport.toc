@@ -7,10 +7,11 @@
 \contentsline {subsection}{\numberline {1.6}Draggable borders}{3}
 \contentsline {subsection}{\numberline {1.7}Less roads when zoomed far out}{3}
 \contentsline {subsection}{\numberline {1.8}Not included}{3}
-\contentsline {section}{\numberline {2}Implementation}{3}
+\contentsline {section}{\numberline {2}Implementation}{4}
 \contentsline {subsection}{\numberline {2.1}Model-View-Control}{4}
-\contentsline {subsection}{\numberline {2.2}PixelToUTM}{4}
-\contentsline {subsection}{\numberline {2.3}Control}{4}
+\contentsline {subsection}{\numberline {2.2}Control}{4}
+\contentsline {subsection}{\numberline {2.3}PixelToUTM}{4}
 \contentsline {subsection}{\numberline {2.4}Map}{4}
-\contentsline {subsection}{\numberline {2.5}Roads}{4}
-\contentsline {subsection}{\numberline {2.6}View}{4}
+\contentsline {subsection}{\numberline {2.5}QuadTree og selektering af veje}{4}
+\contentsline {subsection}{\numberline {2.6}Lines}{5}
+\contentsline {subsection}{\numberline {2.7}View}{5}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=latex 2011.3.29)  29 MAR 2011 13:28
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=latex 2011.3.29)  29 MAR 2011 20:29
 entering extended mode
 **Rapport.tex
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\Rapport.tex"
@@ -76,14 +76,14 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
  [2
 
 ] [3] [4]
-("C:\Users\Jakob Melnyk\workspace\KF04\src\Rapport.aux") ) 
+[5] ("C:\Users\Jakob Melnyk\workspace\KF04\src\Rapport.aux") ) 
 Here is how much of TeX's memory you used:
- 298 strings out of 494020
- 3954 string characters out of 3143884
+ 299 strings out of 494020
+ 3962 string characters out of 3143884
  51862 words of memory out of 3000000
- 3649 multiletter control sequences out of 15000+200000
+ 3650 multiletter control sequences out of 15000+200000
  8811 words of font info for 31 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  22i,6n,19p,168b,191s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on Rapport.dvi (5 pages, 10992 bytes).
+Output written on Rapport.dvi (6 pages, 15708 bytes).
