@@ -53,9 +53,9 @@ public class View extends JFrame{
 	private JLabel infobar;
 
 	/**
-	 * Creates the frame with the given header title and an initial set of lines to be drawn.
+	 * Creates the frame with the given header title and the initially wanted ratio for the canvas.
 	 * @param header The title for the frame.
-	 * @param first_lines The initial lines to be shown.
+	 * @param startRatio The initial ratio of the canvas component.
 	 */
 	public View(String header, float startRatio){
 		super(header);
@@ -73,6 +73,9 @@ public class View extends JFrame{
 		pack();
 	}
 
+	/**
+	 * The private MouseListener that draws a rectangle around a marked area of the map.
+	 */
 	private void canvasListener() {
 		MouseAdapter m = new MouseAdapter(){
 
@@ -246,6 +249,10 @@ public class View extends JFrame{
 		infobar.setText(text);
 	}
 
+	/**
+	 * Creates the tree of components that the window consists of. This includes the different buttons and labels
+	 * around.
+	 */
 	private void createContent() {
 		// creating objects
 		Container outer = this.getContentPane();
@@ -275,6 +282,10 @@ public class View extends JFrame{
 		setupNavigation(navigationPanel);
 	}
 
+	/**
+	 * Creates the complicated navigation panel, this is done using a GridBagLayout.
+	 * @param nav
+	 */
 	private void setupNavigation(JPanel nav) {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
@@ -312,18 +323,29 @@ public class View extends JFrame{
 	private class Canvas extends JComponent{
 		private static final long serialVersionUID = 1L;
 
-		//private Collection<Line> lines;
 		private BufferedImage img = null;
 
+		/**
+		 * Gives the off-screen image that is contained within the canvas.
+		 * @return
+		 */
 		public Image getImage(){
 			return img;
 		}
 
+		/**
+		 * Updates the canvas with a new Set of Lines and repaints using them.
+		 * @param lines The Set of Lines to be drawn.
+		 */
 		public void updateLines(Collection<Line> lines){
 			drawOffScreen(lines);
 			this.repaint();
 		}
 
+		/**
+		 * Draws the given Lines on the off-screen image for later display on the canvas.
+		 * @param lines
+		 */
 		public void drawOffScreen(Collection<Line> lines){
 			if(getWidth() > 0 && getHeight() > 0){
 				Stopwatch timer = new Stopwatch("Drawing");
@@ -347,6 +369,9 @@ public class View extends JFrame{
 			}
 		}
 
+		/**
+		 * Paints the off-screen image on the canvas.
+		 */
 		@Override
 		public void paint(Graphics g){
 			if(img != null){
