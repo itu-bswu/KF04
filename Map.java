@@ -107,7 +107,7 @@ public class Map {
 		for (KrakEdge e : qt.query(bounds)) {
 			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
-			//Choosing the right color to each line
+			//Choosing the right color and thickness for each line
 			Color roadColor = new Color(0x000000);
 			int thickness = 1;
 			switch(e.type){
@@ -119,14 +119,17 @@ public class Map {
 			case 2:
 				//Motortrafikvej
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 			case 3:
 				//Primærrute > 6 meter
 				roadColor = Color.YELLOW;
+				thickness = 2;
 				break;
 			case 4:
 				//Sekundærrute > 6 meter
 				roadColor = Color.YELLOW;
+				thickness = 2;
 				break;
 			case 5:
 				//Vej 3 - 6 meter
@@ -179,14 +182,17 @@ public class Map {
 			case 31:
 				//Motorvejsafkørsel
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 			case 32:
 				//Motortrafikvejsafkørsel
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 			case 33:
 				//Primærvejsafkørsel
 				roadColor = Color.YELLOW;
+				thickness = 2;
 				break;
 			case 34:
 				//Sekundærvejsafkørsel
@@ -199,10 +205,12 @@ public class Map {
 			case 41:
 				//Motorvejstunnel
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 			case 42:
 				//Motortrafikvejstunnel
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 
 			}
