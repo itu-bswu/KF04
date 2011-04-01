@@ -11,8 +11,8 @@ import java.util.List;
 
 import loader.EdgeData;
 import loader.NodeData;
-import data.KrakEdge;
-import data.KrakNode;
+import dataobjects.KrakEdge;
+import dataobjects.KrakNode;
 
 import graphlib.Graph;
 
