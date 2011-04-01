@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Set;
 
 import graphlib.Graph;
-import data.QuadTree;
-import data.KrakEdge;
-import data.KrakNode;
+import dataobjects.KrakEdge;
+import dataobjects.KrakNode;
+import dataobjects.QuadTree;
 import gui.Line;
 
 /**
