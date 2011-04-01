@@ -86,7 +86,41 @@ in our Map Of Denmark project for Spring 2011.
 	This section describes what choices we have made when implementing our Map Of
 	Denmark project for Spring 2011.
 \subsection{Model-View-Control}
-Skrives af Niklas
+	For at få en ordentlig struktur på sin kode, er det vigtigt at opdele sin kode 
+	i flere dele, som så arbejder sammen for at få programmet til at køre. En måde 
+	man kan gøre dette på, er ved at lave en klasse til sin brugergrænseflade, og 
+	en klasse til resten.
+
+	En af ulemper ved at gøre det på denne måde, er at det kan blive tvetydigt hvor 
+	dele af ansvaret for kommunikationen mellem disse, skal ligge.
+
+	Vi har valgt at lægge os op af Model-View-Controller (herefter kaldt MVC) 
+	arkitekturen, som er en anden måde at gøre det på. Her deler vi koden op i tre 
+	dele, for at få en fornuftig opdeling af data, logik og brugergrænseflade.
+
+	Lige som ovensta¿ende billede viser, sa¿ har et grafisk vindue sin egen klasse. De 
+	klasser bliver kaldt ¿views¿. Hvor man førhen havde en klasse til ba¿de at 
+	kommunikere med de grafiske vinduer og datakilden (fx en database, eller en CSV 
+	fil i vores tilfælde), sa¿ splitter man nu denne del op i to. Den ene del kalder 
+	vi for ¿models¿ - eller pa¿ dansk: ¿modeller¿.
+
+	Disse modeller sta¿r for kommunikationen med datakilden, og hver model repræsenterer 
+	én enkelt datakilde. Hvis man brugte en relationsdatabase, ville man have en 
+	model til hver tabel i databasen. Denne model-klasse sta¿r sa¿ for al kommunikation 
+	med lige præcis den ene tabel som den repræsenterer.
+
+	Sa¿ mangler vi bare en ma¿de at forbinde den grafiske bruger-grænseflade (¿views¿) 
+	med vores data (¿models¿), og det er her controller-delen kommer ind i billedet. 
+	Controlleren sta¿r som et mellemled, og henter data fra modellen. Disse data giver 
+	den sa¿ videre til det grafiske vindue. Controlleren har desuden nogle ¿lyttere¿, 
+	sa¿ den lytter til om brugere trykker pa¿ en knap eller at lignende begivenheder 
+	finder sted. Hvis der f.eks. sa¿ bliver opdateret noget data i det grafiske vindue, 
+	sa¿ sta¿r controlleren sa¿ for at sende den nye data videre til modellen.
+
+	En af fordelene ved at dele koden op pa¿ denne ma¿de, er at man har en fast struktur, 
+	som gør det nemt at overskue koden og deler ansvaret ud pa¿ forskellige klasser, 
+	sa¿ man dermed kan udnytte fordelene ved abstraktion og modularisering.
+
 
 \subsection{Control}
 Skrives af Jakob
