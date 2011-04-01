@@ -1,8 +1,8 @@
 package core;
 
-import data.KrakEdge;
 import loader.KrakLoader;
-import data.KrakNode;
+import dataobjects.KrakEdge;
+import dataobjects.KrakNode;
 import core.Map;
 import graphlib.Graph;
 import gui.View;

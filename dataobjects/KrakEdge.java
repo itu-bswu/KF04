@@ -1,8 +1,12 @@
+package dataobjects;
+
 import graphlib.Edge;
 import graphlib.Graph;
 
 import java.awt.geom.Line2D;
 import java.util.HashMap;
+
+import loader.EdgeData;
 
 /**
  * A graph edge created from an EdgeData object. For the sake of memory
