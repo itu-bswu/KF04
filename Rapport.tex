@@ -1,4 +1,5 @@
 \documentclass[11pt,a4paper,titlepage]{article}
+\usepackage[latin1]{inputenc}
 
 \title{KF04 project report}
 \author{
@@ -7,7 +8,7 @@
 	Niklas Hansen\\
 	Emil Juul Jacobsen\\
 	Filip Hjermind Jensen\\
-	Jens Dahl Moellerhoej\\
+	Jens Dahl Møllerhøj\\
 }
 
 \date{April 5, 2011}
@@ -20,10 +21,9 @@
 
 \clearpage
 
-
-
-\section{Introduction}
 \section{Features}
+This section describes the features we have chosen to include and not to include
+in our Map Of Denmark project for Spring 2011.
 \begin{itemize}
   \item 
 	Mousezoom scales with current window ratio
@@ -36,23 +36,54 @@
   \item 
   	Makes the map bigger when borders of GUI is dragged.
   \item
-  	 Reset zoom level using Escape button.
+  	Reset zoom level using Escape button.
+  \item
+  	Shows less roads when zoomed far out
 \end{itemize}
-
 \subsection{Mousezoom}
-
+	It is possible to zoom in on a specific part of the map by dragging a box
+	around the area to be zoomed in on. The area shown after the zoom will be fixed
+	to the ratio of the map. 
+	
+	This means that it will always show the part of the map that was selected with
+	the mouse, but it will sometimes show more in either the width or the height
+	depending on how the rectangle was drawn.
 \subsection{Move buttons}
-
+	It is possible to navigate the map by using the buttons on the
+	graphical user interface. When the buttons are pressed, the view moves in the
+	direction indicated by the arrow.
 \subsection{Zoom in/out functions}
-
-\subsection{Roadnames on mouseover}
-
-\subsection{Draggable borders}
-
+	It is possible to zoom in and out using the + and - buttons on the graphical
+	user interface. It will do the zoom in/out on the center of the map.
 \subsection{Reset zoom level}
-
+	It is possible to reset the zoom level to what it was when the application
+	started. This is done by pressing escape. This makes it much easier to navigate
+	the map if the user has zoomed in a few times.
+\subsection{Roadnames on mouseover}
+	When mousing over a road on the map, the name of the road is shown at the
+	bottom of the graphical user interface.
+\subsection{Draggable borders}
+	When dragging the window of the application, the borders of the map will
+	increase in width and/or height. This means that if the border(s) is dragged,
+	the view will show more of the map.
+\subsection{Less roads when zoomed far out}
+	The further the user has zoomed out on the map, the less roads - and thus
+	details - are shown on the map. The lower level of detail is not a problem when
+	zoomed far out, but the map can be navigated and zoomed in and out faster.
+\subsection{Not included}
+	Currently the only way to navigate around the map is to use the buttons on the
+	graphical user interface. We thought about both including a way to move around
+	the map by either dragging with the mouse and/or using the arrow keys on the
+	keyboard. However, we put it aside - for now - as a ``nice, but not
+	must-have''-feature.
+	
+	We have chosen not to let the user select what road types he/she wants to be
+	drawn on the map. We do not feel that this is necessary, because we only draw
+	the bigger roads when zoomed out.
+\pagebreak
 \section{Implementation}
-
+	This section describes what choices we have made when implementing our Map Of
+	Denmark project for Spring 2011.
 \subsection{Model-View-Control}
 Skrives af Niklas
 
@@ -63,23 +94,46 @@ Skrives af Jakob
 Skrives af Jakob
 
 \subsection{Map}
-Map klassen stŒr for den del af kortet der vises pŒ sk¾rmen. Den holder feltet <bounds> der er den rektangel af kortet der vises i ¿jeblikket. NŒr mapklassen skabes beregner den <bounds> til det mindste rektangel der viser hele kortet.
-NŒr View skal tegne kortet skaber map <Line> objekter af de  <krakEdges> som skal vises. Map s¿rger for at lines har den rigtige farve og tykkelse.
-
+	Map klassen står for den del af kortet der vises på skærmen. Den holder feltet
+	<bounds> der er den rektangel af kortet der vises i øjeblikket. Når mapklassen
+	skabes beregner den <bounds> til det mindste rektangel der viser hele kortet.
+	Når View skal tegne kortet skaber map <Line> objekter af de  <krakEdges> som
+	skal vises. Map sørger for at lines har den rigtige farve og tykkelse.
 \subsection{QuadTree og selektering af veje}
-Vi har optimeret vores kort med et quadtree. Hver gang vi har brug for data om kortet, sender vi quadtr¾et et rektangel med det omrŒde vi ¿nsker data om. 
-For at optimere visningen vores kort har vi valgt kun at vise nogle vejtyper. NŒr man kigger pŒ hele Danmark er det ikke interessant at fŒ vist de enkelte smŒveje, og derfor er der ingen grund til at tegne dem. Samtidig optimere l¿sningen kortet betydeligt.
-Implementationen af denne l¿sning spiller i meget h¿j grad sammen med implementationen af QuadTree. Inden vi implementerede selekteringen overvejede vi to forskellige mŒder at fŒ det til at spille sammen med QuadTree pŒ.
-PŒ den ene side kunne vi allerede i quadtr¾ets rod splitte tr¾et op i flere dele, sŒledes at hver dels blade var af en bestemt vejtype.
-PŒ den anden side kunne vi lader vejetyperne blive opdelt efter dybten i tr¾et, sŒledes at de store veje i f¿rste omgang blev fordelt i de f¿rste knuder, og de mindre vejtyper senere blev fordelt ned igennem tr¾et.
-De to metoder havde hver deres fordele og ulemper. Den f¿rste ville kr¾ve flere node objekter, hvilket ville koste i RAM forbrug. Til geng¾ld ville alle vejene i denne metode blive lagt i tr¾ets blade.
-Antallet af veje i den enkelte gruppering, samt antallet af grupperinger har v¾ret til diskussion. PŒ den ene side vil et stort antal veje ved det enkelte zoom niveau g¿r det lettere at genkende omrŒdet. PŒ den anden side vil det gŒ ud over performance.
-Vi har besluttet at vise en stor del af vejene, da vi ikke har omrŒdedata til at tegne hvad der er vand og hvad der er land.
+	Vi har optimeret vores kort med et quadtree. Hver gang vi har brug for data om
+	kortet, sender vi quadtræet et rektangel med det område vi ønsker data om. For
+	at optimere visningen vores kort har vi valgt kun at vise nogle vejtyper. Når
+	man kigger på hele Danmark er det ikke interessant at få vist de enkelte
+	småveje, og derfor er der ingen grund til at tegne dem. Samtidig optimerer
+	løsningen kortet betydeligt. 
+	
+	Implementationen af denne løsning spiller i meget høj grad sammen med
+	implementationen af QuadTree. Inden vi implementerede selekteringen overvejede
+	vi to forskellige måder at få det til at spille sammen med QuadTree på. På den
+	ene side kunne vi allerede i quadtræets rod splitte træet op i flere dele,
+	således at hver dels blade var af en bestemt vejtype. På den anden side kunne
+	vi lader vejetyperne blive opdelt efter dybten i træet, således at de store
+	veje i første omgang blev fordelt i de første knuder, og de mindre vejtyper
+	senere blev fordelt ned igennem træet. 
 
+	De to metoder havde hver deres fordele og ulemper.
+	Den første ville kræve flere node objekter, hvilket ville koste i RAM forbrug.
+	Til gengæld ville alle vejene i denne metode blive lagt i træets blade.
+	Antallet af veje i den enkelte gruppering, samt antallet af grupperinger har
+	været til diskussion. På den ene side vil et stort antal veje ved det enkelte
+	zoom niveau gør det lettere at genkende området. På den anden side vil det gå
+	ud over performance. 
+
+	Vi har besluttet at vise en stor del af vejene, da vi ikke har områdedata til
+	at tegne hvad der er vand og hvad der er land.
 \subsection{Lines}
-Skrives af Filip
-
+	Line klassen benyttes ifbm. at KrakEdge objekterne skal have et start- og et
+	slutpunkt som er relative til skærmen. Derudover indeholder Line klassen
+	information omkring tykkelse og farve på den pågældende vej. Tykkelsen og
+	farven kunne vi vælge at specificere i enten Map klassen eller i selve Line
+	klassen. Vi valgte at gøre det i Map for at spare RAM.
 \subsection{View}
-Skrives af Emil
-
+	View'et er den klasse som står for den grafiske repræsentation af vores data. Det er denne klasse som sørger for opbygningen af vinduet med alt hvad det indebærer af knapper til manøvrering på kortet, tekst-bar til visning af den vej musen pejer på samt selve kortet.
+	Selve kortet (Canvas) er implementeret som en privat indre klasse som udvider java's Component-klasse. Canvas klassen har mulighed for at tegne vores Line objekter og kan derved tegne kortet uden nogen viden om den bagved-liggende data-struktur. Det er muligt for brugeren at trække en rektangel i vinduet med musen for at zoome ind på en bestemt del af kortet. For at undgå at skulle gentegne hele kortet hver gang brugeren trækker rektanglen lidt større tegner Canvas kortet på et off-screen BufferedImage og bruger derefter dette billede til at tegne sammen med rektanglen, på den måde kan vinduet gentegnes på konstant tid i denne situation.
+	Eftersom View'et ikke har til ansvar at fortolke brugerens input er der en lang række metoder til at tilføje Listeners til de forskellige events der kommer når brugeren bruger musen, ændrer på vinduet's størrelse samt trykker på tastaturet. Desuden er der naturligvis mulighed for at sende nye Lines ind som derefter opdaterer Canvas.
 \end{document}
