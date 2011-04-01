@@ -127,7 +127,11 @@ Skrives af Jakob
 	Vi har besluttet at vise en stor del af vejene, da vi ikke har områdedata til
 	at tegne hvad der er vand og hvad der er land.
 \subsection{Lines}
-	Skrives af Filip
+	Line klassen benyttes ifbm. at KrakEdge objekterne skal have et start- og et
+	slutpunkt som er relative til skærmen. Derudover indeholder Line klassen
+	information omkring tykkelse og farve på den pågældende vej. Tykkelsen og
+	farven kunne vi vælge at specificere i enten Map klassen eller i selve Line
+	klassen. Vi valgte at gøre det i Map for at spare RAM.
 \subsection{View}
 	\class{View} er den klasse som står for den grafiske repræsentation af vores data. Det er denne klasse som sørger for opbygningen af vinduet med alt hvad det indebærer af knapper til manøvrering på kortet, tekst-bar til visning af den vej musen pejer på samt selve kortet.
 	Selve kortet (\class{Canvas}) er implementeret som en privat indre klasse som udvider java's \class{Component}-klasse. \class{Canvas} har mulighed for at tegne vores \class{Line} objekter og kan derved tegne kortet uden nogen viden om den bagved-liggende data-struktur. Det er muligt for brugeren at trække en rektangel i vinduet med musen for at zoome ind på en bestemt del af kortet. For at undgå at skulle gentegne hele kortet hver gang brugeren trækker rektanglen lidt større tegner \class{Canvas} kortet på et off-screen \class{BufferedImage} og bruger derefter dette billede til at tegne sammen med rektanglen, på den måde kan vinduet gentegnes på konstant tid i denne situation.

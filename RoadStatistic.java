@@ -22,6 +22,7 @@ public class RoadStatistic {
 		int[] counter = new int[100];
 		for (KrakEdge krakEdge : krakEdges) {
 			counter[krakEdge.type]++;
+			System.out.println(krakEdge.roadname);
 		}
 		int i = -1;
 		for(int roadNumbers : counter){

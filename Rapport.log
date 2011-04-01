@@ -1,5 +1,13 @@
+<<<<<<< HEAD
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=latex 2011.2.21)  29 MAR 2011 14:50
+entering extended mode
+ restricted \write18 enabled.
+ Source specials enabled.
+ %&-line parsing enabled.
+=======
 This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=latex 2011.3.29)  29 MAR 2011 20:29
 entering extended mode
+>>>>>>> 4977562f0a72c3e95fb4578be2049c5e6b3d5b23
 **Rapport.tex
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\Rapport.tex"
 LaTeX2e <2009/09/24>
@@ -59,8 +67,12 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 16.
  [1
 
+<<<<<<< HEAD
+] (./Rapport.toc
+=======
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\Rapport.toc"
+>>>>>>> 4977562f0a72c3e95fb4578be2049c5e6b3d5b23
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 2.
 )
@@ -78,6 +90,17 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 ] [3] [4]
 [5] ("C:\Users\Jakob Melnyk\workspace\KF04\src\Rapport.aux") ) 
 Here is how much of TeX's memory you used:
+<<<<<<< HEAD
+ 252 strings out of 493748
+ 2865 string characters out of 3143569
+ 53070 words of memory out of 3000000
+ 3614 multiletter control sequences out of 15000+200000
+ 8811 words of font info for 31 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 22i,6n,19p,271b,191s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on Rapport.dvi (4 pages, 9252 bytes).
+=======
  299 strings out of 494020
  3962 string characters out of 3143884
  51862 words of memory out of 3000000
@@ -87,3 +110,4 @@ Here is how much of TeX's memory you used:
  22i,6n,19p,168b,191s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on Rapport.dvi (6 pages, 15708 bytes).
+>>>>>>> 4977562f0a72c3e95fb4578be2049c5e6b3d5b23
