@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=latex 2011.3.29)  29 MAR 2011 20:29
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=latex 2011.4.1)  1 APR 2011 12:03
 entering extended mode
 **Rapport.tex
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\Rapport.tex"
@@ -38,25 +38,60 @@ Package: inputenc 2008/03/30 v1.1d Input encoding file
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\latin1.def"
 File: latin1.def 2008/03/30 v1.1d Input encoding file
 ))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: dvips.def on input line 91.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\dvips.def"
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
+\fancy@headwidth=\skip43
+\f@ncyO@elh=\skip44
+\f@ncyO@erh=\skip45
+\f@ncyO@olh=\skip46
+\f@ncyO@orh=\skip47
+\f@ncyO@elf=\skip48
+\f@ncyO@erf=\skip49
+\f@ncyO@olf=\skip50
+\f@ncyO@orf=\skip51
+)
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\Rapport.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
-LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 16.
+(Font)              <12> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 16.
+(Font)              <8> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 16.
+(Font)              <6> on input line 21.
  [1
 
 ]
@@ -66,24 +101,37 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 )
 \tf@toc=\write3
  [1]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 29.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 35.
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 29.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 35.
  [2
 
-] [3] [4]
-[5] ("C:\Users\Jakob Melnyk\workspace\KF04\src\Rapport.aux") ) 
-Here is how much of TeX's memory you used:
- 299 strings out of 494020
- 3962 string characters out of 3143884
- 51862 words of memory out of 3000000
- 3650 multiletter control sequences out of 15000+200000
- 8811 words of font info for 31 fonts, out of 3000000 for 9000
- 714 hyphenation exceptions out of 8191
- 22i,6n,19p,168b,191s stack positions out of 5000i,500n,10000p,200000b,50000s
+] [3]
+Overfull \hbox (5.62827pt too wide) in paragraph at lines 104--108
+[]\OT1/cmr/m/n/10.95 Vi har valgt at an-vende et \OT1/cmr/bx/n/10.95 Quadtree \
+OT1/cmr/m/n/10.95 i vores kort. Man kan give et \OT1/cmr/bx/n/10.95 QuadTree
+ []
 
-Output written on Rapport.dvi (6 pages, 15708 bytes).
+[4]
+Overfull \hbox (45.4851pt too wide) in paragraph at lines 147--154
+\OT1/cmr/m/n/10.95 Frst vendes y-koordinaten ``pa hov-edet'', sa den passer 
+ind i UTM-koordinatsystemet.
+ []
+
+File: UTMillu.jpg Graphic file (type eps)
+<UTMillu.jpg> [5] [6] [7] ("C:\Users\Jakob Melnyk\workspace\KF04\src\Rapport.au
+x") ) 
+Here is how much of TeX's memory you used:
+ 747 strings out of 494020
+ 9425 string characters out of 3143885
+ 59526 words of memory out of 3000000
+ 4072 multiletter control sequences out of 15000+200000
+ 9157 words of font info for 32 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 25i,6n,43p,245b,237s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on Rapport.dvi (8 pages, 19212 bytes).
