@@ -112,14 +112,17 @@ public class Control {
 			@Override
 			public void mousePressed(MouseEvent e){
 				a = e.getPoint();
+				pointOutOfBounds(a);
 			}
 			
 			@Override
 			public void mouseReleased(MouseEvent e){
 				if(a == null) return; //Tries to catch null pointer from weird mouse events.
-
 				b = e.getPoint();
-				if(Math.abs(b.x - a.x) < v.getCanvasWidth()/100 || Math.abs(b.y - a.y) < v.getCanvasHeight()/100) return; //Prevents the user from zooming in way too much.
+				pointOutOfBounds(b);
+				
+				if(Math.abs(b.x - a.x) < v.getCanvasWidth()/100 
+						|| Math.abs(b.y - a.y) < v.getCanvasHeight()/100) return; //Prevents the user from zooming in too much.
 				p = point2DToRectangle(pixelToUTM(a), pixelToUTM(b));
 				fixRatio(p, m.getBounds());
 				m.updateBounds(p);
@@ -250,8 +253,13 @@ public class Control {
 
 	/**
 	 * Adjusts a Rectangle to have the same ratio as another Rectangle
+<<<<<<< HEAD
+	 * @param a The Rectangle to adjust.
+	 * @param b The Rectangle that has the desired ratio.
+=======
 	 * @param inner The Rectangle to adjust.
 	 * @param outer The Rectangle that has the wanted ratio.
+>>>>>>> 27b3427a34a1872d1a9107e1cb94692f745699ab
 	 */
 	private void fixRatio(Rectangle2D.Double inner, Rectangle2D.Double outer){
 		float outer_ratio = (float) (outer.width / outer.height);
@@ -284,4 +292,23 @@ public class Control {
 //			inner.y = inner.y - (inner.height - temp) / 2;
 //		}
 	}
+	/**
+	 * Checks if a Point object is out of bounds of the canvas and changes it to be inside the bounds. 
+	 * @param outOfBounds The Point object to be checked.
+	 */
+	private void pointOutOfBounds (Point outOfBounds){
+		if(outOfBounds.x > v.getCanvasWidth()){
+			outOfBounds.x = v.getCanvasWidth();
+		}
+		else if(outOfBounds.x < 0){
+			outOfBounds.x = 0;
+		}
+		if(outOfBounds.y > v.getCanvasHeight()){
+			outOfBounds.y = v.getCanvasHeight();
+		}
+		else if(outOfBounds.y < 0){
+			outOfBounds.y = 0;
+		}
+	}
+	
 }
