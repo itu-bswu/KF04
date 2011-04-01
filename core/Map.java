@@ -1,3 +1,4 @@
+package core;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -8,6 +9,10 @@ import java.util.List;
 import java.util.Set;
 
 import graphlib.Graph;
+import dataobjects.KrakEdge;
+import dataobjects.KrakNode;
+import dataobjects.QuadTree;
+import gui.Line;
 
 /**
  * Map class
@@ -76,9 +81,6 @@ public class Map {
 	 * @return The outer bounds
 	 */
 	private Rectangle2D.Double outerBounds(List<KrakNode> list) {
-
-		System.out.println("Establishing outer bounds of map");
-
 		float minX = -1;
 		float minY = -1;
 		float maxX = -1;
@@ -102,12 +104,12 @@ public class Map {
 	 * @return All the lines.
 	 */
 	public Collection<Line> getLines() {
-		Stopwatch timer = new Stopwatch("Making Lines");
+//		Stopwatch timer = new Stopwatch("Making Lines");
 		HashSet<Line> lines = new HashSet<Line>();
 		for (KrakEdge e : qt.query(bounds)) {
 			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
-			//Choosing the right color to each line
+			//Choosing the right color and thickness for each line
 			Color roadColor = new Color(0x000000);
 			int thickness = 1;
 			switch(e.type){
@@ -119,14 +121,17 @@ public class Map {
 			case 2:
 				//Motortrafikvej
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 			case 3:
 				//Primærrute > 6 meter
 				roadColor = Color.YELLOW;
+				thickness = 2;
 				break;
 			case 4:
 				//Sekundærrute > 6 meter
 				roadColor = Color.YELLOW;
+				thickness = 2;
 				break;
 			case 5:
 				//Vej 3 - 6 meter
@@ -179,14 +184,17 @@ public class Map {
 			case 31:
 				//Motorvejsafkørsel
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 			case 32:
 				//Motortrafikvejsafkørsel
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 			case 33:
 				//Primærvejsafkørsel
 				roadColor = Color.YELLOW;
+				thickness = 2;
 				break;
 			case 34:
 				//Sekundærvejsafkørsel
@@ -199,17 +207,18 @@ public class Map {
 			case 41:
 				//Motorvejstunnel
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 			case 42:
 				//Motortrafikvejstunnel
 				roadColor = Color.RED;
+				thickness = 3;
 				break;
 
 			}
 			lines.add(new Line(firstPoint,secondPoint,roadColor,thickness));
-			// TODO: Thickness (last argument) should be chosen
 		}
-		timer.printTime();
+//		timer.printTime();
 		return lines;
 	}
 

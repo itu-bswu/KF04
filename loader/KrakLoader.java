@@ -1,3 +1,5 @@
+package loader;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,6 +8,11 @@ import java.lang.management.MemoryMXBean;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import loader.EdgeData;
+import loader.NodeData;
+import dataobjects.KrakEdge;
+import dataobjects.KrakNode;
 
 import graphlib.Graph;
 

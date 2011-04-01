@@ -1,4 +1,11 @@
+package core;
+
+import loader.KrakLoader;
+import dataobjects.KrakEdge;
+import dataobjects.KrakNode;
+import core.Map;
 import graphlib.Graph;
+import gui.View;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,10 +13,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -37,21 +44,15 @@ public class Control {
 	 */
 	public Control() {
 		Graph<KrakEdge, KrakNode> g = null;
-		printRAM();
 		try {
 			g = KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
 		} catch (IOException e) {
 			System.out.println("A problem occured when trying to read input.");
 		}
-		printRAM();
-		System.out.println("Done loading data");
 		m = new Map(g);
-		printRAM();
 		v = new View(NAME, m.getBoundsWidth()/m.getBoundsHeight());
-		printRAM();
 		v.repaint(m.getLines());
 		addListeners();
-		printRAM();
 	}
 
 	/**
@@ -142,7 +143,7 @@ public class Control {
 
 			@Override
 			public void componentResized(ComponentEvent e){
-				Stopwatch timer = new Stopwatch("Adjusting to resize");
+				//Stopwatch timer = new Stopwatch("Adjusting to resize");
 				Rectangle2D.Double map = m.getBounds();
 				int newWidth = v.getCanvasWidth();
 				int newHeight = v.getCanvasHeight();
@@ -156,7 +157,7 @@ public class Control {
 				oldWidth = newWidth;
 				oldHeight = newHeight;
 
-				timer.printTime();
+				//timer.printTime();
 				v.repaint(m.getLines());
 			}
 		});
@@ -252,25 +253,44 @@ public class Control {
 
 	/**
 	 * Adjusts a Rectangle to have the same ratio as another Rectangle
+<<<<<<< HEAD
 	 * @param a The Rectangle to adjust.
 	 * @param b The Rectangle that has the desired ratio.
+=======
+	 * @param inner The Rectangle to adjust.
+	 * @param outer The Rectangle that has the wanted ratio.
+>>>>>>> 27b3427a34a1872d1a9107e1cb94692f745699ab
 	 */
-	private void fixRatio(Rectangle2D.Double a, Rectangle2D.Double b){
-		float ratio = (float) (b.width / b.height);
-		// tall
-		if(b.width > b.height){
-			System.out.println("High Window");
-			float temp = (float) a.width;
-			a.width = ratio * a.height;
-			a.x = a.x - (a.width - temp) / 2;
+	private void fixRatio(Rectangle2D.Double inner, Rectangle2D.Double outer){
+		float outer_ratio = (float) (outer.width / outer.height);
+		float inner_ratio = (float) (inner.width / inner.height);
+		
+		if(inner_ratio < outer_ratio){
+			// make wider
+			float temp = (float) inner.width;
+			inner.width = outer_ratio * inner.height;
+			inner.x = inner.x - (inner.width - temp) / 2;
+			
+		}else{
+			// make higher
+			float temp = (float) inner.height;	
+			inner.height = inner.width / outer_ratio;
+			inner.y = inner.y - (inner.height - temp) / 2;
 		}
-		// wide
-		else{
-			System.out.println("Wide Window");
-			float temp = (float) a.height;	
-			a.height = a.width / ratio;
-			a.y = a.y - (a.height - temp) / 2;
-		}
+		
+//		float ratio = (float) (outer.width / outer.height);
+//		// tall
+//		if(outer.width > outer.height){
+//			float temp = (float) inner.width;
+//			inner.width = ratio * inner.height;
+//			inner.x = inner.x - (inner.width - temp) / 2;
+//		}
+//		// wide
+//		else{
+//			float temp = (float) inner.height;	
+//			inner.height = inner.width / ratio;
+//			inner.y = inner.y - (inner.height - temp) / 2;
+//		}
 	}
 	/**
 	 * Checks if a Point object is out of bounds of the canvas and changes it to be inside the bounds. 

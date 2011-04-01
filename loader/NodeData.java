@@ -1,14 +1,16 @@
+package loader;
 import java.io.IOException;
+
 
 /**
  * An object storing the raw node data from the krak data file.
  */
 public class NodeData {
-	final int ARC;
-	int KDV; // NB: Written by InstanceCreator
-	final int KDV_ID;
-	final float X_COORD;
-	final float Y_COORD;
+	public final int ARC;
+	public int KDV; // NB: Written by InstanceCreator
+	public final int KDV_ID;
+	public final float X_COORD;
+	public final float Y_COORD;
 
 	/**
 	 * Parses node data from line, throws an IOException if something unexpected

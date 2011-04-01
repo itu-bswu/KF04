@@ -1,3 +1,4 @@
+package gui;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -348,7 +349,7 @@ public class View extends JFrame{
 		 */
 		public void drawOffScreen(Collection<Line> lines){
 			if(getWidth() > 0 && getHeight() > 0){
-				Stopwatch timer = new Stopwatch("Drawing");
+				//Stopwatch timer = new Stopwatch("Drawing");
 				img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = (Graphics2D) img.getGraphics();
 
@@ -365,7 +366,7 @@ public class View extends JFrame{
 							(int)(l.getEndPoint().y*this.getHeight()));
 				}
 				g.dispose();
-				timer.printTime();
+				//timer.printTime();
 			}
 		}
 

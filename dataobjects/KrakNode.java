@@ -1,5 +1,7 @@
+package dataobjects;
 import java.awt.geom.Point2D;
 
+import loader.NodeData;
 import graphlib.Node;
 
 /**
