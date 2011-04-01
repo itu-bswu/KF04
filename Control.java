@@ -35,21 +35,15 @@ public class Control {
 	 */
 	public Control() {
 		Graph<KrakEdge, KrakNode> g = null;
-		printRAM();
 		try {
 			g = KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
 		} catch (IOException e) {
 			System.out.println("A problem occured when trying to read input.");
 		}
-		printRAM();
-		System.out.println("Done loading data");
 		m = new Map(g);
-		printRAM();
 		v = new View(NAME, m.getBoundsWidth()/m.getBoundsHeight());
-		printRAM();
 		v.repaint(m.getLines());
 		addListeners();
-		printRAM();
 	}
 
 	/**
@@ -137,7 +131,7 @@ public class Control {
 
 			@Override
 			public void componentResized(ComponentEvent e){
-				Stopwatch timer = new Stopwatch("Adjusting to resize");
+				//Stopwatch timer = new Stopwatch("Adjusting to resize");
 				Rectangle2D.Double map = m.getBounds();
 				int newWidth = v.getCanvasWidth();
 				int newHeight = v.getCanvasHeight();
@@ -151,7 +145,7 @@ public class Control {
 				oldWidth = newWidth;
 				oldHeight = newHeight;
 
-				timer.printTime();
+				//timer.printTime();
 				v.repaint(m.getLines());
 			}
 		});
@@ -254,14 +248,12 @@ public class Control {
 		float ratio = (float) (b.width / b.height);
 		// tall
 		if(b.width > b.height){
-			System.out.println("High Window");
 			float temp = (float) a.width;
 			a.width = ratio * a.height;
 			a.x = a.x - (a.width - temp) / 2;
 		}
 		// wide
 		else{
-			System.out.println("Wide Window");
 			float temp = (float) a.height;	
 			a.height = a.width / ratio;
 			a.y = a.y - (a.height - temp) / 2;
