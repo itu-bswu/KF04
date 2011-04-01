@@ -11,3 +11,4 @@ data/*
 *.synctex.gz
 *.toc
 bin/*
+*.ai
