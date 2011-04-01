@@ -76,9 +76,6 @@ public class Map {
 	 * @return The outer bounds
 	 */
 	private Rectangle2D.Double outerBounds(List<KrakNode> list) {
-
-		System.out.println("Establishing outer bounds of map");
-
 		float minX = -1;
 		float minY = -1;
 		float maxX = -1;
@@ -102,7 +99,7 @@ public class Map {
 	 * @return All the lines.
 	 */
 	public Collection<Line> getLines() {
-		Stopwatch timer = new Stopwatch("Making Lines");
+//		Stopwatch timer = new Stopwatch("Making Lines");
 		HashSet<Line> lines = new HashSet<Line>();
 		for (KrakEdge e : qt.query(bounds)) {
 			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
@@ -217,7 +214,7 @@ public class Map {
 			lines.add(new Line(firstPoint,secondPoint,roadColor,thickness));
 			// TODO: Thickness (last argument) should be chosen
 		}
-		timer.printTime();
+//		timer.printTime();
 		return lines;
 	}
 
