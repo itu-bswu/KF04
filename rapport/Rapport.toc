@@ -6,7 +6,7 @@
 \contentsline {subsection}{\numberline {1.4}Vejnavne vises, n\r ar man k\IeC {\o }rer musen over dem}{3}
 \contentsline {subsection}{\numberline {1.5}Kortets kanter kan tr\IeC {\ae }kkes}{3}
 \contentsline {subsection}{\numberline {1.6}G\r a tilbage til original zoom}{3}
-\contentsline {subsection}{\numberline {1.7}Vis f\IeC {\ae }rre veje, n\r ar man er zoomed ud}{3}
+\contentsline {subsection}{\numberline {1.7}Vis f\IeC {\ae }rre veje, n\r ar man er zoomet ud}{3}
 \contentsline {subsection}{\numberline {1.8}Features, som ikke er med}{3}
 \contentsline {section}{\numberline {2}Implementation}{4}
 \contentsline {subsection}{\numberline {2.1}Model-View-Control}{4}
