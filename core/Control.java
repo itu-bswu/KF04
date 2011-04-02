@@ -137,8 +137,6 @@ public class Control {
 		});
 		//
 		v.addCanvasComponentListener(new ComponentAdapter(){
-			private int oldWidth = v.getCanvasWidth();
-			private int oldHeight = v.getCanvasHeight();
 
 			@Override
 			public void componentResized(ComponentEvent e){
@@ -148,18 +146,6 @@ public class Control {
 				int newHeight = v.getCanvasHeight();
 				
 				fixRatioByInnerRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
-				
-
-				// gammel implementation, maa vi det?
-				/**
-				float x_adjust = (float) (map.width*(((float)newWidth - oldWidth)/oldWidth));
-				float y_adjust = (float) (map.height*(((float)newHeight - oldHeight)/oldHeight));
-
-				m.updateBounds(new Rectangle2D.Double(map.x, map.y - y_adjust, map.width + x_adjust,
-						map.height + y_adjust));
-				*/
-				oldWidth = newWidth;
-				oldHeight = newHeight;
 
 				//timer.printTime();
 				v.repaint(m.getLines());
