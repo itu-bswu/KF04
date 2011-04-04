@@ -11,7 +11,7 @@
 
 \title{KF04 projekt rapport}
 \author{
-Group 12:\\
+Gruppe 12:\\
 Jakob Melnyk\\
 Niklas Hansen\\
 Emil Juul Jacobsen\\
@@ -52,27 +52,25 @@ implementere.
 \end{itemize}
 \subsection{Mousezoom}
 Det er muligt at zoome ind på en specifik del af kortet ved at klikke med musen,
-trække en ``kasse'' hen over det, man vil zoome ind på, og så slippe museknappen.
+trække en ``kasse'' hen over det, man vil zoome ind på, og slippe museknappen.
 
 Billedet vil altid justere sig selv i forhold til applikationsvinduets
 størrelse. Dette betyder, at kortet alid vil vise det, som blev valgt, men nogle gange vil
-det vise mere enten i højden eller i bredden.
+det vise mere i enten højden eller i bredden.
 \subsection{Navigationsknapper}
 Det er muligt at navigere rundt på kortet ved hjælp af knapperne på GUI. Når
-der klikkes på knapperne, bevæger vinduet sig i retningen indikeret af pilen på
-knappen.
-\subsection{Zoom in/out functions}
+der klikkes på knapperne, bevæger vinduet sig i den retning vist af pilen på knappen.
+\subsection{Zoom in/out funktioner}
 Det er muligt at zoome ind og ud when hjælp af + og - knapperne på GUI. Kortet
 vil zoome i midten af det, som ses i øjeblikket.
 \subsection{Vejnavne vises, når man kører musen over dem}
 Når man kører musen hen over en vej, vises navnet på vejen i bunden af
 applikationen.
 \subsection{Kortets kanter kan trækkes}
-Når man trækker i kanten af kortet, forøges bredden og/eller højden på kortet.
-Dette betyder, at mere af kortet vil blive vist.
+Når man trækker i kanten af kortet, bliver kortet mindre eller større, an på hvilken vej vinduet blev trukket.
 \subsection{Gå tilbage til original zoom}
 Det er muligt at sætte zoomniveauet tilbage til det originale. Dette gøres ved,
-at man trykker på Escape-tasten. Dette gør det nemmere at navigere kortet rundt på kortet, hvis
+at man trykker på Escape-tasten. Dette gør det nemmere at navigere på kortet, hvis
 man har zoomet langt ind.
 \subsection{Vis færre veje, når man er zoomet ud}
 Jo længere brugeren har zoomet ind på kortet, jo flere veje vises. En lav
@@ -84,7 +82,7 @@ på GUI. Vi overvejede at implementere både piltasterne og musen som
 navigationsmulighed. Vi har gemt det væk for nu, da vi følte, at det var en
 ``nice-to-have'' feature mere end en nødvendighed.
 
-Vi har valgt ikke at gøre det muligt at vælge, hvilke typer veje, man vil have
+Vi har valgt ikke at gøre det muligt at specificere, hvilke typer veje, man vil have
 vist. Vi føler ikke, det er nødvendigt, da vi kun viser de store veje, når vi er
 zoomet ud.
 \pagebreak
@@ -94,11 +92,11 @@ Dette kapitel beskriver de valg, vi har foretaget, mens vi implementerede
 vores Map Of Denmark projekt i foråret 2011.
 \subsection{Model-View-Control}
 For at få en ordentlig struktur på sin kode, er det vigtigt at opdele sin kode
-i flere dele, som så arbejder sammen for at få programmet til at køre. En måde,
+i flere dele, som arbejder sammen for at få programmet til at køre. En måde,
 man kan gøre dette på, er ved at lave en klasse til sin brugergrænseflade, og
 en klasse til resten.
 
-En af ulemperne ved at gøre det på denne måde er, at det kan blive tvetydigt
+En af ulemperne ved at gøre det på denne måde er, at det kan blive tvetydigt,
 hvor dele af ansvaret for kommunikationen mellem disse skal ligge.
 
 Vi har valgt at lægge os op af Model-View-Controller (også kaldet MVC)
@@ -122,16 +120,16 @@ Så mangler vi bare en måde at forbinde den grafiske brugergrænseflade (``views''
 med vores data (``models''), og det er her ``controller"-delen kommer ind i billedet.
 Controlleren står som et mellemled, og henter data fra modellen. Disse data
 giver den så videre til det grafiske vindue. Controlleren har desuden nogle ``lyttere",
-så den lytter til om brugere trykker på en knap eller at lignende begivenheder
+så den lytter til, om brugere trykker på en knap eller at lignende begivenheder
 finder sted. Hvis der fx bliver opdateret noget data i det grafiske vindue,
 står controlleren for at sende den nye data videre til modellen.
 
-En af fordelene ved at dele koden op på denne måde, er at man har en fast struktur,
-som gør det nemt at overskue koden og deler ansvaret ud på forskellige klasser,
+En af fordelene ved at dele koden op på denne måde er, at man har en fast struktur,
+som gør det nemt at overskue koden, og man deler ansvaret ud på forskellige klasser,
 så man dermed kan udnytte fordelene ved abstraktion og modularisering.
 \subsection{Map}
 \class{Map} klassen står for den del af kortet, der vises på skærmen. Den har
-feltet \field{bounds}, der er den rektangel af kortet, der vises i øjeblikket.
+feltet \field{bounds}, der er det rektangel af kortet, der vises i øjeblikket.
 Når \class{Map}-klassen skabes, beregner den \field{bounds} til det mindste
 rektangel, der viser hele kortet.
 
@@ -140,8 +138,8 @@ klassen \class{Line} ud fra de \class{KrakEdges}, som skal vises. \class{Map} sø
 for, at objekter af klassen \class{Line} har den rigtige farve og tykkelse.
 \subsection{QuadTree og valg af veje}
 Vi har valgt at anvende et \class{Quadtree} i vores kort. Man kan give et
-\class{QuadTree} en rektangel, hvorefter den så returnerer et \class{Set} af de
-veje, som ligger indenfor den rektangel. Dette betyder, at vi undgår at løbe
+\class{QuadTree} et rektangel, hvorefter den så returnerer et \class{Set} af de
+veje, som ligger indenfor det rektangel. Dette betyder, at vi undgår at løbe
 alle veje igennem, når vi er zoomet langt ind.
 
 Det er ikke interessant at få vist alle veje, når man kigger på hele Danmark.
@@ -168,10 +166,10 @@ RAM forbruget. Til gengæld vil alle vejene i denne metode blive lagt i træets
 blade, hvilket er en fordel, når der skal søges i træet.
 
 Den anden er svær at implementere korrekt, da der skal defineres nogle meget
-specifikke mængder, hver \class{QuadTreeNode} kan indeholde.
+specifikke mængder af veje, hver \class{QuadTreeNode} kan indeholde.
 
 Vi har besluttet at vise en stor del af vejene, selv når vi er i yderste
-zoomnivea. Det har vi besluttet, fordi vi ikke har nogen features, som kræver,
+zoomniveau. Det har vi besluttet, fordi vi ikke har nogen features, som kræver,
 at tingene sker med det samme. Dette betyder også, at der er bedre mulighed for
 at genkende området, man ser på.
 \subsection{Control}
@@ -190,7 +188,7 @@ i UTM-koordinatsystemet. Derefter regner metoden ud, hvor langt inde på skærmen,
 der er klikket, finder ud af, hvor langt dette er i UTM-koordinater, og lægger
 det oveni feltet \field{bounds} koordinater.
 
-Formlen er følgende:
+Vores formel er følgende:
 
 UTM$_x$ = \field{bounds}$_x$ + (a$_x$ /
 \field{canvas}$_{width}$) * \field{bounds}$_{width}$
@@ -220,11 +218,11 @@ som en privat indre klasse, der udvider Javas \class{Component}-klasse.
 derved tegne kortet uden nogen viden om den bagved-liggende datastruktur. 
 
 Det
-er muligt for brugeren at trække en rektangel i vinduet med musen for at zoome
+er muligt for brugeren at trække et rektangel i vinduet med musen for at zoome
 ind på en bestemt del af kortet. For at undgå at skulle gentegne hele kortet,
-hver gang brugeren trækker rektanglen lidt større, tegner \class{Canvas} kortet
+hver gang brugeren trækker rektanglet lidt større, tegner \class{Canvas} kortet
 på et off-screen \class{BufferedImage}, og bruger derefter dette billede til at
-tegne sammen med rektanglen. På den måde kan vinduet gentegnes på konstant tid i
+tegne sammen med rektanglet. På den måde kan vinduet gentegnes på konstant tid i
 denne situation. 
 
 Eftersom \class{View} ikke har til ansvar at fortolke brugerens
@@ -244,9 +242,9 @@ koordinater vender på hovedet i forhold til UTM. Derfor skal de vendes om.}
 
 \begin{figure}
 \begin{center}
-\includegraphics[ bb = 0 0 381 344, scale = 0.8]{mvc}
-\end{center}
+\includegraphics[ bb = 250 0 0 -50, scale = 0.8]{mvc}
 \caption{Illustration af MVC-designpattern}
+\end{center}
 \label{mvc}
 \end{figure}
 

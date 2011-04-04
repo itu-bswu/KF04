@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.4.1)  2 APR 2011 12:49
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.4.1)  4 APR 2011 13:06
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/rapport/Rapport.tex
 ("C:/Users/Jakob Melnyk/workspace/KF04/src/rapport/Rapport.tex"
@@ -212,7 +212,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 ]
 [3] [4] [5]
-Overfull \hbox (45.24178pt too wide) in paragraph at lines 185--192
+Overfull \hbox (45.24178pt too wide) in paragraph at lines 183--190
 \OT1/cmr/m/n/10.95 Frst ven-des y-koordinaten ``pa ho-ve-d-et'', sa den pas-
 ser ind i UTM-koordinatsystemet.
  []
@@ -220,22 +220,22 @@ ser ind i UTM-koordinatsystemet.
 [6]
 
 Package pdftex.def Warning: Option `bb' does not make sense,
-(pdftex.def)                using `viewport' instead on input line 238.
+(pdftex.def)                using `viewport' instead on input line 236.
 
 <UTMillu.jpg, id=32, 867.24pt x 614.295pt>
 File: UTMillu.jpg Graphic file (type jpg)
  <use UTMillu.jpg>
-Overfull \hbox (41.50153pt too wide) in paragraph at lines 238--239
+Overfull \hbox (41.50153pt too wide) in paragraph at lines 236--237
  [] 
  []
 
 
-LaTeX Warning: Float too large for page by 58.7812pt on input line 243.
+LaTeX Warning: Float too large for page by 58.7812pt on input line 241.
 
 [7]
 
 Package pdftex.def Warning: Option `bb' does not make sense,
-(pdftex.def)                using `viewport' instead on input line 247.
+(pdftex.def)                using `viewport' instead on input line 245.
 
 <mvc.jpg, id=36, 286.82156pt x 258.9675pt>
 File: mvc.jpg Graphic file (type jpg)
@@ -245,7 +245,7 @@ File: mvc.jpg Graphic file (type jpg)
 Here is how much of TeX's memory you used:
  1924 strings out of 494019
  25900 string characters out of 3143862
- 77889 words of memory out of 3000000
+ 78892 words of memory out of 3000000
  5222 multiletter control sequences out of 15000+200000
  9498 words of font info for 33 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
@@ -259,7 +259,7 @@ b><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Progr
 am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program 
 Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Rapport.pdf (10 pages, 343739 bytes).
+Output written on Rapport.pdf (10 pages, 343574 bytes).
 PDF statistics:
  70 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
