@@ -3,7 +3,16 @@ import static junit.framework.Assert.*;
 import org.junit.*;
 
 public class ModelTest {
-	@Test public void t() {
-		
+	/**
+	 * 
+	 */
+	private Model model;
+	
+	private void BeforeClass() {
+		model =  new Model(null);
+	}	
+	
+	@Test public void updateBoundsTestNull() {
+		model.updateBounds(null);
 	}
 }

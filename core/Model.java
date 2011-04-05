@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.sun.tools.corba.se.idl.InvalidArgument;
+
 import graphlib.Graph;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
@@ -42,8 +44,7 @@ public class Model {
 	 */
 	public void updateBounds(Rectangle2D.Double bounds) {
 		if (bounds == null) throw new NullPointerException();
-		
-		new Rectangle2D.Double(-1,-1,-1,-1);
+		if ((bounds.width < 0)||(bounds.height< 0)) throw new IllegalArgumentException();
 		
 		this.bounds = bounds;
 	}
