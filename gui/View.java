@@ -9,7 +9,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Toolkit;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Graphics;

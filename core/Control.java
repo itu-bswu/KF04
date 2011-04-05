@@ -3,7 +3,6 @@ package core;
 import loader.KrakLoader;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
-import core.Map;
 import graphlib.Graph;
 import gui.View;
 
@@ -36,7 +35,7 @@ public class Control {
 	private final String nodeFile = "kdv_node_unload.txt"; //The nodes used to construct the graph
 	private final String edgeFile = "kdv_unload.txt"; //The edges used to construct the graph
 	private View v;
-	private Map m;
+	private Model m;
 
 	/**
 	 * Contstructor for class Control
@@ -48,7 +47,7 @@ public class Control {
 		} catch (IOException e) {
 			System.out.println("A problem occured when trying to read input.");
 		}
-		m = new Map(g);
+		m = new Model(g);
 		v = new View(NAME, m.getBoundsWidth()/m.getBoundsHeight());
 		v.repaint(m.getLines());
 		addListeners();
