@@ -1,6 +1,7 @@
 \documentclass[11pt,a4paper,titlepage]{article}
+\usepackage{textcomp}
 \usepackage[latin1]{inputenc}
-\usepackage[danish]{babel} % danske overskrifter
+\usepackage[danish]{babel}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
@@ -8,9 +9,9 @@
 \newcommand{\class}[1]{\textbf{#1}}
 \newcommand{\field}[1]{\textit{#1}}
 
-\title{KF04 project report}
+\title{KF04 projekt rapport}
 \author{
-Group 12:\\
+Gruppe 12:\\
 Jakob Melnyk\\
 Niklas Hansen\\
 Emil Juul Jacobsen\\
@@ -30,8 +31,9 @@ Jens Dahl Møllerhøj\\
 
 \section{Features}
 \label{Feat}
-Dette kapitel beskriver de features, vi har og ikke har valgt at implementere i
-vores Map Of Denmark projekt i foråret 2011.
+Dette kapitel beskriver de features, vi har valgt at implementere i
+vores Map Of Denmark projekt i foråret 2011, og hvad vi har valgt ikke  at
+implementere.
 \begin{itemize}
   \item
   Mulighed for zoom med musen
@@ -49,43 +51,40 @@ vores Map Of Denmark projekt i foråret 2011.
   Viser færre veje, når man er zoomet langt ud
 \end{itemize}
 \subsection{Mousezoom}
-Det er muligt at zoome ind på en specific del af kortet ved at klikke med musen,
-trække en ``kasse'' hen over det, man vil zoome ind på, og så slippe musen.
-Billedet vil altid justere sig selv i forhold til applikationsvinduets
-størrelse.
+Det er muligt at zoome ind på en specifik del af kortet ved at klikke med musen,
+trække en ``kasse'' hen over det, man vil zoome ind på, og slippe museknappen.
 
-Dette betyder, at kortet alid vil vise det, som blev valgt, men nogle gange vil
-det vise mere enten i højden eller i bredden.
+Billedet vil altid justere sig selv i forhold til applikationsvinduets
+størrelse. Dette betyder, at kortet alid vil vise det, som blev valgt, men nogle gange vil
+det vise mere i enten højden eller i bredden.
 \subsection{Navigationsknapper}
 Det er muligt at navigere rundt på kortet ved hjælp af knapperne på GUI. Når
-der klikkes på knapperne, bevæger vinduet sig i retningen indikeret af pilen på
-knappen.
-\subsection{Zoom in/out functions}
+der klikkes på knapperne, bevæger vinduet sig i den retning vist af pilen på knappen.
+\subsection{Zoom in/out funktioner}
 Det er muligt at zoome ind og ud when hjælp af + og - knapperne på GUI. Kortet
 vil zoome i midten af det, som ses i øjeblikket.
 \subsection{Vejnavne vises, når man kører musen over dem}
-Når man kører musen hen over en vej, så vises navnet på vejen i bunden af
+Når man kører musen hen over en vej, vises navnet på vejen i bunden af
 applikationen.
 \subsection{Kortets kanter kan trækkes}
-Når man trækker i kanten af kortet, forøges bredden og`/'eller højden på kortet.
-Dette betyder, at mere af kortet vil blive vist.
+Når man trækker i kanten af kortet, bliver kortet mindre eller større, an på hvilken vej vinduet blev trukket.
 \subsection{Gå tilbage til original zoom}
 Det er muligt at sætte zoomniveauet tilbage til det originale. Dette gøres ved,
-at man trykker på Escape-tasten. Dette gør det nemmere at navigere kortet, hvis
+at man trykker på Escape-tasten. Dette gør det nemmere at navigere på kortet, hvis
 man har zoomet langt ind.
-\subsection{Vis færre veje, når man er zoomed ud}
+\subsection{Vis færre veje, når man er zoomet ud}
 Jo længere brugeren har zoomet ind på kortet, jo flere veje vises. En lav
 detaljegrad er ikke noget problem, når man er zoomet langt ud, og dette hjælper
-med at gøre kortet hurtigere.
+med at gåre kortet hurtigere.
 \subsection{Features, som ikke er med}
-Den eneste måde, at bevæge sig rundt på kortet, er ved at anvende pilknapperne
+Den eneste måde, at bevæge sig rundt på kortet, er ved at anvende knapperne
 på GUI. Vi overvejede at implementere både piltasterne og musen som
-navigationsmulighed. Vi har gemt det væk for nu, da vi følte, at det var
-``nice-to-have'' mere end en nødvendighed.
+navigationsmulighed. Vi har gemt det væk for nu, da vi følte, at det var en
+``nice-to-have'' feature mere end en nødvendighed.
 
-Vi har valgt ikke at gøre det mulig at vælge, hvilke typer veje man vil have
+Vi har valgt ikke at gøre det muligt at specificere, hvilke typer veje, man vil have
 vist. Vi føler ikke, det er nødvendigt, da vi kun viser de store veje, når vi er
-zoomed ud.
+zoomet ud.
 \pagebreak
 \section{Implementation}
 \label{Impl}
@@ -93,44 +92,44 @@ Dette kapitel beskriver de valg, vi har foretaget, mens vi implementerede
 vores Map Of Denmark projekt i foråret 2011.
 \subsection{Model-View-Control}
 For at få en ordentlig struktur på sin kode, er det vigtigt at opdele sin kode
-i flere dele, som så arbejder sammen for at få programmet til at køre. En måde
+i flere dele, som arbejder sammen for at få programmet til at køre. En måde,
 man kan gøre dette på, er ved at lave en klasse til sin brugergrænseflade, og
 en klasse til resten.
 
-En af ulemper ved at gøre det på denne måde, er at det kan blive tvetydigt hvor
-dele af ansvaret for kommunikationen mellem disse, skal ligge.
+En af ulemperne ved at gøre det på denne måde er, at det kan blive tvetydigt,
+hvor dele af ansvaret for kommunikationen mellem disse skal ligge.
 
 Vi har valgt at lægge os op af Model-View-Controller (også kaldet MVC)
 arkitekturen, som er en anden måde at gøre det på. Her deler vi koden op i tre
 dele, for at få en fornuftig opdeling af data, logik og brugergrænseflade.
 
-Insert picture here
+Illustation af MVC kan ses på side \pageref{mvc}.
 
-Lige som ovenstående billede viser, så har et grafisk vindue sin egen klasse.
-De klasser bliver kaldt ``views''. Hvor man førhen havde en klasse til både at
+Ligesom ovenstående billede viser, så har et grafisk vindue sin egen klasse.
+Sådanna klasser bliver kaldt ``views''. Hvor man førhen havde en klasse til både at
 kommunikere med de grafiske vinduer og datakilden (fx en database, eller en CSV
 fil i vores tilfælde), så splitter man nu denne del op i to. Den ene del kalder
 vi for ``models'' - eller på dansk: modeller.
 
 Disse modeller står for kommunikationen med datakilden, og hver model repræsenterer
-én enkelt datakilde. Hvis man brugte en relationsdatabase, ville man have en
+en enkelt datakilde. Hvis man brugte en relationsdatabase, ville man have en
 model til hver tabel i databasen. Denne model-klasse står så for al kommunikation
-med lige præcis den ene tabel som den repræsenterer.
+med lige præcis den ene tabel, som den repræsenterer.
 
-Så mangler vi bare en måde at forbinde den grafiske bruger-grænseflade (``views'')
-med vores data (``models''), og det er her controller-delen kommer ind i billedet.
+Så mangler vi bare en måde at forbinde den grafiske brugergrænseflade (``views'')
+med vores data (``models''), og det er her ``controller"-delen kommer ind i billedet.
 Controlleren står som et mellemled, og henter data fra modellen. Disse data
 giver den så videre til det grafiske vindue. Controlleren har desuden nogle ``lyttere",
-så den lytter til om brugere trykker på en knap eller at lignende begivenheder
-finder sted. Hvis der f.eks. så bliver opdateret noget data i det grafiske vindue,
-så står controlleren så for at sende den nye data videre til modellen.
+så den lytter til, om brugere trykker på en knap eller at lignende begivenheder
+finder sted. Hvis der fx bliver opdateret noget data i det grafiske vindue,
+står controlleren for at sende den nye data videre til modellen.
 
-En af fordelene ved at dele koden op på denne måde, er at man har en fast struktur,
-som gør det nemt at overskue koden og deler ansvaret ud på forskellige klasser,
+En af fordelene ved at dele koden op på denne måde er, at man har en fast struktur,
+som gør det nemt at overskue koden, og man deler ansvaret ud på forskellige klasser,
 så man dermed kan udnytte fordelene ved abstraktion og modularisering.
 \subsection{Map}
 \class{Map} klassen står for den del af kortet, der vises på skærmen. Den har
-feltet \field{bounds}, der er den rektangel af kortet, der vises i øjeblikket.
+feltet \field{bounds}, der er det rektangel af kortet, der vises i øjeblikket.
 Når \class{Map}-klassen skabes, beregner den \field{bounds} til det mindste
 rektangel, der viser hele kortet.
 
@@ -139,13 +138,13 @@ klassen \class{Line} ud fra de \class{KrakEdges}, som skal vises. \class{Map} sø
 for, at objekter af klassen \class{Line} har den rigtige farve og tykkelse.
 \subsection{QuadTree og valg af veje}
 Vi har valgt at anvende et \class{Quadtree} i vores kort. Man kan give et
-\class{QuadTree} en rektangel, hvorefter den så returnerer et \class{Set} af de
-veje, som ligger indenfor den rektangel. Dette betyder, at vi undgår at løbe
+\class{QuadTree} et rektangel, hvorefter den så returnerer et \class{Set} af de
+veje, som ligger indenfor det rektangel. Dette betyder, at vi undgår at løbe
 alle veje igennem, når vi er zoomet langt ind.
 
 Det er ikke interessant at få vist alle veje, når man kigger på hele Danmark.
 Derfor har vi valgt ikke at tegne de små veje, når man er zoomet langt ud. Dette
-gør kortet meget hurtigere at nagivere rundt på.
+gør kortet meget hurtigere at navigere rundt på.
 
 Implementationen af denne optimering hænger i høj grad sammen med
 implementationen af \class{QuadTree}. Vi overvejede to måder at forbedre vores
@@ -156,8 +155,8 @@ hver deres vejtype) eller lave flere \class{QuadTree}'er. Denne løsning ville
 betyde, at man skal søge færre objekter igennem, når man skal tegne kortet.
 
 Den anden måde indebar at fordele vejtyperne på forskellige dybder i træet.
-\class{QuadTree} skal så vide hvilket zoomniveau, der skal vises. Den ville så
-kun returnere de veje, som lå ned til den højde af træet, som zoomniveau havde
+\class{QuadTree} skal så vide hvilket zoomniveau, der skal vises. Det ville så
+kun returnere de veje, som lå ned til den højde af træet, som zoomniveauet havde
 bestemt.
 
 De to måder har hver deres fordele og ulemper.
@@ -167,12 +166,12 @@ RAM forbruget. Til gengæld vil alle vejene i denne metode blive lagt i træets
 blade, hvilket er en fordel, når der skal søges i træet.
 
 Den anden er svær at implementere korrekt, da der skal defineres nogle meget
-specifikke mængder, hver \class{QuadTreeNode} kan indeholde.
+specifikke mængder af veje, hver \class{QuadTreeNode} kan indeholde.
 
 Vi har besluttet at vise en stor del af vejene, selv når vi er i yderste
-zoomnivea. Det har vi besluttet, fordi vi ikke har nogen features, som kræver,
+zoomniveau. Det har vi besluttet, fordi vi ikke har nogen features, som kræver,
 at tingene sker med det samme. Dette betyder også, at der er bedre mulighed for
-at genkede området, man ser på.
+at genkende området, man ser på.
 \subsection{Control}
 \class{Control} står for det meste af logikken i programmet. \class{Control}
 står for at bede \class{Map} om at ændre sig, når der sker noget i de listeners,
@@ -185,11 +184,11 @@ Vi har lavet en metode i Control, som tager et \class{Point} objekt med
 pixelkoordinater og returnerer et \class{Point2D.Double} objekt med
 UTM-koordinater.
 Først vendes y-koordinaten ``på hovedet'', så den passer ind
-i UTM-koordinatsystemet. Derefter regner metoden ud hvor langt inde på skærmen,
-der er klikket, finder ud af, hvor langt dette er i UTM-koordinater og lægger
-det så oveni feltet \field{bounds} koordinater.
+i UTM-koordinatsystemet. Derefter regner metoden ud, hvor langt inde på skærmen,
+der er klikket, finder ud af, hvor langt dette er i UTM-koordinater, og lægger
+det oveni feltet \field{bounds} koordinater.
 
-Formlen er følgende:
+Vores formel er følgende:
 
 UTM$_x$ = \field{bounds}$_x$ + (a$_x$ /
 \field{canvas}$_{width}$) * \field{bounds}$_{width}$
@@ -199,38 +198,63 @@ UTM$_y$ = \field{bounds}$_y$ + (a$_y$ /
 
 Se Figure \ref{PixelToUTM} på side \pageref{PixelToUTM} for en illustration af
 konverteringen.
+<<<<<<< HEAD
 \subsection{Line}
 Line klassen benyttes i forbindelse med at KrakEdge objekterne skal have et start- og et
 slutpunkt som er relative til skærmen. Derudover indeholder Line klassen
 information omkring tykkelse og farve af den pågældende vej. Tykkelsen og
 farven kunne vi vælge at specificere i enten Map klassen eller i selve Line
 klassen. Vi valgte at gøre det i Map for at spare RAM.
+=======
+\subsection{Lines}
+\class{Line} klassen benyttes i forbindelse med, at \class{KrakEdge} objekterne skal have et
+start- og et slutpunkt, som er relative til skærmen. Derudover indeholder \class{Line}
+klassen information omkring tykkelse og farve på den pågældende vej. 
+
+Tykkelsen og
+farven kunne vi vælge at specificere i enten Map \class{klassen} eller i selve \class{Line}
+klassen. Vi valgte at gøre det i \class{Map} for at nedsætte RAM-forbruget.
+>>>>>>> 75244c6f8c67c43038cc86d1b07cb9a61f59fe82
 \subsection{View}
-\class{View} er den klasse som står for den grafiske repræsentation af vores
-data. Det er denne klasse som sørger for opbygningen af vinduet med alt hvad det
-indebærer af knapper til manøvrering på kortet, statusbar til visning af navnet på vejen
-musen peger på samt selve kortet. Selve kortet (\class{Canvas}) er implementeret
-som en privat indre klasse som udvider java's \class{Component}-klasse.
-\class{Canvas} har mulighed for at tegne vores \class{Line} objekter og kan
-derved tegne kortet uden nogen viden om den bagved-liggende data-struktur. Det
-er muligt for brugeren at trække en rektangel i vinduet med musen for at zoome
-ind på en bestemt del af kortet. For at undgå at skulle gentegne hele kortet
-hver gang brugeren trækker rektanglen lidt større tegner \class{Canvas} kortet
-på et off-screen \class{BufferedImage} og bruger derefter dette billede til at
-tegne sammen med rektanglen. På den måde kan vinduet gentegnes på konstant tid i
-denne situation. Eftersom \class{View} ikke har til ansvar at fortolke brugerens
-input, er der en lang række metoder til at tilføje ActionListeners til de forskellige
-events der kommer, når brugeren bruger musen, ændrer på vinduets størrelse eller
+\class{View} er den klasse, som står for den grafiske repræsentation af vores
+data. Det er denne klasse, som sørger for opbygningen af vinduet med alt, hvad det
+indebærer af knapper til navigering på kortet, tekst-bar til visning af den vej,
+musen pejer på, samt selve kortet. 
+
+Selve kortet (\class{Canvas}) er implementeret
+som en privat indre klasse, der udvider Javas \class{Component}-klasse.
+\class{Canvas} har mulighed for at tegne vores \class{Line} objekter, og kan
+derved tegne kortet uden nogen viden om den bagved-liggende datastruktur. 
+
+Det
+er muligt for brugeren at trække et rektangel i vinduet med musen for at zoome
+ind på en bestemt del af kortet. For at undgå at skulle gentegne hele kortet,
+hver gang brugeren trækker rektanglet lidt større, tegner \class{Canvas} kortet
+på et off-screen \class{BufferedImage}, og bruger derefter dette billede til at
+tegne sammen med rektanglet. På den måde kan vinduet gentegnes på konstant tid i
+denne situation. 
+
+Eftersom \class{View} ikke har til ansvar at fortolke brugerens
+input, er der en lang række metoder til at tilføje Listeners til de forskellige
+events, der kommer, når brugeren anvender musen, ændrer på vinduet's størrelse eller
 trykker på tastaturet. Desuden er der naturligvis mulighed for at sende nye
-\class{Line}s ind som derefter opdaterer \class{Canvas}.
+\class{Line}s ind, som derefter opdaterer \class{Canvas}.
 \pagebreak
 \begin{figure}
 \begin{center}
-\includegraphics[angle=90, bb = 0 0 100 1500, scale = 0.2]{UTMillu}
+\includegraphics[angle=90, bb = 0 0 750 500, scale = 0.8]{UTMillu}
 \end{center}
 \caption{Illustration af konverteringen fra Pixel til UTM. Pixel
 koordinater vender på hovedet i forhold til UTM. Derfor skal de vendes om.}
 \label{PixelToUTM}
 \end{figure}
-\end{document}
 
+\begin{figure}
+\begin{center}
+\includegraphics[ bb = 250 0 0 -50, scale = 0.8]{mvc}
+\caption{Illustration af MVC-designpattern}
+\end{center}
+\label{mvc}
+\end{figure}
+
+\end{document}

@@ -13,7 +13,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -108,23 +107,23 @@ public class Control {
 			private Point a = null;
 			private Point b = null;
 			private Rectangle2D.Double p = null;
-			
+
 			@Override
 			public void mousePressed(MouseEvent e){
 				a = e.getPoint();
 				pointOutOfBounds(a);
 			}
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e){
 				if(a == null) return; //Tries to catch null pointer from weird mouse events.
 				b = e.getPoint();
 				pointOutOfBounds(b);
-				
+
 				if(Math.abs(b.x - a.x) < v.getCanvasWidth()/100 
 						|| Math.abs(b.y - a.y) < v.getCanvasHeight()/100) return; //Prevents the user from zooming in too much.
 				p = point2DToRectangle(pixelToUTM(a), pixelToUTM(b));
-				fixRatio(p, m.getBounds());
+				fixRatioByOuterRectangle(p, m.getBounds());
 				m.updateBounds(p);
 				v.repaint(m.getLines());
 			}
@@ -138,6 +137,7 @@ public class Control {
 		});
 		//
 		v.addCanvasComponentListener(new ComponentAdapter(){
+
 			private int oldWidth = v.getCanvasWidth();
 			private int oldHeight = v.getCanvasHeight();
 
@@ -148,12 +148,12 @@ public class Control {
 				int newWidth = v.getCanvasWidth();
 				int newHeight = v.getCanvasHeight();
 
-				float x_adjust = (float) (map.width*(((float)newWidth - oldWidth)/oldWidth));
-				float y_adjust = (float) (map.height*(((float)newHeight - oldHeight)/oldHeight));
-
-				m.updateBounds(new Rectangle2D.Double(map.x, map.y - y_adjust, map.width + x_adjust,
-						map.height + y_adjust));
-
+				if(oldWidth < newWidth || oldHeight < newHeight){
+					fixRatioByInnerRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
+				}else{
+					fixRatioByOuterRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
+				}
+				
 				oldWidth = newWidth;
 				oldHeight = newHeight;
 
@@ -169,7 +169,7 @@ public class Control {
 				// ESCAPE
 				if(e.getKeyCode() == 27){
 					Rectangle2D.Double temp = m.originalBounds();
-					fixRatio(temp, m.getBounds());
+					fixRatioByOuterRectangle(temp, m.getBounds());
 					m.updateBounds(temp);
 					v.repaint(m.getLines());
 				}
@@ -252,46 +252,52 @@ public class Control {
 	}
 
 	/**
-	 * Adjusts a Rectangle to have the same ratio as another Rectangle
-<<<<<<< HEAD
+	 * Adjusts a Rectangle to have the same ratio as another Rectangle by adding more (Outer Rectangle)
 	 * @param a The Rectangle to adjust.
 	 * @param b The Rectangle that has the desired ratio.
-=======
-	 * @param inner The Rectangle to adjust.
-	 * @param outer The Rectangle that has the wanted ratio.
->>>>>>> 27b3427a34a1872d1a9107e1cb94692f745699ab
 	 */
-	private void fixRatio(Rectangle2D.Double inner, Rectangle2D.Double outer){
+	private void fixRatioByOuterRectangle(Rectangle2D.Double inner, Rectangle2D.Double outer){
 		float outer_ratio = (float) (outer.width / outer.height);
 		float inner_ratio = (float) (inner.width / inner.height);
-		
+
 		if(inner_ratio < outer_ratio){
 			// make wider
 			float temp = (float) inner.width;
 			inner.width = outer_ratio * inner.height;
 			inner.x = inner.x - (inner.width - temp) / 2;
-			
+
 		}else{
 			// make higher
 			float temp = (float) inner.height;	
 			inner.height = inner.width / outer_ratio;
 			inner.y = inner.y - (inner.height - temp) / 2;
 		}
-		
-//		float ratio = (float) (outer.width / outer.height);
-//		// tall
-//		if(outer.width > outer.height){
-//			float temp = (float) inner.width;
-//			inner.width = ratio * inner.height;
-//			inner.x = inner.x - (inner.width - temp) / 2;
-//		}
-//		// wide
-//		else{
-//			float temp = (float) inner.height;	
-//			inner.height = inner.width / ratio;
-//			inner.y = inner.y - (inner.height - temp) / 2;
-//		}
 	}
+
+	/**
+	 * Adjusts a Rectangle to have the same ratio as another Rectangle by removing excess space (Inner Rectangle).
+	 * @param a The Rectangle to adjust.
+	 * @param b The Rectangle that has the desired ratio.
+	 */
+	private void fixRatioByInnerRectangle(Rectangle2D.Double inner, Rectangle2D.Double outer){
+		float outer_ratio = (float) (outer.width / outer.height);
+		float inner_ratio = (float) (inner.width / inner.height);
+
+		if(inner_ratio < outer_ratio){
+			// cut height
+
+			float temp = (float) inner.height;	
+			inner.height = inner.width / outer_ratio;
+			inner.y = inner.y - (inner.height - temp) / 2;
+		}else{
+			// cut width
+
+			float temp = (float) inner.width;
+			inner.width = outer_ratio * inner.height;
+			inner.x = inner.x - (inner.width - temp) / 2;
+		}
+	}
+
 	/**
 	 * Checks if a Point object is out of bounds of the canvas and changes it to be inside the bounds. 
 	 * @param outOfBounds The Point object to be checked.
@@ -310,5 +316,5 @@ public class Control {
 			outOfBounds.y = 0;
 		}
 	}
-	
+
 }
