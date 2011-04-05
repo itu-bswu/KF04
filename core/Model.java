@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Rectangle2D.Double;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -20,10 +21,15 @@ import gui.Line;
 public class Model {
 
 	private static final float ROAD_SEARCH_DISTANCE = 200;
+	public static final int[] part1 = new int[]{0,1,2,3,4,10,21,22,31,32,33,34,35,41,42,43,44,45,46,80};
+	public static final int[] part2 = new int[]{5,11,23,24,25};
+	public static final int[] part3 = new int[]{6,8,26,28,48,95,99};
+	public static final int INNER_LEVEL = 2000;
+	public static final int CENTER_LEVEL = 50000;
 
 	private Rectangle2D.Double bounds;
 	private final Rectangle2D.Double maxBounds;
-	private QuadTree<KrakEdge> qt;
+	private ArrayList<QuadTree<KrakEdge>> qt;
 
 	/**
 	 * Constructor
@@ -33,7 +39,74 @@ public class Model {
 	public Model(Graph<KrakEdge,KrakNode> graph) {
 		maxBounds = outerBounds(graph.getNodes());
 		bounds = originalBounds();
-		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
+		createQuadTrees(graph.getAllEdges());
+	}
+
+	@SuppressWarnings("unchecked")
+	private void createQuadTrees(Set<KrakEdge> content) {
+		qt = new ArrayList<QuadTree<KrakEdge>>(3);
+		
+		Set<KrakEdge> set1 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set2 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set3 = new HashSet<KrakEdge>();
+
+		boolean found;
+		for(KrakEdge edge : content){
+			found = false;
+			// Highways and larger roads
+			for(int i : part1){
+				if(edge.type == i){
+					set1.add(edge);
+					found = true;
+					break;
+				}
+			}
+
+			// regular sized roads
+			if(!found){
+				for(int i : part2){
+					if(edge.type == i){
+						set2.add(edge);
+						found = true;
+						break;
+					}
+				}
+			}
+
+			// smaller roads and paths
+			if(!found){
+				for(int i : part3){
+					if(edge.type == i){
+						set3.add(edge);
+						found = true;
+						break;
+					}
+				}
+			}
+		}
+		qt.add(new QuadTree<KrakEdge>(bounds,set1));
+		qt.add(new QuadTree<KrakEdge>(bounds,set2));
+		qt.add(new QuadTree<KrakEdge>(bounds,set3));
+	}
+	
+	/**
+	 * Querries the node for KrakEdges with a specific rectangle
+	 * @param qarea The rectangle for which to find all KrakEdges
+	 * @return A Set with all KrakEdges within the given Rectangle
+	 */
+	private Set<KrakEdge> query(Rectangle2D.Double qarea){
+		double area = (qarea.width/1000)*(qarea.height/1000);
+		//System.out.printf("area: %.2f km2\n",area);
+		Set<KrakEdge> total;
+
+		total = qt.get(0).query(qarea);
+		if(area < CENTER_LEVEL){
+			total.addAll(qt.get(1).query(qarea));
+			if(area < INNER_LEVEL){
+				total.addAll(qt.get(2).query(qarea));
+			}
+		}
+		return total;
 	}
 
 	/**
@@ -110,7 +183,7 @@ public class Model {
 	public Collection<Line> getLines() {
 //		Stopwatch timer = new Stopwatch("Making Lines");
 		HashSet<Line> lines = new HashSet<Line>();
-		for (KrakEdge e : qt.query(bounds)) {
+		for (KrakEdge e : query(bounds)) {
 			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 			//Choosing the right color and thickness for each line
@@ -255,7 +328,7 @@ public class Model {
 				point.y - Model.ROAD_SEARCH_DISTANCE,
 				2*Model.ROAD_SEARCH_DISTANCE,
 				2*Model.ROAD_SEARCH_DISTANCE);
-		Set<KrakEdge> all = qt.query(search_area);
+		Set<KrakEdge> all = query(search_area);
 
 		// find the closest
 		float distance = Integer.MAX_VALUE;
