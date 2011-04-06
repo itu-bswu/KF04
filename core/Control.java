@@ -57,55 +57,41 @@ public class Control {
 	 * Adds listeners to everything useful in the View. Buttons, Component resize, Key-types and Mouse Events.
 	 */
 	private void addListeners(){
-		//Listener for "move-up" button.
-		v.addUpListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double old = m.getBounds();
-				m.updateBounds(new Rectangle2D.Double(old.x, old.y + (1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
+		addComponentListeners();
+		addMouseListeners();
+		addKeyboardListeners();
+	}
+
+	private void addComponentListeners(){
+		v.addCanvasComponentListener(new ComponentAdapter(){
+
+			private int oldWidth = v.getCanvasWidth();
+			private int oldHeight = v.getCanvasHeight();
+
+			@Override
+			public void componentResized(ComponentEvent e){
+				Rectangle2D.Double map = m.getBounds();
+				int newWidth = v.getCanvasWidth();
+				int newHeight = v.getCanvasHeight();
+
+				if(oldWidth < newWidth || oldHeight < newHeight){
+					fixRatioByInnerRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
+				}else{
+					fixRatioByOuterRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
+				}
+
+				oldWidth = newWidth;
+				oldHeight = newHeight;
+
 				v.repaint(m.getLines());
-			}});
-		//Listener for "move-down" button.
-		v.addDownListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double old = m.getBounds();
-				m.updateBounds(new Rectangle2D.Double(old.x, old.y - (1 * old.getHeight() * MOVE_LENGTH), old.width, old.height));
-				v.repaint(m.getLines());
-			}});
-		//Listener for "move-left" button.
-		v.addLeftListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double old = m.getBounds();
-				m.updateBounds(new Rectangle2D.Double(old.x - (1 * old.width * MOVE_LENGTH), old.y, old.width, old.height));
-				v.repaint(m.getLines());
-			}});
-		//Listener for "move-right" button.
-		v.addRightListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double old = m.getBounds();
-				m.updateBounds(new Rectangle2D.Double(old.x + (1 * old.width * MOVE_LENGTH), old.y, old.width, old.height));
-				v.repaint(m.getLines());
-			}});
-		//Listener for "zoom-in" button.
-		v.addInListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
-				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
-				Rectangle2D.Double old = m.getBounds();
-				m.updateBounds(zoomRect(ZOOM_LENGTH, true, old));
-				v.repaint(m.getLines());
-			}});
-		//Listener for "zoom-out" button.
-		v.addOutListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
-				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
-				Rectangle2D.Double old = m.getBounds();
-				m.updateBounds(zoomRect(ZOOM_LENGTH, false, old));
-				v.repaint(m.getLines());
-			}});
+			}
+		}
+	}
+	private void addMouseListeners(){
 		//Listener for "mouse zoom"
 		v.addCanvasMouseListener(new MouseAdapter(){
 			private Point a = null;
 			private Point b = null;
-			private Rectangle2D.Double p = null;
 
 			@Override
 			public void mousePressed(MouseEvent e){
@@ -121,9 +107,8 @@ public class Control {
 
 				if(Math.abs(b.x - a.x) < v.getCanvasWidth()/100 
 						|| Math.abs(b.y - a.y) < v.getCanvasHeight()/100) return; //Prevents the user from zooming in too much.
-				p = point2DToRectangle(pixelToUTM(a), pixelToUTM(b));
-				fixRatioByOuterRectangle(p, m.getBounds());
-				m.updateBounds(p);
+
+				m.updateBounds(mouseZoom(a, b));
 				v.repaint(m.getLines());
 			}
 
@@ -134,35 +119,61 @@ public class Control {
 				v.setLabel(m.getClosestRoad(pixelToUTM(e.getPoint())));
 			}
 		});
-		//
-		v.addCanvasComponentListener(new ComponentAdapter(){
+	}
+	private void addKeyboardListeners(){
+		addKeyboardMoveListeners();
+		addKeyboardZoomListeners();
+	}
 
-			private int oldWidth = v.getCanvasWidth();
-			private int oldHeight = v.getCanvasHeight();
-
+	private void addKeyboardMoveListeners(){
+		//Listener for "move-up" button.
+		v.addUpListener(new ActionListener(){
 			@Override
-			public void componentResized(ComponentEvent e){
-				//Stopwatch timer = new Stopwatch("Adjusting to resize");
-				Rectangle2D.Double map = m.getBounds();
-				int newWidth = v.getCanvasWidth();
-				int newHeight = v.getCanvasHeight();
-
-				if(oldWidth < newWidth || oldHeight < newHeight){
-					fixRatioByInnerRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
-				}else{
-					fixRatioByOuterRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
-				}
-				
-				oldWidth = newWidth;
-				oldHeight = newHeight;
-
-				//timer.printTime();
+			public void actionPerformed(ActionEvent arg0){
+				m.updateBounds(move(m.getBounds(), MOVE_LENGTH, 0, 1));
 				v.repaint(m.getLines());
-			}
-		});
-
+			}});
+		//Listener for "move-down" button.
+		v.addDownListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				m.updateBounds(move(m.getBounds(), MOVE_LENGTH, 0, -1));
+				v.repaint(m.getLines());
+			}});
+		//Listener for "move-left" button.
+		v.addLeftListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				m.updateBounds(move(m.getBounds(), MOVE_LENGTH, -1, 0));
+				v.repaint(m.getLines());
+			}});
+		//Listener for "move-right" button.
+		v.addRightListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				m.updateBounds(move(m.getBounds(), MOVE_LENGTH, 1, 0));
+				v.repaint(m.getLines());
+			}});
+	}
+	private void addKeyboardZoomListeners(){
+		//Listener for "zoom-in" button.
+		v.addInListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
+				m.updateBounds(zoomRect(ZOOM_LENGTH, true, m.getBounds()));
+				v.repaint(m.getLines());
+			}});
+		//Listener for "zoom-out" button.
+		v.addOutListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
+				m.updateBounds(zoomRect(ZOOM_LENGTH, false, m.getBounds()));
+				v.repaint(m.getLines());
+			}});
+		//Listener for maxZoom function.
 		v.addKeyListener(new KeyAdapter(){
-
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// ESCAPE
@@ -173,7 +184,7 @@ public class Control {
 					v.repaint(m.getLines());
 				}
 			}
-		});
+		}
 	}
 
 	/**
@@ -316,4 +327,23 @@ public class Control {
 		}
 	}
 
+	/**
+	 * Used for the move listeners.
+	 * 
+	 * @param old The rectangle to be moved.
+	 * @param length How far the rectangle should be moved.
+	 * @param xDirection Whích way should it move in the x-direction?
+	 * @param yDirection Which way should it move in the y-direction?
+	 * @return The rectangle that has been moved. 
+	 */
+	private Rectangle2D.Double move(Rectangle2D.Double old, float length, int xDirection, int yDirection){
+		return new Rectangle2D.Double(old.x + (xDirection * old.width * length), old.y + (yDirection * old.height * length), old.width, old.height);
+	}
+
+	private Rectangle2D.Double mouseZoom(Point a, Point b){
+		Rectangle2D.Double p = null;
+		p = point2DToRectangle(pixelToUTM(a), pixelToUTM(b));
+		fixRatioByOuterRectangle(p, m.getBounds());
+		return p;
+	}
 }
