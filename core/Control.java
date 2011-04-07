@@ -21,7 +21,9 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 
+import utils.Direction;
 import utils.PointMethods;
+import utils.RectangleMethods;
 
 /**
  * Control class for the Map system.
@@ -37,11 +39,11 @@ public class Control {
 	private final File dataDir = new File(".", "data"); //Where control needs to look for the nodeFile and edgeFile
 	private final String nodeFile = "kdv_node_unload.txt"; //The nodes used to construct the graph
 	private final String edgeFile = "kdv_unload.txt"; //The edges used to construct the graph
-	private View v;
-	private Model m;
+	private View view;
+	private Model model;
 
 	/**
-	 * Contstructor for class Control
+	 * Constructor for class Control
 	 */
 	public Control() {
 		Graph<KrakEdge, KrakNode> g = null;
@@ -51,9 +53,9 @@ public class Control {
 			System.out.println("A problem occured when trying to read input. System will now exit.");
 			System.exit(0);
 		}
-		m = new Model(g);
-		v = new View(NAME, m.getBoundsWidth()/m.getBoundsHeight());
-		v.repaint(m.getLines());
+		model = new Model(g);
+		view = new View(NAME, model.getBoundsWidth()/model.getBoundsHeight());
+		view.repaint(model.getLines());
 		addListeners();
 	}
 
@@ -63,261 +65,179 @@ public class Control {
 	private void addListeners(){
 		addComponentListeners();
 		addMouseListeners();
-		addButtonListeners();
+		addGUIButtonListeners();
+		addKeyboardListeners();
 	}
 
+	/**
+	 * Adds listeners to the components in View.
+	 */
 	private void addComponentListeners(){
-		v.addCanvasComponentListener(new ComponentAdapter(){
+		view.addCanvasComponentListener(new ComponentAdapter(){
 
-			private int oldWidth = v.getCanvasWidth();
-			private int oldHeight = v.getCanvasHeight();
+			private int oldWidth = view.getCanvasWidth();
+			private int oldHeight = view.getCanvasHeight();
 
 			@Override
 			public void componentResized(ComponentEvent e){
-				Rectangle2D.Double map = m.getBounds();
-				int newWidth = v.getCanvasWidth();
-				int newHeight = v.getCanvasHeight();
+				Rectangle2D.Double map = model.getBounds();
+				int newWidth = view.getCanvasWidth();
+				int newHeight = view.getCanvasHeight();
 
 				if(oldWidth < newWidth || oldHeight < newHeight){
-					fixRatioByInnerRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
+					RectangleMethods.fixRatioByInnerRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
 				}else{
-					fixRatioByOuterRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
+					RectangleMethods.fixRatioByOuterRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
 				}
 
 				oldWidth = newWidth;
 				oldHeight = newHeight;
 
-				v.repaint(m.getLines());
+				view.repaint(model.getLines());
 			}
 		});
 	}
+
+	/**
+	 * Adds mouseListeners in View.
+	 */	
 	private void addMouseListeners(){
 		//Listener for "mouse zoom"
-		v.addCanvasMouseListener(new MouseAdapter(){
+		view.addCanvasMouseListener(new MouseAdapter(){
 			private Point a = null;
 			private Point b = null;
 
 			@Override
 			public void mousePressed(MouseEvent e){
+				if(e == null) return; //Attempt to catch null pointer from weird mouse events.
 				a = e.getPoint();
-				PointMethods.pointOutOfBounds(a, v);
+				PointMethods.pointOutOfBounds(a, view);
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e){
-				if(a == null) return; //Tries to catch null pointer from weird mouse events.
+				if(a == null || e == null) return; //Attempt to catch null pointer from weird mouse events.
 				b = e.getPoint();
-				PointMethods.pointOutOfBounds(b, v);
+				PointMethods.pointOutOfBounds(b, view);
 
-				if(Math.abs(b.x - a.x) < v.getCanvasWidth()/100 
-						|| Math.abs(b.y - a.y) < v.getCanvasHeight()/100) return; //Prevents the user from zooming in too much.
-
-				m.updateBounds(mouseZoom(a, b));
-				v.repaint(m.getLines());
+				if(Math.abs(b.x - a.x) < view.getCanvasWidth()/100 
+						|| Math.abs(b.y - a.y) < view.getCanvasHeight()/100){ 
+					return; //Prevents the user from zooming in too much.
+				}
+				model.updateBounds(RectangleMethods.mouseZoom(a, b, model, view));
+				view.repaint(model.getLines());
 			}
 
 			// Display the name of the closest road
 			@Override
 			public void mouseMoved(MouseEvent e){
 				// set label to closest road
-				Point2D.Double p = PointMethods.pixelToUTM(e.getPoint(), m, v);
-				String roadName = m.getClosestRoad(p);
-				v.setLabel(roadName);
+				Point2D.Double p = PointMethods.pixelToUTM(e.getPoint(), model, view);
+				String roadName = model.getClosestRoad(p);
+				view.setLabel(roadName);
 			}
 		});
 	}
-	private void addButtonListeners(){
-		addMoveButtonListeners();
-		addZoomButtonListeners();
-	}
 
-	private void addMoveButtonListeners(){
-		//Listener for "move-up" button.
-		v.addUpListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double moveUp = RectangleMethods.move(m.getBounds(), MOVE_LENGTH, DIRECTION.NORTH);
-				m.updateBounds(moveUp);
-				v.repaint(m.getLines());
-			}});
-		//Listener for "move-down" button.
-		v.addDownListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0){
-				m.updateBounds(move(m.getBounds(), MOVE_LENGTH, 0, -1));
-				v.repaint(m.getLines());
-			}});
-		//Listener for "move-left" button.
-		v.addLeftListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0){
-				m.updateBounds(move(m.getBounds(), MOVE_LENGTH, -1, 0));
-				v.repaint(m.getLines());
-			}});
-		//Listener for "move-right" button.
-		v.addRightListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0){
-				m.updateBounds(move(m.getBounds(), MOVE_LENGTH, 1, 0));
-				v.repaint(m.getLines());
-			}});
-	}
-	private void addZoomButtonListeners(){
-		//Listener for "zoom-in" button.
-		v.addInListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0){
-				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
-				m.updateBounds(zoomRect(ZOOM_LENGTH, true, m.getBounds()));
-				v.repaint(m.getLines());
-			}});
-		//Listener for "zoom-out" button.
-		v.addOutListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent arg0){
-				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
-				m.updateBounds(zoomRect(ZOOM_LENGTH, false, m.getBounds()));
-				v.repaint(m.getLines());
-			}});
+	/**
+	 * Adds listeners to the keyboard.
+	 */
+	private void addKeyboardListeners(){
 		//Listener for maxZoom function.
-		v.addKeyListener(new KeyAdapter(){
+		view.addKeyListener(new KeyAdapter(){
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// ESCAPE
 				if(e.getKeyCode() == 27){
-					Rectangle2D.Double temp = m.originalBounds();
-					fixRatioByOuterRectangle(temp, m.getBounds());
-					m.updateBounds(temp);
-					v.repaint(m.getLines());
+					Rectangle2D.Double temp = model.originalBounds();
+					RectangleMethods.fixRatioByOuterRectangle(temp, model.getBounds());
+					model.updateBounds(temp);
+					view.repaint(model.getLines());
 				}
 			}
 		});
 	}
-
-	/**
-	 * Creates a Rectangle that is a zoomed in/out version of another.
-	 * 
-	 * @param factor The factor to zoom with, for example 0.2 for a 20% zoom.
-	 * @param zoom True if zooming IN, else false.
-	 * @param old The original view.
-	 * @return The finished Rectangle
-	 */
-	private Rectangle2D.Double zoomRect(float factor, boolean zoom, Rectangle2D.Double old){
-		if(zoom){
-			return new Rectangle2D.Double(old.x + factor * old.width, //x is increased by the factor in proportion to the width
-					old.y + factor * old.height, //y is increased by the factor in proportion to the height
-					old.width - factor * old.width * 2, //width is decreased by the factor
-					old.height - factor * old.height * 2); //height is decreased by the factor
-		}
-		else{
-			return new Rectangle2D.Double(old.x - old.width * factor, //x is decreased by the factor in proportion to the width
-					old.y - old.height * factor, //y is decreased by the factor in proportion to the height
-					old.width + old.width * factor * 2, //width is increased by the factor
-					old.height + old.height * factor * 2);//height is increased by the factor
-		}
-	}
-
-	/**
-	 * Converts a two Points to a Rectangle. Their relative location is irrelevant.
-	 * @param a The first Point.
-	 * @param b The second Point.
-	 * @return A Rectangle with x,y in the upper left corner.
-	 */
-	private Rectangle2D.Double point2DToRectangle(Point2D.Double a, Point2D.Double b){
-		Rectangle2D.Double p;
-		if(b.x < a.x){ //If the second point is to the left of the first point, then do this 
-			if(b.y < a.y){ //If the second point is above the first point, then do this.
-				p = new Rectangle2D.Double(b.x, b.y, (a.x - b.x), (a.y - b.y));
-			}
-			else{
-
-				p = new Rectangle2D.Double(b.x, a.y, (a.x - b.x), (b.y - a.y));
-			}
-		}
-		else{
-			if(b. y < a.y){ //If the second point is above the first point, then do this.
-				p = new Rectangle2D.Double(a.x, b.y, (b.x - a.x), (a.y - b.y));
-			}
-			else{
-				p = new Rectangle2D.Double(a.x, a.y, (b.x - a.x), (b.y - a.y));
-			}
-		}
-		return p;
-	}
-
-	/**
-	 * Prints out the amount of RAM currently used (in MegaBytes)
-	 */
-	private static void printRAM(){
-		System.out.println("Used Memory: "+(Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory())/(1024*1024)+" mb");
-	}
-
-	/**
-	 * Adjusts a Rectangle to have the same ratio as another Rectangle by adding more (Outer Rectangle)
-	 * @param a The Rectangle to adjust.
-	 * @param b The Rectangle that has the desired ratio.
-	 */
-	private void fixRatioByOuterRectangle(Rectangle2D.Double inner, Rectangle2D.Double outer){
-		float outer_ratio = (float) (outer.width / outer.height);
-		float inner_ratio = (float) (inner.width / inner.height);
-
-		if(inner_ratio < outer_ratio){
-			// make wider
-			float temp = (float) inner.width;
-			inner.width = outer_ratio * inner.height;
-			inner.x = inner.x - (inner.width - temp) / 2;
-
-		}else{
-			// make higher
-			float temp = (float) inner.height;	
-			inner.height = inner.width / outer_ratio;
-			inner.y = inner.y - (inner.height - temp) / 2;
-		}
-	}
-
-	/**
-	 * Adjusts a Rectangle to have the same ratio as another Rectangle by removing excess space (Inner Rectangle).
-	 * @param a The Rectangle to adjust.
-	 * @param b The Rectangle that has the desired ratio.
-	 */
-	private void fixRatioByInnerRectangle(Rectangle2D.Double inner, Rectangle2D.Double outer){
-		float outer_ratio = (float) (outer.width / outer.height);
-		float inner_ratio = (float) (inner.width / inner.height);
-
-		if(inner_ratio < outer_ratio){
-			// cut height
-
-			float temp = (float) inner.height;	
-			inner.height = inner.width / outer_ratio;
-			inner.y = inner.y - (inner.height - temp) / 2;
-		}else{
-			// cut width
-
-			float temp = (float) inner.width;
-			inner.width = outer_ratio * inner.height;
-			inner.x = inner.x - (inner.width - temp) / 2;
-		}
-	}
-
-	/**
-	 * Used for the move listeners.
-	 * 
-	 * @param old The rectangle to be moved.
-	 * @param length How far the rectangle should be moved.
-	 * @param xDirection Whích way should it move in the x-direction?
-	 * @param yDirection Which way should it move in the y-direction?
-	 * @return The rectangle that has been moved. 
-	 */
 	
-	private Rectangle2D.Double mouseZoom(Point a, Point b){
-		Rectangle2D.Double p = null;
-		p = point2DToRectangle(PointMethods.pixelToUTM(a, m, v), PointMethods.pixelToUTM(b, m, v));
-		fixRatioByOuterRectangle(p, m.getBounds());
-		return p;
+	/**
+	 * Adds listeners to the GUI buttons.
+	 */
+	private void addGUIButtonListeners(){
+		addMoveGUIButtonListeners();
+		addZoomGUIButtonListeners();
 	}
-	
+
+	/**
+	 * Adds listeners to the move buttons on the GUI.
+	 */
+	private void addMoveGUIButtonListeners(){
+		//Listener for "move-up" button.
+		view.addUpListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
+				model.updateBounds(move);
+				view.repaint(model.getLines());
+			}});
+		//Listener for "move-down" button.
+		view.addDownListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
+				model.updateBounds(move);
+				view.repaint(model.getLines());
+			}});
+		//Listener for "move-left" button.
+		view.addLeftListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.WEST);
+				model.updateBounds(move);
+				view.repaint(model.getLines());
+			}});
+		//Listener for "move-right" button.
+		view.addRightListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.EAST);
+				model.updateBounds(move);
+				view.repaint(model.getLines());
+			}});
+	}
+
+	/**
+	 * Adds listeners to the zoom buttons on the GUI.
+	 */
+	private void addZoomGUIButtonListeners(){
+		//Listener for "zoom-in" button.
+		view.addInListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
+				Rectangle2D.Double p = RectangleMethods.zoomRect(ZOOM_LENGTH, true, model.getBounds());
+				model.updateBounds(p);
+				view.repaint(model.getLines());
+			}});
+		//Listener for "zoom-out" button.
+		view.addOutListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
+				Rectangle2D.Double p = RectangleMethods.zoomRect(ZOOM_LENGTH, false, model.getBounds());
+				model.updateBounds(p);
+				view.repaint(model.getLines());
+			}});
+	}
+
+	/**
+	 * Constructs a graph from the data in the data files.
+	 * 
+	 * @param dataDir Where the files are located.
+	 * @param nodeFile Name of the file containing the nodes.
+	 * @param edgeFile Name of the file containing the edges. 
+	 * @return Graph containing the edges and nodes provided by the files.
+	 * @throws IOException If the loader cannot access the files.
+	 */
 	private Graph<KrakEdge, KrakNode> constructKrakGraph(File dataDir, String nodeFile, String edgeFile) throws IOException{
 		return KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
 	}
-	
 }
