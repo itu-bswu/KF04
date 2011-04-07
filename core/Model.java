@@ -116,6 +116,7 @@ public class Model {
 	public void updateBounds(Rectangle2D.Double bounds) {
 		if (bounds == null) throw new NullPointerException();
 		
+		//TODO what is this?
 		new Rectangle2D.Double(-1,-1,-1,-1);
 		
 		this.bounds = bounds;

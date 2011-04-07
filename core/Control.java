@@ -15,10 +15,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+
+import utils.PointMethods;
 
 /**
  * Control class for the Map system.
@@ -43,9 +46,10 @@ public class Control {
 	public Control() {
 		Graph<KrakEdge, KrakNode> g = null;
 		try {
-			g = KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
+			g = constructKrakGraph(dataDir, nodeFile, edgeFile);
 		} catch (IOException e) {
-			System.out.println("A problem occured when trying to read input.");
+			System.out.println("A problem occured when trying to read input. System will now exit.");
+			System.exit(0);
 		}
 		m = new Model(g);
 		v = new View(NAME, m.getBoundsWidth()/m.getBoundsHeight());
@@ -59,7 +63,7 @@ public class Control {
 	private void addListeners(){
 		addComponentListeners();
 		addMouseListeners();
-		addKeyboardListeners();
+		addButtonListeners();
 	}
 
 	private void addComponentListeners(){
@@ -85,7 +89,7 @@ public class Control {
 
 				v.repaint(m.getLines());
 			}
-		}
+		});
 	}
 	private void addMouseListeners(){
 		//Listener for "mouse zoom"
@@ -96,14 +100,14 @@ public class Control {
 			@Override
 			public void mousePressed(MouseEvent e){
 				a = e.getPoint();
-				pointOutOfBounds(a);
+				PointMethods.pointOutOfBounds(a, v);
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e){
 				if(a == null) return; //Tries to catch null pointer from weird mouse events.
 				b = e.getPoint();
-				pointOutOfBounds(b);
+				PointMethods.pointOutOfBounds(b, v);
 
 				if(Math.abs(b.x - a.x) < v.getCanvasWidth()/100 
 						|| Math.abs(b.y - a.y) < v.getCanvasHeight()/100) return; //Prevents the user from zooming in too much.
@@ -112,25 +116,28 @@ public class Control {
 				v.repaint(m.getLines());
 			}
 
-			// display closest road's name
+			// Display the name of the closest road
 			@Override
 			public void mouseMoved(MouseEvent e){
 				// set label to closest road
-				v.setLabel(m.getClosestRoad(pixelToUTM(e.getPoint())));
+				Point2D.Double p = PointMethods.pixelToUTM(e.getPoint(), m, v);
+				String roadName = m.getClosestRoad(p);
+				v.setLabel(roadName);
 			}
 		});
 	}
-	private void addKeyboardListeners(){
-		addKeyboardMoveListeners();
-		addKeyboardZoomListeners();
+	private void addButtonListeners(){
+		addMoveButtonListeners();
+		addZoomButtonListeners();
 	}
 
-	private void addKeyboardMoveListeners(){
+	private void addMoveButtonListeners(){
 		//Listener for "move-up" button.
 		v.addUpListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				m.updateBounds(move(m.getBounds(), MOVE_LENGTH, 0, 1));
+				Rectangle2D.Double moveUp = RectangleMethods.move(m.getBounds(), MOVE_LENGTH, DIRECTION.NORTH);
+				m.updateBounds(moveUp);
 				v.repaint(m.getLines());
 			}});
 		//Listener for "move-down" button.
@@ -155,7 +162,7 @@ public class Control {
 				v.repaint(m.getLines());
 			}});
 	}
-	private void addKeyboardZoomListeners(){
+	private void addZoomButtonListeners(){
 		//Listener for "zoom-in" button.
 		v.addInListener(new ActionListener(){
 			@Override
@@ -184,7 +191,7 @@ public class Control {
 					v.repaint(m.getLines());
 				}
 			}
-		}
+		});
 	}
 
 	/**
@@ -246,22 +253,6 @@ public class Control {
 	}
 
 	/**
-	 * Converts a pixel Point to a point with UTM coordinates.
-	 * @param e The pixel-point from the screen.
-	 * @return The UTM point.
-	 */
-	private Point2D.Double pixelToUTM(Point e){
-		Rectangle2D.Double map = m.getBounds();
-		//Inverts the y-value of the point, so that it is converted from the pixel coordinate system to the
-		//UTM coordinate system
-		e.y = v.getCanvasHeight() - e.y;
-		// convert pixel to meters
-		float x_m = (float) (map.x + (e.getX() / (float) v.getCanvasWidth()) * map.width);
-		float y_m = (float) (map.y + (e.getY() / (float) v.getCanvasHeight()) * map.height);
-		return new Point2D.Double(x_m, y_m);
-	}
-
-	/**
 	 * Adjusts a Rectangle to have the same ratio as another Rectangle by adding more (Outer Rectangle)
 	 * @param a The Rectangle to adjust.
 	 * @param b The Rectangle that has the desired ratio.
@@ -309,25 +300,6 @@ public class Control {
 	}
 
 	/**
-	 * Checks if a Point object is out of bounds of the canvas and changes it to be inside the bounds. 
-	 * @param outOfBounds The Point object to be checked.
-	 */
-	private void pointOutOfBounds (Point outOfBounds){
-		if(outOfBounds.x > v.getCanvasWidth()){
-			outOfBounds.x = v.getCanvasWidth();
-		}
-		else if(outOfBounds.x < 0){
-			outOfBounds.x = 0;
-		}
-		if(outOfBounds.y > v.getCanvasHeight()){
-			outOfBounds.y = v.getCanvasHeight();
-		}
-		else if(outOfBounds.y < 0){
-			outOfBounds.y = 0;
-		}
-	}
-
-	/**
 	 * Used for the move listeners.
 	 * 
 	 * @param old The rectangle to be moved.
@@ -336,14 +308,16 @@ public class Control {
 	 * @param yDirection Which way should it move in the y-direction?
 	 * @return The rectangle that has been moved. 
 	 */
-	private Rectangle2D.Double move(Rectangle2D.Double old, float length, int xDirection, int yDirection){
-		return new Rectangle2D.Double(old.x + (xDirection * old.width * length), old.y + (yDirection * old.height * length), old.width, old.height);
-	}
-
+	
 	private Rectangle2D.Double mouseZoom(Point a, Point b){
 		Rectangle2D.Double p = null;
-		p = point2DToRectangle(pixelToUTM(a), pixelToUTM(b));
+		p = point2DToRectangle(PointMethods.pixelToUTM(a, m, v), PointMethods.pixelToUTM(b, m, v));
 		fixRatioByOuterRectangle(p, m.getBounds());
 		return p;
 	}
+	
+	private Graph<KrakEdge, KrakNode> constructKrakGraph(File dataDir, String nodeFile, String edgeFile) throws IOException{
+		return KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
+	}
+	
 }
