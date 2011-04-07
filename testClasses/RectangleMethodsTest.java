@@ -72,7 +72,7 @@ public class RectangleMethodsTest extends TestCase{
 	}
 	
 	@Test
-	public void testZoint2DToRectangle(){
+	public void testPoint2DToRectangle(){
 		Point2D.Double a = new Point2D.Double(50, 150);
 		Point2D.Double b = new Point2D.Double(150, 50);
 		Rectangle2D.Double compare = RectangleMethods.point2DToRectangle(a, b);

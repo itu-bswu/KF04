@@ -96,7 +96,6 @@ public class RectangleMethods {
 				p = new Rectangle2D.Double(b.x, b.y, (a.x - b.x), (a.y - b.y));
 			}
 			else{
-
 				p = new Rectangle2D.Double(b.x, a.y, (a.x - b.x), (b.y - a.y));
 			}
 		}
@@ -145,7 +144,7 @@ public class RectangleMethods {
 	 * @param b The second point.
 	 * @param model The model that is shown by the view.
 	 * @param view The view that has been attempted a mouse zoom on.
-	 * @return
+	 * @return The zoomed rectangle in UTM coordinates.
 	 */
 	public static Rectangle2D.Double mouseZoom(Point a, Point b, Model model, View view){
 		Rectangle2D.Double p = point2DToRectangle(
