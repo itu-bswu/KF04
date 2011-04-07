@@ -120,18 +120,21 @@ public class RectangleMethods {
 	 * @param old The original view.
 	 * @return The finished Rectangle
 	 */
-	public static Rectangle2D.Double zoomRect(float factor, boolean zoom, Rectangle2D.Double old){
+	public static Rectangle2D.Double zoomRectangle(float factor, boolean zoom, Rectangle2D.Double old){
 		if(zoom){
-			return new Rectangle2D.Double(old.x + factor * old.width, //x is increased by the factor in proportion to the width
+			return new Rectangle2D.Double(
+					old.x + factor * old.width, //x is increased by the factor in proportion to the width
 					old.y + factor * old.height, //y is increased by the factor in proportion to the height
-					old.width - factor * old.width * 2, //width is decreased by the factor
-					old.height - factor * old.height * 2); //height is decreased by the factor
+					old.width - (factor * old.width * 2), //width is decreased by the factor
+					old.height - (factor * old.height * 2) //height is decreased by the factor
+			); 
 		}
 		else{
 			return new Rectangle2D.Double(old.x - old.width * factor, //x is decreased by the factor in proportion to the width
 					old.y - old.height * factor, //y is decreased by the factor in proportion to the height
 					old.width + old.width * factor * 2, //width is increased by the factor
-					old.height + old.height * factor * 2);//height is increased by the factor
+					old.height + old.height * factor * 2//height is increased by the factor
+			);
 		}
 	}
 

@@ -26,7 +26,7 @@ import utils.PointMethods;
 import utils.RectangleMethods;
 
 /**
- * Control class for the Map system.
+ * Control class for the Map of Denmark system.
  * 
  * @author Jakob Melnyk
  * @version 11 March - 2011
@@ -213,7 +213,7 @@ public class Control {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
-				Rectangle2D.Double p = RectangleMethods.zoomRect(ZOOM_LENGTH, true, model.getBounds());
+				Rectangle2D.Double p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, true, model.getBounds());
 				model.updateBounds(p);
 				view.repaint(model.getLines());
 			}});
@@ -222,7 +222,7 @@ public class Control {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
-				Rectangle2D.Double p = RectangleMethods.zoomRect(ZOOM_LENGTH, false, model.getBounds());
+				Rectangle2D.Double p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, false, model.getBounds());
 				model.updateBounds(p);
 				view.repaint(model.getLines());
 			}});
