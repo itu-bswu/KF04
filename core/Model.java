@@ -32,6 +32,8 @@ public class Model {
 	private Rectangle2D.Double bounds;
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<QuadTree<KrakEdge>> qt;
+	
+	public Graph<KrakEdge,KrakNode> graph;
 
 	/**
 	 * Constructor
@@ -39,6 +41,9 @@ public class Model {
 	 * Set the map to look at the entire graph.
 	 */
 	public Model(Graph<KrakEdge,KrakNode> graph) {
+		
+		DijkstraSP.test(graph);
+		
 		setMaxBounds(graph.getNodes());
 		bounds = originalBounds();
 		createQuadTrees(graph.getAllEdges());
@@ -119,7 +124,6 @@ public class Model {
 		if (bounds == null) throw new NullPointerException("Trying to set the bounds to null");
 		if (bounds.width < 0) throw new IllegalArgumentException("The width of the rectangle is negative");
 		if (bounds.height < 0) throw new IllegalArgumentException("The height of the rectangle is negative");
-		if (!maxBounds.contains(bounds)) throw new IllegalArgumentException("The bounds is out of the maximal bounds");	
 		
 		this.bounds = bounds;
 	}
