@@ -1,5 +1,6 @@
 package dataobjects;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 
 import loader.NodeData;
 import graphlib.Node;
@@ -8,7 +9,7 @@ import graphlib.Node;
  * A graph node, created from a NodeData object. Note that KDV_ID is used as a
  * global id number, while KDV# is assumed to be continuous in the loaded file.
  */
-public class KrakNode extends Node {
+public class KrakNode extends Node implements Serializable {
 	private float X; // Geographic X, meter East in UTM zone 32
 	private float Y; // Geographic Y, meter North of Equator
 

@@ -1,9 +1,11 @@
 package graphlib;
 
+import java.io.Serializable;
+
 /**
  * Node in a graph
  */
-public class Node {
+public class Node implements Serializable {
 
 	/**
 	 * Index of node.

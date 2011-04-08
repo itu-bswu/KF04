@@ -1,4 +1,5 @@
 package core;
+
 import core.Control;
 
 public class Main {

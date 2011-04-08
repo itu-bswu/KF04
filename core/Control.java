@@ -1,9 +1,5 @@
 package core;
 
-import loader.KrakLoader;
-import dataobjects.KrakEdge;
-import dataobjects.KrakNode;
-import graphlib.Graph;
 import gui.View;
 
 import java.awt.event.ActionEvent;
@@ -15,11 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.IOException;
 
 import utils.Direction;
 import utils.PointMethods;
@@ -36,9 +29,7 @@ public class Control {
 	private static final float MOVE_LENGTH = (float) 0.30;
 	private static final float ZOOM_LENGTH = (float) 0.15;
 	private static final String NAME = "Map"; //Name of the window containing the map.
-	private final File dataDir = new File(".", "data"); //Where control needs to look for the nodeFile and edgeFile
-	private final String nodeFile = "kdv_node_unload.txt"; //The nodes used to construct the graph
-	private final String edgeFile = "kdv_unload.txt"; //The edges used to construct the graph
+	
 	private View view;
 	private Model model;
 
@@ -46,14 +37,7 @@ public class Control {
 	 * Constructor for class Control
 	 */
 	public Control() {
-		Graph<KrakEdge, KrakNode> g = null;
-		try {
-			g = constructKrakGraph(dataDir, nodeFile, edgeFile);
-		} catch (IOException e) {
-			System.out.println("A problem occured when trying to read input. System will now exit.");
-			System.exit(0);
-		}
-		model = new Model(g);
+		model = new Model();
 		view = new View(NAME, model.getBoundsWidth()/model.getBoundsHeight());
 		view.repaint(model.getLines());
 		addListeners();
@@ -226,18 +210,5 @@ public class Control {
 				model.updateBounds(p);
 				view.repaint(model.getLines());
 			}});
-	}
-
-	/**
-	 * Constructs a graph from the data in the data files.
-	 * 
-	 * @param dataDir Where the files are located.
-	 * @param nodeFile Name of the file containing the nodes.
-	 * @param edgeFile Name of the file containing the edges. 
-	 * @return Graph containing the edges and nodes provided by the files.
-	 * @throws IOException If the loader cannot access the files.
-	 */
-	private Graph<KrakEdge, KrakNode> constructKrakGraph(File dataDir, String nodeFile, String edgeFile) throws IOException{
-		return KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
 	}
 }
