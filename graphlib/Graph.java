@@ -51,6 +51,7 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	 * A counter storing the total number of edges in the graph
 	 */
 	private int edgeCount = 0;
+	private int nodeCount = 675902; //TODO Count nodes
 
 	/**
 	 * Creates an edge-less graph on the Node objects in the array list.
@@ -111,6 +112,15 @@ public class Graph<E extends Edge<N>, N extends Node> {
 	 */
 	public int getEdgeCount() {
 		return edgeCount;
+	}
+	
+	/**
+	 * Returns the total number of nodes in the graph 
+	 * 
+	 * @return Amount of nodes.
+	 */
+	public int getNodeCount() {
+		return nodeCount;
 	}
 
 	/**
