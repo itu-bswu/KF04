@@ -216,6 +216,31 @@ public class View extends JFrame{
 		zoomInButton.addKeyListener(k);
 		zoomOutButton.addKeyListener(k);
 	}
+	
+	/**
+	 * Adds a mark to the canvas, a pin will be displayed at this position
+	 * of the screen until clearMarks() is called.
+	 * @param p The point in pixel values where a pin should be displayed.
+	 */
+	public void addMark(Point p){
+		// TODO
+	}
+	
+	/**
+	 * Removes all marks currently in place.
+	 */
+	public void clearMarks(){
+		// TODO
+	}
+	
+	/**
+	 * Adds a separete collection of lines to be displayed along with
+	 * the regular roads.
+	 * @param route
+	 */
+	public void addRoute(Collection<Line> route){
+		// TODO
+	}
 
 	/**
 	 * Repaints the entire frame, with the new lines to be shown.
