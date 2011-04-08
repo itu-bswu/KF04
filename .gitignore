@@ -12,3 +12,6 @@ rapport/**.synctex.gz
 rapport/**.toc
 bin/*
 **.ai
+**kdv_*.txt
+kdv_node_unload.txt
+kdv_unload.txt

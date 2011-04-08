@@ -1,11 +1,12 @@
 package dataobjects;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import utils.Stopwatch;
 
-public class QuadTree<T extends KrakEdge>{
+public class QuadTree<T extends KrakEdge> implements Serializable {
 
 	/**
 	 * Quad tree node
