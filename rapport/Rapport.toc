@@ -14,5 +14,6 @@
 \contentsline {subsection}{\numberline {2.3}QuadTree og valg af veje}{5}
 \contentsline {subsection}{\numberline {2.4}Control}{6}
 \contentsline {subsection}{\numberline {2.5}PixelToUTM}{6}
-\contentsline {subsection}{\numberline {2.6}Lines}{6}
-\contentsline {subsection}{\numberline {2.7}View}{6}
+\contentsline {subsection}{\numberline {2.6}Line}{6}
+\contentsline {subsection}{\numberline {2.7}Lines}{6}
+\contentsline {subsection}{\numberline {2.8}View}{7}

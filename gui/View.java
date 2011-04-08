@@ -56,7 +56,9 @@ public class View extends JFrame{
 	 * @param startRatio The initial ratio of the canvas component.
 	 */
 	public View(String header, float startRatio){
+	
 		super(header);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		canvas = new Canvas();
