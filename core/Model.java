@@ -218,8 +218,7 @@ public class Model {
 	/**
 	 * Update the bounds
 	 * 
-	 * @param view
-	 *            The rectangle of the view to zoom to.
+	 * @param view The rectangle of the view to zoom to.
 	 */
 	public void updateBounds(Rectangle2D.Double bounds) {
 		if (bounds == null) throw new NullPointerException("Trying to set the bounds to null");
