@@ -24,7 +24,7 @@ public class Model {
 	private static final float ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
-	private final Rectangle2D.Double maxBounds;
+	private Rectangle2D.Double maxBounds;
 	private QuadTree<KrakEdge> qt;
 
 	/**
@@ -33,7 +33,7 @@ public class Model {
 	 * Set the map to look at the entire graph.
 	 */
 	public Model(Graph<KrakEdge,KrakNode> graph) {
-		maxBounds = outerBounds(graph.getNodes());
+		setMaxBounds(graph.getNodes());
 		bounds = originalBounds();
 		this.qt = new QuadTree<KrakEdge>(bounds,graph.getAllEdges());
 	}
@@ -43,8 +43,10 @@ public class Model {
 	 * @param view The rectangle of the view to zoom to.
 	 */
 	public void updateBounds(Rectangle2D.Double bounds) {
-		if (bounds == null) throw new NullPointerException();
-		if ((bounds.width < 0)||(bounds.height< 0)) throw new IllegalArgumentException();
+		if (bounds == null) throw new NullPointerException("Trying to set the bounds to null");
+		if (bounds.width < 0) throw new IllegalArgumentException("The width of the rectangle is negative");
+		if (bounds.height < 0) throw new IllegalArgumentException("The height of the rectangle is negative");
+		if (!maxBounds.contains(bounds)) throw new IllegalArgumentException("The bounds is out of the maximal bounds");	
 		
 		this.bounds = bounds;
 	}
@@ -53,6 +55,7 @@ public class Model {
 	 * Get the Width of the bounds
 	 * @return The width of the bounds
 	 */
+	//TODO Denne og height metoden skal slettes og det skal coordineres med Jacob
 	public float getBoundsWidth() {
 		return (float) bounds.width;
 	}
@@ -85,7 +88,8 @@ public class Model {
 	 * @param list 
 	 * @return The outer bounds
 	 */
-	private Rectangle2D.Double outerBounds(List<KrakNode> list) {
+	//TODO this should be deleted, the data should be saved in the inforamtion loader textfile
+	private void setMaxBounds(List<KrakNode> list) {
 		float minX = -1;
 		float minY = -1;
 		float maxX = -1;
@@ -101,7 +105,7 @@ public class Model {
 			if ((node.getY() > maxY)||(maxY == -1)) maxY = (float) node.getY();
 		}
 
-		return new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY);
+		maxBounds = new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY);
 	}
 
 	/**
@@ -234,15 +238,13 @@ public class Model {
 	 * @return The point on the screen corresponding to the coordinates given.
 	 */
 	private Point2D.Double relativePoint(Point2D coordinates) {
-
 		float nx = (float) (	(coordinates.getX()-bounds.getX()) / bounds.getWidth()	); 
 		float ny = (float) (1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight()	);
-
 		return new Point2D.Double(nx,ny);
 	}
 
 	/**
-	 * 
+	 * Get closest road
 	 * @param point
 	 * @return
 	 */
