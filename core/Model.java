@@ -118,6 +118,10 @@ public class Model {
 
 	/**
 	 * Update the bounds
+<<<<<<< HEAD
+=======
+	 * 
+>>>>>>> 79129511df710e650d6402e42ee2a3ec8814fbf0
 	 * @param view The rectangle of the view to zoom to.
 	 */
 	public void updateBounds(Rectangle2D.Double bounds) {

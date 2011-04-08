@@ -9,6 +9,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Point;
+
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -19,8 +21,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
+
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -216,6 +223,38 @@ public class View extends JFrame{
 		zoomInButton.addKeyListener(k);
 		zoomOutButton.addKeyListener(k);
 	}
+	
+	/**
+	 * Adds a pin to the canvas, a pin will be displayed at this position
+	 * of the screen until clearMarks() is called.
+	 * @param p The point in pixel values where a pin should be displayed.
+	 */
+	public void addPin(Point2D.Double p){
+		canvas.addPin(p);
+	}
+	
+	/**
+	 * Removes all pins currently in place.
+	 */
+	public void clearPins(){
+		canvas.clearPins();
+	}
+	
+	/**
+	 * Adds a separete collection of lines to be displayed along with
+	 * the regular roads.
+	 * @param route
+	 */
+	public void addRoute(Collection<Line> route){
+		canvas.updateRoute(route);
+	}
+	
+	/**
+	 * Removes any route currently stored.
+	 */
+	public void clearRoute(){
+		canvas.updateRoute(null);
+	}
 
 	/**
 	 * Repaints the entire frame, with the new lines to be shown.
@@ -323,7 +362,29 @@ public class View extends JFrame{
 	private class Canvas extends JComponent{
 		private static final long serialVersionUID = 1L;
 
+		private BufferedImage pin_img;
 		private BufferedImage img = null;
+		private Collection<Line> route = null;
+		private Set<Point2D.Double> pins = new HashSet<Point2D.Double>();
+		
+		public Canvas(){
+			try{
+				pin_img = ImageIO.read(new File("src","pin.png"));
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+			makeAlpha(pin_img,Color.WHITE);
+		}
+
+		private void makeAlpha(BufferedImage img, Color color) {
+			for(int i = 0; i < img.getHeight(); i++) {  
+				for(int j = 0; j < img.getWidth(); j++) {  
+					if(img.getRGB(j, i) == color.getRGB()) {  
+						img.setRGB(j, i, 0x8F1C1C);
+					}  
+				}  
+			}  
+		}
 
 		/**
 		 * Gives the off-screen image that is contained within the canvas.
@@ -334,12 +395,31 @@ public class View extends JFrame{
 		}
 
 		/**
+		 * Removes any stored pins.
+		 */
+		public void clearPins() {
+			pins.clear();
+		}
+
+		public void addPin(Point2D.Double p) {
+			pins.add(p);
+		}
+
+		/**
 		 * Updates the canvas with a new Set of Lines and repaints using them.
 		 * @param lines The Set of Lines to be drawn.
 		 */
 		public void updateLines(Collection<Line> lines){
 			drawOffScreen(lines);
 			this.repaint();
+		}
+		
+		/**
+		 * Updates the stored route with the given.
+		 * @param route The new route.
+		 */
+		public void updateRoute(Collection<Line> route){
+			this.route = route;
 		}
 
 		/**
@@ -357,16 +437,30 @@ public class View extends JFrame{
 				g.fillRect(0, 0, getWidth(), getHeight());
 				// draw lines
 				for(Line l : lines){
-					g.setColor(l.getRoadColor());
-					g.setStroke(new BasicStroke(l.getThickness()));
-					g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
-							(int)(l.getStartPoint().y*this.getHeight()),
-							(int)(l.getEndPoint().x*this.getWidth()),
-							(int)(l.getEndPoint().y*this.getHeight()));
+					drawLine(g,l);
 				}
+				if(route != null){
+					for(Line r : route){
+						drawLine(g,r);
+					}
+				}
+				for(Point2D.Double p : pins){
+					System.out.println("drawing pin");
+					g.drawImage(pin_img, (int) (p.x*getWidth() - pin_img.getWidth()), (int) (p.y*getHeight() - pin_img.getHeight()), null);
+				}
+				
 				g.dispose();
 				//timer.printTime();
 			}
+		}
+
+		private void drawLine(Graphics2D g, Line l) {
+			g.setColor(l.getRoadColor());
+			g.setStroke(new BasicStroke(l.getThickness()));
+			g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
+					(int)(l.getStartPoint().y*this.getHeight()),
+					(int)(l.getEndPoint().x*this.getWidth()),
+					(int)(l.getEndPoint().y*this.getHeight()));
 		}
 
 		/**
@@ -391,6 +485,11 @@ public class View extends JFrame{
 		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2));
 
 		View v = new View("X marks the spot",(float) 1.0);
+		
+		v.addPin(new Point2D.Double(0.25,0.25));
+		v.addPin(new Point2D.Double(0.75,0.75));
+		v.addPin(new Point2D.Double(0.75,0.25));
+		v.addPin(new Point2D.Double(0.25,0.75));
 		v.repaint(x);
 	}
 }
