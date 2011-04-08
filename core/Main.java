@@ -1,9 +1,6 @@
 package core;
-<<<<<<< HEAD
-import javax.swing.JOptionPane;
-=======
->>>>>>> 21a396c9d4824c3f418bfbc15b9e744cc1c4fdab
 
+import javax.swing.JOptionPane;
 import core.Control;
 
 public class Main {
