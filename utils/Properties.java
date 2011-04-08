@@ -60,6 +60,8 @@ public class Properties {
 	 * Creates the config file with the default settings.
 	 */
 	public static void defaultSettings() {
+		properties.setProperty("programName", "Map");
+		
 		properties.setProperty("dataDir", "data");
 		properties.setProperty("nodeFile", "kdv_node_unload.txt");
 		properties.setProperty("edgeFile", "kdv_unload.txt");
