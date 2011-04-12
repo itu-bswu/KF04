@@ -22,6 +22,13 @@ public class Line {
 	}
 	
 	/**
+	 * Set to path
+	 */
+	public void setToPath() {
+		this.roadColor = Color.blue;
+	}
+	
+	/**
 	 * Get start point
 	 */
 	public Point2D.Double getStartPoint() {
