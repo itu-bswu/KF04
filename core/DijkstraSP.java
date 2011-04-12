@@ -85,7 +85,6 @@ public class DijkstraSP {
 
     /**
      * Returns shortest path from s to v as an Iterable, null if no such path
-     * 
      */
     public Iterable<KrakEdge> pathTo(KrakNode goalNode) {
     	int v = goalNode.getIndex();
@@ -166,7 +165,7 @@ public class DijkstraSP {
      * Test the tree
      * @param graph
      */
-    /*
+
     public static void test(Graph<KrakEdge,KrakNode> graph) {
 
         // print graph
@@ -177,7 +176,7 @@ public class DijkstraSP {
 
         // run Dijksra's algorithm from vertex 0
         int s = 4010;
-        DijkstraSP sp = new DijkstraSP(graph, s);
+        DijkstraSP sp = new DijkstraSP(graph, graph.getNode(s));
         System.out.println();
 
 
@@ -187,7 +186,7 @@ public class DijkstraSP {
         for (int v = 0; v < graph.getNodeCount(); v++) {
             if (sp.hasPathTo(v)) {
                 System.out.println("from: " +s+ ",v: " +v+ "sp.distT0: " + sp.distTo(v));
-                for (KrakEdge e : sp.pathTo(v)) {
+                for (KrakEdge e : sp.pathTo(graph.getNode(v))) {
                     System.out.println(e.getN1().index + " : " + e.roadname);
                 }
                 System.out.println();
@@ -196,10 +195,5 @@ public class DijkstraSP {
             	//System.out.println("no path; s:" + s + ",v:"+ v);
             }
         }
-        
-        
-        
-        
-    }*/
-
+    }
 }
