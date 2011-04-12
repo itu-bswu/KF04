@@ -130,11 +130,26 @@ public class Model {
 			sw.printTime();
 
 		}
+		
+		
+		
+		System.out.println("Testing the pathfinder:");
+		
+		DijkstraSP.test(graph);
+		
+		KrakNode startNode = graph.getNode(4010);
+		KrakNode endNode = graph.getNode(2978);
+		try {
+			shortestPath(startNode, endNode);
+		}
+		catch (NoPathException e) {
+			System.out.println(e);
+		}
+		
 	}
 
 	/**
 	 * Create Graph object from Krak data-files.
-	 * 
 	 * @return Graph object from Krak files.
 	 */
 	private Graph<KrakEdge, KrakNode> loadGraph() {
@@ -157,6 +172,10 @@ public class Model {
 		return graph;
 	}
 
+	/**
+	 * Create QuadTrees
+	 * @param content
+	 */
 	private void createQuadTrees(Set<KrakEdge> content) {
 		qt = new ArrayList<QuadTree<KrakEdge>>(3);
 
@@ -206,12 +225,27 @@ public class Model {
 	/**
 	 * Create a new DijkstraSP from the startNode, and finds the path to the endNode. The path is returned as an arraylist of lines
 	 */
-	public ArrayList<Line> shortestPath(KrakNode startNode, KrakNode endNode) {
+	public ArrayList<Line> shortestPath(KrakNode startNode, KrakNode endNode) throws NoPathException{
+		
+		if (startNode	== null) throw new NullPointerException("startNode is null");
+		if (endNode		== null) throw new NullPointerException("endNode is null");
+
 		ArrayList<Line>path = new ArrayList<Line>();
 		DijkstraSP shortestPathTree = new DijkstraSP(graph, startNode);
 
-		for (KrakEdge e : shortestPathTree.pathTo(endNode)) {
-			path.add(getLine(e));
+		Iterable<KrakEdge> edges = shortestPathTree.pathTo(endNode);
+		
+		System.out.println(edges);
+		
+		if (edges == null) {
+			throw new NoPathException("No path from startNode to endNode");
+		}
+		
+		for (KrakEdge e : edges) {	
+			Line line = getLine(e);
+			line.setToPath();
+			path.add(line);
+			System.out.println(e.roadname);
 		}
 
 		return path;

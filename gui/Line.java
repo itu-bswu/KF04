@@ -9,7 +9,7 @@ public class Line {
 	private Point2D.Double startPoint;
 	private Point2D.Double endPoint;
 	private Color roadColor;
-	private int thickness;
+	public int thickness;
 	
 	/**
 	 * Constructor
@@ -19,6 +19,13 @@ public class Line {
 		this.endPoint = endPoint;
 		this.roadColor = roadColor;
 		this.thickness = thickness;
+	}
+	
+	/**
+	 * Set to path
+	 */
+	public void setToPath() {
+		this.roadColor = Color.blue;
 	}
 	
 	/**

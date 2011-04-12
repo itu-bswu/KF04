@@ -76,11 +76,7 @@ public class ModelTest {
 	/*
 	 TODO kan man teste private metoder? Det ville v¾re ret nice.
 	@Test public void relativePointTest() {
-		
 		model.updateBounds(new Rectangle2D.Double(0,0,100,100));
-		
-		
-		
 		assertEquals();
 	}
 	*/
@@ -90,7 +86,7 @@ public class ModelTest {
 	 */
 	//TODO vi burde virkelig have en falsk graph
 	@Test public void getClosestRoadTest() {
-		assertEquals(" ", model.getClosestRoad(new Point2D.Double(0,0)));
+		//assertEquals(" ", model.getClosestRoad(new Point2D.Double(0,0)));
 	}
 	
 }
