@@ -16,6 +16,8 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+
 import utils.Direction;
 import utils.PointMethods;
 import utils.RectangleMethods;
@@ -113,19 +115,27 @@ public class Control {
 				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model, view));
 				repaint();
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e){
 				boolean remove = false;
-				/*for(Point2D.Double pin : pins){
+				HashSet<Point2D.Double> tempPins = new HashSet<Point2D.Double>();
+				for(Point2D.Double pin : pins){
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
 					if(tempPoint.x - e.getX() < 10 && tempPoint.y - e.getY() < 10){
-						pins.remove(pin);
-						remove = true;
+						tempPins.add(pin);
+						//remove = true;
 					}
-				}*/
-				pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
-				
+				}
+				if(remove){
+					pins.removeAll(tempPins);
+				}
+				if(!remove){
+					pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
+				}
+				if(pins.size() == 2){
+					view.addRoute(model.shortestPath(model.getClosestNode(pins.get(0)), model.getClosestNode(pins.get(1))));
+				}
 				repaint();
 			}
 
@@ -158,7 +168,7 @@ public class Control {
 			}
 		});
 	}
-	
+
 	/**
 	 * Adds listeners to the GUI buttons.
 	 */
@@ -228,7 +238,7 @@ public class Control {
 				repaint();
 			}});
 	}
-	
+
 	/**
 	 * 
 	 */
