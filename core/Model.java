@@ -242,7 +242,9 @@ public class Model {
 		}
 		
 		for (KrakEdge e : edges) {	
-			path.add(getLine(e));
+			Line line = getLine(e);
+			line.setToPath();
+			path.add(line);
 			System.out.println(e.roadname);
 		}
 
