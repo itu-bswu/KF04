@@ -1,13 +1,16 @@
 package dataobjects;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 import utils.Stopwatch;
 
 public class QuadTree<T extends KrakEdge> implements Serializable {
 
+	/**
+	 * Generated serial version UID
+	 */
+	private static final long serialVersionUID = -8503471615911218684L;
 	/**
 	 * Quad tree node
 	 *
