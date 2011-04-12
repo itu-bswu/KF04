@@ -2,14 +2,13 @@ package core;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.sun.tools.corba.se.idl.InvalidArgument;
+//import com.sun.tools.corba.se.idl.InvalidArgument;
 
 import graphlib.Graph;
 import dataobjects.KrakEdge;

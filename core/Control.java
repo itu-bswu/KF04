@@ -19,6 +19,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import utils.Direction;
 import utils.PointMethods;
@@ -40,6 +41,7 @@ public class Control {
 	private final String edgeFile = "kdv_unload.txt"; //The edges used to construct the graph
 	private View view;
 	private Model model;
+	private ArrayList<Point2D.Double> pins;
 
 	/**
 	 * Constructor for class Control
@@ -56,6 +58,7 @@ public class Control {
 		view = new View(NAME, model.getBoundsWidth()/model.getBoundsHeight());
 		view.repaint(model.getLines());
 		addListeners();
+		pins = new ArrayList<Point2D.Double>();
 	}
 
 	/**
@@ -103,28 +106,49 @@ public class Control {
 	private void addMouseListeners(){
 		//Listener for "mouse zoom"
 		view.addCanvasMouseListener(new MouseAdapter(){
-			private Point a = null;
-			private Point b = null;
+			private Point a_mouseZoom = null;
+			private Point b_mouseZoom = null;
+			private Point2D.Double a_mark = null;
+			private Point2D.Double b_mark = null;
+			
 
 			@Override
 			public void mousePressed(MouseEvent e){
 				if(e == null) return; //Attempt to catch null pointer from weird mouse events.
-				a = e.getPoint();
-				PointMethods.pointOutOfBounds(a, view);
+				a_mouseZoom = e.getPoint();
+				PointMethods.pointOutOfBounds(a_mouseZoom, view);
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e){
-				if(a == null || e == null) return; //Attempt to catch null pointer from weird mouse events.
-				b = e.getPoint();
-				PointMethods.pointOutOfBounds(b, view);
+				if(a_mouseZoom == null || e == null) return; //Attempt to catch null pointer from weird mouse events.
+				b_mouseZoom = e.getPoint();
+				PointMethods.pointOutOfBounds(b_mouseZoom, view);
 
-				if(Math.abs(b.x - a.x) < view.getCanvasWidth()/100 
-						|| Math.abs(b.y - a.y) < view.getCanvasHeight()/100){ 
+				if(Math.abs(b_mouseZoom.x - a_mouseZoom.x) < view.getCanvasWidth()/100 
+						|| Math.abs(b_mouseZoom.y - a_mouseZoom.y) < view.getCanvasHeight()/100){ 
 					return; //Prevents the user from zooming in too much.
 				}
-				model.updateBounds(RectangleMethods.mouseZoom(a, b, model, view));
+				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model, view));
 				view.repaint(model.getLines());
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e){
+				for(Point2D.Double pin : pins){
+					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
+					if(tempPoint.x - e.getX() < 10 && tempPoint.y - e.getY() < 10){
+						pins.remove(pin);
+					}
+				}
+				if(a_mark == null) {
+					a_mark = PointMethods.pixelToUTM(e.getPoint(), model, view);
+					view.addPin(PointMethods.UTMToPixel(a_mark, model, view));
+				}
+				else if(b_mark == null){
+					b_mark = PointMethods.pixelToUTM(e.getPoint(), model, view);
+					view.addPin(PointMethods.UTMToPixel(b_mark, model, view));
+				}
 			}
 
 			// Display the name of the closest road
@@ -227,6 +251,18 @@ public class Control {
 			}});
 	}
 
+	/**
+	 * 
+	 */
+	private void repaint(){
+		view.clearPins();
+		for(Point2D.Double pin : pins){
+			Point tempPin = PointMethods.UTMToPixel(pin, model, view);
+			view.addPin(tempPin);
+		}
+		view.repaint(model.getLines());
+	}
+	
 	/**
 	 * Constructs a graph from the data in the data files.
 	 * 
