@@ -1,9 +1,9 @@
 package testClasses;
 
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Before;
-
-import junit.framework.TestCase;
 
 public class PointMethodsTest extends TestCase{
 

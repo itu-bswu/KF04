@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
@@ -227,9 +229,9 @@ public class View extends JFrame{
 	/**
 	 * Adds a pin to the canvas, a pin will be displayed at this position
 	 * of the screen until clearMarks() is called.
-	 * @param p The point in pixel values where a pin should be displayed.
+	 * @param p The point in pixel to display a pin.
 	 */
-	public void addPin(Point2D.Double p){
+	public void addPin(Point p){
 		canvas.addPin(p);
 	}
 	
@@ -365,7 +367,7 @@ public class View extends JFrame{
 		private BufferedImage pin_img;
 		private BufferedImage img = null;
 		private Collection<Line> route = null;
-		private Set<Point2D.Double> pins = new HashSet<Point2D.Double>();
+		private List<Point> pins = new ArrayList<Point>();
 		
 		public Canvas(){
 			try{
@@ -401,7 +403,7 @@ public class View extends JFrame{
 			pins.clear();
 		}
 
-		public void addPin(Point2D.Double p) {
+		public void addPin(Point p) {
 			pins.add(p);
 		}
 
@@ -444,10 +446,6 @@ public class View extends JFrame{
 						drawLine(g,r);
 					}
 				}
-				for(Point2D.Double p : pins){
-					System.out.println("drawing pin");
-					g.drawImage(pin_img, (int) (p.x*getWidth() - pin_img.getWidth()), (int) (p.y*getHeight() - pin_img.getHeight()), null);
-				}
 				
 				g.dispose();
 				//timer.printTime();
@@ -470,6 +468,11 @@ public class View extends JFrame{
 		public void paint(Graphics g){
 			if(img != null){
 				g.drawImage(img, 0, 0, null);
+				for(int index = 0 ; index < pins.size() ; index++){
+					g.setFont(new Font("Arial", Font.PLAIN, 16));
+					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth(), pins.get(index).y - pin_img.getHeight(), null);
+					g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
+				}
 			}
 			g.dispose();
 		}
@@ -486,10 +489,11 @@ public class View extends JFrame{
 
 		View v = new View("X marks the spot",(float) 1.0);
 		
-		v.addPin(new Point2D.Double(0.25,0.25));
-		v.addPin(new Point2D.Double(0.75,0.75));
-		v.addPin(new Point2D.Double(0.75,0.25));
-		v.addPin(new Point2D.Double(0.25,0.75));
+		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
+		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));
+		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
+		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));
+
 		v.repaint(x);
 	}
 }
