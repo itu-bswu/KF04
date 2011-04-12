@@ -71,8 +71,14 @@ public class Model {
 
 			Stopwatch sw = new Stopwatch("Loading");
 			BufferedInputStream bin;
-			bin = new BufferedInputStream(new FileInputStream(Properties.get("maxBoundsFile")));
+			
+			bin = new BufferedInputStream(new FileInputStream(Properties.get("graphFile")));
 			ObjectInputStream ois = new ObjectInputStream(bin);
+			graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
+			ois.close();
+			
+			bin = new BufferedInputStream(new FileInputStream(Properties.get("maxBoundsFile")));
+			ois = new ObjectInputStream(bin);
 			maxBounds = (Rectangle2D.Double) ois.readObject();
 			bounds = originalBounds();
 			ois.close();
@@ -81,9 +87,12 @@ public class Model {
 			ois = new ObjectInputStream(bin);
 			qt = (ArrayList<QuadTree<KrakEdge>>) ois.readObject();
 			ois.close();
+			
 			sw.printTime();
 		} catch (Exception e) {
-			Graph<KrakEdge, KrakNode> graph = loadGraph();
+			System.out.println(e.getMessage());
+			
+			graph = loadGraph();
 			maxBounds = maxBounds(graph.getNodes());
 			bounds = originalBounds();
 			Stopwatch sw = new Stopwatch("Quadtrees");
@@ -94,14 +103,23 @@ public class Model {
 			// Serialize
 			try {
 				BufferedOutputStream fout;
-				fout = new BufferedOutputStream(new FileOutputStream(Properties.get("maxBoundsFile")));
+				fout = new BufferedOutputStream(new FileOutputStream(Properties.get("graphFile")));
 				ObjectOutputStream oos = new ObjectOutputStream(fout);
-				oos.writeObject(maxBounds);
+				oos.writeObject(graph);
+				oos.flush();
 				oos.close();
+				
+				fout = new BufferedOutputStream(new FileOutputStream(Properties.get("maxBoundsFile")));
+				oos = new ObjectOutputStream(fout);
+				oos.writeObject(maxBounds);
+				oos.flush();
+				oos.close();
+				
 				// XXX: Serialize quadtrees individually?
 				fout = new BufferedOutputStream(new FileOutputStream(Properties.get("quadTreeFile")));
 				oos = new ObjectOutputStream(fout);
 				oos.writeObject(qt);
+				oos.flush();
 				oos.close();
 				
 				File dataDir = new File(".", Properties.get("dataDir"));
