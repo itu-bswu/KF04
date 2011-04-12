@@ -40,7 +40,8 @@ public class Model {
 	private Rectangle2D.Double bounds;
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<QuadTree<KrakEdge>> qt;
-
+	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
+	
 	public Graph<KrakEdge,KrakNode> graph;
 
 	/**
@@ -140,12 +141,11 @@ public class Model {
 		KrakNode startNode = graph.getNode(4010);
 		KrakNode endNode = graph.getNode(2978);
 		try {
-			shortestPath(startNode, endNode);
+			findPath(startNode, endNode);
 		}
 		catch (NoPathException e) {
 			System.out.println(e);
 		}
-		
 	}
 
 	/**
@@ -225,33 +225,37 @@ public class Model {
 	/**
 	 * Create a new DijkstraSP from the startNode, and finds the path to the endNode. The path is returned as an arraylist of lines
 	 */
-	public ArrayList<Line> shortestPath(KrakNode startNode, KrakNode endNode) throws NoPathException{
+	public void findPath(KrakNode startNode, KrakNode endNode) throws NoPathException{
 		
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
-		ArrayList<Line>path = new ArrayList<Line>();
 		DijkstraSP shortestPathTree = new DijkstraSP(graph, startNode);
-
 		Iterable<KrakEdge> edges = shortestPathTree.pathTo(endNode);
-		
-		System.out.println(edges);
-		
+
+		//Edges
+		System.out.println("Edges found:" + edges);		
 		if (edges == null) {
 			throw new NoPathException("No path from startNode to endNode");
 		}
-		
-		for (KrakEdge e : edges) {	
+
+		for (KrakEdge e : edges) {
+			path.add(e);
+		}
+	}
+	
+	/**
+	 * Get the path as an arraylist of lines
+	 */
+	public ArrayList<Line> getPath() {
+		ArrayList<Line> lines = new ArrayList<Line>(); 
+		for (KrakEdge e : path) {	
 			Line line = getLine(e);
 			line.setToPath();
-			path.add(line);
-			System.out.println(e.roadname);
+			lines.add(line);
 		}
-
-		return path;
+		return lines;
 	}
-
-
 	/**
 	 * Querries the node for KrakEdges with a specific rectangle
 	 * @param qarea The rectangle for which to find all KrakEdges
@@ -523,7 +527,7 @@ public class Model {
 	public String getClosestRoadname(Point2D.Double point){
 		KrakEdge road = getClosestEdge(point);
 		if(road != null){
-			return road.roadname;
+			return road.roadname +" : "+ road.getN1().getIndex();
 		}
 		return " ";
 	}
