@@ -40,7 +40,7 @@ public class Control {
 	 */
 	public Control() {
 		model = new Model();
-		view = new View(NAME, model.getBoundsWidth()/model.getBoundsHeight());
+		view = new View(NAME, (float) (model.getBounds().width/model.getBounds().height));
 		repaint();
 		addListeners();
 	}
