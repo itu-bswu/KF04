@@ -29,9 +29,12 @@ public class DijkstraSP {
      * @param graph
      * @param s
      */
-    public DijkstraSP(Graph<KrakEdge, KrakNode> graph, int s) {
-        distTo = new double[graph.getNodeCount()]; //Array holding the distance from s
+    public DijkstraSP(Graph<KrakEdge, KrakNode> graph, KrakNode startNode) {
+    	int s = startNode.getIndex();
+    	distTo = new double[graph.getNodeCount()]; //Array holding the distance from s
         edgeTo = new KrakEdge[graph.getNodeCount()]; //Array holding the edge currently pointing the shortest path
+        
+        
         
         //Set all distances to positive infinity
         for (int v = 0; v < graph.getNodeCount(); v++) 
@@ -70,7 +73,7 @@ public class DijkstraSP {
             else                pq.insert(w, distTo[w]);
         }
     }
-
+    
     /**
      * Is there a path from s to v?
      * @param v
@@ -84,7 +87,8 @@ public class DijkstraSP {
      * Returns shortest path from s to v as an Iterable, null if no such path
      * 
      */
-    public Iterable<KrakEdge> pathTo(int v) {
+    public Iterable<KrakEdge> pathTo(KrakNode goalNode) {
+    	int v = goalNode.getIndex();
         if (!hasPathTo(v)) return null;
         Stack<KrakEdge> path = new Stack<KrakEdge>();
         for (KrakEdge e = edgeTo[v]; e != null; e = edgeTo[e.getN1().getIndex()]) {
@@ -162,6 +166,7 @@ public class DijkstraSP {
      * Test the tree
      * @param graph
      */
+    /*
     public static void test(Graph<KrakEdge,KrakNode> graph) {
 
         // print graph
@@ -195,6 +200,6 @@ public class DijkstraSP {
         
         
         
-    }
+    }*/
 
 }

@@ -206,18 +206,19 @@ public class Model {
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/**
+	 * Create a new DijkstraSP from the startNode, and finds the path to the endNode. The path is returned as an arraylist of lines
+	 */
+	public ArrayList<Line> shortestPath(KrakNode startNode, KrakNode endNode) {
+		ArrayList<Line>path = new ArrayList<Line>();
+		DijkstraSP shortestPathTree = new DijkstraSP(graph, startNode);
+		
+		for (KrakEdge e : shortestPathTree.pathTo(endNode)) {
+			path.add(getLine(e));
+		}
+
+		return path;
+	}
 	
 	
 	/**
@@ -318,125 +319,132 @@ public class Model {
 	}
 
 	/**
+	 * Get the line of the corresponding edge
+	 * @param e
+	 * @return
+	 */
+	private Line getLine(KrakEdge e) {
+		Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
+		Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
+		//Choosing the right color and thickness for each line
+		Color roadColor = new Color(0x000000);
+		int thickness = 1;
+		switch(e.type){
+		case 1:
+			//motorvej
+			roadColor = Color.RED;
+			thickness = 3;
+			break;
+		case 2:
+			//Motortrafikvej
+			roadColor = Color.RED;
+			thickness = 3;
+			break;
+		case 3:
+			//Primærrute > 6 meter
+			roadColor = Color.YELLOW;
+			thickness = 2;
+			break;
+		case 4:
+			//Sekundærrute > 6 meter
+			roadColor = Color.YELLOW;
+			thickness = 2;
+			break;
+		case 5:
+			//Vej 3 - 6 meter
+			roadColor = Color.ORANGE;
+			break;
+		case 6:
+			//Anden vej
+			roadColor = Color.ORANGE;
+			break;
+		case 8:
+			//sti
+			roadColor = Color.GRAY;
+			break;
+		case 10:
+			//markvej
+			roadColor = Color.ORANGE;
+			break;
+		case 11:
+			//gågader
+			roadColor = Color.GRAY;
+			break;
+		case 21:
+			//proj. motorvej
+			roadColor = Color.BLUE;
+			break;
+		case 22:
+			//proj. motortrafikvej
+			roadColor = Color.BLUE;
+			break;
+		case 23:
+			//proj. primærvej
+			roadColor = Color.BLUE;
+			break;
+		case 24:
+			//proj. sekundærvej
+			roadColor = Color.BLUE;
+			break;
+		case 25:
+			//Proj. vej 3-6 m
+			roadColor = Color.BLUE;
+			break;
+		case 26:
+			//Proj. vej < 3 m
+			roadColor = Color.BLUE;
+			break;
+		case 28:
+			//Proj. sti
+			roadColor = Color.BLUE;
+			break;
+		case 31:
+			//Motorvejsafkørsel
+			roadColor = Color.RED;
+			thickness = 3;
+			break;
+		case 32:
+			//Motortrafikvejsafkørsel
+			roadColor = Color.RED;
+			thickness = 3;
+			break;
+		case 33:
+			//Primærvejsafkørsel
+			roadColor = Color.YELLOW;
+			thickness = 2;
+			break;
+		case 34:
+			//Sekundærvejsafkørsel
+			roadColor = Color.YELLOW;
+			break;
+		case 35:
+			//Anden vejafkørsel
+			roadColor = Color.YELLOW;
+			break;
+		case 41:
+			//Motorvejstunnel
+			roadColor = Color.RED;
+			thickness = 3;
+			break;
+		case 42:
+			//Motortrafikvejstunnel
+			roadColor = Color.RED;
+			thickness = 3;
+			break;
+
+		}
+		return new Line(firstPoint,secondPoint,roadColor,thickness);
+	}
+	
+	/**
 	 * Get all lines corresponding to the edges shown in the map. 
 	 * @return All the lines.
 	 */
 	public Collection<Line> getLines() {
-//		Stopwatch timer = new Stopwatch("Making Lines");
 		HashSet<Line> lines = new HashSet<Line>();
 		for (KrakEdge e : query(bounds)) {
-			Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
-			Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
-			//Choosing the right color and thickness for each line
-			Color roadColor = new Color(0x000000);
-			int thickness = 1;
-			switch(e.type){
-			case 1:
-				//motorvej
-				roadColor = Color.RED;
-				thickness = 3;
-				break;
-			case 2:
-				//Motortrafikvej
-				roadColor = Color.RED;
-				thickness = 3;
-				break;
-			case 3:
-				//Primærrute > 6 meter
-				roadColor = Color.YELLOW;
-				thickness = 2;
-				break;
-			case 4:
-				//Sekundærrute > 6 meter
-				roadColor = Color.YELLOW;
-				thickness = 2;
-				break;
-			case 5:
-				//Vej 3 - 6 meter
-				roadColor = Color.ORANGE;
-				break;
-			case 6:
-				//Anden vej
-				roadColor = Color.ORANGE;
-				break;
-			case 8:
-				//sti
-				roadColor = Color.GRAY;
-				break;
-			case 10:
-				//markvej
-				roadColor = Color.ORANGE;
-				break;
-			case 11:
-				//gågader
-				roadColor = Color.GRAY;
-				break;
-			case 21:
-				//proj. motorvej
-				roadColor = Color.BLUE;
-				break;
-			case 22:
-				//proj. motortrafikvej
-				roadColor = Color.BLUE;
-				break;
-			case 23:
-				//proj. primærvej
-				roadColor = Color.BLUE;
-				break;
-			case 24:
-				//proj. sekundærvej
-				roadColor = Color.BLUE;
-				break;
-			case 25:
-				//Proj. vej 3-6 m
-				roadColor = Color.BLUE;
-				break;
-			case 26:
-				//Proj. vej < 3 m
-				roadColor = Color.BLUE;
-				break;
-			case 28:
-				//Proj. sti
-				roadColor = Color.BLUE;
-				break;
-			case 31:
-				//Motorvejsafkørsel
-				roadColor = Color.RED;
-				thickness = 3;
-				break;
-			case 32:
-				//Motortrafikvejsafkørsel
-				roadColor = Color.RED;
-				thickness = 3;
-				break;
-			case 33:
-				//Primærvejsafkørsel
-				roadColor = Color.YELLOW;
-				thickness = 2;
-				break;
-			case 34:
-				//Sekundærvejsafkørsel
-				roadColor = Color.YELLOW;
-				break;
-			case 35:
-				//Anden vejafkørsel
-				roadColor = Color.YELLOW;
-				break;
-			case 41:
-				//Motorvejstunnel
-				roadColor = Color.RED;
-				thickness = 3;
-				break;
-			case 42:
-				//Motortrafikvejstunnel
-				roadColor = Color.RED;
-				thickness = 3;
-				break;
-
-			}
-			lines.add(new Line(firstPoint,secondPoint,roadColor,thickness));
+			lines.add(getLine(e));
 		}
-//		timer.printTime();
 		return lines;
 	}
 
