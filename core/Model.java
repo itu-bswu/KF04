@@ -2,14 +2,23 @@ package core;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-//import com.sun.tools.corba.se.idl.InvalidArgument;
-
+import loader.KrakLoader;
+import utils.MD5Checksum;
+import utils.Properties;
+import utils.Stopwatch;
 import graphlib.Graph;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
@@ -39,16 +48,97 @@ public class Model {
 	 * Initialize variables. 
 	 * Set the map to look at the entire graph.
 	 */
-	public Model(Graph<KrakEdge,KrakNode> graph) {
-		
-		DijkstraSP.test(graph);
-		
-		setMaxBounds(graph.getNodes());
-		bounds = originalBounds();
-		createQuadTrees(graph.getAllEdges());
+	@SuppressWarnings("unchecked")
+	public Model() {
+		boolean fromFile = false;
+		try {
+			File dataDir = new File(".", Properties.get("dataDir"));
+			String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
+			if (chk.equals(Properties.get("nodeFileChecksum"))) {
+				fromFile = true;
+			}
+		} catch (Exception e) {
+			fromFile = false;
+		}
+
+		try {
+			if (!fromFile) {
+				throw new Exception("Create datastructure");
+			}
+
+			Stopwatch sw = new Stopwatch("Loading");
+			BufferedInputStream bin;
+			bin = new BufferedInputStream(new FileInputStream(Properties.get("maxBoundsFile")));
+			ObjectInputStream ois = new ObjectInputStream(bin);
+			maxBounds = (Rectangle2D.Double) ois.readObject();
+			bounds = originalBounds();
+			ois.close();
+
+			bin = new BufferedInputStream(new FileInputStream(Properties.get("quadTreeFile")));
+			ois = new ObjectInputStream(bin);
+			qt = (ArrayList<QuadTree<KrakEdge>>) ois.readObject();
+			ois.close();
+			sw.printTime();
+		} catch (Exception e) {
+			Graph<KrakEdge, KrakNode> graph = loadGraph();
+			maxBounds = maxBounds(graph.getNodes());
+			bounds = originalBounds();
+			Stopwatch sw = new Stopwatch("Quadtrees");
+			createQuadTrees(graph.getAllEdges());
+			sw.printTime();
+			
+			sw = new Stopwatch("Serialize");
+			// Serialize
+			try {
+				BufferedOutputStream fout;
+				fout = new BufferedOutputStream(new FileOutputStream(Properties.get("maxBoundsFile")));
+				ObjectOutputStream oos = new ObjectOutputStream(fout);
+				oos.writeObject(maxBounds);
+				oos.close();
+				// XXX: Serialize quadtrees individually?
+				fout = new BufferedOutputStream(new FileOutputStream(Properties.get("quadTreeFile")));
+				oos = new ObjectOutputStream(fout);
+				oos.writeObject(qt);
+				oos.close();
+				
+				File dataDir = new File(".", Properties.get("dataDir"));
+				String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
+				Properties.set("nodeFileChecksum", chk);
+				Properties.save();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			
+			sw.printTime();
+			
+		}
+	}
+	
+	/**
+	 * Create Graph object from Krak data-files.
+	 * 
+	 * @return Graph object from Krak files.
+	 */
+	private Graph<KrakEdge, KrakNode> loadGraph() {
+		Graph<KrakEdge, KrakNode> graph = null;
+		try {
+			File dataDir = new File(".", Properties.get("dataDir"));
+			Stopwatch sw = new Stopwatch("Graph");
+			graph = KrakLoader.graphFromFiles(
+					new File(dataDir, Properties.get("nodeFile"))
+							.getAbsolutePath(),
+					new File(dataDir, Properties.get("edgeFile"))
+							.getAbsolutePath());
+			sw.printTime();
+		} catch (IOException e) {
+			System.out
+					.println("A problem occured when trying to read input. System will now exit.");
+			System.exit(0);
+		}
+
+		return graph;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void createQuadTrees(Set<KrakEdge> content) {
 		qt = new ArrayList<QuadTree<KrakEdge>>(3);
 		
@@ -95,6 +185,20 @@ public class Model {
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Querries the node for KrakEdges with a specific rectangle
 	 * @param qarea The rectangle for which to find all KrakEdges
@@ -117,10 +221,6 @@ public class Model {
 
 	/**
 	 * Update the bounds
-<<<<<<< HEAD
-=======
-	 * 
->>>>>>> 79129511df710e650d6402e42ee2a3ec8814fbf0
 	 * @param view The rectangle of the view to zoom to.
 	 */
 	public void updateBounds(Rectangle2D.Double bounds) {
@@ -164,28 +264,36 @@ public class Model {
 	}
 
 	/**
-	 * Get the the bounds of the smallest possible rectangle, still showing the entire graph.
-	 * @param list 
+	 * Get the the bounds of the smallest possible rectangle, still showing the
+	 * entire graph.
+	 * 
+	 * @param list
+	 * @return 
 	 * @return The outer bounds
 	 */
 	//TODO this should be deleted, the data should be saved in the inforamtion loader textfile
-	private void setMaxBounds(List<KrakNode> list) {
+	private Rectangle2D.Double maxBounds(List<KrakNode> list) {
 		float minX = -1;
 		float minY = -1;
 		float maxX = -1;
 		float maxY = -1;
 
-		for(KrakNode node : list) {
+		for (KrakNode node : list) {
 
-			if (node == null) continue;
+			if (node == null)
+				continue;
 
-			if ((node.getX() < minX)||(minX == -1)) minX = (float) node.getX();
-			if ((node.getX() > maxX)||(maxX == -1)) maxX = (float) node.getX();
-			if ((node.getY() < minY)||(minY == -1)) minY = (float) node.getY();
-			if ((node.getY() > maxY)||(maxY == -1)) maxY = (float) node.getY();
+			if ((node.getX() < minX) || (minX == -1))
+				minX = (float) node.getX();
+			if ((node.getX() > maxX) || (maxX == -1))
+				maxX = (float) node.getX();
+			if ((node.getY() < minY) || (minY == -1))
+				minY = (float) node.getY();
+			if ((node.getY() > maxY) || (maxY == -1))
+				maxY = (float) node.getY();
 		}
 
-		maxBounds = new Rectangle2D.Double(minX,minY,maxX-minX,maxY-minY);
+		return new Rectangle2D.Double(minX, minY, maxX - minX, maxY - minY);
 	}
 
 	/**

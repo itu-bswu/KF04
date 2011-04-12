@@ -1,9 +1,5 @@
 package core;
 
-import loader.KrakLoader;
-import dataobjects.KrakEdge;
-import dataobjects.KrakNode;
-import graphlib.Graph;
 import gui.View;
 
 import java.awt.event.ActionEvent;
@@ -20,7 +16,6 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import utils.Direction;
 import utils.PointMethods;
 import utils.RectangleMethods;
@@ -36,29 +31,18 @@ public class Control {
 	private static final float MOVE_LENGTH = (float) 0.30;
 	private static final float ZOOM_LENGTH = (float) 0.15;
 	private static final String NAME = "Map"; //Name of the window containing the map.
-	private final File dataDir = new File(".", "data"); //Where control needs to look for the nodeFile and edgeFile
-	private final String nodeFile = "kdv_node_unload.txt"; //The nodes used to construct the graph
-	private final String edgeFile = "kdv_unload.txt"; //The edges used to construct the graph
 	private View view;
 	private Model model;
-	private ArrayList<Point2D.Double> pins;
+	private ArrayList<Point2D.Double> pins = new ArrayList<Point2D.Double>();
 
 	/**
 	 * Constructor for class Control
 	 */
 	public Control() {
-		Graph<KrakEdge, KrakNode> g = null;
-		try {
-			g = constructKrakGraph(dataDir, nodeFile, edgeFile);
-		} catch (IOException e) {
-			System.out.println("A problem occured when trying to read input. System will now exit.");
-			System.exit(0);
-		}
-		model = new Model(g);
+		model = new Model();
 		view = new View(NAME, model.getBoundsWidth()/model.getBoundsHeight());
-		view.repaint(model.getLines());
+		repaint();
 		addListeners();
-		pins = new ArrayList<Point2D.Double>();
 	}
 
 	/**
@@ -95,7 +79,7 @@ public class Control {
 				oldWidth = newWidth;
 				oldHeight = newHeight;
 
-				view.repaint(model.getLines());
+				repaint();
 			}
 		});
 	}
@@ -108,9 +92,6 @@ public class Control {
 		view.addCanvasMouseListener(new MouseAdapter(){
 			private Point a_mouseZoom = null;
 			private Point b_mouseZoom = null;
-			private Point2D.Double a_mark = null;
-			private Point2D.Double b_mark = null;
-			
 
 			@Override
 			public void mousePressed(MouseEvent e){
@@ -130,25 +111,22 @@ public class Control {
 					return; //Prevents the user from zooming in too much.
 				}
 				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model, view));
-				view.repaint(model.getLines());
+				repaint();
 			}
 			
 			@Override
 			public void mouseClicked(MouseEvent e){
+				boolean remove = false;
 				for(Point2D.Double pin : pins){
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
 					if(tempPoint.x - e.getX() < 10 && tempPoint.y - e.getY() < 10){
 						pins.remove(pin);
+						remove = true;
 					}
 				}
-				if(a_mark == null) {
-					a_mark = PointMethods.pixelToUTM(e.getPoint(), model, view);
-					view.addPin(PointMethods.UTMToPixel(a_mark, model, view));
-				}
-				else if(b_mark == null){
-					b_mark = PointMethods.pixelToUTM(e.getPoint(), model, view);
-					view.addPin(PointMethods.UTMToPixel(b_mark, model, view));
-				}
+				pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
+				System.out.println((pins));
+				repaint();
 			}
 
 			// Display the name of the closest road
@@ -175,7 +153,7 @@ public class Control {
 					Rectangle2D.Double temp = model.originalBounds();
 					RectangleMethods.fixRatioByOuterRectangle(temp, model.getBounds());
 					model.updateBounds(temp);
-					view.repaint(model.getLines());
+					repaint();
 				}
 			}
 		});
@@ -199,7 +177,7 @@ public class Control {
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
 				model.updateBounds(move);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 		//Listener for "move-down" button.
 		view.addDownListener(new ActionListener(){
@@ -207,7 +185,7 @@ public class Control {
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
 				model.updateBounds(move);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 		//Listener for "move-left" button.
 		view.addLeftListener(new ActionListener(){
@@ -215,7 +193,7 @@ public class Control {
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.WEST);
 				model.updateBounds(move);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 		//Listener for "move-right" button.
 		view.addRightListener(new ActionListener(){
@@ -223,7 +201,7 @@ public class Control {
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.EAST);
 				model.updateBounds(move);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 	}
 
@@ -238,7 +216,7 @@ public class Control {
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
 				Rectangle2D.Double p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, true, model.getBounds());
 				model.updateBounds(p);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 		//Listener for "zoom-out" button.
 		view.addOutListener(new ActionListener(){
@@ -247,10 +225,9 @@ public class Control {
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
 				Rectangle2D.Double p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, false, model.getBounds());
 				model.updateBounds(p);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 	}
-
 	/**
 	 * 
 	 */
@@ -258,21 +235,9 @@ public class Control {
 		view.clearPins();
 		for(Point2D.Double pin : pins){
 			Point tempPin = PointMethods.UTMToPixel(pin, model, view);
+			System.out.println(pin);
 			view.addPin(tempPin);
 		}
 		view.repaint(model.getLines());
-	}
-	
-	/**
-	 * Constructs a graph from the data in the data files.
-	 * 
-	 * @param dataDir Where the files are located.
-	 * @param nodeFile Name of the file containing the nodes.
-	 * @param edgeFile Name of the file containing the edges. 
-	 * @return Graph containing the edges and nodes provided by the files.
-	 * @throws IOException If the loader cannot access the files.
-	 */
-	private Graph<KrakEdge, KrakNode> constructKrakGraph(File dataDir, String nodeFile, String edgeFile) throws IOException{
-		return KrakLoader.graphFromFiles(new File(dataDir, nodeFile).getAbsolutePath(), new File(dataDir, edgeFile).getAbsolutePath());
 	}
 }

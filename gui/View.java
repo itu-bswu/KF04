@@ -226,9 +226,9 @@ public class View extends JFrame{
 	/**
 	 * Adds a pin to the canvas, a pin will be displayed at this position
 	 * of the screen until clearMarks() is called.
-	 * @param p The point in pixel values where a pin should be displayed.
+	 * @param p The point in pixel to display a pin.
 	 */
-	public void addPin(Point2D.Double p){
+	public void addPin(Point p){
 		canvas.addPin(p);
 	}
 	
@@ -364,7 +364,7 @@ public class View extends JFrame{
 		private BufferedImage pin_img;
 		private BufferedImage img = null;
 		private Collection<Line> route = null;
-		private Set<Point2D.Double> pins = new HashSet<Point2D.Double>();
+		private Set<Point> pins = new HashSet<Point>();
 		
 		public Canvas(){
 			try{
@@ -400,7 +400,7 @@ public class View extends JFrame{
 			pins.clear();
 		}
 
-		public void addPin(Point2D.Double p) {
+		public void addPin(Point p) {
 			pins.add(p);
 		}
 
@@ -443,9 +443,9 @@ public class View extends JFrame{
 						drawLine(g,r);
 					}
 				}
-				for(Point2D.Double p : pins){
-					System.out.println("drawing pin");
-					g.drawImage(pin_img, (int) (p.x*getWidth() - pin_img.getWidth()), (int) (p.y*getHeight() - pin_img.getHeight()), null);
+				for(Point p : pins){
+					System.out.println("drawing pin "+p.x+", "+p.y);
+					g.drawImage(pin_img, p.x - pin_img.getWidth(), p.y - pin_img.getHeight(), null);
 				}
 				
 				g.dispose();
@@ -485,10 +485,11 @@ public class View extends JFrame{
 
 		View v = new View("X marks the spot",(float) 1.0);
 		
-		v.addPin(new Point2D.Double(0.25,0.25));
-		v.addPin(new Point2D.Double(0.75,0.75));
-		v.addPin(new Point2D.Double(0.75,0.25));
-		v.addPin(new Point2D.Double(0.25,0.75));
+		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
+		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));
+		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
+		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));
+
 		v.repaint(x);
 	}
 }

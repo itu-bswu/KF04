@@ -10,6 +10,7 @@ import graphlib.Node;
  * global id number, while KDV# is assumed to be continuous in the loaded file.
  */
 public class KrakNode extends Node implements Serializable {
+	private static final long serialVersionUID = -725474151826866827L;
 	private float X; // Geographic X, meter East in UTM zone 32
 	private float Y; // Geographic Y, meter North of Equator
 
