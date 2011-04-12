@@ -96,6 +96,20 @@ public class Model {
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Querries the node for KrakEdges with a specific rectangle
 	 * @param qarea The rectangle for which to find all KrakEdges
@@ -118,10 +132,6 @@ public class Model {
 
 	/**
 	 * Update the bounds
-<<<<<<< HEAD
-=======
-	 * 
->>>>>>> 79129511df710e650d6402e42ee2a3ec8814fbf0
 	 * @param view The rectangle of the view to zoom to.
 	 */
 	public void updateBounds(Rectangle2D.Double bounds) {
