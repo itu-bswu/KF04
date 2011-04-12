@@ -15,13 +15,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import loader.KrakLoader;
-
 import utils.MD5Checksum;
 import utils.Properties;
 import utils.Stopwatch;
-
 import graphlib.Graph;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
