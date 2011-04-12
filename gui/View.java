@@ -447,6 +447,12 @@ public class View extends JFrame{
 					}
 				}
 				
+				for(int index = 0 ; index < pins.size() ; index++){
+					g.setFont(new Font("Arial", Font.PLAIN, 16));
+					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth(), pins.get(index).y - pin_img.getHeight(), null);
+					g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
+				}
+				
 				g.dispose();
 				//timer.printTime();
 			}
@@ -468,11 +474,6 @@ public class View extends JFrame{
 		public void paint(Graphics g){
 			if(img != null){
 				g.drawImage(img, 0, 0, null);
-				for(int index = 0 ; index < pins.size() ; index++){
-					g.setFont(new Font("Arial", Font.PLAIN, 16));
-					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth(), pins.get(index).y - pin_img.getHeight(), null);
-					g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
-				}
 			}
 			g.dispose();
 		}

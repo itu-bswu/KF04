@@ -13,7 +13,9 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
-
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import utils.Direction;
 import utils.PointMethods;
 import utils.RectangleMethods;
@@ -31,6 +33,7 @@ public class Control {
 	private static final String NAME = "Map"; //Name of the window containing the map.
 	private View view;
 	private Model model;
+	private ArrayList<Point2D.Double> pins = new ArrayList<Point2D.Double>();
 
 	/**
 	 * Constructor for class Control
@@ -38,7 +41,7 @@ public class Control {
 	public Control() {
 		model = new Model();
 		view = new View(NAME, model.getBoundsWidth()/model.getBoundsHeight());
-		view.repaint(model.getLines());
+		repaint();
 		addListeners();
 	}
 
@@ -76,7 +79,7 @@ public class Control {
 				oldWidth = newWidth;
 				oldHeight = newHeight;
 
-				view.repaint(model.getLines());
+				repaint();
 			}
 		});
 	}
@@ -87,28 +90,43 @@ public class Control {
 	private void addMouseListeners(){
 		//Listener for "mouse zoom"
 		view.addCanvasMouseListener(new MouseAdapter(){
-			private Point a = null;
-			private Point b = null;
+			private Point a_mouseZoom = null;
+			private Point b_mouseZoom = null;
 
 			@Override
 			public void mousePressed(MouseEvent e){
 				if(e == null) return; //Attempt to catch null pointer from weird mouse events.
-				a = e.getPoint();
-				PointMethods.pointOutOfBounds(a, view);
+				a_mouseZoom = e.getPoint();
+				PointMethods.pointOutOfBounds(a_mouseZoom, view);
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e){
-				if(a == null || e == null) return; //Attempt to catch null pointer from weird mouse events.
-				b = e.getPoint();
-				PointMethods.pointOutOfBounds(b, view);
+				if(a_mouseZoom == null || e == null) return; //Attempt to catch null pointer from weird mouse events.
+				b_mouseZoom = e.getPoint();
+				PointMethods.pointOutOfBounds(b_mouseZoom, view);
 
-				if(Math.abs(b.x - a.x) < view.getCanvasWidth()/100 
-						|| Math.abs(b.y - a.y) < view.getCanvasHeight()/100){ 
+				if(Math.abs(b_mouseZoom.x - a_mouseZoom.x) < view.getCanvasWidth()/100 
+						|| Math.abs(b_mouseZoom.y - a_mouseZoom.y) < view.getCanvasHeight()/100){ 
 					return; //Prevents the user from zooming in too much.
 				}
-				model.updateBounds(RectangleMethods.mouseZoom(a, b, model, view));
-				view.repaint(model.getLines());
+				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model, view));
+				repaint();
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e){
+				boolean remove = false;
+				/*for(Point2D.Double pin : pins){
+					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
+					if(tempPoint.x - e.getX() < 10 && tempPoint.y - e.getY() < 10){
+						pins.remove(pin);
+						remove = true;
+					}
+				}*/
+				pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
+				
+				repaint();
 			}
 
 			// Display the name of the closest road
@@ -116,7 +134,7 @@ public class Control {
 			public void mouseMoved(MouseEvent e){
 				// set label to closest road
 				Point2D.Double p = PointMethods.pixelToUTM(e.getPoint(), model, view);
-				String roadName = model.getClosestRoad(p);
+				String roadName = model.getClosestRoadname(p);
 				view.setLabel(roadName);
 			}
 		});
@@ -135,7 +153,7 @@ public class Control {
 					Rectangle2D.Double temp = model.originalBounds();
 					RectangleMethods.fixRatioByOuterRectangle(temp, model.getBounds());
 					model.updateBounds(temp);
-					view.repaint(model.getLines());
+					repaint();
 				}
 			}
 		});
@@ -159,7 +177,7 @@ public class Control {
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
 				model.updateBounds(move);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 		//Listener for "move-down" button.
 		view.addDownListener(new ActionListener(){
@@ -167,7 +185,7 @@ public class Control {
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
 				model.updateBounds(move);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 		//Listener for "move-left" button.
 		view.addLeftListener(new ActionListener(){
@@ -175,7 +193,7 @@ public class Control {
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.WEST);
 				model.updateBounds(move);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 		//Listener for "move-right" button.
 		view.addRightListener(new ActionListener(){
@@ -183,7 +201,7 @@ public class Control {
 			public void actionPerformed(ActionEvent arg0){
 				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.EAST);
 				model.updateBounds(move);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 	}
 
@@ -198,7 +216,7 @@ public class Control {
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
 				Rectangle2D.Double p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, true, model.getBounds());
 				model.updateBounds(p);
-				view.repaint(model.getLines());
+				repaint();
 			}});
 		//Listener for "zoom-out" button.
 		view.addOutListener(new ActionListener(){
@@ -207,7 +225,20 @@ public class Control {
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
 				Rectangle2D.Double p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, false, model.getBounds());
 				model.updateBounds(p);
-				view.repaint(model.getLines());
+				repaint();
 			}});
+	}
+	
+	/**
+	 * 
+	 */
+	private void repaint(){
+		view.clearPins();
+		for(Point2D.Double pin : pins){
+			Point tempPin = PointMethods.UTMToPixel(pin, model, view);
+			System.out.println(tempPin);
+			view.addPin(tempPin);
+		}
+		view.repaint(model.getLines());
 	}
 }

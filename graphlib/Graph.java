@@ -34,21 +34,6 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 	private List<List<E>> edges;
 
 	/**
-	 * In order to allow traversing the graph against normal edge directions
-	 * (for backwards search or similar), this adjacency list stores at
-	 * reverse_edges[i] DIRECTED edges ENTERING node i. Undirected edges have no
-	 * reverse mapping as they are already stored in both directions.
-	 * 
-	 * The reverse mapping is stored seperatly to avoid having to iterate over
-	 * these edges during normal traversal. If one traveses the graph in
-	 * backwards direction, one has to iterate over both the contents of edges
-	 * and reverse_edges. This could be avoided by using 3 adjacency lists, one
-	 * for undirected edges, ,one for directed edges in the normal direction,
-	 * and one storing directed edges backwards.
-	 */
-	private List<List<E>> reverse_edges;
-
-	/**
 	 * An array of Node objects, representing the nodes of the graph
 	 */
 	private List<N> nodes;
@@ -69,11 +54,9 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 		// we leave an empty slot for node 0
 
 		edges = new ArrayList<List<E>>(numNodes + 1);
-		reverse_edges = new ArrayList<List<E>>(numNodes + 1);
 
 		for (int i = 0; i <= numNodes + 1; i++) {
 			edges.add(new ArrayList<E>(3));
-			reverse_edges.add(new ArrayList<E>(1));
 		}
 
 		this.nodes = new ArrayList<N>(numNodes + 1);
@@ -97,14 +80,6 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 		}
 		
 		return all;
-	}
-	
-	
-	/**
-	 * @return Reverse edges
-	 */
-	public List<List<E>> getReverseEdges () {
-		return reverse_edges;
 	}
 	
 	public List<N> getNodes () {
@@ -155,10 +130,7 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 							+ e.getN1().index + " " + e.getN2().index);
 		}
 		getEdges().get(e.getStart().index).add(e);
-		if (e.direction != Edge.BOTH) {
-			// we only need reverse mapping for undirected edges
-			reverse_edges.get(e.getEnd().index).add(e);
-		} else if (e.direction == Edge.BOTH) {
+		if (e.direction == Edge.BOTH) {
 			getEdges().get(e.getEnd().index).add(e);
 		}
 		edgeCount++;
@@ -176,34 +148,6 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 		}
 		return nodes.get(index);
 	}
-
-//	/**
-//	 * Increases the number of nodes as indicated by newCount old nodes and
-//	 * edges are not affected. Does not support decreasing the size of the
-//	 * graph.
-//	 * 
-//	 * @param newCount
-//	 */
-//	public void increaseNodeCount(int newCount) {
-//		if (newCount <= edges.length)
-//			return;
-//		else {
-//			ArrayList[] edges_new = new ArrayList[newCount];
-//			ArrayList[] reverse_edges_new = new ArrayList[newCount];
-//			for (int i = 0; i < edges.length; i++) {
-//				edges_new[i] = edges[i];
-//				reverse_edges_new[i] = reverse_edges[i];
-//			}
-//			edges = edges_new;
-//			reverse_edges = reverse_edges_new;
-//			Node[] nodes_new = new Node[newCount];
-//			for (int i = 0; i < nodes.length; i++) {
-//				nodes_new[i] = nodes[i];
-//			}
-//			nodes = nodes_new;
-//			System.gc();
-//		}
-//	}
 
 	/**
 	 * Returns an iterator over all outgoing edges (includes undirected edges)
@@ -232,29 +176,4 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 		return newEdges;
 	}
 
-	/**
-	 * Returns an iterator over all incoming edges (excludes undirected edges)
-	 * 
-	 * @param n Node to get incoming edges from.
-	 * @return Iterator over the incoming edges.
-	 */
-	public Iterator<E> incomingEdges(Node n) {
-		return reverse_edges.get(n.index).iterator();
-	}
-	
-	/**
-	 * Get all unique incoming edges.
-	 * 
-	 * @return Set containing all unique incoming edges.
-	 */
-	public Set<E> incomingEdges () {
-		Set<E> newEdges = new HashSet<E>();
-		for (List<E> l : this.reverse_edges) {
-			for (E e : l) {
-				newEdges.add(e);
-			}
-		}
-		
-		return newEdges;
-	}
 }
