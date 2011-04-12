@@ -251,23 +251,6 @@ public class Model {
 	}
 
 	/**
-	 * Get the Width of the bounds
-	 * @return The width of the bounds
-	 */
-	//TODO Denne og height metoden skal slettes og det skal coordineres med Jacob
-	public float getBoundsWidth() {
-		return (float) bounds.width;
-	}
-
-	/**
-	 * Get the height of the bounds
-	 * @return The height of the bounds
-	 */
-	public float getBoundsHeight() {
-		return (float) bounds.height;
-	}
-
-	/**
 	 * Get the bounds of the map. The bounds are what the user is currently looking at
 	 * @return The bounds
 	 */
