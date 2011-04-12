@@ -15,13 +15,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import loader.KrakLoader;
-
 import utils.MD5Checksum;
 import utils.Properties;
 import utils.Stopwatch;
-
 import graphlib.Graph;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
@@ -43,7 +40,7 @@ public class Model {
 	private Rectangle2D.Double bounds;
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<QuadTree<KrakEdge>> qt;
-	
+
 	public Graph<KrakEdge,KrakNode> graph;
 
 	/**
@@ -71,12 +68,12 @@ public class Model {
 
 			Stopwatch sw = new Stopwatch("Loading");
 			BufferedInputStream bin;
-			
+
 			bin = new BufferedInputStream(new FileInputStream(Properties.get("graphFile")));
 			ObjectInputStream ois = new ObjectInputStream(bin);
 			graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
 			ois.close();
-			
+
 			bin = new BufferedInputStream(new FileInputStream(Properties.get("maxBoundsFile")));
 			ois = new ObjectInputStream(bin);
 			maxBounds = (Rectangle2D.Double) ois.readObject();
@@ -87,18 +84,18 @@ public class Model {
 			ois = new ObjectInputStream(bin);
 			qt = (ArrayList<QuadTree<KrakEdge>>) ois.readObject();
 			ois.close();
-			
+
 			sw.printTime();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			
+
 			graph = loadGraph();
 			maxBounds = maxBounds(graph.getNodes());
 			bounds = originalBounds();
 			Stopwatch sw = new Stopwatch("Quadtrees");
 			createQuadTrees(graph.getAllEdges());
 			sw.printTime();
-			
+
 			sw = new Stopwatch("Serialize");
 			// Serialize
 			try {
@@ -108,20 +105,20 @@ public class Model {
 				oos.writeObject(graph);
 				oos.flush();
 				oos.close();
-				
+
 				fout = new BufferedOutputStream(new FileOutputStream(Properties.get("maxBoundsFile")));
 				oos = new ObjectOutputStream(fout);
 				oos.writeObject(maxBounds);
 				oos.flush();
 				oos.close();
-				
+
 				// XXX: Serialize quadtrees individually?
 				fout = new BufferedOutputStream(new FileOutputStream(Properties.get("quadTreeFile")));
 				oos = new ObjectOutputStream(fout);
 				oos.writeObject(qt);
 				oos.flush();
 				oos.close();
-				
+
 				File dataDir = new File(".", Properties.get("dataDir"));
 				String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
 				Properties.set("nodeFileChecksum", chk);
@@ -129,15 +126,30 @@ public class Model {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-			
+
 			sw.printTime();
-			
+
 		}
+		
+		
+		
+		System.out.println("Testing the pathfinder:");
+		
+		DijkstraSP.test(graph);
+		
+		KrakNode startNode = graph.getNode(4010);
+		KrakNode endNode = graph.getNode(2978);
+		try {
+			shortestPath(startNode, endNode);
+		}
+		catch (NoPathException e) {
+			System.out.println(e);
+		}
+		
 	}
-	
+
 	/**
 	 * Create Graph object from Krak data-files.
-	 * 
 	 * @return Graph object from Krak files.
 	 */
 	private Graph<KrakEdge, KrakNode> loadGraph() {
@@ -147,22 +159,26 @@ public class Model {
 			Stopwatch sw = new Stopwatch("Graph");
 			graph = KrakLoader.graphFromFiles(
 					new File(dataDir, Properties.get("nodeFile"))
-							.getAbsolutePath(),
+					.getAbsolutePath(),
 					new File(dataDir, Properties.get("edgeFile"))
-							.getAbsolutePath());
+					.getAbsolutePath());
 			sw.printTime();
 		} catch (IOException e) {
 			System.out
-					.println("A problem occured when trying to read input. System will now exit.");
+			.println("A problem occured when trying to read input. System will now exit.");
 			System.exit(0);
 		}
 
 		return graph;
 	}
 
+	/**
+	 * Create QuadTrees
+	 * @param content
+	 */
 	private void createQuadTrees(Set<KrakEdge> content) {
 		qt = new ArrayList<QuadTree<KrakEdge>>(3);
-		
+
 		Set<KrakEdge> set1 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set2 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set3 = new HashSet<KrakEdge>();
@@ -205,22 +221,35 @@ public class Model {
 		qt.add(new QuadTree<KrakEdge>(bounds,set2));
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
 	}
-	
+
 	/**
 	 * Create a new DijkstraSP from the startNode, and finds the path to the endNode. The path is returned as an arraylist of lines
 	 */
-	public ArrayList<Line> shortestPath(KrakNode startNode, KrakNode endNode) {
+	public ArrayList<Line> shortestPath(KrakNode startNode, KrakNode endNode) throws NoPathException{
+		
+		if (startNode	== null) throw new NullPointerException("startNode is null");
+		if (endNode		== null) throw new NullPointerException("endNode is null");
+
 		ArrayList<Line>path = new ArrayList<Line>();
 		DijkstraSP shortestPathTree = new DijkstraSP(graph, startNode);
+
+		Iterable<KrakEdge> edges = shortestPathTree.pathTo(endNode);
 		
-		for (KrakEdge e : shortestPathTree.pathTo(endNode)) {
+		System.out.println(edges);
+		
+		if (edges == null) {
+			throw new NoPathException("No path from startNode to endNode");
+		}
+		
+		for (KrakEdge e : edges) {	
 			path.add(getLine(e));
+			System.out.println(e.roadname);
 		}
 
 		return path;
 	}
-	
-	
+
+
 	/**
 	 * Querries the node for KrakEdges with a specific rectangle
 	 * @param qarea The rectangle for which to find all KrakEdges
@@ -249,25 +278,8 @@ public class Model {
 		if (bounds == null) throw new NullPointerException("Trying to set the bounds to null");
 		if (bounds.width < 0) throw new IllegalArgumentException("The width of the rectangle is negative");
 		if (bounds.height < 0) throw new IllegalArgumentException("The height of the rectangle is negative");
-		
+
 		this.bounds = bounds;
-	}
-
-	/**
-	 * Get the Width of the bounds
-	 * @return The width of the bounds
-	 */
-	//TODO Denne og height metoden skal slettes og det skal coordineres med Jacob
-	public float getBoundsWidth() {
-		return (float) bounds.width;
-	}
-
-	/**
-	 * Get the height of the bounds
-	 * @return The height of the bounds
-	 */
-	public float getBoundsHeight() {
-		return (float) bounds.height;
 	}
 
 	/**
@@ -277,7 +289,7 @@ public class Model {
 	public Rectangle2D.Double getBounds() {
 		return bounds;
 	}
-	
+
 	/**
 	 * Sets the Map boundaries back to the outer bounds calculated at start-up.
 	 */
@@ -435,7 +447,7 @@ public class Model {
 		}
 		return new Line(firstPoint,secondPoint,roadColor,thickness);
 	}
-	
+
 	/**
 	 * Get all lines corresponding to the edges shown in the map. 
 	 * @return All the lines.
@@ -461,11 +473,11 @@ public class Model {
 	}
 
 	/**
-	 * Get closest road
-	 * @param point
-	 * @return
+	 * Get closest edge within 200 meters.
+	 * @param point the point to search from.
+	 * @return 
 	 */
-	public String getClosestRoad(Point2D.Double point){
+	public KrakEdge getClosestEdge(Point2D.Double point){
 		//System.out.println("Finding closest road");
 		// get all nearby roads
 
@@ -496,8 +508,40 @@ public class Model {
 		// return the name of the edge (road)
 		if(closest != null && distance < 200){
 			//System.out.printf("found road: "+closest.roadname+" %.2f meters away\n",distance);
-			return closest.roadname;
+			return closest;
+		}
+		return null;
+	}
+
+	/**
+	 * Gives the name of the closest road from a given point.
+	 * @param point the point to search from
+	 * @return the name of the closest road
+	 */
+	public String getClosestRoadname(Point2D.Double point){
+		KrakEdge road = getClosestEdge(point);
+		if(road != null){
+			return road.roadname;
 		}
 		return " ";
+	}
+
+	/**
+	 * Finds the closest node within 200 meters from a given point
+	 * @param point the given point
+	 * @return the closest node from the point, null if there is no node within 200 meters
+	 */
+	public KrakNode getClosestNode(Point2D.Double point){
+		KrakEdge edge = getClosestEdge(point);
+		if(edge != null){
+			KrakNode first = edge.getEnd();
+			KrakNode second = edge.getOtherEnd(first);
+
+			if(first.getPoint().distance(point) < second.getPoint().distance(point)){
+				return first;
+			}
+			return second;
+		}
+		return null;
 	}
 }
