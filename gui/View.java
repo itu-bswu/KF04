@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,8 +24,10 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
@@ -364,7 +367,7 @@ public class View extends JFrame{
 		private BufferedImage pin_img;
 		private BufferedImage img = null;
 		private Collection<Line> route = null;
-		private Set<Point> pins = new HashSet<Point>();
+		private List<Point> pins = new ArrayList<Point>();
 		
 		public Canvas(){
 			try{
@@ -442,12 +445,7 @@ public class View extends JFrame{
 					for(Line r : route){
 						drawLine(g,r);
 					}
-				}
-				for(Point p : pins){
-					System.out.println("drawing pin "+p.x+", "+p.y);
-					g.drawImage(pin_img, p.x - pin_img.getWidth(), p.y - pin_img.getHeight(), null);
-				}
-				
+				}				
 				g.dispose();
 				//timer.printTime();
 			}
@@ -469,6 +467,11 @@ public class View extends JFrame{
 		public void paint(Graphics g){
 			if(img != null){
 				g.drawImage(img, 0, 0, null);
+				for(int index = 0 ; index < pins.size() ; index++){
+					//g.setFont(new Font("Arial", Font.PLAIN, 16));
+					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth(), pins.get(index).y - pin_img.getHeight(), null);
+					//g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
+				}
 			}
 			g.dispose();
 		}

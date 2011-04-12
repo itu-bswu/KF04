@@ -46,8 +46,8 @@ public class PointMethods {
 	}
 	
 	public static Point UTMToPixel(Point2D.Double e, Model model, View view){
-		int x_m = (int) ((e.getX() - model.getBounds().x) / model.getBounds().width) * view.getCanvasWidth();
-		int y_m = (int) ((e.getY() - model.getBounds().y) / model.getBounds().height) * view.getCanvasHeight();
+		int x_m = (int) (((e.getX() - model.getBounds().x) / model.getBounds().width) * view.getCanvasWidth());
+		int y_m = (int) (((e.getY() - model.getBounds().y) / model.getBounds().height) * view.getCanvasHeight());
 		
 		y_m = view.getCanvasHeight() - y_m;
 		

@@ -117,15 +117,15 @@ public class Control {
 			@Override
 			public void mouseClicked(MouseEvent e){
 				boolean remove = false;
-				for(Point2D.Double pin : pins){
+				/*for(Point2D.Double pin : pins){
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
 					if(tempPoint.x - e.getX() < 10 && tempPoint.y - e.getY() < 10){
 						pins.remove(pin);
 						remove = true;
 					}
-				}
+				}*/
 				pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
-				System.out.println((pins));
+				
 				repaint();
 			}
 
@@ -228,6 +228,7 @@ public class Control {
 				repaint();
 			}});
 	}
+	
 	/**
 	 * 
 	 */
@@ -235,7 +236,7 @@ public class Control {
 		view.clearPins();
 		for(Point2D.Double pin : pins){
 			Point tempPin = PointMethods.UTMToPixel(pin, model, view);
-			System.out.println(pin);
+			System.out.println(tempPin);
 			view.addPin(tempPin);
 		}
 		view.repaint(model.getLines());
