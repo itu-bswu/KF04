@@ -44,11 +44,13 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 	private int edgeCount = 0;
 	private int nodeCount = 675902; //TODO Count nodes
 
+	private int numNodes;
+
 	/**
 	 * Creates an edge-less graph on the Node objects in the array list.
 	 */
 	public Graph(List<N> nodes) {
-		int numNodes = nodes.size();
+		numNodes = nodes.size();
 
 		// NB: To match the indexes 1,2,... used in the file
 		// we leave an empty slot for node 0
@@ -66,6 +68,12 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 		}
 	}
 
+	/**
+	 * @return Number of nodes
+	 */
+	public int getNumNodes(){
+		return numNodes;
+	}
 	/**
 	 * @return Edges
 	 */
