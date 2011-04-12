@@ -116,7 +116,7 @@ public class Control {
 			public void mouseMoved(MouseEvent e){
 				// set label to closest road
 				Point2D.Double p = PointMethods.pixelToUTM(e.getPoint(), model, view);
-				String roadName = model.getClosestRoad(p);
+				String roadName = model.getClosestRoadname(p);
 				view.setLabel(roadName);
 			}
 		});
