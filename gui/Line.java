@@ -9,7 +9,7 @@ public class Line {
 	private Point2D.Double startPoint;
 	private Point2D.Double endPoint;
 	private Color roadColor;
-	private int thickness;
+	public int thickness;
 	
 	/**
 	 * Constructor

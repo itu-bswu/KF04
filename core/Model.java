@@ -241,8 +241,11 @@ public class Model {
 			throw new NoPathException("No path from startNode to endNode");
 		}
 		
-		for (KrakEdge e : edges) {	
-			path.add(getLine(e));
+		for (KrakEdge e : edges) {
+			
+			Line line = getLine(e);
+			line.thickness = 5;
+			path.add(line);
 			System.out.println(e.roadname);
 		}
 

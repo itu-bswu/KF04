@@ -76,11 +76,7 @@ public class ModelTest {
 	/*
 	 TODO kan man teste private metoder? Det ville v¾re ret nice.
 	@Test public void relativePointTest() {
-		
 		model.updateBounds(new Rectangle2D.Double(0,0,100,100));
-		
-		
-		
 		assertEquals();
 	}
 	*/
