@@ -136,10 +136,12 @@ public class Model {
 		
 		
 		
-		System.out.println("!");
+		System.out.println("Testing the pathfinder:");
 		
-		KrakNode startNode = graph.getNode(400);
-		KrakNode endNode = graph.getNode(408);
+		DijkstraSP.test(graph);
+		
+		KrakNode startNode = graph.getNode(4010);
+		KrakNode endNode = graph.getNode(2978);
 		try {
 			shortestPath(startNode, endNode);
 		}
@@ -231,11 +233,9 @@ public class Model {
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
-		
 		ArrayList<Line>path = new ArrayList<Line>();
 		DijkstraSP shortestPathTree = new DijkstraSP(graph, startNode);
 		
-
 		Iterable<KrakEdge> edges = shortestPathTree.pathTo(endNode);
 		
 		System.out.println(edges);
@@ -244,10 +244,9 @@ public class Model {
 			throw new NoPathException("No path from startNode to endNode");
 		}
 		
-		for (KrakEdge e : edges) {
-						
+		for (KrakEdge e : edges) {	
 			path.add(getLine(e));
-			System.out.println();
+			System.out.println(e.roadname);
 		}
 
 		return path;
