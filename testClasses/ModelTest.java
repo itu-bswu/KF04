@@ -1,21 +1,15 @@
 package testClasses;
 import static junit.framework.Assert.*;
 
-import graphlib.Graph;
 import gui.Line;
 
-import java.awt.List;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import org.junit.*;
 
 import core.Model;
-import dataobjects.KrakEdge;
-import dataobjects.KrakNode;
 
 /**
  * Test Class for the model
@@ -30,7 +24,7 @@ public class ModelTest {
 	 * Before Class
 	 */
 	@BeforeClass public static void BeforeClass() {		
-		model =  new Model(new Graph<KrakEdge, KrakNode>(new ArrayList<KrakNode>()));
+		model =  new Model();
 	}	
 	
 	/**

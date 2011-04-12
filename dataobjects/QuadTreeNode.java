@@ -12,6 +12,11 @@ import java.util.Set;
  */
 public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 
+	/**
+	 * Generated serial version UID.
+	 */
+	private static final long serialVersionUID = 4409394409382684458L;
+
 	public static final int MAX_CONTENT = 10000;
 
 	private Rectangle2D.Double bounds;
