@@ -122,9 +122,9 @@ public class Control {
 				HashSet<Point2D.Double> tempPins = new HashSet<Point2D.Double>();
 				for(Point2D.Double pin : pins){
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
-					if(tempPoint.x - e.getX() < 10 && tempPoint.y - e.getY() < 10){
+					if(tempPoint.x - e.getX() < 2 && tempPoint.y - e.getY() < 2){
 						tempPins.add(pin);
-						//remove = true;
+						remove = true;
 					}
 				}
 				if(remove){
@@ -133,8 +133,15 @@ public class Control {
 				if(!remove){
 					pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
 				}
-				if(pins.size() == 2){
-					view.addRoute(model.shortestPath(model.getClosestNode(pins.get(0)), model.getClosestNode(pins.get(1))));
+				if(pins.size() > 1){
+					for(int i = 0; i < pins.size() - 1; i++){
+						try { 
+							view.addRoute(model.shortestPath(model.getClosestNode(pins.get(i)), model.getClosestNode(pins.get(i+1))));
+						} catch (NoPathException e1) {
+							e1.printStackTrace();
+							System.out.println("Could not find route.");
+						}
+					}
 				}
 				repaint();
 			}
@@ -246,7 +253,6 @@ public class Control {
 		view.clearPins();
 		for(Point2D.Double pin : pins){
 			Point tempPin = PointMethods.UTMToPixel(pin, model, view);
-			System.out.println(tempPin);
 			view.addPin(tempPin);
 		}
 		view.repaint(model.getLines());
