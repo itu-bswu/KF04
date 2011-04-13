@@ -41,7 +41,7 @@ public class Model {
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<QuadTree<KrakEdge>> qt;
 	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
-	
+
 	public Graph<KrakEdge,KrakNode> graph;
 
 	/**
@@ -131,13 +131,13 @@ public class Model {
 			sw.printTime();
 
 		}
-		
-		
-		
+
+
+
 		System.out.println("Testing the pathfinder:");
-		
+
 		DijkstraSP.test(graph);
-		
+
 		KrakNode startNode = graph.getNode(4010);
 		KrakNode endNode = graph.getNode(2978);
 		try {
@@ -226,7 +226,7 @@ public class Model {
 	 * Create a new DijkstraSP from the startNode, and finds the path to the endNode. The path is returned as an arraylist of lines
 	 */
 	public void findPath(KrakNode startNode, KrakNode endNode) throws NoPathException{
-		
+
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
@@ -243,7 +243,7 @@ public class Model {
 			path.add(e);
 		}
 	}
-	
+
 	/**
 	 * Get the path as an arraylist of lines
 	 */
@@ -481,9 +481,10 @@ public class Model {
 	/**
 	 * Get closest edge within 200 meters.
 	 * @param point the point to search from.
-	 * @return 
+	 * @return the closest edge within the maximum search distance.
+	 * @throws NothingCloseException If there are no edges within the maximum search distance.
 	 */
-	public KrakEdge getClosestEdge(Point2D.Double point){
+	public KrakEdge getClosestEdge(Point2D.Double point) throws NothingCloseException{
 		//System.out.println("Finding closest road");
 		// get all nearby roads
 
@@ -515,39 +516,40 @@ public class Model {
 		if(closest != null && distance < 200){
 			//System.out.printf("found road: "+closest.roadname+" %.2f meters away\n",distance);
 			return closest;
+		}else{
+			throw new NothingCloseException("no edge within a distance of "+Model.ROAD_SEARCH_DISTANCE);
 		}
-		return null;
 	}
 
 	/**
 	 * Gives the name of the closest road from a given point.
 	 * @param point the point to search from
-	 * @return the name of the closest road
+	 * @return the name of the closest road. If there is no path it will return a String of one whitespace.
 	 */
 	public String getClosestRoadname(Point2D.Double point){
-		KrakEdge road = getClosestEdge(point);
-		if(road != null){
+		KrakEdge road;
+		try {
+			road = getClosestEdge(point);
 			return road.roadname +" : "+ road.getN1().getIndex();
-		}
-		return " ";
+		} catch (NothingCloseException e) {
+			return " ";
+		}	
 	}
 
 	/**
 	 * Finds the closest node within 200 meters from a given point
 	 * @param point the given point
-	 * @return the closest node from the point, null if there is no node within 200 meters
+	 * @return the closest node from the point
+	 * @throws NothingCloseException If there are no nodes within the maximum search distance.
 	 */
-	public KrakNode getClosestNode(Point2D.Double point){
+	public KrakNode getClosestNode(Point2D.Double point) throws NothingCloseException{
 		KrakEdge edge = getClosestEdge(point);
-		if(edge != null){
-			KrakNode first = edge.getEnd();
-			KrakNode second = edge.getOtherEnd(first);
+		KrakNode first = edge.getEnd();
+		KrakNode second = edge.getOtherEnd(first);
 
-			if(first.getPoint().distance(point) < second.getPoint().distance(point)){
-				return first;
-			}
-			return second;
+		if(first.getPoint().distance(point) < second.getPoint().distance(point)){
+			return first;
 		}
-		return null;
+		return second;
 	}
 }
