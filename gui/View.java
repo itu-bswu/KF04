@@ -34,6 +34,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -289,6 +290,15 @@ public class View extends JFrame{
 	public void setLabel(String text){
 		infobar.setText(text);
 	}
+	
+	/**
+	 * Displays a dialog on top of the view to display a given message.
+	 * @param message The message to display at the center of the dialog.
+	 * @param header The text to display as the header of the dialog.
+	 */
+	public void displayDialog(String message, String header){
+		JOptionPane.showMessageDialog(this, message, header, JOptionPane.INFORMATION_MESSAGE);
+	}
 
 	/**
 	 * Creates the tree of components that the window consists of. This includes the different buttons and labels
@@ -449,6 +459,7 @@ public class View extends JFrame{
 				
 				for(int index = 0 ; index < pins.size() ; index++){
 					g.setFont(new Font("Arial", Font.PLAIN, 16));
+					g.setColor(Color.BLACK);
 					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth(), pins.get(index).y - pin_img.getHeight(), null);
 					g.setColor(Color.BLACK);
 					g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
@@ -489,7 +500,7 @@ public class View extends JFrame{
 		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1));
 		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2));
 
-		View v = new View("X marks the spot",(float) 1.0);
+		final View v = new View("X marks the spot",(float) 1.0);
 		
 		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
 		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));
@@ -497,5 +508,13 @@ public class View extends JFrame{
 		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));
 
 		v.repaint(x);
+		
+		// testing dialog message
+		v.addCanvasMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e){
+				v.displayDialog("x="+e.getX()+", y="+e.getY(), "Mouse Clicked!");
+			}
+		});
 	}
 }

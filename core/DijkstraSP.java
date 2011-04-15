@@ -20,9 +20,9 @@ import dataobjects.KrakNode;
 
 public class DijkstraSP {
    
-	private double[] distTo;          // distTo[v] = distance  of shortest s->v path
+	private float[] distTo;          // distTo[v] = distance  of shortest s->v path
     private KrakEdge[] edgeTo;    // edgeTo[v] = last edge on shortest s->v path
-    private IndexMinPQ<Double> pq;    // priority queue of vertices
+    private IndexMinPQ<Float> pq;    // priority queue of vertices
 
     /**
      * Create shortest path tree
@@ -31,20 +31,20 @@ public class DijkstraSP {
      */
     public DijkstraSP(Graph<KrakEdge, KrakNode> graph, KrakNode startNode) {
     	int s = startNode.getIndex();
-    	distTo = new double[graph.getNodeCount()]; //Array holding the distance from s
+    	distTo = new float[graph.getNodeCount()]; //Array holding the distance from s
         edgeTo = new KrakEdge[graph.getNodeCount()]; //Array holding the edge currently pointing the shortest path
         
         
         
         //Set all distances to positive infinity
         for (int v = 0; v < graph.getNodeCount(); v++) 
-            distTo[v] = Double.POSITIVE_INFINITY;
+            distTo[v] = Float.POSITIVE_INFINITY;
         
         //Set the first distance to 0
-        distTo[s] = 0.0;
+        distTo[s] = (float) 0.0;
 
         //Create the priority queue
-        pq = new IndexMinPQ<Double>(graph.getNodeCount());
+        pq = new IndexMinPQ<Float>(graph.getNodeCount());
         
         //Insert the first 
         pq.insert(s, distTo[s]);
@@ -145,7 +145,7 @@ public class DijkstraSP {
             KrakEdge e = edgeTo[w];
             int v = e.getN1().getIndex();
             if (w != e.getN2().getIndex()) return false;
-            if (distTo[v] + e.length != distTo[w]) {
+            if (Float.compare(distTo[v] + e.length, distTo[w]) != 0) {
                 System.err.println("edge " + e + " on shortest path not tight");
                 return false;
             }
