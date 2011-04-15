@@ -67,8 +67,10 @@ public class Properties {
 		properties.setProperty("edgeFile", "kdv_unload.txt");
 		
 		properties.setProperty("nodeFileChecksum", "");
+		properties.setProperty("bigRoadsQuadTree", "big.dat");
+		properties.setProperty("mediumRoadsQuadTree", "medium.dat");
+		properties.setProperty("smallRoadsQuadTree", "small.dat");
 		properties.setProperty("graphFile", "graph.dat");
-		properties.setProperty("quadTreeFile", "quadtree.dat");
 		properties.setProperty("maxBoundsFile", "maxbounds.dat");
 		
 		try {
