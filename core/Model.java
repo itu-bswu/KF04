@@ -167,18 +167,18 @@ public class Model {
 			serializeThread.start();
 			
 			
-			System.out.println("Testing the pathfinder:");
-			
-			DijkstraSP.test(graph);
-	
-			KrakNode startNode = graph.getNode(4010);
-			KrakNode endNode = graph.getNode(2978);
-			try {
-				findPath(startNode, endNode);
-			}
-			catch (NoPathException ex) {
-				System.out.println(ex);
-			}
+//			System.out.println("Testing the pathfinder:");
+//			
+//			DijkstraSP.test(graph);
+//	
+//			KrakNode startNode = graph.getNode(4010);
+//			KrakNode endNode = graph.getNode(2978);
+//			try {
+//				findPath(startNode, endNode);
+//			}
+//			catch (NoPathException ex) {
+//				System.out.println(ex);
+//			}
 		}
 	}
 
@@ -264,18 +264,7 @@ public class Model {
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
-		DijkstraSP shortestPathTree = new DijkstraSP(graph, startNode);
-		Iterable<KrakEdge> edges = shortestPathTree.pathTo(endNode);
-
-		//Edges
-		System.out.println("Edges found:" + edges);		
-		if (edges == null) {
-			throw new NoPathException("No path from startNode to endNode");
-		}
-
-		for (KrakEdge e : edges) {
-			path.add(e);
-		}
+		path.addAll(Dijkstra.findPath(graph, startNode, endNode));
 	}
 
 	/**
