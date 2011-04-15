@@ -301,12 +301,22 @@ public class Model {
 		Set<KrakEdge> total;
 
 		total = qt.get(0).query(qarea);
-		if(area < CENTER_LEVEL){
-			total.addAll(qt.get(1).query(qarea));
-			if(area < INNER_LEVEL){
-				total.addAll(qt.get(2).query(qarea));
+		try {
+			if(area < CENTER_LEVEL){
+				total.addAll(qt.get(1).query(qarea));
+				if(area < INNER_LEVEL){
+					total.addAll(qt.get(2).query(qarea));
+				}
 			}
+		} catch (Exception e) {
+			// Only return what has already been found, and don't care about 
+			// the rest. They will be available later.
+			
+			// Alternative solution:
+			//Thread.yield();
+			//return query(qarea);
 		}
+		
 		return total;
 	}
 
