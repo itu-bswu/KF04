@@ -7,6 +7,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 
+import junit.framework.TestCase;
+
 import org.junit.*;
 
 import core.Model;
@@ -16,7 +18,7 @@ import core.Model;
  * @author mollerhoj3
  *
  */
-public class ModelTest {
+public class ModelTest{
 	private static Model model;
 	
 	//TODO skal der laves en kunstig graf man kan køre tests på??
@@ -30,7 +32,7 @@ public class ModelTest {
 	/**
 	 * Update Bounds Tests
 	 */
-	@Test public void updateBoundsTestNull() {
+	@Test public void UpdateBoundsTestNull() {
 		try {
 		model.updateBounds(null);
 		}

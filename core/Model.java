@@ -596,4 +596,8 @@ public class Model {
 		}
 		return second;
 	}
+	
+	public void clearPath(){
+		path.clear();
+	}
 }
