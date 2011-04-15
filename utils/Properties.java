@@ -31,7 +31,6 @@ public class Properties {
 		} catch (IOException e) {
 			// Return null
 		}
-		
 		return null;
 	}
 	

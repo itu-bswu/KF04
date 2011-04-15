@@ -14,6 +14,8 @@ import java.awt.geom.Point2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashSet;
+
 import utils.Direction;
 import utils.PointMethods;
 import utils.RectangleMethods;
@@ -111,19 +113,38 @@ public class Control {
 				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model, view));
 				repaint();
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e){
-				boolean remove = false;
+				//TODO comments
+				//boolean remove = false;
+				//HashSet<Point2D.Double> tempPins = new HashSet<Point2D.Double>();
 				/*for(Point2D.Double pin : pins){
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
-					if(tempPoint.x - e.getX() < 10 && tempPoint.y - e.getY() < 10){
-						pins.remove(pin);
+					if(tempPoint.x - e.getX() < 2 && tempPoint.y - e.getY() < 2){
+						tempPins.add(pin);
 						remove = true;
 					}
+				}
+				if(remove){
+					pins.removeAll(tempPins);
 				}*/
+				//if(!remove){
 				pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
-				
+				//}
+
+				if(pins.size() > 1){
+					for(int i = 0; i < pins.size() - 1; i++){
+						try { 
+							model.findPath(model.getClosestNode(pins.get(i)), model.getClosestNode(pins.get(i + 1)));
+						}catch(NothingCloseException e1){
+							view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
+						}catch (NoPathException e2) {
+							view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
+						}
+
+					}
+				}
 				repaint();
 			}
 
@@ -153,10 +174,13 @@ public class Control {
 					model.updateBounds(temp);
 					repaint();
 				}
+				if(e.getKeyCode() == 67){
+					clearPins();
+				}
 			}
 		});
 	}
-	
+
 	/**
 	 * Adds listeners to the GUI buttons.
 	 */
@@ -226,17 +250,25 @@ public class Control {
 				repaint();
 			}});
 	}
-	
+
+	private void clearPins(){
+		model.clearPath();
+		view.clearRoute();
+		pins.clear();
+		repaint();
+	}
+
 	/**
 	 * 
 	 */
 	private void repaint(){
 		view.clearPins();
+		view.clearRoute();
 		for(Point2D.Double pin : pins){
 			Point tempPin = PointMethods.UTMToPixel(pin, model, view);
-			System.out.println(tempPin);
 			view.addPin(tempPin);
 		}
+		view.addRoute(model.getPath());
 		view.repaint(model.getLines());
 	}
 }
