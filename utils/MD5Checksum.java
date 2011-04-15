@@ -28,7 +28,7 @@ public class MD5Checksum {
 		byte[] b = createChecksum(filename);
 		String result = "";
 		for (int i = 0; i < b.length; i++) {
-			result.concat(Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1));
+			result = result.concat(Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1));
 		}
 		return result;
 	}
