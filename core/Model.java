@@ -6,6 +6,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -49,8 +50,16 @@ public class Model {
 	 * Initialize variables. 
 	 * Set the map to look at the entire graph.
 	 */
-	@SuppressWarnings("unchecked")
 	public Model() {
+		this(null);
+	}
+	
+	/**
+	 * Constructor
+	 * Initialize variables. 
+	 * Set the map to look at the specified graph.
+	 */
+	public Model(Graph<KrakEdge, KrakNode> g) {
 		boolean fromFile = false;
 		try {
 			File dataDir = new File(".", Properties.get("dataDir"));
@@ -68,45 +77,11 @@ public class Model {
 			}
 
 			Stopwatch sw = new Stopwatch("Loading");
-			BufferedInputStream bin;
-			bin = new BufferedInputStream(new FileInputStream(Properties.get("bigRoadsQuadTree")));
-			ObjectInputStream ois = new ObjectInputStream(bin);
-			qt.add((QuadTree<KrakEdge>) ois.readObject());
-			ois.close();
-
-			bin = new BufferedInputStream(new FileInputStream(Properties.get("maxBoundsFile")));
-			ois = new ObjectInputStream(bin);
-			maxBounds = (Rectangle2D.Double) ois.readObject();
-			bounds = originalBounds();
-			ois.close();
-			
-			// TODO: Check if this is enough on slow computers
-			Thread loaderThread = new Thread() {
-				@Override
-				public void run () {
-					try {
-						BufferedInputStream bin = new BufferedInputStream(new FileInputStream(Properties.get("mediumRoadsQuadTree")));
-						ObjectInputStream ois = new ObjectInputStream(bin);
-						qt.add((QuadTree<KrakEdge>) ois.readObject());
-						ois.close();
-						
-						bin = new BufferedInputStream(new FileInputStream(Properties.get("smallRoadsQuadTree")));
-						ois = new ObjectInputStream(bin);
-						qt.add((QuadTree<KrakEdge>) ois.readObject());
-						ois.close();
-						
-						bin = new BufferedInputStream(new FileInputStream(Properties.get("graphFile")));
-						ois = new ObjectInputStream(bin);
-						graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
-						ois.close();
-					} catch (Exception e) {
-						System.exit(0);
-					}
-				}
-			};
-			loaderThread.start();
-			
+			graph = g;
+			// Load serialized objects
+			loadSerializedFromFiles( (g==null) );
 			sw.printTime();
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 
@@ -117,54 +92,8 @@ public class Model {
 			createQuadTrees(graph.getAllEdges());
 			sw.printTime();
 
-			Thread serializeThread = new Thread () {
-				@Override
-				public void run () {
-					Stopwatch sw = new Stopwatch("Serialize");
-					// Serialize
-					try {
-						BufferedOutputStream fout;
-						fout = new BufferedOutputStream(new FileOutputStream(Properties.get("graphFile")));
-						ObjectOutputStream oos = new ObjectOutputStream(fout);
-						oos.writeObject(graph);
-						oos.flush();
-						oos.close();
-						
-						fout = new BufferedOutputStream(new FileOutputStream(Properties.get("maxBoundsFile")));
-						oos = new ObjectOutputStream(fout);
-						oos.writeObject(maxBounds);
-						oos.flush();
-						oos.close();
-						
-						fout = new BufferedOutputStream(new FileOutputStream(Properties.get("bigRoadsQuadTree")));
-						oos = new ObjectOutputStream(fout);
-						oos.writeObject(qt.get(0));
-						oos.flush();
-						oos.close();
-						
-						fout = new BufferedOutputStream(new FileOutputStream(Properties.get("mediumRoadsQuadTree")));
-						oos = new ObjectOutputStream(fout);
-						oos.writeObject(qt.get(1));
-						oos.flush();
-						oos.close();
-						
-						fout = new BufferedOutputStream(new FileOutputStream(Properties.get("smallRoadsQuadTree")));
-						oos = new ObjectOutputStream(fout);
-						oos.writeObject(qt.get(2));
-						oos.flush();
-						oos.close();
-						
-						File dataDir = new File(".", Properties.get("dataDir"));
-						String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
-						Properties.set("nodeFileChecksum", chk);
-						Properties.save();
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-					sw.printTime();
-				}
-			};
-			serializeThread.start();
+			// Save all important objects to files.
+			serializeToFiles( (g==null) );
 			
 			
 			System.out.println("Testing the pathfinder:");
@@ -254,6 +183,104 @@ public class Model {
 		qt.add(new QuadTree<KrakEdge>(bounds,set1));
 		qt.add(new QuadTree<KrakEdge>(bounds,set2));
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
+	}
+	
+	/**
+	 * @param serializeGraph 
+	 * 
+	 */
+	private void serializeToFiles (final boolean serializeGraph) {
+		new Thread () {
+			@Override
+			public void run () {
+				Stopwatch sw = new Stopwatch("Serialize");
+				// Serialize
+				try {
+					BufferedOutputStream fout;
+					ObjectOutputStream oos;
+					
+					if (serializeGraph) {
+						fout = new BufferedOutputStream(new FileOutputStream(Properties.get("graphFile")));
+						oos = new ObjectOutputStream(fout);
+						oos.writeObject(graph);
+						oos.flush();
+						oos.close();
+					}
+					
+					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("maxBoundsFile")));
+					oos = new ObjectOutputStream(fout);
+					oos.writeObject(maxBounds);
+					oos.flush();
+					oos.close();
+					
+					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("bigRoadsQuadTree")));
+					oos = new ObjectOutputStream(fout);
+					oos.writeObject(qt.get(0));
+					oos.flush();
+					oos.close();
+					
+					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("mediumRoadsQuadTree")));
+					oos = new ObjectOutputStream(fout);
+					oos.writeObject(qt.get(1));
+					oos.flush();
+					oos.close();
+					
+					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("smallRoadsQuadTree")));
+					oos = new ObjectOutputStream(fout);
+					oos.writeObject(qt.get(2));
+					oos.flush();
+					oos.close();
+					
+					File dataDir = new File(".", Properties.get("dataDir"));
+					String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
+					Properties.set("nodeFileChecksum", chk);
+					Properties.save();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				sw.printTime();
+			}
+		}.start();
+	}
+	
+	private void loadSerializedFromFiles (final boolean loadGraph) throws IOException, ClassNotFoundException {
+		BufferedInputStream bin;
+		bin = new BufferedInputStream(new FileInputStream(Properties.get("bigRoadsQuadTree")));
+		ObjectInputStream ois = new ObjectInputStream(bin);
+		qt.add((QuadTree<KrakEdge>) ois.readObject());
+		ois.close();
+
+		bin = new BufferedInputStream(new FileInputStream(Properties.get("maxBoundsFile")));
+		ois = new ObjectInputStream(bin);
+		maxBounds = (Rectangle2D.Double) ois.readObject();
+		bounds = originalBounds();
+		ois.close();
+		
+		new Thread() {
+			@Override
+			public void run () {
+				try {
+					BufferedInputStream bin = new BufferedInputStream(new FileInputStream(Properties.get("mediumRoadsQuadTree")));
+					ObjectInputStream ois = new ObjectInputStream(bin);
+					qt.add((QuadTree<KrakEdge>) ois.readObject());
+					ois.close();
+					
+					bin = new BufferedInputStream(new FileInputStream(Properties.get("smallRoadsQuadTree")));
+					ois = new ObjectInputStream(bin);
+					qt.add((QuadTree<KrakEdge>) ois.readObject());
+					ois.close();
+					
+					if (loadGraph) {
+						bin = new BufferedInputStream(new FileInputStream(Properties.get("graphFile")));
+						ois = new ObjectInputStream(bin);
+						graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
+						ois.close();
+					}
+				} catch (Exception e) {
+					System.exit(0);
+				}
+			}
+		}.start();
 	}
 
 	/**
