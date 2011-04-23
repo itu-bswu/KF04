@@ -590,7 +590,7 @@ public class Model {
 		KrakEdge road;
 		try {
 			road = getClosestEdge(point);
-			return road.roadname +" : "+ road.getN1().getIndex();
+			return road.roadname;
 		} catch (NothingCloseException e) {
 			return " ";
 		}	

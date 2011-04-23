@@ -26,6 +26,7 @@ public class Line {
 	 */
 	public void setToPath() {
 		this.roadColor = Color.blue;
+		this.thickness = 3;
 	}
 	
 	/**
