@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -59,6 +61,15 @@ public class View extends JFrame{
 	private JButton zoomInButton;
 	private JButton zoomOutButton;
 	private JLabel infobar;
+
+	// names of stats
+	private JLabel routeTotalDistLabel;
+	private JLabel routeTimeLabel;
+	private JLabel routeTurnsLabel;
+	// values of stats
+	private JLabel routeTotalDistValue;
+	private JLabel routeTimeValue;
+	private JLabel routeTurnsValue;
 
 	/**
 	 * Creates the frame with the given header title and the initially wanted ratio for the canvas.
@@ -299,6 +310,18 @@ public class View extends JFrame{
 	public void displayDialog(String message, String header){
 		JOptionPane.showMessageDialog(this, message, header, JOptionPane.INFORMATION_MESSAGE);
 	}
+	
+	/**
+	 * Updates the route statistics on the screen.
+	 * @param routeDistance The total length of the route (in kilometers)
+	 * @param routeTime The total time to travel the route (in hours)
+	 * @param routeTurns The total number of turns in the route
+	 */
+	public void setRouteInfo(float routeDistance, float routeTime,int routeTurns) {
+		routeTotalDistValue.setText(String.format("%.1f km", routeDistance));
+		routeTimeValue.setText(String.format("%.2f hours", routeTime));
+		routeTurnsValue.setText(routeTurns+" turns");
+	}
 
 	/**
 	 * Creates the tree of components that the window consists of. This includes the different buttons and labels
@@ -309,6 +332,8 @@ public class View extends JFrame{
 		Container outer = this.getContentPane();
 		JPanel menuPanel = new JPanel();
 		JPanel navigationPanel = new JPanel();
+		JPanel routeInfo = new JPanel();
+		JPanel routeInfoGrid = new JPanel();
 
 		upButton = new JButton("^");
 		leftButton = new JButton("<");
@@ -317,19 +342,56 @@ public class View extends JFrame{
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
 		infobar = new JLabel(" ",SwingConstants.CENTER);
+		
+		// labels for route info
+		routeTotalDistLabel	= new JLabel("Total Distance: ");
+		routeTimeLabel 		= new JLabel("Travel Time: ");
+		routeTurnsLabel		= new JLabel("Number of Turns: ");
+		
+		routeTotalDistValue = new JLabel("0.0 km");
+		routeTimeValue		= new JLabel("0.0 hours");
+		routeTurnsValue		= new JLabel("0 turns");
 
 		// layouts & borders
 		outer.setLayout(new BorderLayout());
 		navigationPanel.setLayout(new GridBagLayout());
-		menuPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		menuPanel.setBorder(BorderFactory.createTitledBorder("Navigation"));
+		menuPanel.setLayout(new GridBagLayout());
+		navigationPanel.setBorder(BorderFactory.createTitledBorder("Navigation"));
+		routeInfo.setBorder(BorderFactory.createTitledBorder("Route Information"));
+		routeInfoGrid.setLayout(new GridLayout(0,2));
+		
+		routeTotalDistLabel.setForeground(Color.GRAY);
+		routeTimeLabel.setForeground(Color.GRAY);
+		routeTurnsLabel.setForeground(Color.GRAY);
+		
+		routeTotalDistValue.setHorizontalAlignment(JLabel.RIGHT);
+		routeTimeValue.setHorizontalAlignment(JLabel.RIGHT);
+		routeTurnsValue.setHorizontalAlignment(JLabel.RIGHT);
 
 		// adding structure
 		outer.add(canvas,BorderLayout.CENTER);
 		outer.add(menuPanel,BorderLayout.WEST);
 		outer.add(infobar,BorderLayout.SOUTH);
-		menuPanel.add(navigationPanel);
+		
+		routeInfo.add(routeInfoGrid);
+		routeInfoGrid.add(routeTotalDistLabel);
+		routeInfoGrid.add(routeTotalDistValue);
+		routeInfoGrid.add(routeTimeLabel);
+		routeInfoGrid.add(routeTimeValue);
+		routeInfoGrid.add(routeTurnsLabel);
+		routeInfoGrid.add(routeTurnsValue);
+		
+			// gridbag adding for menuPanel
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		
+		menuPanel.add(navigationPanel,c);
+		
+		c.weighty = 1;
+		c.gridy = 1;
+		menuPanel.add(routeInfo,c);
 
+		// nested gridbag for the navigation buttons
 		setupNavigation(navigationPanel);
 	}
 
@@ -458,10 +520,10 @@ public class View extends JFrame{
 				}
 				
 				for(int index = 0 ; index < pins.size() ; index++){
-					g.setFont(new Font("Arial", Font.PLAIN, 16));
+					g.setFont(new Font("Arial", Font.BOLD, 16));
 					g.setColor(Color.BLACK);
 					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth(), pins.get(index).y - pin_img.getHeight(), null);
-					g.setColor(Color.BLACK);
+					g.setColor(Color.BLUE);
 					g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
 				}
 				

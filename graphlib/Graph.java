@@ -42,38 +42,31 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 	 * A counter storing the total number of edges in the graph
 	 */
 	private int edgeCount = 0;
-	private int nodeCount = 675902; //TODO Count nodes
+	private int nodeCount = 0;
 
-	private int numNodes;
 
 	/**
 	 * Creates an edge-less graph on the Node objects in the array list.
 	 */
 	public Graph(List<N> nodes) {
-		numNodes = nodes.size();
+		nodeCount = nodes.size();
 
 		// NB: To match the indexes 1,2,... used in the file
 		// we leave an empty slot for node 0
 
-		edges = new ArrayList<List<E>>(numNodes + 1);
+		edges = new ArrayList<List<E>>(nodeCount + 1);
 
-		for (int i = 0; i <= numNodes + 1; i++) {
+		for (int i = 0; i <= nodeCount + 1; i++) {
 			edges.add(new ArrayList<E>(3));
 		}
 
-		this.nodes = new ArrayList<N>(numNodes + 1);
+		this.nodes = new ArrayList<N>(nodeCount + 1);
 		this.nodes.add(null);
-		for (int i = 1; i <= numNodes; i++) {
+		for (int i = 1; i <= nodeCount; i++) {
 			this.nodes.add(nodes.get(i - 1));
 		}
 	}
 
-	/**
-	 * @return Number of nodes
-	 */
-	public int getNumNodes(){
-		return numNodes;
-	}
 	/**
 	 * @return Edges
 	 */
