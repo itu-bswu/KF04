@@ -38,7 +38,7 @@ public class Dijkstra {
 						list.add(cur_edge);
 						path = cur_edge.getOtherEnd(path);
 					}
-					System.out.println(visited+" nodes visited in search");
+					//System.out.println(visited+" nodes visited in search");
 					return list;
 				}
 			}
@@ -52,13 +52,12 @@ public class Dijkstra {
 
 		if(!distTo.containsKey(other) || distTo.get(other) > distTo.get(cur) + edge.length){
 			Float distance = distTo.get(cur) + edge.length;
-			//distance += cur.distanceTo(target);
 			distTo.put(other, distance);
 			edgeTo.put(other, edge);
 			if(pq.contains(other.getIndex())){
-				pq.change(other.getIndex(), distance);
+				pq.change(other.getIndex(), distance + cur.distanceTo(target));
 			}else{
-				pq.insert(other.getIndex(), distance);
+				pq.insert(other.getIndex(), distance + cur.distanceTo(target));
 			}
 		}
 	}
