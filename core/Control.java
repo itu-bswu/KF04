@@ -270,5 +270,6 @@ public class Control {
 		}
 		view.addRoute(model.getPath());
 		view.repaint(model.getLines());
+		view.setRouteInfo(model.getRouteDistance(),model.getRouteTime(),model.getRouteTurns());
 	}
 }
