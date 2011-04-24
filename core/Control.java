@@ -71,11 +71,12 @@ public class Control {
 				int newHeight = view.getCanvasHeight();
 
 				if(oldWidth < newWidth || oldHeight < newHeight){
-					RectangleMethods.fixRatioByInnerRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
-				}else{
-					RectangleMethods.fixRatioByOuterRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
+					RectangleMethods.fixRatioByInnerRectangle(map, new Rectangle2D.Double(0, 0, newWidth, newHeight));
 				}
-
+				else{
+					RectangleMethods.fixRatioByOuterRectangle(map, new Rectangle2D.Double(0, 0, newWidth, newHeight));
+				}
+				
 				oldWidth = newWidth;
 				oldHeight = newHeight;
 
@@ -111,27 +112,28 @@ public class Control {
 					return; //Prevents the user from zooming in too much.
 				}
 				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model, view));
+				
 				repaint();
 			}
 
 			@Override
 			public void mouseClicked(MouseEvent e){
 				//TODO comments
-				//boolean remove = false;
-				//HashSet<Point2D.Double> tempPins = new HashSet<Point2D.Double>();
-				/*for(Point2D.Double pin : pins){
+				boolean remove = false;
+				HashSet<Point2D.Double> tempPins = new HashSet<Point2D.Double>();
+				for(Point2D.Double pin : pins){
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
-					if(tempPoint.x - e.getX() < 2 && tempPoint.y - e.getY() < 2){
+					if(Math.abs(tempPoint.x - e.getX()) < 40 && Math.abs(tempPoint.y - e.getY()) < 40){
 						tempPins.add(pin);
 						remove = true;
 					}
 				}
 				if(remove){
 					pins.removeAll(tempPins);
-				}*/
-				//if(!remove){
+				}
+				if(!remove){
 				pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
-				//}
+				}
 
 				if(pins.size() > 1){
 					for(int i = 0; i < pins.size() - 1; i++){
