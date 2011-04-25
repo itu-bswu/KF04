@@ -539,21 +539,22 @@ public class Model {
 	}
 
 	/**
-	 * Get closest edge within 200 meters.
+	 * Get closest edge.
 	 * @param point the point to search from.
+	 * @param distanceIncreasing the integer to be multiplied with the default search distance.
 	 * @return the closest edge within the maximum search distance.
 	 * @throws NothingCloseException If there are no edges within the maximum search distance.
 	 */
-	public KrakEdge getClosestEdge(Point2D.Double point) throws NothingCloseException{
+	public KrakEdge getClosestEdge(Point2D.Double point,int distanceIncreasing) throws NothingCloseException{
 		//System.out.println("Finding closest road");
 		// get all nearby roads
 
 		//System.out.println(point);
-
-		Rectangle2D.Double search_area = new Rectangle2D.Double(point.x - Model.ROAD_SEARCH_DISTANCE,
-				point.y - Model.ROAD_SEARCH_DISTANCE,
-				2*Model.ROAD_SEARCH_DISTANCE,
-				2*Model.ROAD_SEARCH_DISTANCE);
+		Float roadSearchDistance = Model.ROAD_SEARCH_DISTANCE * distanceIncreasing;
+		Rectangle2D.Double search_area = new Rectangle2D.Double(point.x - roadSearchDistance,
+				point.y - roadSearchDistance,
+				2*roadSearchDistance,
+				2*roadSearchDistance);
 		Set<KrakEdge> all = query(search_area);
 
 		// find the closest
@@ -572,13 +573,18 @@ public class Model {
 			}
 		}
 
-		// return the name of the edge (road)
-		if(closest != null && distance < 200){
-			//System.out.printf("found road: "+closest.roadname+" %.2f meters away\n",distance);
-			return closest;
-		}else{
-			throw new NothingCloseException("no edge within a distance of "+Model.ROAD_SEARCH_DISTANCE);
+		if(closest == null){
+			closest = getClosestEdge(point, distanceIncreasing+1);
 		}
+		return closest;
+		
+//		// return the name of the edge (road)
+//		if(closest != null && distance < 200){
+//			//System.out.printf("found road: "+closest.roadname+" %.2f meters away\n",distance);
+//			return closest;
+//		}else{
+//			throw new NothingCloseException("no edge within a distance of "+Model.ROAD_SEARCH_DISTANCE);
+//		}
 	}
 
 	/**
@@ -589,7 +595,7 @@ public class Model {
 	public String getClosestRoadname(Point2D.Double point){
 		KrakEdge road;
 		try {
-			road = getClosestEdge(point);
+			road = getClosestEdge(point,1);
 			return road.roadname +" : "+ road.getN1().getIndex();
 		} catch (NothingCloseException e) {
 			return " ";
@@ -603,7 +609,7 @@ public class Model {
 	 * @throws NothingCloseException If there are no nodes within the maximum search distance.
 	 */
 	public KrakNode getClosestNode(Point2D.Double point) throws NothingCloseException{
-		KrakEdge edge = getClosestEdge(point);
+		KrakEdge edge = getClosestEdge(point,1);
 		KrakNode first = edge.getEnd();
 		KrakNode second = edge.getOtherEnd(first);
 
