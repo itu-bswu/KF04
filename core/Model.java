@@ -53,7 +53,7 @@ public class Model {
 	public Model() {
 		this(null);
 	}
-	
+
 	/**
 	 * Constructor
 	 * Initialize variables. 
@@ -81,7 +81,7 @@ public class Model {
 			// Load serialized objects
 			loadSerializedFromFiles( (g==null) );
 			sw.printTime();
-			
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 
@@ -94,20 +94,20 @@ public class Model {
 
 			// Save all important objects to files.
 			serializeToFiles( (g==null) );
-			
-			
-//			System.out.println("Testing the pathfinder:");
-//			
-//			DijkstraSP.test(graph);
-//	
-//			KrakNode startNode = graph.getNode(4010);
-//			KrakNode endNode = graph.getNode(2978);
-//			try {
-//				findPath(startNode, endNode);
-//			}
-//			catch (NoPathException ex) {
-//				System.out.println(ex);
-//			}
+
+
+			//			System.out.println("Testing the pathfinder:");
+			//			
+			//			DijkstraSP.test(graph);
+			//	
+			//			KrakNode startNode = graph.getNode(4010);
+			//			KrakNode endNode = graph.getNode(2978);
+			//			try {
+			//				findPath(startNode, endNode);
+			//			}
+			//			catch (NoPathException ex) {
+			//				System.out.println(ex);
+			//			}
 		}
 	}
 
@@ -184,7 +184,7 @@ public class Model {
 		qt.add(new QuadTree<KrakEdge>(bounds,set2));
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
 	}
-	
+
 	/**
 	 * @param serializeGraph 
 	 * 
@@ -198,7 +198,7 @@ public class Model {
 				try {
 					BufferedOutputStream fout;
 					ObjectOutputStream oos;
-					
+
 					if (serializeGraph) {
 						fout = new BufferedOutputStream(new FileOutputStream(Properties.get("graphFile")));
 						oos = new ObjectOutputStream(fout);
@@ -206,31 +206,31 @@ public class Model {
 						oos.flush();
 						oos.close();
 					}
-					
+
 					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("maxBoundsFile")));
 					oos = new ObjectOutputStream(fout);
 					oos.writeObject(maxBounds);
 					oos.flush();
 					oos.close();
-					
+
 					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("bigRoadsQuadTree")));
 					oos = new ObjectOutputStream(fout);
 					oos.writeObject(qt.get(0));
 					oos.flush();
 					oos.close();
-					
+
 					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("mediumRoadsQuadTree")));
 					oos = new ObjectOutputStream(fout);
 					oos.writeObject(qt.get(1));
 					oos.flush();
 					oos.close();
-					
+
 					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("smallRoadsQuadTree")));
 					oos = new ObjectOutputStream(fout);
 					oos.writeObject(qt.get(2));
 					oos.flush();
 					oos.close();
-					
+
 					File dataDir = new File(".", Properties.get("dataDir"));
 					String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
 					Properties.set("nodeFileChecksum", chk);
@@ -242,7 +242,7 @@ public class Model {
 			}
 		}.start();
 	}
-	
+
 	private void loadSerializedFromFiles (final boolean loadGraph) throws IOException, ClassNotFoundException {
 		BufferedInputStream bin;
 		bin = new BufferedInputStream(new FileInputStream(Properties.get("bigRoadsQuadTree")));
@@ -255,7 +255,7 @@ public class Model {
 		maxBounds = (Rectangle2D.Double) ois.readObject();
 		bounds = originalBounds();
 		ois.close();
-		
+
 		new Thread() {
 			@Override
 			public void run () {
@@ -264,12 +264,12 @@ public class Model {
 					ObjectInputStream ois = new ObjectInputStream(bin);
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
 					ois.close();
-					
+
 					bin = new BufferedInputStream(new FileInputStream(Properties.get("smallRoadsQuadTree")));
 					ois = new ObjectInputStream(bin);
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
 					ois.close();
-					
+
 					if (loadGraph) {
 						bin = new BufferedInputStream(new FileInputStream(Properties.get("graphFile")));
 						ois = new ObjectInputStream(bin);
@@ -306,6 +306,47 @@ public class Model {
 		}
 		return lines;
 	}
+
+	/**
+	 * Calculate the total distance of the current route.
+	 * @return the total distance.
+	 */
+	public float getRouteDistance(){
+		float total = 0.0f;
+		for(KrakEdge e : path){
+			total += e.length;
+		}
+		return total/1000.0f;
+	}
+
+	/**
+	 * Calculates the time needed to travel the current route (at the speed limits).
+	 * @return Total time to travel the route.
+	 */
+	public float getRouteTime(){
+		// TODO: Calculate the time, this should be done using the length and roadtype
+		return 0.0f;
+	}
+
+	/**
+	 * Calculates the number of turns in the current route, a turn is defined as when you change road.
+	 * @return The number of turns in the current route.
+	 */
+	public int getRouteTurns(){
+		int turns = 0;
+
+		if(!path.isEmpty()){
+			KrakEdge prev = path.get(0);
+			for(int index = 1; index < path.size(); index++){
+				if(!path.get(index).roadname.equals(prev.roadname)){
+					turns++;
+				}
+				prev = path.get(index);
+			}
+		}
+		return turns;
+	}
+
 	/**
 	 * Querries the node for KrakEdges with a specific rectangle
 	 * @param qarea The rectangle for which to find all KrakEdges
@@ -327,12 +368,12 @@ public class Model {
 		} catch (Exception e) {
 			// Only return what has already been found, and don't care about 
 			// the rest. They will be available later.
-			
+
 			// Alternative solution:
 			//Thread.yield();
 			//return query(qarea);
 		}
-		
+
 		return total;
 	}
 
@@ -596,7 +637,7 @@ public class Model {
 		KrakEdge road;
 		try {
 			road = getClosestEdge(point,1);
-			return road.roadname +" : "+ road.getN1().getIndex();
+			return road.roadname;
 		} catch (NothingCloseException e) {
 			return " ";
 		}	
@@ -618,7 +659,7 @@ public class Model {
 		}
 		return second;
 	}
-	
+
 	public void clearPath(){
 		path.clear();
 	}

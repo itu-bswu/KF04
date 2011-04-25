@@ -134,15 +134,12 @@ public class Control {
 				//}
 
 				if(pins.size() > 1){
-					for(int i = 0; i < pins.size() - 1; i++){
-						try { 
-							model.findPath(model.getClosestNode(pins.get(i)), model.getClosestNode(pins.get(i + 1)));
-						}catch(NothingCloseException e1){
-							view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
-						}catch (NoPathException e2) {
-							view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
-						}
-
+					try { 
+						model.findPath(model.getClosestNode(pins.get(pins.size() - 2)), model.getClosestNode(pins.get(pins.size() - 1)));
+					}catch(NothingCloseException e1){
+						view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
+					}catch (NoPathException e2) {
+						view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
 					}
 				}
 				repaint();
@@ -270,5 +267,6 @@ public class Control {
 		}
 		view.addRoute(model.getPath());
 		view.repaint(model.getLines());
+		view.setRouteInfo(model.getRouteDistance(),model.getRouteTime(),model.getRouteTurns());
 	}
 }
