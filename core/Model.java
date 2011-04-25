@@ -285,11 +285,12 @@ public class Model {
 
 	/**
 	 * Create a new DijkstraSP from the startNode, and finds the path to the endNode. The path is returned as an arraylist of lines
+	 * @throws NoPathException 
 	 */
-	public void findPath(KrakNode startNode, KrakNode endNode) throws NoPathException{
+	public void findPath(KrakNode startNode, KrakNode endNode) throws NothingCloseException, NoPathException{
 
-		if (startNode	== null) throw new NullPointerException("startNode is null");
-		if (endNode		== null) throw new NullPointerException("endNode is null");
+		if (startNode	== null) throw new NothingCloseException("startNode is null");
+		if (endNode		== null) throw new NothingCloseException("endNode is null");
 
 		path.addAll(Dijkstra.findPath(graph, startNode, endNode));
 	}
