@@ -122,33 +122,29 @@ public class Control {
 				//TODO comments
 
 				boolean remove = false;
-				HashSet<Point2D.Double> tempPins = new HashSet<Point2D.Double>();
+				Point2D.Double tempPin = null;
 
 				for(Point2D.Double pin : pins){
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
 					if(Math.abs(tempPoint.x - e.getX()) < 10 && Math.abs(tempPoint.y - e.getY()) < 10){
-						tempPins.add(pin);
+						tempPin = pin;
 						remove = true;
 					}
 				}
 
 				if(remove){
-					pins.removeAll(tempPins);
+					pins.remove(tempPin);
 					model.clearPath();
+					if(pins.size() > 1){
+						for(int i = 0; i < pins.size() - 1; i++){
+							findPath(i, i + 1);
+						}
+					}
 				}
 				else{
 					pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
-				}
-
-				if(pins.size() > 1){
-					for(int i = 0; i < pins.size() - 1; i++){
-						try { 
-							model.findPath(model.getClosestNode(pins.get(i)), model.getClosestNode(pins.get(i + 1)));
-						}catch(NothingCloseException e1){
-							view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
-						}catch (NoPathException e2) {
-							view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
-						}
+					if(pins.size() > 1){
+						findPath(pins.size()-2, pins.size()-1);
 					}
 				}
 				repaint();
@@ -157,7 +153,7 @@ public class Control {
 			// Display the name of the closest road
 			@Override
 			public void mouseMoved(MouseEvent e){
-				// set label to closest road
+				//Set label to closest road
 				Point2D.Double p = PointMethods.pixelToUTM(e.getPoint(), model, view);
 				String roadName = model.getClosestRoadname(p);
 				view.setLabel(roadName);
@@ -173,12 +169,14 @@ public class Control {
 		view.addKeyListener(new KeyAdapter(){
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// ESCAPE
-				if(e.getKeyCode() == 27){
+				if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 					Rectangle2D.Double temp = model.originalBounds();
 					RectangleMethods.fixRatioByOuterRectangle(temp, model.getBounds());
 					model.updateBounds(temp);
 					repaint();
+				}
+				if(e.getKeyCode() == KeyEvent.VK_C){
+					clearPins();
 				}
 			}
 		});
@@ -278,5 +276,19 @@ public class Control {
 		view.addRoute(model.getPath());
 		view.repaint(model.getLines());
 		view.setRouteInfo(model.getRouteDistance(),model.getRouteTime(),model.getRouteTurns());
+	}
+	
+	/**
+	 * 
+	 */
+	//TODO comments
+	private void findPath(int start, int end){
+		try { 
+			model.findPath(model.getClosestNode(pins.get(start)), model.getClosestNode(pins.get(end)));
+		}catch(NothingCloseException e1){
+			view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
+		}catch (NoPathException e2) {
+			view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
+		}	
 	}
 }
