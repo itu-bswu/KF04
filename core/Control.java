@@ -71,9 +71,10 @@ public class Control {
 				int newHeight = view.getCanvasHeight();
 
 				if(oldWidth < newWidth || oldHeight < newHeight){
-					RectangleMethods.fixRatioByInnerRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
-				}else{
-					RectangleMethods.fixRatioByOuterRectangle(map,new Rectangle2D.Double(0,0,newWidth,newHeight));
+					RectangleMethods.fixRatioByInnerRectangle(map, new Rectangle2D.Double(0, 0, newWidth, newHeight));
+				}
+				else{
+					RectangleMethods.fixRatioByOuterRectangle(map, new Rectangle2D.Double(0, 0, newWidth, newHeight));
 				}
 
 				oldWidth = newWidth;
@@ -111,35 +112,42 @@ public class Control {
 					return; //Prevents the user from zooming in too much.
 				}
 				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model, view));
+
 				repaint();
 			}
 
 			@Override
 			public void mouseClicked(MouseEvent e){
 				//TODO comments
-				//boolean remove = false;
-				//HashSet<Point2D.Double> tempPins = new HashSet<Point2D.Double>();
-				/*for(Point2D.Double pin : pins){
+
+				boolean remove = false;
+				HashSet<Point2D.Double> tempPins = new HashSet<Point2D.Double>();
+
+				for(Point2D.Double pin : pins){
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
-					if(tempPoint.x - e.getX() < 2 && tempPoint.y - e.getY() < 2){
+					if(Math.abs(tempPoint.x - e.getX()) < 10 && Math.abs(tempPoint.y - e.getY()) < 10){
 						tempPins.add(pin);
 						remove = true;
 					}
 				}
+
 				if(remove){
 					pins.removeAll(tempPins);
-				}*/
-				//if(!remove){
-				pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
-				//}
+					model.clearPath();
+				}
+				else{
+					pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
+				}
 
 				if(pins.size() > 1){
-					try { 
-						model.findPath(model.getClosestNode(pins.get(pins.size() - 2)), model.getClosestNode(pins.get(pins.size() - 1)));
-					}catch(NothingCloseException e1){
-						view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
-					}catch (NoPathException e2) {
-						view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
+					for(int i = 0; i < pins.size() - 1; i++){
+						try { 
+							model.findPath(model.getClosestNode(pins.get(i)), model.getClosestNode(pins.get(i + 1)));
+						}catch(NothingCloseException e1){
+							view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
+						}catch (NoPathException e2) {
+							view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
+						}
 					}
 				}
 				repaint();
@@ -170,9 +178,6 @@ public class Control {
 					RectangleMethods.fixRatioByOuterRectangle(temp, model.getBounds());
 					model.updateBounds(temp);
 					repaint();
-				}
-				if(e.getKeyCode() == 67){
-					clearPins();
 				}
 			}
 		});
@@ -248,9 +253,12 @@ public class Control {
 			}});
 	}
 
+	/**
+	 * 
+	 */
+	//TODO javadoc
 	private void clearPins(){
 		model.clearPath();
-		view.clearRoute();
 		pins.clear();
 		repaint();
 	}
@@ -258,6 +266,7 @@ public class Control {
 	/**
 	 * 
 	 */
+	//TODO javadoc
 	private void repaint(){
 		view.clearPins();
 		view.clearRoute();
