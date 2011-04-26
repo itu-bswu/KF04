@@ -321,11 +321,11 @@ public class View extends JFrame{
 		routeTotalDistValue.setText(String.format("%.1f km", routeDistance));
 		routeTurnsValue.setText(routeTurns+" turns");
 
-		// displaying the trave time with right precision (routeTime is given as minutes)
+		// displaying the travel time with right precision (routeTime is given as minutes)
 		if(routeTime > 60){
 			routeTimeValue.setText(String.format("%.0f h %.0f min", routeTime / 60,routeTime % 60));
 		}else{
-			routeTimeValue.setText(String.format("%.2f minutes", routeTime));
+			routeTimeValue.setText(String.format("%.0f minutes", routeTime));
 		}
 	}
 
