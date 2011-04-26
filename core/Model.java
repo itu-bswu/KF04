@@ -87,9 +87,11 @@ public class Model {
 			sw.printTime();*/
 
 		} catch (Exception e) {
+			
+			
 			System.out.println(e.getMessage());
 
-			graph = loadGraph();
+			graph = inputGraph != null ? inputGraph : loadGraph();
 			
 			maxBounds = maxBounds(graph.getNodes());
 			bounds = originalBounds();
