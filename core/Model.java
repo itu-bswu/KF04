@@ -73,15 +73,15 @@ public class Model {
 		}
 
 		try {
-			if (!fromFile) {
+			//if (!fromFile) { // TODO: Fix
 				throw new Exception("Create datastructure");
-			}
+			/*}
 
 			Stopwatch sw = new Stopwatch("Loading");
 			graph = inputGraph;
 			// Load serialized objects
 			loadSerializedFromFiles( (inputGraph==null) );
-			sw.printTime();
+			sw.printTime();*/
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -95,7 +95,7 @@ public class Model {
 			sw.printTime();
 
 			// Save all important objects to files.
-			serializeToFiles( (inputGraph==null) );
+			//serializeToFiles( (inputGraph==null) ); // TODO: Fix
 		}
 	}
 
