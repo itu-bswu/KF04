@@ -71,9 +71,14 @@ public class Dijkstra {
 	 */
 	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Float> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Float> pq, Evaluator<KrakEdge> eval){
 		KrakNode other = edge.getOtherEnd(cur);
-		
-		if(!distTo.containsKey(other) || distTo.get(other) > distTo.get(cur) + eval.evaluate(edge)){
-			Float distance = distTo.get(cur) + eval.evaluate(edge);
+		float evaluation;
+		try {
+			evaluation = eval.evaluate(edge);
+		} catch (NotPassableException e) {
+			return;
+		}
+		if(!distTo.containsKey(other) || distTo.get(other) > distTo.get(cur) + evaluation){
+			float distance = distTo.get(cur) + evaluation;
 			distTo.put(other, distance);
 			edgeTo.put(other, edge);
 			if(pq.contains(other.getIndex())){

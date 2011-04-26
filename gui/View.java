@@ -264,6 +264,9 @@ public class View extends JFrame{
 		rightButton.addKeyListener(k);
 		zoomInButton.addKeyListener(k);
 		zoomOutButton.addKeyListener(k);
+		clearPinsButton.addKeyListener(k);
+		carChoice.addKeyListener(k);
+		bikeChoice.addKeyListener(k);
 	}
 
 	/**
