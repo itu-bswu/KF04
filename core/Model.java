@@ -91,7 +91,12 @@ public class Model {
 			
 			System.out.println(e.getMessage());
 
-			graph = inputGraph != null ? inputGraph : loadGraph();
+			//If the inputGraph is null, load from file.
+			if (inputGraph == null) {
+				graph = loadGraph();
+			}else{
+				graph = inputGraph;
+			}
 			
 			maxBounds = maxBounds(graph.getNodes());
 			bounds = originalBounds();
@@ -284,11 +289,11 @@ public class Model {
 	 * Create a new DijkstraSP from the startNode, and finds the path to the endNode. The path is returned as an arraylist of lines
 	 * @throws NoPathException 
 	 */
-	public void findPath(KrakNode startNode, KrakNode endNode) throws NothingCloseException, NoPathException{
+	public void findPath(KrakNode startNode, KrakNode endNode) throws NoPathException{
 
 		while (graph 	== null) Thread.yield();
-		if (startNode	== null) throw new NothingCloseException("startNode is null");
-		if (endNode		== null) throw new NothingCloseException("endNode is null");
+		if (startNode	== null) throw new NullPointerException("startNode is null");
+		if (endNode		== null) throw new NullPointerException("endNode is null");
 
 		path.addAll(Dijkstra.findPath(graph, startNode, endNode,Evaluator.DISTANCE));
 	}
@@ -328,25 +333,6 @@ public class Model {
 			minutes += e.DRIVETIME;
 		}
 		return minutes;
-	}
-
-	/**
-	 * Calculates the number of turns in the current route, a turn is defined as when you change road.
-	 * @return The number of turns in the current route.
-	 */
-	public int getRouteTurns(){
-		int turns = 0;
-
-		if(!path.isEmpty()){
-			KrakEdge prev = path.get(0);
-			for(int index = 1; index < path.size(); index++){
-				if(!path.get(index).roadname.equals(prev.roadname)){
-					turns++;
-				}
-				prev = path.get(index);
-			}
-		}
-		return turns;
 	}
 
 	/**
