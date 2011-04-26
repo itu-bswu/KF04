@@ -61,10 +61,7 @@ public class Model {
 	 * Set the map to look at the specified graph.
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
-		
-		
-		System.out.println("1");
-		
+
 		boolean fromFile = false;
 		try {
 			File dataDir = new File(".", Properties.get("dataDir"));
@@ -77,16 +74,17 @@ public class Model {
 		}
 
 		try {
+			
 			if (!fromFile) {
-				throw new Exception("Create datastructure");
+				throw new Exception("Could not load serialized, create datastructure");
 			}
-
+			
 			Stopwatch sw = new Stopwatch("Loading");
 			graph = inputGraph;
 			// Load serialized objects
 			loadSerializedFromFiles( (inputGraph==null) );
 			sw.printTime();
-
+			
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 
@@ -101,9 +99,6 @@ public class Model {
 			// Save all important objects to files.
 			serializeToFiles( (inputGraph==null) );
 		}
-		
-		
-		System.out.println("2");
 	}
 
 	/**
@@ -326,7 +321,12 @@ public class Model {
 	 */
 	public float getRouteTime(){
 		// TODO: Calculate the time, this should be done using the length and roadtype
-		return 0.0f;
+		
+		float time = 0.0f;
+		for(KrakEdge e : path){
+			time += e.length * e.DRIVETIME;
+		}
+		return time /60/60;
 	}
 
 	/**
