@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 import loader.KrakLoader;
 import testClasses.ModelTest;
+import utils.Evaluator;
 import utils.MD5Checksum;
 import utils.Properties;
 import utils.Stopwatch;
@@ -285,7 +286,7 @@ public class Model {
 		if (startNode	== null) throw new NothingCloseException("startNode is null");
 		if (endNode		== null) throw new NothingCloseException("endNode is null");
 
-		path.addAll(Dijkstra.findPath(graph, startNode, endNode));
+		path.addAll(Dijkstra.findPath(graph, startNode, endNode,Evaluator.DISTANCE));
 	}
 
 	/**
@@ -650,11 +651,13 @@ public class Model {
 				curDistance *= 2;
 			}
 		}
+		System.out.println("Closest Edge was: "+edge.roadname);
 
 		KrakNode first = edge.getEnd();
 		KrakNode second = edge.getOtherEnd(first);
 
 		if(first.getPoint().distance(point) < second.getPoint().distance(point)){
+			
 			return first;
 		}
 		return second;
