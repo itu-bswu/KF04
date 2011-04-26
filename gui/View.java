@@ -33,11 +33,13 @@ import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 /**
@@ -61,6 +63,10 @@ public class View extends JFrame{
 	private JButton zoomInButton;
 	private JButton zoomOutButton;
 	private JLabel infobar;
+	
+	private JButton clearPinsButton;
+	private JRadioButton carChoice;
+	private JRadioButton bikeChoice;
 
 	// names of stats
 	private JLabel routeTotalDistLabel;
@@ -200,6 +206,30 @@ public class View extends JFrame{
 	public void addOutListener(ActionListener actionListener) {
 		zoomOutButton.addActionListener(actionListener);
 	}
+	
+	/**
+	 * Adds an ActionListener to the Clear Pins-button in the Route Options-panel.
+	 * @param a
+	 */
+	public void addClearPinsListener(ActionListener a){
+		clearPinsButton.addActionListener(a);
+	}
+	
+	/**
+	 * Tells if the Car Choice is selected.
+	 * @return true if selected.
+	 */
+	public boolean isCarChoiceSelected(){
+		return carChoice.isSelected();
+	}
+	
+	/**
+	 * Tells if the Bike Choice is selected.
+	 * @return true if selected.
+	 */
+	public boolean isBikeChoiceSelected(){
+		return bikeChoice.isSelected();
+	}
 
 	/**
 	 * Adds a MouseListener to the canvas component.
@@ -335,6 +365,7 @@ public class View extends JFrame{
 		Container outer = this.getContentPane();
 		JPanel menuPanel = new JPanel();
 		JPanel navigationPanel = new JPanel();
+		JPanel routeOptions = new JPanel();
 		JPanel routeInfo = new JPanel();
 		JPanel routeInfoGrid = new JPanel();
 
@@ -344,6 +375,11 @@ public class View extends JFrame{
 		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
+		
+		clearPinsButton = new JButton("Clear Pins");
+		carChoice = new JRadioButton("Car");
+		bikeChoice = new JRadioButton("Bike");
+		
 		infobar = new JLabel(" ",SwingConstants.CENTER);
 
 		// labels for route info
@@ -358,8 +394,15 @@ public class View extends JFrame{
 		navigationPanel.setLayout(new GridBagLayout());
 		menuPanel.setLayout(new GridBagLayout());
 		navigationPanel.setBorder(BorderFactory.createTitledBorder("Navigation"));
+		routeOptions.setBorder(BorderFactory.createTitledBorder("Route Options"));
+		// TODO: routeOptions setLayout
 		routeInfo.setBorder(BorderFactory.createTitledBorder("Route Information"));
 		routeInfoGrid.setLayout(new GridLayout(0,2));
+		
+		carChoice.setSelected(true);
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(carChoice);
+		bg.add(bikeChoice);
 
 		routeTotalDistLabel.setForeground(Color.GRAY);
 		routeTimeLabel.setForeground(Color.GRAY);
@@ -371,6 +414,10 @@ public class View extends JFrame{
 		outer.add(canvas,BorderLayout.CENTER);
 		outer.add(menuPanel,BorderLayout.WEST);
 		outer.add(infobar,BorderLayout.SOUTH);
+		
+		routeOptions.add(clearPinsButton);
+		routeOptions.add(carChoice);
+		routeOptions.add(bikeChoice);
 
 		routeInfo.add(routeInfoGrid);
 		routeInfoGrid.add(routeTotalDistLabel);
@@ -383,9 +430,12 @@ public class View extends JFrame{
 		c.fill = GridBagConstraints.BOTH;
 
 		menuPanel.add(navigationPanel,c);
+		
+		c.gridy = 1;
+		menuPanel.add(routeOptions,c);
 
 		c.weighty = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		menuPanel.add(routeInfo,c);
 
 		// nested gridbag for the navigation buttons
