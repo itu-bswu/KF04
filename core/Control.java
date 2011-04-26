@@ -191,6 +191,17 @@ public class Control {
 	private void addGUIButtonListeners(){
 		addMoveGUIButtonListeners();
 		addZoomGUIButtonListeners();
+		addClearPinButtonListener();
+	}
+
+	private void addClearPinButtonListener() {
+		view.addClearPinsListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				clearPins();
+			}
+		});
 	}
 
 	/**
