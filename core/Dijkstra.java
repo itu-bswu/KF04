@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import utils.Evaluator;
+
 import core.IndexMinPQ;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
@@ -20,7 +22,7 @@ public class Dijkstra {
 	 * @return
 	 * @throws NoPathException
 	 */
-	public static List<KrakEdge> findPath(Graph<KrakEdge,KrakNode> G, KrakNode startNode, KrakNode targetNode ) throws NoPathException{
+	public static List<KrakEdge> findPath(Graph<KrakEdge,KrakNode> G, KrakNode startNode, KrakNode targetNode, Evaluator<KrakEdge> eval) throws NoPathException{
 		HashMap<KrakNode,KrakEdge> edgeTo = new HashMap<KrakNode,KrakEdge>();
 		HashMap<KrakNode,Float> distTo = new HashMap<KrakNode,Float>();
 		IndexMinPQ<Float> pq = new IndexMinPQ<Float>(G.getNodeCount());
@@ -36,7 +38,7 @@ public class Dijkstra {
 
 			while(edgesOut.hasNext()){
 				KrakEdge edge = edgesOut.next();
-				relax(cur,targetNode,edge,distTo,edgeTo, pq);
+				relax(cur,targetNode,edge,distTo,edgeTo, pq, eval);
 
 				if(edge.getOtherEnd(cur) == targetNode){
 					ArrayList<KrakEdge> list = new ArrayList<KrakEdge>();
@@ -64,11 +66,11 @@ public class Dijkstra {
 	 * @param edgeTo
 	 * @param pq
 	 */
-	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Float> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Float> pq){
+	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Float> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Float> pq, Evaluator<KrakEdge> eval){
 		KrakNode other = edge.getOtherEnd(cur);
 		
-		if(!distTo.containsKey(other) || distTo.get(other) > distTo.get(cur) + edge.length){
-			Float distance = distTo.get(cur) + edge.length;
+		if(!distTo.containsKey(other) || distTo.get(other) > distTo.get(cur) + eval.evaluate(edge)){
+			Float distance = distTo.get(cur) + eval.evaluate(edge);
 			distTo.put(other, distance);
 			edgeTo.put(other, edge);
 			if(pq.contains(other.getIndex())){
