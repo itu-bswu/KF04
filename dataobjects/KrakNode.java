@@ -48,8 +48,8 @@ public class KrakNode extends Node implements Serializable {
 	}
 
 	public float distanceTo(KrakNode that){
-		float x_part = (this.getX()-that.getX())*(this.getX()-that.getX());
-		float y_part = (this.getY()-that.getY())*(this.getY()-that.getY());
+		float x_part = (float) Math.pow(this.getX()-that.getX(),2);
+		float y_part = (float) Math.pow(this.getY()-that.getY(),2);
 		//System.out.println("x="+x_part+", y="+y_part);
 		return (float) Math.sqrt(x_part + y_part);
 	}

@@ -49,7 +49,7 @@ public class Dijkstra {
 
 	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Float> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Float> pq){
 		KrakNode other = edge.getOtherEnd(cur);
-
+		
 		if(!distTo.containsKey(other) || distTo.get(other) > distTo.get(cur) + edge.length){
 			Float distance = distTo.get(cur) + edge.length;
 			distTo.put(other, distance);
