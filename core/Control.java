@@ -168,12 +168,14 @@ public class Control {
 		view.addKeyListener(new KeyAdapter(){
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// ESCAPE
-				if(e.getKeyCode() == 27){
+				if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 					Rectangle2D.Double temp = model.originalBounds();
 					RectangleMethods.fixRatioByOuterRectangle(temp, model.getBounds());
 					model.updateBounds(temp);
 					repaint();
+				}
+				if(e.getKeyCode() == KeyEvent.VK_C){
+					clearPins();
 				}
 			}
 		});
