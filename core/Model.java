@@ -259,6 +259,7 @@ public class Model {
 		new Thread() {
 			@Override
 			public void run () {
+				Stopwatch sw = new Stopwatch("Load serialized");
 				try {
 					BufferedInputStream bin = new BufferedInputStream(new FileInputStream(Properties.get("mediumRoadsQuadTree")));
 					ObjectInputStream ois = new ObjectInputStream(bin);
@@ -277,8 +278,10 @@ public class Model {
 						ois.close();
 					}
 				} catch (Exception e) {
+					System.out.println(e.getMessage());
 					System.exit(0);
 				}
+				sw.printTime();
 			}
 		}.start();
 	}
@@ -289,6 +292,7 @@ public class Model {
 	 */
 	public void findPath(KrakNode startNode, KrakNode endNode) throws NothingCloseException, NoPathException{
 
+		while (graph 	== null) Thread.yield();
 		if (startNode	== null) throw new NothingCloseException("startNode is null");
 		if (endNode		== null) throw new NothingCloseException("endNode is null");
 
