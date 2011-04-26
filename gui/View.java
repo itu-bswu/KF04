@@ -77,9 +77,9 @@ public class View extends JFrame{
 	 * @param startRatio The initial ratio of the canvas component.
 	 */
 	public View(String header, float startRatio){
-	
+
 		super(header);
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		canvas = new Canvas();
@@ -220,7 +220,7 @@ public class View extends JFrame{
 	public void addCanvasComponentListener(ComponentListener c){
 		canvas.addComponentListener(c);
 	}
-	
+
 	/**
 	 * Adds a KeyListener to all focusable components in the view, this
 	 * ensures that we receive info when a key is pressed no matter what
@@ -237,7 +237,7 @@ public class View extends JFrame{
 		zoomInButton.addKeyListener(k);
 		zoomOutButton.addKeyListener(k);
 	}
-	
+
 	/**
 	 * Adds a pin to the canvas, a pin will be displayed at this position
 	 * of the screen until clearMarks() is called.
@@ -246,14 +246,14 @@ public class View extends JFrame{
 	public void addPin(Point p){
 		canvas.addPin(p);
 	}
-	
+
 	/**
 	 * Removes all pins currently in place.
 	 */
 	public void clearPins(){
 		canvas.clearPins();
 	}
-	
+
 	/**
 	 * Adds a separete collection of lines to be displayed along with
 	 * the regular roads.
@@ -262,7 +262,7 @@ public class View extends JFrame{
 	public void addRoute(Collection<Line> route){
 		canvas.updateRoute(route);
 	}
-	
+
 	/**
 	 * Removes any route currently stored.
 	 */
@@ -301,7 +301,7 @@ public class View extends JFrame{
 	public void setLabel(String text){
 		infobar.setText(text);
 	}
-	
+
 	/**
 	 * Displays a dialog on top of the view to display a given message.
 	 * @param message The message to display at the center of the dialog.
@@ -310,7 +310,7 @@ public class View extends JFrame{
 	public void displayDialog(String message, String header){
 		JOptionPane.showMessageDialog(this, message, header, JOptionPane.INFORMATION_MESSAGE);
 	}
-	
+
 	/**
 	 * Updates the route statistics on the screen.
 	 * @param routeDistance The total length of the route (in kilometers)
@@ -319,8 +319,14 @@ public class View extends JFrame{
 	 */
 	public void setRouteInfo(float routeDistance, float routeTime,int routeTurns) {
 		routeTotalDistValue.setText(String.format("%.1f km", routeDistance));
-		routeTimeValue.setText(String.format("%.2f hours", routeTime));
 		routeTurnsValue.setText(routeTurns+" turns");
+
+		// displaying the trave time with right precision (routeTime is given as minutes)
+		if(routeTime > 60){
+			routeTimeValue.setText(String.format("%.0f h %.0f", routeTime / 60,routeTime % 60));
+		}else{
+			routeTimeValue.setText(String.format("%.2f minutes", routeTime));
+		}
 	}
 
 	/**
@@ -342,12 +348,12 @@ public class View extends JFrame{
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
 		infobar = new JLabel(" ",SwingConstants.CENTER);
-		
+
 		// labels for route info
 		routeTotalDistLabel	= new JLabel("Total Distance: ");
 		routeTimeLabel 		= new JLabel("Travel Time: ");
 		routeTurnsLabel		= new JLabel("Number of Turns: ");
-		
+
 		routeTotalDistValue = new JLabel("0.0 km");
 		routeTimeValue		= new JLabel("0.0 hours");
 		routeTurnsValue		= new JLabel("0 turns");
@@ -359,11 +365,11 @@ public class View extends JFrame{
 		navigationPanel.setBorder(BorderFactory.createTitledBorder("Navigation"));
 		routeInfo.setBorder(BorderFactory.createTitledBorder("Route Information"));
 		routeInfoGrid.setLayout(new GridLayout(0,2));
-		
+
 		routeTotalDistLabel.setForeground(Color.GRAY);
 		routeTimeLabel.setForeground(Color.GRAY);
 		routeTurnsLabel.setForeground(Color.GRAY);
-		
+
 		routeTotalDistValue.setHorizontalAlignment(JLabel.RIGHT);
 		routeTimeValue.setHorizontalAlignment(JLabel.RIGHT);
 		routeTurnsValue.setHorizontalAlignment(JLabel.RIGHT);
@@ -372,7 +378,7 @@ public class View extends JFrame{
 		outer.add(canvas,BorderLayout.CENTER);
 		outer.add(menuPanel,BorderLayout.WEST);
 		outer.add(infobar,BorderLayout.SOUTH);
-		
+
 		routeInfo.add(routeInfoGrid);
 		routeInfoGrid.add(routeTotalDistLabel);
 		routeInfoGrid.add(routeTotalDistValue);
@@ -380,13 +386,13 @@ public class View extends JFrame{
 		routeInfoGrid.add(routeTimeValue);
 		routeInfoGrid.add(routeTurnsLabel);
 		routeInfoGrid.add(routeTurnsValue);
-		
-			// gridbag adding for menuPanel
+
+		// gridbag adding for menuPanel
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
-		
+
 		menuPanel.add(navigationPanel,c);
-		
+
 		c.weighty = 1;
 		c.gridy = 1;
 		menuPanel.add(routeInfo,c);
@@ -440,7 +446,7 @@ public class View extends JFrame{
 		private BufferedImage img = null;
 		private Collection<Line> route = null;
 		private List<Point> pins = new ArrayList<Point>();
-		
+
 		public Canvas(){
 			try{
 				pin_img = ImageIO.read(new File("src","pin.png"));
@@ -487,7 +493,7 @@ public class View extends JFrame{
 			drawOffScreen(lines);
 			this.repaint();
 		}
-		
+
 		/**
 		 * Updates the stored route with the given.
 		 * @param route The new route.
@@ -518,7 +524,7 @@ public class View extends JFrame{
 						drawLine(g,r);
 					}
 				}
-				
+
 				for(int index = 0 ; index < pins.size() ; index++){
 					g.setFont(new Font("Arial", Font.BOLD, 16));
 					g.setColor(Color.BLACK);
@@ -526,7 +532,7 @@ public class View extends JFrame{
 					g.setColor(Color.BLUE);
 					g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
 				}
-				
+
 				g.dispose();
 				//timer.printTime();
 			}
@@ -563,14 +569,14 @@ public class View extends JFrame{
 		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2));
 
 		final View v = new View("X marks the spot",(float) 1.0);
-		
+
 		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
 		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));
 		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
 		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));
 
 		v.repaint(x);
-		
+
 		// testing dialog message
 		v.addCanvasMouseListener(new MouseAdapter(){
 			@Override
