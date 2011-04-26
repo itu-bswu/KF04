@@ -317,10 +317,9 @@ public class View extends JFrame{
 	 * @param routeTime The total time to travel the route (in hours)
 	 * @param routeTurns The total number of turns in the route
 	 */
-	public void setRouteInfo(float routeDistance, float routeTime,int routeTurns) {
+	public void setRouteInfo(float routeDistance, float routeTime) {
 		routeTotalDistValue.setText(String.format("%.1f km", routeDistance));
 		routeTimeValue.setText(String.format("%.2f hours", routeTime));
-		routeTurnsValue.setText(routeTurns+" turns");
 	}
 
 	/**
