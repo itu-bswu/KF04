@@ -8,14 +8,21 @@ import gui.Line;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 import junit.framework.TestCase;
+import loader.KrakLoader;
 
 import org.junit.*;
 
+import utils.Properties;
+import utils.Stopwatch;
+
 import core.Model;
+import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
 
 /**
@@ -23,20 +30,44 @@ import dataobjects.KrakNode;
  * @author mollerhoj3
  *
  */
-public class ModelTest extends TestCase{
+public class ModelTest {
 	private static Model model;
 	
-	//TODO skal der laves en kunstig graf man kan køre tests på??
 	/**
 	 * Before Class
 	 */
-	@BeforeClass public static void BeforeClass() {
-		
-		System.out.println("Testing model");
-		
-		model =  new Model();
-	}	
+    @BeforeClass public static void onlyOnce() {
+    	
+    	System.out.println("Testing model...");
+    	Graph<KrakEdge, KrakNode> testGraph = loadTestGraph();
+    	model = new Model(testGraph);
+    	System.out.println("TestGraph: " + testGraph);
+     }
 	
+    
+    /**
+     * load Test graph
+     */
+	private static Graph<KrakEdge, KrakNode> loadTestGraph() {
+		Graph<KrakEdge, KrakNode> graph = null;
+		try {
+			File dataDir = new File(".", Properties.get("dataDir"));
+			graph = KrakLoader.graphFromFiles(
+					new File(dataDir, Properties.get("nodeTestFile"))
+					.getAbsolutePath(),
+					new File(dataDir, Properties.get("edgeTestFile"))
+					.getAbsolutePath());
+		} catch (IOException e) {
+			System.out.println("A problem occured when trying to read test graph - system will know exit");
+			System.exit(0);
+		}
+
+		return graph;
+	}
+    
+    
+    
+    
 	/**
 	 * Fake graph tests
 	 */
@@ -48,6 +79,7 @@ public class ModelTest extends TestCase{
 	 * Update Bounds Tests
 	 */
 	@Test public void testUpdateBoundsNull() {
+		
 		try {
 		model.updateBounds(null);
 		}
