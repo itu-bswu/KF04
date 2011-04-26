@@ -12,6 +12,14 @@ import graphlib.Graph;
 
 public class Dijkstra {
 
+	/**
+	 * Find Path
+	 * @param G
+	 * @param startNode
+	 * @param targetNode
+	 * @return
+	 * @throws NoPathException
+	 */
 	public static List<KrakEdge> findPath(Graph<KrakEdge,KrakNode> G, KrakNode startNode, KrakNode targetNode ) throws NoPathException{
 		HashMap<KrakNode,KrakEdge> edgeTo = new HashMap<KrakNode,KrakEdge>();
 		HashMap<KrakNode,Float> distTo = new HashMap<KrakNode,Float>();
@@ -47,6 +55,15 @@ public class Dijkstra {
 		throw new NoPathException("no path from " + startNode.index + " to " + targetNode.index);
 	}
 
+	/**
+	 * Relax an edge
+	 * @param cur
+	 * @param target
+	 * @param edge
+	 * @param distTo
+	 * @param edgeTo
+	 * @param pq
+	 */
 	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Float> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Float> pq){
 		KrakNode other = edge.getOtherEnd(cur);
 		

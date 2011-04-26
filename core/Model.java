@@ -322,11 +322,11 @@ public class Model {
 	public float getRouteTime(){
 		// TODO: Calculate the time, this should be done using the length and roadtype
 		
-		float time = 0.0f;
+		float minutes = 0.0f;
 		for(KrakEdge e : path){
-			time += e.length * e.DRIVETIME;
+			minutes += e.DRIVETIME;
 		}
-		return time /60/60;
+		return minutes;
 	}
 
 	/**
