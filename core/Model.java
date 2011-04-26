@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import loader.KrakLoader;
+import testClasses.ModelTest;
 import utils.MD5Checksum;
 import utils.Properties;
 import utils.Stopwatch;
@@ -59,7 +60,7 @@ public class Model {
 	 * Initialize variables. 
 	 * Set the map to look at the specified graph.
 	 */
-	public Model(Graph<KrakEdge, KrakNode> g) {
+	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
 		boolean fromFile = false;
 		try {
 			File dataDir = new File(".", Properties.get("dataDir"));
@@ -77,15 +78,16 @@ public class Model {
 			}
 
 			Stopwatch sw = new Stopwatch("Loading");
-			graph = g;
+			graph = inputGraph;
 			// Load serialized objects
-			loadSerializedFromFiles( (g==null) );
+			loadSerializedFromFiles( (inputGraph==null) );
 			sw.printTime();
 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 
 			graph = loadGraph();
+			
 			maxBounds = maxBounds(graph.getNodes());
 			bounds = originalBounds();
 			Stopwatch sw = new Stopwatch("Quadtrees");
@@ -93,21 +95,7 @@ public class Model {
 			sw.printTime();
 
 			// Save all important objects to files.
-			serializeToFiles( (g==null) );
-
-
-			//			System.out.println("Testing the pathfinder:");
-			//			
-			//			DijkstraSP.test(graph);
-			//	
-			//			KrakNode startNode = graph.getNode(4010);
-			//			KrakNode endNode = graph.getNode(2978);
-			//			try {
-			//				findPath(startNode, endNode);
-			//			}
-			//			catch (NoPathException ex) {
-			//				System.out.println(ex);
-			//			}
+			serializeToFiles( (inputGraph==null) );
 		}
 	}
 
@@ -127,8 +115,7 @@ public class Model {
 					.getAbsolutePath());
 			sw.printTime();
 		} catch (IOException e) {
-			System.out
-			.println("A problem occured when trying to read input. System will now exit.");
+			System.out.println("A problem occured when trying to read input. System will now exit.");
 			System.exit(0);
 		}
 
@@ -225,6 +212,7 @@ public class Model {
 					oos.flush();
 					oos.close();
 
+					
 					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("smallRoadsQuadTree")));
 					oos = new ObjectOutputStream(fout);
 					oos.writeObject(qt.get(2));
@@ -259,6 +247,7 @@ public class Model {
 		new Thread() {
 			@Override
 			public void run () {
+				Stopwatch sw = new Stopwatch("Load serialized");
 				try {
 					BufferedInputStream bin = new BufferedInputStream(new FileInputStream(Properties.get("mediumRoadsQuadTree")));
 					ObjectInputStream ois = new ObjectInputStream(bin);
@@ -276,9 +265,12 @@ public class Model {
 						graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
 						ois.close();
 					}
+					
 				} catch (Exception e) {
+					System.out.println(e.getMessage());
 					System.exit(0);
 				}
+				sw.printTime();
 			}
 		}.start();
 	}
@@ -289,6 +281,7 @@ public class Model {
 	 */
 	public void findPath(KrakNode startNode, KrakNode endNode) throws NothingCloseException, NoPathException{
 
+		while (graph 	== null) Thread.yield();
 		if (startNode	== null) throw new NothingCloseException("startNode is null");
 		if (endNode		== null) throw new NothingCloseException("endNode is null");
 
