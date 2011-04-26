@@ -61,6 +61,10 @@ public class Model {
 	 * Set the map to look at the specified graph.
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
+		
+		
+		System.out.println("1");
+		
 		boolean fromFile = false;
 		try {
 			File dataDir = new File(".", Properties.get("dataDir"));
@@ -97,6 +101,9 @@ public class Model {
 			// Save all important objects to files.
 			serializeToFiles( (inputGraph==null) );
 		}
+		
+		
+		System.out.println("2");
 	}
 
 	/**
