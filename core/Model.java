@@ -290,7 +290,7 @@ public class Model {
 		if (startNode	== null) throw new NothingCloseException("startNode is null");
 		if (endNode		== null) throw new NothingCloseException("endNode is null");
 
-		path.addAll(Dijkstra.findPath(graph, startNode, endNode,Evaluator.DISTANCE));
+		path.addAll(Dijkstra.findPath(graph, startNode, endNode,Evaluator.TRAVEL_TIME));
 	}
 
 	/**
