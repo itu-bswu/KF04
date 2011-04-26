@@ -10,6 +10,7 @@ public class AllTests {
 		//$JUnit-BEGIN$
 		suite.addTestSuite(RectangleMethodsTest.class);
 		suite.addTestSuite(PointMethodsTest.class);
+		//suite.addTestSuite(ModelTest.class);
 		//$JUnit-END$
 		return suite;
 	}

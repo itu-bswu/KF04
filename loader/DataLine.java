@@ -63,6 +63,9 @@ public class DataLine {
       return Integer.parseInt(s);
     }
     catch(Exception e){
+    	
+        System.out.println("HER: " +s);
+    	
       if(s.equals("''")) return -1;
       else throw new IOException(s + " is not a integer!");
     }
