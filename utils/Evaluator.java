@@ -10,7 +10,7 @@ public abstract class Evaluator<T> {
 
 		@Override
 		public float evaluate(KrakEdge item) {
-			return 0.0f; //item.DRIVETIME;
+			return item.DRIVETIME;
 		}
 	};
 	

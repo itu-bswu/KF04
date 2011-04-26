@@ -1,0 +1,79 @@
+\documentclass[11pt,a4paper,titlepage]{article}
+\usepackage{textcomp}
+\usepackage[latin1]{inputenc}
+\usepackage[danish]{babel}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\newcommand{\class}[1]{\textbf{#1}}
+\newcommand{\field}[1]{\textit{#1}}
+
+\title{KF04 projekt rapport}
+\author{
+Group 12:\\
+Jakob Melnyk\\
+Niklas Hansen\\
+Emil Juul Jacobsen\\
+Filip Hjermind Jensen\\
+Jens Dahl Møllerhøj\\
+}
+
+\date{May 3, 2011}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.8ex plus 0.5ex minus 0.2ex}
+
+\clearpage
+
+\section{Features}
+\label{Feat}
+This chapter describes the features and functions, we have included in our Map
+of Denmark project, part 2, Spring 2011.
+\begin{itemize}
+  \item
+  Find shortest path
+  \item
+  Display path using paths and highlighting
+  \item
+  Multiple pins
+  \item
+  Total distance
+  \item 
+  Estimated travel time 
+  \item 
+  Remove a single pin by clicking
+  \item 
+  Remove all pins by using GUI button
+\end{itemize}
+\subsection{}
+
+\pagebreak
+\section{Implementation}
+\label{Impl}
+This chapter describes our implementation of interesting methods and functions
+in our Map of Denmark project, part 2, Spring 2011.
+
+\subsection{Model}
+1. Hvordan model bruger findPath og gemmer det (og clearer)
+2. Metoder til at udregne samlet afstand og køretid.
+
+\subsection{Dijkstra}
+1. Skrevet ud fra implementationen fra Algorithms men modificeret meget til vores benyttelse. IndexMinPQ er svagt modificeret fra Algorithms.
+2. Beskrivelse generelt af Dijkstra.
+2. Ændringer: KrakNode istedet for integers (dog bliver index stadig brugt i PQ), Statisk metode istedet for Objekt, Evaluator så man kan benytte forskellige prioriteringer.
+
+\subsection{A*}
+Måske undladt, kommer an på om vi får det med. Hvis det kommer med skal det være et relativt kort afsnit.
+
+\subsection{Control}
+
+
+\subsection{View}
+1. Tegning af pins og ekstra route. (Den ekstra route foregår på samme måde som selve kortet, men bliver tegnet til sidst).
+
+\pagebreak
+\end{document}

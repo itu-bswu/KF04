@@ -49,6 +49,9 @@ public class Dijkstra {
 						path = cur_edge.getOtherEnd(path);
 					}
 					//System.out.println(visited+" nodes visited in search");
+					
+					// this line is for marking every visited Edge (for comparison of A* vs Dijkstra)
+					//list.addAll(edgeTo.values());
 					return list;
 				}
 			}
@@ -74,9 +77,9 @@ public class Dijkstra {
 			distTo.put(other, distance);
 			edgeTo.put(other, edge);
 			if(pq.contains(other.getIndex())){
-				pq.change(other.getIndex(), distance + cur.distanceTo(target));
+				pq.change(other.getIndex(), distance); // + cur.distanceTo(target)
 			}else{
-				pq.insert(other.getIndex(), distance + cur.distanceTo(target));
+				pq.insert(other.getIndex(), distance); // + |--|
 			}
 		}
 	}
