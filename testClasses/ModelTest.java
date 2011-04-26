@@ -40,6 +40,7 @@ public class ModelTest {
     	
     	System.out.println("Testing model...");
     	Graph<KrakEdge, KrakNode> testGraph = loadTestGraph();
+    	System.out.println("Making testModel...");
     	model = new Model(testGraph);
     	System.out.println("TestGraph: " + testGraph);
      }

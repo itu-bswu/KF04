@@ -30,6 +30,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 	public final int TOLEFT;
 	public final int FROMRIGHT;
 	public final int TORIGHT;
+	public final float DRIVETIME;
 
 	/**
 	 * Constructor for objects of class KrakEdge.
@@ -38,6 +39,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 	 * @param graph The graph object.
 	 */
 	public KrakEdge(EdgeData data, Graph<KrakEdge, KrakNode> graph) {
+		
 		this.n1 = graph.getNode(data.FNODE);
 		this.n2 = graph.getNode(data.TNODE);
 
@@ -74,6 +76,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 		TOLEFT = data.TOLEFT;
 		FROMRIGHT = data.FROMRIGHT;
 		TORIGHT = data.TORIGHT;
+		DRIVETIME = data.DRIVETIME;
 	}
 	
 	/**
