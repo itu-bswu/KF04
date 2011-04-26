@@ -65,6 +65,9 @@ public class Properties {
 		properties.setProperty("nodeFile", "kdv_node_unload.txt");
 		properties.setProperty("edgeFile", "kdv_unload.txt");
 		
+		properties.setProperty("nodeTestFile", "node_test.txt");
+		properties.setProperty("edgeTestFile", "edge_test.txt");
+		
 		properties.setProperty("nodeFileChecksum", "");
 		properties.setProperty("bigRoadsQuadTree", "big.dat");
 		properties.setProperty("mediumRoadsQuadTree", "medium.dat");
@@ -83,5 +86,6 @@ public class Properties {
 	
 	public static void main (String[] args) {
 		defaultSettings();
+		System.out.println("Properties finished");
 	}
 }

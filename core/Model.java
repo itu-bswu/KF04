@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 import loader.KrakLoader;
 import testClasses.ModelTest;
+import utils.Evaluator;
 import utils.MD5Checksum;
 import utils.Properties;
 import utils.Stopwatch;
@@ -61,6 +62,7 @@ public class Model {
 	 * Set the map to look at the specified graph.
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
+
 		boolean fromFile = false;
 		try {
 			File dataDir = new File(".", Properties.get("dataDir"));
@@ -73,20 +75,23 @@ public class Model {
 		}
 
 		try {
+			
 			if (!fromFile) {
-				throw new Exception("Create datastructure");
+				throw new Exception("Could not load serialized, create datastructure");
 			}
-
+			/*
 			Stopwatch sw = new Stopwatch("Loading");
 			graph = inputGraph;
 			// Load serialized objects
 			loadSerializedFromFiles( (inputGraph==null) );
-			sw.printTime();
+			sw.printTime();*/
 
 		} catch (Exception e) {
+			
+			
 			System.out.println(e.getMessage());
 
-			graph = loadGraph();
+			graph = inputGraph != null ? inputGraph : loadGraph();
 			
 			maxBounds = maxBounds(graph.getNodes());
 			bounds = originalBounds();
@@ -95,7 +100,7 @@ public class Model {
 			sw.printTime();
 
 			// Save all important objects to files.
-			serializeToFiles( (inputGraph==null) );
+			//serializeToFiles( (inputGraph==null) ); // TODO: Fix
 		}
 	}
 
@@ -285,7 +290,7 @@ public class Model {
 		if (startNode	== null) throw new NothingCloseException("startNode is null");
 		if (endNode		== null) throw new NothingCloseException("endNode is null");
 
-		path.addAll(Dijkstra.findPath(graph, startNode, endNode));
+		path.addAll(Dijkstra.findPath(graph, startNode, endNode,Evaluator.DISTANCE));
 	}
 
 	/**
@@ -319,7 +324,12 @@ public class Model {
 	 */
 	public float getRouteTime(){
 		// TODO: Calculate the time, this should be done using the length and roadtype
-		return 0.0f;
+		
+		float minutes = 0.0f;
+		for(KrakEdge e : path){
+			minutes += e.DRIVETIME;
+		}
+		return minutes;
 	}
 
 	/**
@@ -574,22 +584,21 @@ public class Model {
 	}
 
 	/**
-	 * Get closest edge.
+	 * Get closest edge within 200 meters.
 	 * @param point the point to search from.
-	 * @param distanceIncreasing the integer to be multiplied with the default search distance.
 	 * @return the closest edge within the maximum search distance.
 	 * @throws NothingCloseException If there are no edges within the maximum search distance.
 	 */
-	public KrakEdge getClosestEdge(Point2D.Double point,int distanceIncreasing) throws NothingCloseException{
+	public KrakEdge getClosestEdge(Point2D.Double point, float radius) throws NothingCloseException{
 		//System.out.println("Finding closest road");
 		// get all nearby roads
 
 		//System.out.println(point);
-		Float roadSearchDistance = Model.ROAD_SEARCH_DISTANCE * distanceIncreasing;
-		Rectangle2D.Double search_area = new Rectangle2D.Double(point.x - roadSearchDistance,
-				point.y - roadSearchDistance,
-				2*roadSearchDistance,
-				2*roadSearchDistance);
+
+		Rectangle2D.Double search_area = new Rectangle2D.Double(point.x - radius,
+				point.y - radius,
+				2*radius,
+				2*radius);
 		Set<KrakEdge> all = query(search_area);
 
 		// find the closest
@@ -608,18 +617,13 @@ public class Model {
 			}
 		}
 
-		if(closest == null){
-			closest = getClosestEdge(point, distanceIncreasing+1);
+		// return the name of the edge (road)
+		if(closest != null && distance < radius){
+			//System.out.printf("found road: "+closest.roadname+" %.2f meters away\n",distance);
+			return closest;
+		}else{
+			throw new NothingCloseException("no edge within a distance of "+Model.ROAD_SEARCH_DISTANCE);
 		}
-		return closest;
-		
-//		// return the name of the edge (road)
-//		if(closest != null && distance < 200){
-//			//System.out.printf("found road: "+closest.roadname+" %.2f meters away\n",distance);
-//			return closest;
-//		}else{
-//			throw new NothingCloseException("no edge within a distance of "+Model.ROAD_SEARCH_DISTANCE);
-//		}
 	}
 
 	/**
@@ -630,11 +634,11 @@ public class Model {
 	public String getClosestRoadname(Point2D.Double point){
 		KrakEdge road;
 		try {
-			road = getClosestEdge(point,1);
+			road = getClosestEdge(point,Model.ROAD_SEARCH_DISTANCE);
 			return road.roadname;
 		} catch (NothingCloseException e) {
 			return " ";
-		}	
+		}
 	}
 
 	/**
@@ -644,11 +648,25 @@ public class Model {
 	 * @throws NothingCloseException If there are no nodes within the maximum search distance.
 	 */
 	public KrakNode getClosestNode(Point2D.Double point) throws NothingCloseException{
-		KrakEdge edge = getClosestEdge(point,1);
+		float curDistance = Model.ROAD_SEARCH_DISTANCE;
+		KrakEdge edge = null;
+		while(edge == null){
+			try{
+				edge = getClosestEdge(point, curDistance);
+			}catch(NothingCloseException e){
+				if(2*curDistance > maxBounds.width && 2*curDistance > maxBounds.height){
+					throw e;
+				}
+				curDistance *= 2;
+			}
+		}
+		System.out.println("Closest Edge was: "+edge.roadname);
+
 		KrakNode first = edge.getEnd();
 		KrakNode second = edge.getOtherEnd(first);
 
 		if(first.getPoint().distance(point) < second.getPoint().distance(point)){
+			
 			return first;
 		}
 		return second;
