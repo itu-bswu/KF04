@@ -106,7 +106,7 @@ public class ModelTest {
 	 * To simplyfy things, we simply count the number of lines, which is 27
 	 */
 	@Test public void testGetLines() {
-		assertEquals(27, model.getLines().size());
+		assertEquals(28, model.getLines().size());
 	}
 	
 	/**
@@ -123,14 +123,55 @@ public class ModelTest {
 	 */
 	@Test public void testPath() {
 		try {
-			model.findPath(testGraph.getNode(1),testGraph.getNode(10));
+			/*
+			 * Testing the path finding, and the returning of the lines,
+			 * by adding more and more to the path,
+			 * and count how many road that has been added.
+			 * 
+			 * It tests the route distance and travel time as well.
+			 */
+			model.findPath(testGraph.getNode(1),testGraph.getNode(3));
+			assertEquals(1,model.getPath().size());
+			
+			assertEquals(0.0035f,model.getRouteDistance()); //This roads length is 3.5m
+			assertEquals(1.0f,model.getRouteTime()); //Each roads drivetime is 1 minute
+			
+			model.findPath(testGraph.getNode(3),testGraph.getNode(2));
+			assertEquals(2,model.getPath().size());
+			assertEquals(0.0045f,model.getRouteDistance()); //This roads length is 1.0m
+			assertEquals(2.0f,model.getRouteTime()); //Each roads drivetime is 1 minute
+			
+			model.findPath(testGraph.getNode(2),testGraph.getNode(4));
+			assertEquals(4,model.getPath().size());
+			assertEquals(0.0105f,model.getRouteDistance());//These roads lengths are 4.0m and 2.0m
+			assertEquals(4.0f,model.getRouteTime());//Each roads drivetime is 1 minute
+			
+			model.findPath(testGraph.getNode(4),testGraph.getNode(7));
+			//assertEquals(7,model.getPath().size());
+					
+			System.out.println(model.getRouteDistance());
+			
+			printPath();
+			
+			assertEquals(0.0235f,model.getRouteDistance());//These roads lengths are 2.0m ,3m and 5m
+			assertEquals(4.0f,model.getRouteTime());//Each roads drivetime is 1 minute
+			
+			model.findPath(testGraph.getNode(7),testGraph.getNode(9));
+			assertEquals(8,model.getPath().size());	
+			assertEquals(0.0215f,model.getRouteDistance());//This roads length is 5.5m
+			assertEquals(4.0f,model.getRouteTime());//Each roads drivetime is 1 minute
+			
 		}
 		catch (NoPathException e) {
 			System.out.println("No path could be found");
 		}
-		
-		assertEquals(3,model.getPath().size());
-		
-		
 	}
+	
+	
+	private void printPath() {
+		for (Line l : model.getPath()) {
+			System.out.println(l.name);
+		}
+	}
+	
 }
