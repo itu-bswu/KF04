@@ -65,11 +65,9 @@ public class View extends JFrame{
 	// names of stats
 	private JLabel routeTotalDistLabel;
 	private JLabel routeTimeLabel;
-	private JLabel routeTurnsLabel;
 	// values of stats
 	private JLabel routeTotalDistValue;
 	private JLabel routeTimeValue;
-	private JLabel routeTurnsValue;
 
 	/**
 	 * Creates the frame with the given header title and the initially wanted ratio for the canvas.
@@ -319,7 +317,6 @@ public class View extends JFrame{
 	 */
 	public void setRouteInfo(float routeDistance, float routeTime) {
 		routeTotalDistValue.setText(String.format("%.1f km", routeDistance));
-		routeTimeValue.setText(String.format("%.2f hours", routeTime));
 
 		// displaying the travel time with right precision (routeTime is given as minutes)
 		if(routeTime > 60){
@@ -352,11 +349,9 @@ public class View extends JFrame{
 		// labels for route info
 		routeTotalDistLabel	= new JLabel("Total Distance: ");
 		routeTimeLabel 		= new JLabel("Travel Time: ");
-		routeTurnsLabel		= new JLabel("Number of Turns: ");
 
-		routeTotalDistValue = new JLabel("0.0 km");
-		routeTimeValue		= new JLabel("0.0 hours");
-		routeTurnsValue		= new JLabel("0 turns");
+		routeTotalDistValue = new JLabel();
+		routeTimeValue		= new JLabel();
 
 		// layouts & borders
 		outer.setLayout(new BorderLayout());
@@ -368,11 +363,9 @@ public class View extends JFrame{
 
 		routeTotalDistLabel.setForeground(Color.GRAY);
 		routeTimeLabel.setForeground(Color.GRAY);
-		routeTurnsLabel.setForeground(Color.GRAY);
 
 		routeTotalDistValue.setHorizontalAlignment(JLabel.RIGHT);
 		routeTimeValue.setHorizontalAlignment(JLabel.RIGHT);
-		routeTurnsValue.setHorizontalAlignment(JLabel.RIGHT);
 
 		// adding structure
 		outer.add(canvas,BorderLayout.CENTER);
@@ -384,8 +377,6 @@ public class View extends JFrame{
 		routeInfoGrid.add(routeTotalDistValue);
 		routeInfoGrid.add(routeTimeLabel);
 		routeInfoGrid.add(routeTimeValue);
-		routeInfoGrid.add(routeTurnsLabel);
-		routeInfoGrid.add(routeTurnsValue);
 
 		// gridbag adding for menuPanel
 		GridBagConstraints c = new GridBagConstraints();
