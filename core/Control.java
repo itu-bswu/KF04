@@ -16,7 +16,10 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import dataobjects.KrakEdge;
+
 import utils.Direction;
+import utils.Evaluator;
 import utils.PointMethods;
 import utils.RectangleMethods;
 
@@ -283,8 +286,17 @@ public class Control {
 	 */
 	//TODO comments
 	private void findPath(int start, int end){
-		try { 
-			model.findPath(model.getClosestNode(pins.get(start)), model.getClosestNode(pins.get(end)));
+		Evaluator<KrakEdge> eval = null;
+		if(view.isCarChoiceSelected()){
+			eval = Evaluator.CAR;
+			System.out.println("car selected");
+		}else if(view.isBikeChoiceSelected()){
+			eval = Evaluator.BIKE;
+			System.out.println("bike selected");
+		}
+		
+		try {
+			model.findPath(model.getClosestNode(pins.get(start)), model.getClosestNode(pins.get(end)),eval);
 		}catch(NothingCloseException e1){
 			view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
 		}catch (NoPathException e2) {

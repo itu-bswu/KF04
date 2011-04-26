@@ -33,11 +33,13 @@ import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 /**
@@ -61,15 +63,17 @@ public class View extends JFrame{
 	private JButton zoomInButton;
 	private JButton zoomOutButton;
 	private JLabel infobar;
+	
+	private JButton clearPinsButton;
+	private JRadioButton carChoice;
+	private JRadioButton bikeChoice;
 
 	// names of stats
 	private JLabel routeTotalDistLabel;
 	private JLabel routeTimeLabel;
-	private JLabel routeTurnsLabel;
 	// values of stats
 	private JLabel routeTotalDistValue;
 	private JLabel routeTimeValue;
-	private JLabel routeTurnsValue;
 
 	/**
 	 * Creates the frame with the given header title and the initially wanted ratio for the canvas.
@@ -202,6 +206,30 @@ public class View extends JFrame{
 	public void addOutListener(ActionListener actionListener) {
 		zoomOutButton.addActionListener(actionListener);
 	}
+	
+	/**
+	 * Adds an ActionListener to the Clear Pins-button in the Route Options-panel.
+	 * @param a
+	 */
+	public void addClearPinsListener(ActionListener a){
+		clearPinsButton.addActionListener(a);
+	}
+	
+	/**
+	 * Tells if the Car Choice is selected.
+	 * @return true if selected.
+	 */
+	public boolean isCarChoiceSelected(){
+		return carChoice.isSelected();
+	}
+	
+	/**
+	 * Tells if the Bike Choice is selected.
+	 * @return true if selected.
+	 */
+	public boolean isBikeChoiceSelected(){
+		return bikeChoice.isSelected();
+	}
 
 	/**
 	 * Adds a MouseListener to the canvas component.
@@ -319,13 +347,12 @@ public class View extends JFrame{
 	 */
 	public void setRouteInfo(float routeDistance, float routeTime) {
 		routeTotalDistValue.setText(String.format("%.1f km", routeDistance));
-		routeTimeValue.setText(String.format("%.2f hours", routeTime));
 
-		// displaying the trave time with right precision (routeTime is given as minutes)
+		// displaying the travel time with right precision (routeTime is given as minutes)
 		if(routeTime > 60){
 			routeTimeValue.setText(String.format("%.0f h %.0f min", routeTime / 60,routeTime % 60));
 		}else{
-			routeTimeValue.setText(String.format("%.2f minutes", routeTime));
+			routeTimeValue.setText(String.format("%.0f minutes", routeTime));
 		}
 	}
 
@@ -338,6 +365,7 @@ public class View extends JFrame{
 		Container outer = this.getContentPane();
 		JPanel menuPanel = new JPanel();
 		JPanel navigationPanel = new JPanel();
+		JPanel routeOptions = new JPanel();
 		JPanel routeInfo = new JPanel();
 		JPanel routeInfoGrid = new JPanel();
 
@@ -347,54 +375,67 @@ public class View extends JFrame{
 		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
+		
+		clearPinsButton = new JButton("Clear Pins");
+		carChoice = new JRadioButton("Car");
+		bikeChoice = new JRadioButton("Bike");
+		
 		infobar = new JLabel(" ",SwingConstants.CENTER);
 
 		// labels for route info
 		routeTotalDistLabel	= new JLabel("Total Distance: ");
 		routeTimeLabel 		= new JLabel("Travel Time: ");
-		routeTurnsLabel		= new JLabel("Number of Turns: ");
 
-		routeTotalDistValue = new JLabel("0.0 km");
-		routeTimeValue		= new JLabel("0.0 hours");
-		routeTurnsValue		= new JLabel("0 turns");
+		routeTotalDistValue = new JLabel();
+		routeTimeValue		= new JLabel();
 
 		// layouts & borders
 		outer.setLayout(new BorderLayout());
 		navigationPanel.setLayout(new GridBagLayout());
 		menuPanel.setLayout(new GridBagLayout());
 		navigationPanel.setBorder(BorderFactory.createTitledBorder("Navigation"));
+		routeOptions.setBorder(BorderFactory.createTitledBorder("Route Options"));
+		// TODO: routeOptions setLayout
 		routeInfo.setBorder(BorderFactory.createTitledBorder("Route Information"));
 		routeInfoGrid.setLayout(new GridLayout(0,2));
+		
+		carChoice.setSelected(true);
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(carChoice);
+		bg.add(bikeChoice);
 
 		routeTotalDistLabel.setForeground(Color.GRAY);
 		routeTimeLabel.setForeground(Color.GRAY);
-		routeTurnsLabel.setForeground(Color.GRAY);
 
 		routeTotalDistValue.setHorizontalAlignment(JLabel.RIGHT);
 		routeTimeValue.setHorizontalAlignment(JLabel.RIGHT);
-		routeTurnsValue.setHorizontalAlignment(JLabel.RIGHT);
 
 		// adding structure
 		outer.add(canvas,BorderLayout.CENTER);
 		outer.add(menuPanel,BorderLayout.WEST);
 		outer.add(infobar,BorderLayout.SOUTH);
+		
+		routeOptions.add(clearPinsButton);
+		routeOptions.add(carChoice);
+		routeOptions.add(bikeChoice);
 
 		routeInfo.add(routeInfoGrid);
 		routeInfoGrid.add(routeTotalDistLabel);
 		routeInfoGrid.add(routeTotalDistValue);
 		routeInfoGrid.add(routeTimeLabel);
 		routeInfoGrid.add(routeTimeValue);
-		routeInfoGrid.add(routeTurnsLabel);
-		routeInfoGrid.add(routeTurnsValue);
 
 		// gridbag adding for menuPanel
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 
 		menuPanel.add(navigationPanel,c);
+		
+		c.gridy = 1;
+		menuPanel.add(routeOptions,c);
 
 		c.weighty = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		menuPanel.add(routeInfo,c);
 
 		// nested gridbag for the navigation buttons

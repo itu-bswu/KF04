@@ -35,9 +35,9 @@ import gui.Line;
 public class Model {
 
 	private static final float ROAD_SEARCH_DISTANCE = 200;
-	public static final int[] part1 = new int[]{0,1,2,3,4,10,21,22,31,32,33,34,35,41,42,43,44,45,46,80};
+	public static final int[] part1 = new int[]{0,1,2,3,4,21,22,31,32,33,34,35,41,42,43,44,45,46,80};
 	public static final int[] part2 = new int[]{5,11,23,24,25};
-	public static final int[] part3 = new int[]{6,8,26,28,48,95,99};
+	public static final int[] part3 = new int[]{6,8,10,26,28,48,95,99};
 	public static final int INNER_LEVEL = 2000;
 	public static final int CENTER_LEVEL = 50000;
 
@@ -289,17 +289,17 @@ public class Model {
 	 * Create a new DijkstraSP from the startNode, and finds the path to the endNode. The path is returned as an arraylist of lines
 	 * @throws NoPathException 
 	 */
-	public void findPath(KrakNode startNode, KrakNode endNode) throws NoPathException{
+	public void findPath(KrakNode startNode, KrakNode endNode, Evaluator<KrakEdge> eval) throws NoPathException{
 
 		while (graph 	== null) Thread.yield();
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
-		path.addAll(Dijkstra.findPath(graph, startNode, endNode,Evaluator.TRAVEL_TIME));
+		path.addAll(Dijkstra.findPath(graph, startNode, endNode,eval));
 	}
 
 	/**
-	 * Get the path as an arraylist of lines
+	 * Get the path as an ArrayList of lines
 	 */
 	public ArrayList<Line> getPath() {
 		ArrayList<Line> lines = new ArrayList<Line>(); 
@@ -328,8 +328,6 @@ public class Model {
 	 * @return Total time to travel the route.
 	 */
 	public float getRouteTime(){
-		// TODO: Calculate the time, this should be done using the length and roadtype
-		
 		float minutes = 0.0f;
 		for(KrakEdge e : path){
 			minutes += e.DRIVETIME;
