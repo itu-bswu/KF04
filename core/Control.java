@@ -40,7 +40,7 @@ public class Control {
 	 */
 	public Control() {
 		model = new Model();
-		
+
 		view = new View(NAME, (float) (model.getBounds().width/model.getBounds().height));
 		repaint();
 		addListeners();
@@ -286,7 +286,7 @@ public class Control {
 		view.repaint(model.getLines());
 		view.setRouteInfo(model.getRouteDistance(),model.getRouteTime());
 	}
-	
+
 	/**
 	 * Used to find the path between two points - opens dialog window in view if problems occur.
 	 * 
@@ -301,7 +301,7 @@ public class Control {
 		}else if(view.isBikeChoiceSelected()){
 			eval = Evaluator.BIKE;
 		}
-		
+
 		try {
 			model.findPath(model.getClosestNode(pins.get(start)), model.getClosestNode(pins.get(end)),eval);
 		}catch(NothingCloseException e1){
