@@ -97,8 +97,19 @@ This chapter describes our implementation of interesting methods and functions
 in our Map of Denmark project, part 2, Spring 2011.
 
 \subsection{Model}
-1. Hvordan model bruger findPath og gemmer det (og clearer)
-2. Metoder til at udregne samlet afstand og køretid.
+In order to implement the mentioned pathfinding the Model has been extended to 
+include a list of Edges. These correspond to all the roads that are in the current
+route. Whenever it recieves a new request to find a path from one Node to another
+it uses the static method in the Dijkstra class and adds the result to the list.
+When the Control needs to draw the route it uses a method that returns the entire 
+route as Line objects relative to the view. This approach is identical to what we 
+use when the Control requests all roads that should be drawn as the map for a given 
+view.
+
+We have also included some statistics of the current route. These are calculated
+by the Model since it's the object that primarliy handles the data. This information
+can be calculated in linear time relative to the length of the current route since
+the route is saved in memory when first found.
 
 \subsection{Dijkstra}
 1. Skrevet ud fra implementationen fra Algorithms men modificeret meget til vores benyttelse. IndexMinPQ er svagt modificeret fra Algorithms.
@@ -108,9 +119,36 @@ in our Map of Denmark project, part 2, Spring 2011.
 \subsection{Control}
 
 \subsection{Car/Bike routes}
+Another useful feature we have included is the ability to switch between multiple
+modes of pathfinding. We have named these two modes Car and Bike. In the Car mode
+the pathfinding will priorize lower travel times, since we believe this to be most
+important when driving. Additionally the Car mode will exclude small paths and 
+pedestrian zones.
+The Bike mode prioritizes lower distances highest since intersections and speed-limits
+are of relatively low importance here. When using Bike mode the route will not include
+highways.
+
+As described earlier these different ways of prioritizing the roads are achieved by
+using the Evalutator that is provided when asking the pathfinding method for a best path.
+We have written these two evaluators as static objects on the Evaluator class for easy
+use in the code, but the use of a seperate object for the evaluations open up for later
+variation with little impact on the original code.
 
 \subsection{View}
-1. Tegning af pins og ekstra route. (Den ekstra route foregår på samme måde som selve kortet, men bliver tegnet til sidst).
+When looking at the changes in View relatively little has happened since most of the new
+code is located "behind the curtain". The Canvas has been extended to allow adding and
+drawing of the route. This is however, as mentioned earlier, done in exactly the same way
+as with the roads in the map itself. The Canvas also includes some points that is positions
+where the Pins are placed. These are drawn on top of the map and (like the map) needs
+provided again if the map moves.
+
+When looking at the menu to the left there are a few more options to the user. There is a
+new button to remove all Pins from the map and two RadioButtons to toggle between Car mode
+and Bike mode in the pathfinding.
+
+Beneath the tools for pathfinding there are displayed two pieces of information (and
+spare space for more). This information is changed by a simple public method in the View
+and the units will adjust will be adjusted accordingly.
 
 \pagebreak
 \end{document}
