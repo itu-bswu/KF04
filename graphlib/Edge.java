@@ -26,7 +26,7 @@ public class Edge<N extends Node> implements Serializable {
 	 * 
 	 * @see FORWARD, BACKWARD and BOTH.
 	 */
-	protected byte direction;
+	public byte direction;
 
 	protected Edge() {}
 
