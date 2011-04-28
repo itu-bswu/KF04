@@ -294,15 +294,12 @@ public class Control {
 	 * @param end What pin the end point is at.
 	 */
 	private void findPath(int start, int end){
-		
+		// getting the right selector for the pathfinding		
 		Evaluator<KrakEdge> eval = null; //TODO what happens if neither is selected.
-		
 		if(view.isCarChoiceSelected()){
 			eval = Evaluator.CAR;
-			System.out.println("car selected"); //TODO remove this when it works.
 		}else if(view.isBikeChoiceSelected()){
 			eval = Evaluator.BIKE;
-			System.out.println("bike selected"); //TODO remove this when it works.
 		}
 		
 		try {
