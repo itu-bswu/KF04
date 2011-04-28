@@ -644,7 +644,6 @@ public class Model {
 				curDistance *= 2;
 			}
 		}
-		System.out.println("Closest Edge was: "+edge.roadname);
 
 		KrakNode first = edge.getEnd();
 		KrakNode second = edge.getOtherEnd(first);

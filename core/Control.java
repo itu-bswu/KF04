@@ -293,17 +293,17 @@ public class Control {
 	}
 	
 	/**
-	 * 
+	 * Find a path between two pins with the options from the view.
+	 * @param start The index for the start pin.
+	 * @param end The index for the end pin.
 	 */
-	//TODO comments
 	private void findPath(int start, int end){
+		// getting the right selector for the pathfinding
 		Evaluator<KrakEdge> eval = null;
 		if(view.isCarChoiceSelected()){
 			eval = Evaluator.CAR;
-			System.out.println("car selected");
 		}else if(view.isBikeChoiceSelected()){
 			eval = Evaluator.BIKE;
-			System.out.println("bike selected");
 		}
 		
 		try {
