@@ -37,7 +37,7 @@ of Denmark project, part 2, Spring 2011.
   \item
   Find shortest path
   \item
-  Display path using paths and highlighting
+  Display path using blue highlighting
   \item
   Multiple pins
   \item
@@ -45,12 +45,51 @@ of Denmark project, part 2, Spring 2011.
   \item 
   Estimated travel time 
   \item 
+  Bike or car route
+  \item 
   Remove a single pin by clicking
   \item 
   Remove all pins by using GUI button
 \end{itemize}
-\subsection{}
-
+\subsection{Find shortest route}
+Our map is able to calculate the shortest route between two points. This is done
+by clicking the map. Clicking the map places a pin at the clicked location. If
+the user clicks on another part of the map, our map will show the shortest route
+between those two locations, if possible.
+\subsection{Display path using blue highlighting}
+When the user has selected two or more locations, the map will show the shortest
+route highlighted in blue. The algorithm we use for finding this route is pretty
+fast, so a user will not feel annoyed by how long it takes.
+\subsection{Multiple pins}
+It is possible for a user to place multiple pins on the map. This is done in
+similarly to finding the shortest route between two points. When any number of
+pins are placed, the user can add additional ones. This will calculate the route
+between the latest two pins placed. The route shown will be from pin
+1->2->3->4..
+\subsection{Total distance}
+Our Map of Denmark program calculates the total distance of the route found, a
+functionality that assists the end-user in planning their trip. This was
+relatively simple to implement, but adds a big functionality.
+\subsection{Estimated travel time}
+As with the total travel distance, our Map of Denmark calculates the estimated
+time it will take to travel the route found by our algorithm. This was
+relatively easy to calculate and is a huge benefit for the end user.
+\subsection{Bike or car route}
+It is possible for the user to choose between a car route and a bike route. The
+different options will make our algorithm consider what is possible to traverse
+for both cars and bikes. It will make sure not to show small paths for cars and
+not show highways for bikes.
+\subsection{Remove a single pin}
+To make it easier to use our Map of Denmark, we have it possible to remove a pin
+by clicking on the location it was placed. This makes it possible for the end
+user to clear up a tiny missclick without having to shut down the entire Map or
+clearing all the pins the user has placed.
+\subsection{Remove all pins}
+In addition to enabling the user to remove a single pin by clicking on it, we
+have also made it possible to remove all the pins currently placed. This can be
+done by either pressing the ``c'' key on the keyboard or by clicking the button
+on the graphical interface. This avoids the chore of clicking every single point
+in order to start a new route planning.
 \pagebreak
 \section{Implementation}
 \label{Impl}

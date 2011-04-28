@@ -28,6 +28,7 @@ public class Dijkstra {
 	 * @return
 	 * @throws NoPathException
 	 */
+	//TODO comment this please.
 	public static List<KrakEdge> findPath(Graph<KrakEdge,KrakNode> G, KrakNode startNode, KrakNode targetNode, Evaluator<KrakEdge> eval) throws NoPathException{
 		HashMap<KrakNode,KrakEdge> edgeTo = new HashMap<KrakNode,KrakEdge>();
 		HashMap<KrakNode,Float> distTo = new HashMap<KrakNode,Float>();
@@ -109,6 +110,7 @@ public class Dijkstra {
 	 * @param edgeTo
 	 * @param pq
 	 */
+	//TODO Also add some comments here.
 	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Float> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Float> pq, Evaluator<KrakEdge> eval){
 		KrakNode other = edge.getOtherEnd(cur);
 		float evaluation;
