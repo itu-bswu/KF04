@@ -32,4 +32,6 @@ public abstract class Evaluator<T> {
 			return item.length;
 		}
 	};
+	
+	public static Evaluator<KrakEdge> DEFAULT = Evaluator.CAR;
 }

@@ -295,10 +295,10 @@ public class Control {
 	 */
 	private void findPath(int start, int end){
 		// getting the right selector for the pathfinding		
-		Evaluator<KrakEdge> eval = null; //TODO what happens if neither is selected.
-		if(view.isCarChoiceSelected()){
+		Evaluator<KrakEdge> eval = Evaluator.DEFAULT;
+		if (view.isCarChoiceSelected()) {
 			eval = Evaluator.CAR;
-		}else if(view.isBikeChoiceSelected()){
+		} else if(view.isBikeChoiceSelected()) {
 			eval = Evaluator.BIKE;
 		}
 

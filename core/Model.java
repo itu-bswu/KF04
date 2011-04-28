@@ -6,7 +6,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,7 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import loader.KrakLoader;
-import testClasses.ModelTest;
 import utils.Evaluator;
 import utils.MD5Checksum;
 import utils.Properties;
@@ -75,11 +73,10 @@ public class Model {
 		}
 
 		try {
-			
-			if (!fromFile) {
-				throw new Exception("Could not load serialized, create datastructure");
-			}
-			/*
+			//if (!fromFile) {
+				throw new Exception("Could not load serialized objects - creating datastructures");
+			/*}
+
 			Stopwatch sw = new Stopwatch("Loading");
 			graph = inputGraph;
 			// Load serialized objects
@@ -91,10 +88,10 @@ public class Model {
 			
 			System.out.println(e.getMessage());
 
-			//If the inputGraph is null, load from file.
+			// If the inputGraph is null, load from file.
 			if (inputGraph == null) {
 				graph = loadGraph();
-			}else{
+			} else {
 				graph = inputGraph;
 			}
 			
@@ -105,7 +102,7 @@ public class Model {
 			sw.printTime();
 
 			// Save all important objects to files.
-			//serializeToFiles( (inputGraph==null) ); // TODO: Fix
+			//serializeToFiles( (inputGraph==null) );
 		}
 	}
 
@@ -286,7 +283,12 @@ public class Model {
 	}
 
 	/**
-	 * Create a new DijkstraSP from the startNode, and finds the path to the endNode. The path is returned as an arraylist of lines
+	 * Create a new DijkstraSP from the startNode, and finds the path to the 
+	 * endNode. The path is returned as an arraylist of lines
+	 * 
+	 * @param startNode The start position.
+	 * @param endNode The destination.
+	 * @eval An evaluator deciding whether we are going by bike, car...
 	 * @throws NoPathException 
 	 */
 	public void findPath(KrakNode startNode, KrakNode endNode, Evaluator<KrakEdge> eval) throws NoPathException{
@@ -296,6 +298,19 @@ public class Model {
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
 		path.addAll(Dijkstra.findPath(graph, startNode, endNode,eval));
+	}
+	
+	/**
+	 * Create a new DijkstraSP from the startNode, and finds the path to the 
+	 * endNode. The path is returned as an arraylist of lines. The default 
+	 * evaluator is used.
+	 * 
+	 * @param startNode The start position.
+	 * @param endNode The destination.
+	 * @throws NoPathException 
+	 */
+	public void findPath(KrakNode startNode, KrakNode endNode) throws NoPathException {
+		this.findPath(startNode, endNode, Evaluator.DEFAULT);
 	}
 
 	/**
