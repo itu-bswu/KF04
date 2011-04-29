@@ -149,7 +149,7 @@ public class Model {
 	 * @eval An evaluator deciding whether we are going by bike, car...
 	 * @throws NoPathException 
 	 */
-	public void findPath(KrakNode startNode, KrakNode endNode, Evaluator<KrakEdge> eval) throws NoPathException{
+	public void findPath(KrakNode startNode, KrakNode endNode, Evaluator eval) throws NoPathException{
 
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
@@ -185,7 +185,7 @@ public class Model {
 
 	/**
 	 * Calculate the total distance of the current route.
-	 * @return the total distance.
+	 * @return the total distance in kilometers.
 	 */
 	public float getRouteDistance(){
 		float total = 0.0f;
@@ -197,7 +197,7 @@ public class Model {
 
 	/**
 	 * Calculates the time needed to travel the current route (at the speed limits).
-	 * @return Total time to travel the route.
+	 * @return Total (in minutes) time to travel the route.
 	 */
 	public float getRouteTime(){
 		float minutes = 0.0f;
@@ -321,12 +321,12 @@ public class Model {
 			break;
 		case 3:
 			//Primærrute > 6 meter
-			roadColor = Color.YELLOW;
+			roadColor = Color.GRAY;
 			thickness = 2;
 			break;
 		case 4:
 			//Sekundærrute > 6 meter
-			roadColor = Color.YELLOW;
+			roadColor = Color.GRAY;
 			thickness = 2;
 			break;
 		case 5:
@@ -389,16 +389,16 @@ public class Model {
 			break;
 		case 33:
 			//Primærvejsafkørsel
-			roadColor = Color.YELLOW;
+			roadColor = Color.GRAY;
 			thickness = 2;
 			break;
 		case 34:
 			//Sekundærvejsafkørsel
-			roadColor = Color.YELLOW;
+			roadColor = Color.GRAY;
 			break;
 		case 35:
 			//Anden vejafkørsel
-			roadColor = Color.YELLOW;
+			roadColor = Color.GRAY;
 			break;
 		case 41:
 			//Motorvejstunnel

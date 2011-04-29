@@ -2,12 +2,14 @@ package utils;
 
 import core.NotPassableException;
 import dataobjects.KrakEdge;
+import dataobjects.KrakNode;
 
-public abstract class Evaluator<T> {
+public abstract class Evaluator {
 
-	public abstract float evaluate(T item) throws NotPassableException;
+	public abstract float evaluate(KrakEdge item) throws NotPassableException;
+	public abstract float heuristic(KrakNode item, KrakNode target);
 	
-	public static Evaluator<KrakEdge> CAR = new Evaluator<KrakEdge>(){
+	public static Evaluator CAR = new Evaluator(){
 
 		@Override
 		public float evaluate(KrakEdge item) throws NotPassableException {
@@ -17,9 +19,15 @@ public abstract class Evaluator<T> {
 			}
 			return item.DRIVETIME;
 		}
+
+		@Override
+		public float heuristic(KrakNode item, KrakNode target) {
+			float distance = item.distanceTo(target);
+			return distance/(1000*(110.0f/60));
+		}
 	};
 	
-	public static Evaluator<KrakEdge> BIKE = new Evaluator<KrakEdge>(){
+	public static Evaluator BIKE = new Evaluator(){
 
 		@Override
 		public float evaluate(KrakEdge item) throws NotPassableException {
@@ -31,7 +39,12 @@ public abstract class Evaluator<T> {
 			
 			return item.length;
 		}
+
+		@Override
+		public float heuristic(KrakNode item, KrakNode target) {
+			return item.distanceTo(target);
+		}
 	};
 	
-	public static Evaluator<KrakEdge> DEFAULT = Evaluator.CAR;
+	public static Evaluator DEFAULT = Evaluator.CAR;
 }

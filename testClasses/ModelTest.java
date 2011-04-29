@@ -123,7 +123,7 @@ public class ModelTest {
 	 * Testing the pathfinder.
 	 * Testing a continuing path
 	 */
-	@Test public void testPath() {
+	@Test public void testContinuingPath() {
 		try {
 			/*
 			 * Testing the path finding, and the returning of the lines,
@@ -132,6 +132,8 @@ public class ModelTest {
 			 * 
 			 * It tests the route distance and travel time as well.
 			 */
+			model.clearPath();
+			
 			model.findPath(testGraph.getNode(1),testGraph.getNode(3),Evaluator.BIKE);
 			assertEquals(1,model.getPath().size());
 			assertEquals(0.0035f,model.getRouteDistance()); //This roads length is 3.5m
@@ -165,7 +167,8 @@ public class ModelTest {
 	
 	//TODO: Add test for an unreachable path
 	//TODO: Add test for at one-way road
-	//TODO: Add test for 
+	//TODO: Add test for evaluator
+	//TODO: Add test for the clear path
 	
 	
 	private void printPath() {
