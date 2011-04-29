@@ -1,19 +1,12 @@
 package graphlib;
 
-import java.io.Serializable;
-
 /**
  * Represents an Edge in a graph. Can be both directed an undirected
  * 
  * @author Peter Tiedemann petert@itu.dk
  * 
  */
-public class Edge<N extends Node> implements Serializable {
-	/**
-	 * Generated serial version UID
-	 */
-	private static final long serialVersionUID = 7870224421153411792L;
-
+public class Edge<N extends Node> {
 	// indicates the edge goes from v1 -> v2
 	public static final byte FORWARD = 1;
 

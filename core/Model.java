@@ -2,23 +2,15 @@ package core;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import loader.KrakLoader;
 import utils.Evaluator;
-import utils.MD5Checksum;
 import utils.Properties;
 import utils.Stopwatch;
 import graphlib.Graph;
@@ -42,7 +34,7 @@ public class Model {
 	private Rectangle2D.Double bounds;
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
-	private List<QuadTree<KrakEdge>> qt = Collections.synchronizedList(new ArrayList<QuadTree<KrakEdge>>());
+	private List<QuadTree<KrakEdge>> qt = new ArrayList<QuadTree<KrakEdge>>();
 	public Graph<KrakEdge,KrakNode> graph;
 
 	/**
@@ -61,49 +53,18 @@ public class Model {
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
 
-		boolean fromFile = false;
-		try {
-			File dataDir = new File(".", Properties.get("dataDir"));
-			String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
-			if (chk.equals(Properties.get("nodeFileChecksum"))) {
-				fromFile = true;
-			}
-		} catch (Exception e) {
-			fromFile = false;
-		}
-
-		try {
-			//if (!fromFile) {
-				throw new Exception("Could not load serialized objects - creating datastructures");
-			/*}
-
-			Stopwatch sw = new Stopwatch("Loading");
+		// If the inputGraph is null, load from file.
+		if (inputGraph == null) {
+			graph = loadGraph();
+		} else {
 			graph = inputGraph;
-			// Load serialized objects
-			loadSerializedFromFiles( (inputGraph==null) );
-			sw.printTime();*/
-
-		} catch (Exception e) {
-			
-			
-			System.out.println(e.getMessage());
-
-			// If the inputGraph is null, load from file.
-			if (inputGraph == null) {
-				graph = loadGraph();
-			} else {
-				graph = inputGraph;
-			}
-			
-			maxBounds = maxBounds(graph.getNodes());
-			bounds = originalBounds();
-			Stopwatch sw = new Stopwatch("Quadtrees");
-			createQuadTrees(graph.getAllEdges());
-			sw.printTime();
-
-			// Save all important objects to files.
-			//serializeToFiles( (inputGraph==null) );
 		}
+		
+		maxBounds = maxBounds(graph.getNodes());
+		bounds = originalBounds();
+		Stopwatch sw = new Stopwatch("Quadtrees");
+		createQuadTrees(graph.getAllEdges());
+		sw.printTime();
 	}
 
 	/**
@@ -180,109 +141,6 @@ public class Model {
 	}
 
 	/**
-	 * @param serializeGraph 
-	 * 
-	 */
-	private void serializeToFiles (final boolean serializeGraph) {
-		new Thread () {
-			@Override
-			public void run () {
-				Stopwatch sw = new Stopwatch("Serialize");
-				// Serialize
-				try {
-					BufferedOutputStream fout;
-					ObjectOutputStream oos;
-
-					if (serializeGraph) {
-						fout = new BufferedOutputStream(new FileOutputStream(Properties.get("graphFile")));
-						oos = new ObjectOutputStream(fout);
-						oos.writeObject(graph);
-						oos.flush();
-						oos.close();
-					}
-
-					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("maxBoundsFile")));
-					oos = new ObjectOutputStream(fout);
-					oos.writeObject(maxBounds);
-					oos.flush();
-					oos.close();
-
-					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("bigRoadsQuadTree")));
-					oos = new ObjectOutputStream(fout);
-					oos.writeObject(qt.get(0));
-					oos.flush();
-					oos.close();
-
-					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("mediumRoadsQuadTree")));
-					oos = new ObjectOutputStream(fout);
-					oos.writeObject(qt.get(1));
-					oos.flush();
-					oos.close();
-
-					
-					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("smallRoadsQuadTree")));
-					oos = new ObjectOutputStream(fout);
-					oos.writeObject(qt.get(2));
-					oos.flush();
-					oos.close();
-
-					File dataDir = new File(".", Properties.get("dataDir"));
-					String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
-					Properties.set("nodeFileChecksum", chk);
-					Properties.save();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-				sw.printTime();
-			}
-		}.start();
-	}
-
-	private void loadSerializedFromFiles (final boolean loadGraph) throws IOException, ClassNotFoundException {
-		BufferedInputStream bin;
-		bin = new BufferedInputStream(new FileInputStream(Properties.get("bigRoadsQuadTree")));
-		ObjectInputStream ois = new ObjectInputStream(bin);
-		qt.add((QuadTree<KrakEdge>) ois.readObject());
-		ois.close();
-
-		bin = new BufferedInputStream(new FileInputStream(Properties.get("maxBoundsFile")));
-		ois = new ObjectInputStream(bin);
-		maxBounds = (Rectangle2D.Double) ois.readObject();
-		bounds = originalBounds();
-		ois.close();
-
-		new Thread() {
-			@Override
-			public void run () {
-				Stopwatch sw = new Stopwatch("Load serialized");
-				try {
-					BufferedInputStream bin = new BufferedInputStream(new FileInputStream(Properties.get("mediumRoadsQuadTree")));
-					ObjectInputStream ois = new ObjectInputStream(bin);
-					qt.add((QuadTree<KrakEdge>) ois.readObject());
-					ois.close();
-
-					bin = new BufferedInputStream(new FileInputStream(Properties.get("smallRoadsQuadTree")));
-					ois = new ObjectInputStream(bin);
-					qt.add((QuadTree<KrakEdge>) ois.readObject());
-					ois.close();
-
-					if (loadGraph) {
-						bin = new BufferedInputStream(new FileInputStream(Properties.get("graphFile")));
-						ois = new ObjectInputStream(bin);
-						graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
-						ois.close();
-					}
-					
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-					System.exit(0);
-				}
-				sw.printTime();
-			}
-		}.start();
-	}
-
-	/**
 	 * Create a new DijkstraSP from the startNode, and finds the path to the 
 	 * endNode. The path is returned as an arraylist of lines
 	 * 
@@ -293,7 +151,6 @@ public class Model {
 	 */
 	public void findPath(KrakNode startNode, KrakNode endNode, Evaluator<KrakEdge> eval) throws NoPathException{
 
-		while (graph 	== null) Thread.yield();
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
@@ -555,7 +412,7 @@ public class Model {
 			break;
 
 		}
-		return new Line(firstPoint,secondPoint,roadColor,thickness);
+		return new Line(firstPoint,secondPoint,roadColor,thickness,e.roadname);
 	}
 
 	/**
