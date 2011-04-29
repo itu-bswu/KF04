@@ -137,10 +137,11 @@ wrong way. This cheat however, gives accurate routes since the access and exit r
 without error and can only be entered from the right direction.
 
 We we're implementing the A* variation of the Dijkstra algorithm, but had to cut it off
-just before turning in since it didn't work reliably. The problem was with the heuristics
-of the direct path that the A* code consists of, it worked well when only using distance
-as the measure of best path, but when opening up for more complicated evaluations of the
-road (ex. drive time) it didn't work properly.
+just before turning in since it didn't work reliably. A* is a slight change of Dijkstra
+where the direct distance to the target is included in the priortization of the node.
+The problem was with the heuristics of the direct path that the A* code consists of, it 
+worked well when only using distance as the measure of best path, but when opening up 
+for more complicated evaluations of the road (ex. drive time) it didn't work properly.
 
 \subsection{Control}
 A lot has changed in \class{Control} since our last version. We have changed a
