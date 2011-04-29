@@ -412,7 +412,7 @@ public class Model {
 			break;
 
 		}
-		return new Line(firstPoint,secondPoint,roadColor,thickness);
+		return new Line(firstPoint,secondPoint,roadColor,thickness,e.roadname);
 	}
 
 	/**

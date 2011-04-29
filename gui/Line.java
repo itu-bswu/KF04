@@ -10,15 +10,25 @@ public class Line {
 	private Point2D.Double endPoint;
 	private Color roadColor;
 	public int thickness;
+	public String name;
 	
 	/**
 	 * Constructor
 	 */
+	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, int thickness, String name) {
+		this.startPoint = startPoint;
+		this.endPoint = endPoint;
+		this.roadColor = roadColor;
+		this.thickness = thickness;
+		this.name = name;
+	}
+	
 	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, int thickness) {
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.roadColor = roadColor;
 		this.thickness = thickness;
+		this.name = "";
 	}
 	
 	/**
