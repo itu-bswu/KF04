@@ -6,7 +6,7 @@
 \usepackage{fancyhdr}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
-\newcommand{\class}[1]{\textbf{#1}}
+\newcommand{\class}[1]{\textsf{#1}}
 \newcommand{\field}[1]{\textit{#1}}
 
 \title{KF04 project report}
@@ -95,29 +95,56 @@ in order to start a new route planning.
 \label{Impl}
 This chapter describes our implementation of interesting methods and functions
 in our Map of Denmark project, part 2, Spring 2011.
-
 \subsection{Model}
-In order to implement the mentioned pathfinding the Model has been extended to 
-include a list of Edges. These correspond to all the roads that are in the current
-route. Whenever it recieves a new request to find a path from one Node to another
-it uses the static method in the Dijkstra class and adds the result to the list.
-When the Control needs to draw the route it uses a method that returns the entire 
-route as Line objects relative to the view. This approach is identical to what we 
-use when the Control requests all roads that should be drawn as the map for a given 
-view.
+In order to implement the mentioned pathfinding the \class{Model} has been
+extended to include a list of \class{Edges}. These correspond to all the roads
+that are in the current route. Whenever it recieves a new request to find a path
+from one \class{Node} to another it uses the static method in the Dijkstra class
+and adds the result to the list. When \class{Control} needs to draw the route it
+uses a method that returns the entire route as Line objects relative to the view. This approach is identical to what we 
+use when the \class{Control} requests all roads that should be drawn as the map
+for a given view.
 
 We have also included some statistics of the current route. These are calculated
-by the Model since it's the object that primarliy handles the data. This information
-can be calculated in linear time relative to the length of the current route since
+by the \class{Model} since it's the object that primarliy handles the data. This
+information can be calculated in linear time relative to the length of the current route since
 the route is saved in memory when first found.
-
 \subsection{Dijkstra}
 1. Skrevet ud fra implementationen fra Algorithms men modificeret meget til vores benyttelse. IndexMinPQ er svagt modificeret fra Algorithms.
 2. Beskrivelse generelt af Dijkstra.
 2. Ændringer: KrakNode istedet for integers (dog bliver index stadig brugt i PQ), Statisk metode istedet for Objekt, Evaluator så man kan benytte forskellige prioriteringer, Tjek for ensrettet.
 
 \subsection{Control}
+A lot has changed in \class{Control} since our last version. We have changed a
+lot of methods to work as static methods in a seperate \class{Tools} class, so
+\class{Control} will feel less cluttered in this version. 
+New logic has taken
+the place of the old logic however. Route calculation, pin placement, pin
+removal and route display all goes through \class{Control}.
 
+When a user clicks on the map, \class{Control} uses our \class{Tools} class to
+convert the screen coordinates to UTM coordinates. It then stores these in a
+\class{List}. 
+If the list holds two or more elements, it asks the \class{Model}
+to calculate the shortest path between the first and second element, the second
+and third element and so on, if any additional elements exist beyond the first
+two. 
+Every time \class{Control} calls it's internal repaint method, it clears
+all the pins currently in the \class{View}. It then recalculates the pin
+position(s) according to the new size and postion of the \class{View}.
+
+When a user takes advantage of one of the options to clear all the pins
+currently on the Map of Denmark, \class{Control} empties the collection holding
+all the pin points, asks \class{Model} to clear the route and asks \class{View}
+to repaint.
+
+If a user removes a single pin by clicking on the location of the pin, we run
+through our collection and remove one of the pins within a specific range of
+pixels. It then makes \class{Model} recalculate the route for all the pins. This
+is not an effective implementation - if there are a lot of pins, then removing
+one might make the recalculating take a while. We decided to use this
+implementation, for now at least, because we wanted a working functionality
+that we could later improve upon if nessecary.
 \subsection{Car/Bike routes}
 Another useful feature we have included is the ability to switch between multiple
 modes of pathfinding. We have named these two modes Car and Bike. In the Car mode
@@ -129,26 +156,24 @@ are of relatively low importance here. When using Bike mode the route will not i
 highways.
 
 As described earlier these different ways of prioritizing the roads are achieved by
-using the Evalutator that is provided when asking the pathfinding method for a best path.
-We have written these two evaluators as static objects on the Evaluator class for easy
-use in the code, but the use of a seperate object for the evaluations open up for later
-variation with little impact on the original code.
-
+using the \class{Evalutator} that is provided when asking the pathfinding
+method for a best path. We have written these two evaluators as static objects
+on the \class{Evaluator} class for easy use in the code, but the use of a
+seperate object for the evaluations open up for later variation with little impact on the original code.
 \subsection{View}
-When looking at the changes in View relatively little has happened since most of the new
-code is located "behind the curtain". The Canvas has been extended to allow adding and
-drawing of the route. This is however, as mentioned earlier, done in exactly the same way
-as with the roads in the map itself. The Canvas also includes some points that is positions
-where the Pins are placed. These are drawn on top of the map and (like the map) needs
-provided again if the map moves.
+When looking at the changes in \class{View} relatively little has happened since
+most of the new code is located "behind the curtain". The \class{Canvas} has
+been extended to allow adding and drawing of the route. This is however, as mentioned earlier, done in exactly the same way
+as with the roads in the map itself. The \class{Canvas} also includes some
+points that is positions where the pins are placed. These are drawn on top of the map and (like the map)
+needs provided again if the map moves.
 
 When looking at the menu to the left there are a few more options to the user. There is a
-new button to remove all Pins from the map and two RadioButtons to toggle between Car mode
-and Bike mode in the pathfinding.
+new button to remove all pins from the map and two \class{RadioButtons} to
+toggle between Car mode and Bike mode in the pathfinding.
 
 Beneath the tools for pathfinding there are displayed two pieces of information (and
 spare space for more). This information is changed by a simple public method in the View
 and the units will adjust will be adjusted accordingly.
-
 \pagebreak
 \end{document}

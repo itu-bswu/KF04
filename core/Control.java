@@ -24,7 +24,7 @@ import utils.RectangleMethods;
  * Control class for the Map of Denmark system.
  * 
  * @author Jakob Melnyk
- * @version 11 March - 2011
+ * @version 28 April - 2011
  */
 public class Control {
 
