@@ -149,9 +149,8 @@ public class Model {
 	 * @eval An evaluator deciding whether we are going by bike, car...
 	 * @throws NoPathException 
 	 */
-	public void findPath(KrakNode startNode, KrakNode endNode, Evaluator<KrakEdge> eval) throws NoPathException{
+	public void findPath(KrakNode startNode, KrakNode endNode, Evaluator eval) throws NoPathException{
 
-		while (graph 	== null) Thread.yield();
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
@@ -186,7 +185,7 @@ public class Model {
 
 	/**
 	 * Calculate the total distance of the current route.
-	 * @return the total distance.
+	 * @return the total distance in kilometers.
 	 */
 	public float getRouteDistance(){
 		float total = 0.0f;
@@ -198,7 +197,7 @@ public class Model {
 
 	/**
 	 * Calculates the time needed to travel the current route (at the speed limits).
-	 * @return Total time to travel the route.
+	 * @return Total (in minutes) time to travel the route.
 	 */
 	public float getRouteTime(){
 		float minutes = 0.0f;
