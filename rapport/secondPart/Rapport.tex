@@ -112,8 +112,12 @@ can be calculated in linear time relative to the length of the current route sin
 the route is saved in memory when first found.
 
 \subsection{Dijkstra}
-1. Skrevet ud fra implementationen fra Algorithms men modificeret meget til vores benyttelse. IndexMinPQ er svagt modificeret fra Algorithms.
-2. Beskrivelse generelt af Dijkstra.
+
+We use Dijkstras algorithm to find the shortest route from one node to another.This algorithm builds a Shortest Path Tree by always looks at the node nearest the source node. This means that whenever the destination node is reached, the shortest route to that node is found. When that happens, we stop the algorithm because we have found what we are looking for.
+In order to always choose the node closest to the source, our implementation use a priority queue, where its distance to the source indexes each node. Sometimes, we want to decrease the index of a node, because we have found a route that is shorter than the one previously indexed. Because the priority queue in javaÕs library is slow when decreasing keys, we use an implementation from the book Algorithms Fourth Editon.
+We have written the code for the dijkstra algoritm using our knowledge of how it works. We have been inspired by the implementation used in Algorithms Fourth Editon.
+
+
 2. Ændringer: KrakNode istedet for integers (dog bliver index stadig brugt i PQ), Statisk metode istedet for Objekt, Evaluator så man kan benytte forskellige prioriteringer, Tjek for ensrettet.
 
 \subsection{Control}

@@ -2,11 +2,13 @@ package core;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/**
- * Our own implementation of a PQ, faster than javas.
- * @author mollerhoj3
- */
-
+/*************************************************************************
+ *  Compilation:  javac IndexMinPQ.java
+ *  Execution:    java IndexMinPQ
+ *
+ *  Indexed PQ implementation using a binary heap.
+ *
+ *********************************************************************/
 
 public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer> {
     private int N;           // number of elements on PQ

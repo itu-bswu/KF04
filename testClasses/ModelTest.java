@@ -18,11 +18,13 @@ import loader.KrakLoader;
 
 import org.junit.*;
 
+import utils.Evaluator;
 import utils.Properties;
 import utils.Stopwatch;
 
 import core.Model;
 import core.NoPathException;
+import core.NotPassableException;
 import core.NothingCloseException;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
@@ -119,7 +121,7 @@ public class ModelTest {
 	
 	/**
 	 * Testing the pathfinder.
-	 * Since our metods only returns lines, the only useful thing to do is to count the number of lines returned.
+	 * Testing a continuing path
 	 */
 	@Test public void testPath() {
 		try {
@@ -130,42 +132,40 @@ public class ModelTest {
 			 * 
 			 * It tests the route distance and travel time as well.
 			 */
-			model.findPath(testGraph.getNode(1),testGraph.getNode(3));
+			model.findPath(testGraph.getNode(1),testGraph.getNode(3),Evaluator.BIKE);
 			assertEquals(1,model.getPath().size());
-			
 			assertEquals(0.0035f,model.getRouteDistance()); //This roads length is 3.5m
 			assertEquals(1.0f,model.getRouteTime()); //Each roads drivetime is 1 minute
 			
-			model.findPath(testGraph.getNode(3),testGraph.getNode(2));
+			model.findPath(testGraph.getNode(3),testGraph.getNode(2),Evaluator.BIKE);
 			assertEquals(2,model.getPath().size());
 			assertEquals(0.0045f,model.getRouteDistance()); //This roads length is 1.0m
 			assertEquals(2.0f,model.getRouteTime()); //Each roads drivetime is 1 minute
 			
-			model.findPath(testGraph.getNode(2),testGraph.getNode(4));
+			model.findPath(testGraph.getNode(2),testGraph.getNode(4),Evaluator.BIKE);
 			assertEquals(4,model.getPath().size());
 			assertEquals(0.0105f,model.getRouteDistance());//These roads lengths are 4.0m and 2.0m
 			assertEquals(4.0f,model.getRouteTime());//Each roads drivetime is 1 minute
 			
-			model.findPath(testGraph.getNode(4),testGraph.getNode(7));
-			//assertEquals(7,model.getPath().size());
-					
-			System.out.println(model.getRouteDistance());
+			model.findPath(testGraph.getNode(4),testGraph.getNode(7),Evaluator.BIKE);
+			assertEquals(7,model.getPath().size());		
+			assertEquals(0.0205f,model.getRouteDistance());//These roads lengths are 2.0m ,3m and 5m
+			assertEquals(7.0f,model.getRouteTime());//Each roads drivetime is 1 minute
 			
-			printPath();
-			
-			assertEquals(0.0235f,model.getRouteDistance());//These roads lengths are 2.0m ,3m and 5m
-			assertEquals(4.0f,model.getRouteTime());//Each roads drivetime is 1 minute
-			
-			model.findPath(testGraph.getNode(7),testGraph.getNode(9));
-			assertEquals(8,model.getPath().size());	
-			assertEquals(0.0215f,model.getRouteDistance());//This roads length is 5.5m
-			assertEquals(4.0f,model.getRouteTime());//Each roads drivetime is 1 minute
+			model.findPath(testGraph.getNode(7),testGraph.getNode(9),Evaluator.BIKE);
+			assertEquals(8,model.getPath().size());
+			assertEquals(0.026f,model.getRouteDistance());//This roads length is 5.5m
+			assertEquals(8.0f,model.getRouteTime());//Each roads drivetime is 1 minute
 			
 		}
 		catch (NoPathException e) {
 			System.out.println("No path could be found");
 		}
 	}
+	
+	//TODO: Add test for an unreachable path
+	//TODO: Add test for at one-way road
+	//TODO: Add test for 
 	
 	
 	private void printPath() {
