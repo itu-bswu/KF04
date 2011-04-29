@@ -321,12 +321,12 @@ public class Model {
 			break;
 		case 3:
 			//Primærrute > 6 meter
-			roadColor = Color.YELLOW;
+			roadColor = Color.GRAY;
 			thickness = 2;
 			break;
 		case 4:
 			//Sekundærrute > 6 meter
-			roadColor = Color.YELLOW;
+			roadColor = Color.GRAY;
 			thickness = 2;
 			break;
 		case 5:
@@ -389,16 +389,16 @@ public class Model {
 			break;
 		case 33:
 			//Primærvejsafkørsel
-			roadColor = Color.YELLOW;
+			roadColor = Color.GRAY;
 			thickness = 2;
 			break;
 		case 34:
 			//Sekundærvejsafkørsel
-			roadColor = Color.YELLOW;
+			roadColor = Color.GRAY;
 			break;
 		case 35:
 			//Anden vejafkørsel
-			roadColor = Color.YELLOW;
+			roadColor = Color.GRAY;
 			break;
 		case 41:
 			//Motorvejstunnel
