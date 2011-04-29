@@ -223,7 +223,28 @@ These data are huge, and therefore it takes quite a lot of time to start the pro
 Because we need to load all these data, the user is presented with a blank screen for 
 a long time, before all these data are loaded and the program starts.
 
-We started for a way to speed up the loading process, so the user has a map in front of 
-him or her quickly, when the user starts the program.
+We started looking for a way to speed up the loading process, so the user has a map in front of 
+him or her quickly, when the user starts the program. What takes the most time, is looping 
+through the data and creating the needed datastructures (quadtrees and such), so if we could 
+skip these steps, we could save a lot of time.
+
+This is where serialization comes into play. By serializing an object, you transform your object 
+into something that can be passed around, through streams and such. So by serializing objects, 
+you can save them to files. If the object to be serialized contains references to other objects, these 
+will also be serialized (if they are Serializable / implements java.io.Serializable).
+By doing this, we only need to build our datastructures the first time you start the program. After the 
+objects have been created, they are been serialized and saved to files. The next time the user starts 
+the program, we check whether the data has been changed. If it hasn't been changed, we load the 
+objects that we saved, instead of making them all over.
+
+\subsubsection{Threading}
+By serializing our main objects, we cut several seconds of our load times. But we can do it even faster. 
+We are using several objects, but only few of them are needed right from the start. So what we can do 
+to speed it up even more, is loading the few neccesary objects, and then load the rest in the background. 
+We do this with threads. We load the few objects we need from the start, then create a new thread to load the rest of the objects, and in the mean time, we create the window and draw the map.
+
+The same goes for the first run. The user doesn't need to wait for the program to finish serializing and 
+saving to files. By using threads, we can create the datastructures, and then immediately show the window 
+to the user, while saving the objects to files in the background.
 \pagebreak
 \end{document}

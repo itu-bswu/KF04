@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.2.16)  29 APR 2011 12:52
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.2.16)  29 APR 2011 22:27
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -255,28 +255,28 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
  [1] [2
 
-] [3] [4] [5] [6] [7] (./Rapport.aux) ) 
+] [3] [4] [5] [6] [7] [8] (./Rapport.aux) ) 
 Here is how much of TeX's memory you used:
- 2239 strings out of 493747
- 31457 string characters out of 3143546
- 86357 words of memory out of 3000000
- 5514 multiletter control sequences out of 15000+200000
+ 2240 strings out of 493747
+ 31465 string characters out of 3143546
+ 85357 words of memory out of 3000000
+ 5515 multiletter control sequences out of 15000+200000
  9457 words of font info for 33 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 37i,6n,43p,233b,189s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2010/texmf-dist/font
-s/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2010/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmss10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/pu
-blic/cm-super/sfrm1095.pfb>
-Output written on Rapport.pdf (8 pages, 103855 bytes).
+ 37i,6n,43p,435b,189s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2010/texmf-dist/
+fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2010/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2010/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2010/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type
+1/public/cm-super/sfrm1095.pfb>
+Output written on Rapport.pdf (9 pages, 109396 bytes).
 PDF statistics:
- 60 PDF objects out of 1000 (max. 8388607)
- 42 compressed objects within 1 object stream
+ 63 PDF objects out of 1000 (max. 8388607)
+ 44 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
