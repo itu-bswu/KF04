@@ -270,11 +270,11 @@ public class Control {
 		view.addRouteModeListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				//TODO comments
-				if(currentRouteMode != arg0.getSource()){
+				//If the saved route mode is not the same as the new one, save the new route mode.
+				if(currentRouteMode != arg0.getSource()){ 
 					model.clearPath();
 					currentRouteMode = arg0.getSource();
-					if(pins.size() > 1){
+					if(pins.size() > 1){ //Recalculates the route, so that it conforms to the new vehicle type.
 						for(int i = 0; i < pins.size() - 1; i++){
 							findPath(i, i + 1);
 						}
@@ -335,10 +335,8 @@ public class Control {
 			model.findPath(model.getClosestNode(pins.get(start)), model.getClosestNode(pins.get(end)),eval);
 		}catch(NothingCloseException e1){
 			view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
-			//TODO maybe the "bad" pins should be removed.
 		}catch (NoPathException e2) {
 			view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
-			//TODO consider pointing out the pin that is a problem, if possible.
 		}	
 	}
 }
