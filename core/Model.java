@@ -151,7 +151,6 @@ public class Model {
 	 */
 	public void findPath(KrakNode startNode, KrakNode endNode, Evaluator<KrakEdge> eval) throws NoPathException{
 
-		while (graph 	== null) Thread.yield();
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
