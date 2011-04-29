@@ -8,6 +8,11 @@ import java.io.Serializable;
 public class Node implements Serializable {
 
 	/**
+	 * Generated serial version UID.
+	 */
+	private static final long serialVersionUID = 3955424651126182871L;
+	
+	/**
 	 * Index of node.
 	 */
 	public final int index;
