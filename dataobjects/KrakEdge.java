@@ -4,7 +4,6 @@ import graphlib.Edge;
 import graphlib.Graph;
 
 import java.awt.geom.Line2D;
-import java.io.Serializable;
 import java.util.HashMap;
 
 import loader.EdgeData;
@@ -18,18 +17,17 @@ import loader.EdgeData;
  * 
  * @author Peter Tiedemann petert@itu.dk
  */
-public class KrakEdge extends Edge<KrakNode> implements Serializable {
-	private static final long serialVersionUID = 8108527914020741177L;
+public class KrakEdge extends Edge<KrakNode> {
 	// sestoft: For sharing roadname strings
 	private static HashMap<String, String> interner = new HashMap<String, String>();
 	public final float length;
 	public final int type;
 	public final String roadname;
-	public final int DAV_DK, DAV_DK_ID;
-	public final int FROMLEFT;
-	public final int TOLEFT;
-	public final int FROMRIGHT;
-	public final int TORIGHT;
+	//public final int DAV_DK, DAV_DK_ID;
+	//public final int FROMLEFT;
+	//public final int TOLEFT;
+	//public final int FROMRIGHT;
+	//public final int TORIGHT;
 	public final float DRIVETIME;
 
 	/**
@@ -44,8 +42,6 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 		this.n2 = graph.getNode(data.TNODE);
 
 		length = (float) data.LENGTH;
-		DAV_DK = data.DAV_DK;
-		DAV_DK_ID = data.DAV_DK_ID;
 		type = data.TYP;
 		// sestoft: Share roadname strings to save space
 		String interned = interner.get(data.VEJNAVN);
@@ -72,10 +68,6 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 		} else {
 			this.direction = Edge.BOTH;
 		}
-		FROMLEFT = data.FROMLEFT;
-		TOLEFT = data.TOLEFT;
-		FROMRIGHT = data.FROMRIGHT;
-		TORIGHT = data.TORIGHT;
 		DRIVETIME = data.DRIVETIME;
 	}
 	
