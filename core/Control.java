@@ -14,10 +14,7 @@ import java.awt.geom.Point2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashSet;
-
 import dataobjects.KrakEdge;
-
 import utils.Direction;
 import utils.Evaluator;
 import utils.PointMethods;
@@ -43,7 +40,7 @@ public class Control {
 	 */
 	public Control() {
 		model = new Model();
-		
+
 		view = new View(NAME, (float) (model.getBounds().width/model.getBounds().height));
 		repaint();
 		addListeners();
@@ -122,20 +119,19 @@ public class Control {
 
 			@Override
 			public void mouseClicked(MouseEvent e){
-				//TODO comments
+				boolean remove = false; // Will be set to true, if a pin needs to be removed. 
+				Point2D.Double tempPin = null; //The pin to be removed, if anything. 
 
-				boolean remove = false;
-				Point2D.Double tempPin = null;
-
-				for(Point2D.Double pin : pins){
+				for(Point2D.Double pin : pins){ 
+					//Runs through all the current pins to check if there are any pins close to the clicked point.
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
-					if(Math.abs(tempPoint.x - e.getX()) < 10 && Math.abs(tempPoint.y - e.getY()) < 10){
+					if(Math.abs(tempPoint.x - e.getX()) < 7 && Math.abs(tempPoint.y - e.getY()) < 7){
 						tempPin = pin;
 						remove = true;
 					}
 				}
 
-				if(remove){
+				if(remove){ //If true, removes the pin, clears the calculated path and calculates a new one, if nessecary.
 					pins.remove(tempPin);
 					model.clearPath();
 					if(pins.size() > 1){
@@ -144,7 +140,7 @@ public class Control {
 						}
 					}
 				}
-				else{
+				else{ //Else it adds a pin and calculates the newest distance.
 					pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
 					if(pins.size() > 1){
 						findPath(pins.size()-2, pins.size()-1);
@@ -191,6 +187,17 @@ public class Control {
 	private void addGUIButtonListeners(){
 		addMoveGUIButtonListeners();
 		addZoomGUIButtonListeners();
+		addClearPinButtonListener();
+	}
+
+	private void addClearPinButtonListener() {
+		view.addClearPinsListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				clearPins();
+			}
+		});
 	}
 
 	/**
@@ -256,9 +263,8 @@ public class Control {
 	}
 
 	/**
-	 * 
+	 * Clears the path in the model and removes all the pins, then repaints the view.
 	 */
-	//TODO javadoc
 	private void clearPins(){
 		model.clearPath();
 		pins.clear();
@@ -266,9 +272,9 @@ public class Control {
 	}
 
 	/**
-	 * 
+	 * Clears the pins and the route from view, recalculates positions for the pins and adds them to the view.
+	 * Then adds the current route to the view, repaints it and sets the route info.
 	 */
-	//TODO javadoc
 	private void repaint(){
 		view.clearPins();
 		view.clearRoute();
@@ -280,27 +286,30 @@ public class Control {
 		view.repaint(model.getLines());
 		view.setRouteInfo(model.getRouteDistance(),model.getRouteTime());
 	}
-	
+
 	/**
+	 * Used to find the path between two points - opens dialog window in view if problems occur.
 	 * 
+	 * @param start What pin the start point is at.
+	 * @param end What pin the end point is at.
 	 */
-	//TODO comments
 	private void findPath(int start, int end){
-		Evaluator<KrakEdge> eval = null;
-		if(view.isCarChoiceSelected()){
+		// getting the right selector for the pathfinding		
+		Evaluator<KrakEdge> eval = Evaluator.DEFAULT;
+		if (view.isCarChoiceSelected()) {
 			eval = Evaluator.CAR;
-			System.out.println("car selected");
-		}else if(view.isBikeChoiceSelected()){
+		} else if(view.isBikeChoiceSelected()) {
 			eval = Evaluator.BIKE;
-			System.out.println("bike selected");
 		}
-		
+
 		try {
 			model.findPath(model.getClosestNode(pins.get(start)), model.getClosestNode(pins.get(end)),eval);
 		}catch(NothingCloseException e1){
 			view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
+			//TODO maybe the "bad" pins should be removed.
 		}catch (NoPathException e2) {
 			view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
+			//TODO consider pointing out the pin that is a problem, if possible.
 		}	
 	}
 }

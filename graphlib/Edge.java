@@ -9,6 +9,11 @@ import java.io.Serializable;
  * 
  */
 public class Edge<N extends Node> implements Serializable {
+	/**
+	 * Generated serial version UID
+	 */
+	private static final long serialVersionUID = 7870224421153411792L;
+
 	// indicates the edge goes from v1 -> v2
 	public static final byte FORWARD = 1;
 
@@ -26,7 +31,7 @@ public class Edge<N extends Node> implements Serializable {
 	 * 
 	 * @see FORWARD, BACKWARD and BOTH.
 	 */
-	protected byte direction;
+	public byte direction;
 
 	protected Edge() {}
 

@@ -73,16 +73,16 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 	public List<List<E>> getEdges() {
 		return edges;
 	}
-	
+
 	public Set<E> getAllEdges(){
 		Set<E> all = new HashSet<E>();
 		for(List<E> l : edges){
 			all.addAll(l);
 		}
-		
+
 		return all;
 	}
-	
+
 	public List<N> getNodes () {
 		return nodes;
 	}
@@ -95,7 +95,7 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 	public int getEdgeCount() {
 		return edgeCount;
 	}
-	
+
 	/**
 	 * Returns the total number of nodes in the graph 
 	 * 
@@ -128,7 +128,7 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 		if (e.getN1().index >= getEdges().size() || e.getN2().index >= getEdges().size()) {
 			throw new IllegalArgumentException(
 					"Attempting to add edge to graph, connecting non-existing nodes "
-							+ e.getN1().index + " " + e.getN2().index);
+					+ e.getN1().index + " " + e.getN2().index);
 		}
 		getEdges().get(e.getStart().index).add(e);
 		if (e.direction == Edge.BOTH) {
@@ -158,9 +158,13 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 	 * @return Iterator over the outgoing edges.
 	 */
 	public Iterator<E> outGoingEdges(Node n) {
-		return edges.get(n.index).iterator();
+		List<E> it = edges.get(n.index);
+		if(it != null){
+			return it.iterator();
+		}
+		return null;
 	}
-	
+
 	/**
 	 * Get all unique outgoing edges.
 	 * 
@@ -173,7 +177,7 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 				newEdges.add(e);
 			}
 		}
-		
+
 		return newEdges;
 	}
 
