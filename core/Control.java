@@ -28,6 +28,7 @@ import utils.RectangleMethods;
  */
 public class Control {
 
+	private static final int bikeSpeed = 20;
 	private static final float MOVE_LENGTH = (float) 0.30;
 	private static final float ZOOM_LENGTH = (float) 0.15;
 	private static final String NAME = "Map"; //Name of the window containing the map.
@@ -268,10 +269,10 @@ public class Control {
 		view.addRouteModeListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
+				//TODO comments
 				if(currentRouteMode != arg0.getSource()){
 					model.clearPath();
 					currentRouteMode = arg0.getSource();
-					System.out.println(arg0);
 					if(pins.size() > 1){
 						for(int i = 0; i < pins.size() - 1; i++){
 							findPath(i, i + 1);
@@ -305,7 +306,13 @@ public class Control {
 		}
 		view.addRoute(model.getPath());
 		view.repaint(model.getLines());
+		if(view.isBikeChoiceSelected()){
+			float bikeTime = (model.getRouteDistance() / bikeSpeed) * 60;
+			view.setRouteInfo(model.getRouteDistance(), bikeTime);
+		}
+		else{
 		view.setRouteInfo(model.getRouteDistance(),model.getRouteTime());
+		}
 	}
 
 	/**
