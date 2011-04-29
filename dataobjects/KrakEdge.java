@@ -25,11 +25,11 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 	public final float length;
 	public final int type;
 	public final String roadname;
-	public final int DAV_DK, DAV_DK_ID;
-	public final int FROMLEFT;
-	public final int TOLEFT;
-	public final int FROMRIGHT;
-	public final int TORIGHT;
+	//public final int DAV_DK, DAV_DK_ID;
+	//public final int FROMLEFT;
+	//public final int TOLEFT;
+	//public final int FROMRIGHT;
+	//public final int TORIGHT;
 	public final float DRIVETIME;
 
 	/**
@@ -44,8 +44,6 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 		this.n2 = graph.getNode(data.TNODE);
 
 		length = (float) data.LENGTH;
-		DAV_DK = data.DAV_DK;
-		DAV_DK_ID = data.DAV_DK_ID;
 		type = data.TYP;
 		// sestoft: Share roadname strings to save space
 		String interned = interner.get(data.VEJNAVN);
@@ -72,10 +70,6 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 		} else {
 			this.direction = Edge.BOTH;
 		}
-		FROMLEFT = data.FROMLEFT;
-		TOLEFT = data.TOLEFT;
-		FROMRIGHT = data.FROMRIGHT;
-		TORIGHT = data.TORIGHT;
 		DRIVETIME = data.DRIVETIME;
 	}
 	
