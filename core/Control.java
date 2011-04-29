@@ -261,6 +261,10 @@ public class Control {
 				repaint();
 			}});
 	}
+	
+	private void addCarBikeRadioButtonListener(){
+		
+	}
 
 	/**
 	 * Clears the path in the model and removes all the pins, then repaints the view.
