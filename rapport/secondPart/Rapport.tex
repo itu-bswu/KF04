@@ -123,7 +123,8 @@ the one previously indexed. Because the priority queue in java’s library is slow
 when decreasing keys, we use an implementation from the book Algorithms Fourth
 Editon. We have written the code for the dijkstra algoritm using our knowledge
 of how it works. We have been inspired by the implementation used in Algorithms
-Fourth Editon.
+Fourth Editon. Additionally we are using the \class{IndexMinPQ} directly as it is
+from the same book.
 
 We have made some rather big changes to the Dijkstra algorithm to make it fit our 
 requirements. First of all we have replaced the arrays that holds edgeTo and distTo
@@ -149,8 +150,8 @@ wrong way. This cheat however, gives accurate routes since the access and exit r
 without error and can only be entered from the right direction.
 
 \subsubsection{The A-star technique}
-In order to make our path finding algorithm even faster, we used a technique
-called A-star. This technic benefits from the fact that the roads, in contrast
+In order to make our path finding algorithm even faster, we used a variation
+called A-star. This implementation benefits from the fact that the roads, in contrast
 to a theoretical graph, are part of a geometric system. This means that we can
 calculate the fastest possible route from one point to another. This helps us
 determine which routes to look at first. The fastest possible route is always a
@@ -158,9 +159,12 @@ straight line from the source point to the end point. The smaller the difference
 from the straight line is to the fastest possible route, the more we will
 benefit from the A-star technique. This difference will often be bigger for the
 routes calculated for the car. This is because the fastest route would be a
-straight motorway, which often is far from possible. We can therefore conclude
+straight highway, which often is far from possible. We can therefore conclude
 that the A-star technique typically is more of a benefit when calculating routes
-for bicycling than car driving.
+for bicycling because they rely on the distance.
+In order to make the code work with our dynamic evaluations for the \class{Edge}s we have
+created another method in the \class{Evaluator} that calculates the heuristic for
+at given \class{Node} relative to the target \class{Node}.
 
 \subsection{Control}
 A lot has changed in \class{Control} since our last version. We have changed a

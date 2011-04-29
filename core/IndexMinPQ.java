@@ -1,7 +1,4 @@
 package core;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 /*************************************************************************
  *  Compilation:  javac IndexMinPQ.java
  *  Execution:    java IndexMinPQ
@@ -9,6 +6,9 @@ import java.util.NoSuchElementException;
  *  Indexed PQ implementation using a binary heap.
  *
  *********************************************************************/
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer> {
     private int N;           // number of elements on PQ
