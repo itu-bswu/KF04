@@ -11,7 +11,6 @@
 \contentsline {section}{\numberline {2}Implementation}{4}
 \contentsline {subsection}{\numberline {2.1}Model}{4}
 \contentsline {subsection}{\numberline {2.2}Dijkstra}{4}
-\contentsline {subsection}{\numberline {2.3}A*}{4}
-\contentsline {subsection}{\numberline {2.4}Control}{4}
-\contentsline {subsection}{\numberline {2.5}Car/Bike routes}{4}
-\contentsline {subsection}{\numberline {2.6}View}{4}
+\contentsline {subsection}{\numberline {2.3}Control}{4}
+\contentsline {subsection}{\numberline {2.4}Car/Bike routes}{5}
+\contentsline {subsection}{\numberline {2.5}View}{5}

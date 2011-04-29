@@ -24,7 +24,7 @@ import utils.RectangleMethods;
  * Control class for the Map of Denmark system.
  * 
  * @author Jakob Melnyk
- * @version 11 March - 2011
+ * @version 29 April - 2011
  */
 public class Control {
 
@@ -34,6 +34,7 @@ public class Control {
 	private View view;
 	private Model model;
 	private ArrayList<Point2D.Double> pins = new ArrayList<Point2D.Double>();
+	private Object currentRouteMode = null;
 
 	/**
 	 * Constructor for class Control
@@ -131,7 +132,7 @@ public class Control {
 					}
 				}
 
-				if(remove){ //If true, removes the pin, clears the calculated path and calculates a new one, if nessecary.
+				if(remove){ //If true, removes the pin, clears the calculated path and calculates a new one, if necessary.
 					pins.remove(tempPin);
 					model.clearPath();
 					if(pins.size() > 1){
@@ -188,6 +189,7 @@ public class Control {
 		addMoveGUIButtonListeners();
 		addZoomGUIButtonListeners();
 		addClearPinButtonListener();
+		addCarBikeRadioButtonListener();
 	}
 
 	private void addClearPinButtonListener() {
@@ -260,6 +262,25 @@ public class Control {
 				model.updateBounds(p);
 				repaint();
 			}});
+	}
+
+	private void addCarBikeRadioButtonListener(){
+		view.addRouteModeListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0){
+				if(currentRouteMode != arg0.getSource()){
+					model.clearPath();
+					currentRouteMode = arg0.getSource();
+					System.out.println(arg0);
+					if(pins.size() > 1){
+						for(int i = 0; i < pins.size() - 1; i++){
+							findPath(i, i + 1);
+						}
+					}
+				}
+				repaint();
+			}
+		});
 	}
 
 	/**
