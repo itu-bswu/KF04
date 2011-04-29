@@ -18,6 +18,7 @@ import dataobjects.KrakEdge;
 import utils.Direction;
 import utils.Evaluator;
 import utils.PointMethods;
+import utils.Properties;
 import utils.RectangleMethods;
 
 /**
@@ -30,7 +31,7 @@ public class Control {
 
 	private static final float MOVE_LENGTH = (float) 0.30;
 	private static final float ZOOM_LENGTH = (float) 0.15;
-	private static final String NAME = "Map"; //Name of the window containing the map.
+	private static final String NAME = Properties.get("programName"); //Name of the window containing the map.
 	private View view;
 	private Model model;
 	private ArrayList<Point2D.Double> pins = new ArrayList<Point2D.Double>();
