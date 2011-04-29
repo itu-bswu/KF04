@@ -216,6 +216,15 @@ public class View extends JFrame{
 	}
 	
 	/**
+	 * Adds an ActionListener to all the route mode RadioButtons.
+	 * @param a 
+	 */
+	public void addRouteModeListener(ActionListener a){
+		carChoice.addActionListener(a);
+		bikeChoice.addActionListener(a);
+	}
+	
+	/**
 	 * Tells if the Car Choice is selected.
 	 * @return true if selected.
 	 */
