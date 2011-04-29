@@ -110,18 +110,20 @@ by the \class{Model} since it's the object that primarliy handles the data. This
 information can be calculated in linear time relative to the length of the current route since
 the route is saved in memory when first found.
 \subsection{Dijkstra}
-<<<<<<< HEAD
 
-We use Dijkstras algorithm to find the shortest route from one node to another.This algorithm builds a Shortest Path Tree by always looks at the node nearest the source node. This means that whenever the destination node is reached, the shortest route to that node is found. When that happens, we stop the algorithm because we have found what we are looking for.
-In order to always choose the node closest to the source, our implementation use a priority queue, where its distance to the source indexes each node. Sometimes, we want to decrease the index of a node, because we have found a route that is shorter than the one previously indexed. Because the priority queue in java’s library is slow when decreasing keys, we use an implementation from the book Algorithms Fourth Editon.
-We have written the code for the dijkstra algoritm using our knowledge of how it works. We have been inspired by the implementation used in Algorithms Fourth Editon.
-
-
-2. ∆ndringer: KrakNode istedet for integers (dog bliver index stadig brugt i PQ), Statisk metode istedet for Objekt, Evaluator sÂ man kan benytte forskellige prioriteringer, Tjek for ensrettet.
-=======
-1. Skrevet ud fra implementationen fra Algorithms men modificeret meget til vores benyttelse. IndexMinPQ er svagt modificeret fra Algorithms.
-2. Beskrivelse generelt af Dijkstra.
->>>>>>> 0d962e1a1c5277660b452fbae28c01744d2d174e
+We use Dijkstras algorithm to find the shortest route from one node to
+another. This algorithm builds a Shortest Path Tree by always looks at the node
+nearest the source node. This means that whenever the destination node is
+reached, the shortest route to that node is found. When that happens, we stop
+the algorithm because we have found what we are looking for. In order to always
+choose the node closest to the source, our implementation use a priority queue,
+where its distance to the source indexes each node. Sometimes, we want to
+decrease the index of a node, because we have found a route that is shorter than
+the one previously indexed. Because the priority queue in java’s library is slow
+when decreasing keys, we use an implementation from the book Algorithms Fourth
+Editon. We have written the code for the dijkstra algoritm using our knowledge
+of how it works. We have been inspired by the implementation used in Algorithms
+Fourth Editon.
 
 We have made some rather big changes to the Dijkstra algorithm to make it fit our 
 requirements. First of all we have replaced the arrays that holds edgeTo and distTo
@@ -146,12 +148,19 @@ little snip of code that allows traveling on the highway even though it is facin
 wrong way. This cheat however, gives accurate routes since the access and exit roads are
 without error and can only be entered from the right direction.
 
-We we're implementing the A* variation of the Dijkstra algorithm, but had to cut it off
-just before turning in since it didn't work reliably. A* is a slight change of Dijkstra
-where the direct distance to the target is included in the priortization of the node.
-The problem was with the heuristics of the direct path that the A* code consists of, it 
-worked well when only using distance as the measure of best path, but when opening up 
-for more complicated evaluations of the road (ex. drive time) it didn't work properly.
+\subsubsection{The A-star technique}
+In order to make our path finding algorithm even faster, we used a technique
+called A-star. This technic benefits from the fact that the roads, in contrast
+to a theoretical graph, are part of a geometric system. This means that we can
+calculate the fastest possible route from one point to another. This helps us
+determine which routes to look at first. The fastest possible route is always a
+straight line from the source point to the end point. The smaller the difference
+from the straight line is to the fastest possible route, the more we will
+benefit from the A-star technique. This difference will often be bigger for the
+routes calculated for the car. This is because the fastest route would be a
+straight motorway, which often is far from possible. We can therefore conclude
+that the A-star technique typically is more of a benefit when calculating routes
+for bicycling than car driving.
 
 \subsection{Control}
 A lot has changed in \class{Control} since our last version. We have changed a

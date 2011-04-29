@@ -29,7 +29,7 @@ public class Dijkstra {
 	 * @throws NoPathException
 	 */
 	//TODO comment this please.
-	public static List<KrakEdge> findPath(Graph<KrakEdge,KrakNode> G, KrakNode startNode, KrakNode targetNode, Evaluator<KrakEdge> eval) throws NoPathException{
+	public static List<KrakEdge> findPath(Graph<KrakEdge,KrakNode> G, KrakNode startNode, KrakNode targetNode, Evaluator eval) throws NoPathException{
 		HashMap<KrakNode,KrakEdge> edgeTo = new HashMap<KrakNode,KrakEdge>();
 		HashMap<KrakNode,Float> distTo = new HashMap<KrakNode,Float>();
 		IndexMinPQ<Float> pq = new IndexMinPQ<Float>(G.getNodeCount());
@@ -38,6 +38,7 @@ public class Dijkstra {
 
 		distTo.put(startNode, 0.0f);
 		pq.insert(startNode.getIndex(),0.0f);
+		System.out.println("...");
 		while(!pq.isEmpty()){
 			visited++;
 			KrakNode cur = G.getNode(pq.delMin());
@@ -82,22 +83,31 @@ public class Dijkstra {
 			//System.out.println(edge.roadname+": is both ways");
 			return true; 
 		}
-		if(edge.getStart() == cur && edge.direction == Edge.FORWARD){
-			//System.out.println(edge.roadname+" is forward oriented and we are at start");
-			return true;
-		}
-		if(edge.getEnd() == cur && edge.direction == Edge.BACKWARD){
-
-			//System.out.println(edge.roadname+" is backward oriented and we are at the end");
-			return true;
-		}
-
+		
 		// IMPORTANT: This is a hack, placed here to be able to use the highways
 		if(edge.roadname.startsWith("Motorvej")){
 			return true;
 		}
+		
+		if(edge.getStart().equals(cur)){
+			if(edge.direction == Edge.FORWARD){
+				//System.out.println(edge.roadname+" is forward oriented and we are at start");
+				return true;
+			}else{
+				//System.out.println(edge.roadname+" is backward oriented but we are at the start!");
+				return false;
+			}
+		}
+		if(edge.getEnd().equals(cur)){
+			if(edge.direction == Edge.BACKWARD){
+				//System.out.println(edge.roadname+" is backward oriented and we are at the end");
+				return true;
+			}else{
+				//System.out.println(edge.roadname+" is forward oriented but we are at the end!");
+				return false;
+			}
+		}
 
-		// this should never happen, that means our "cur" is not affiliated with the edge
 		return false;
 	}
 
@@ -111,7 +121,7 @@ public class Dijkstra {
 	 * @param pq
 	 */
 	//TODO Also add some comments here.
-	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Float> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Float> pq, Evaluator<KrakEdge> eval){
+	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Float> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Float> pq, Evaluator eval){
 		KrakNode other = edge.getOtherEnd(cur);
 		float evaluation;
 		try {
@@ -124,9 +134,9 @@ public class Dijkstra {
 			distTo.put(other, distance);
 			edgeTo.put(other, edge);
 			if(pq.contains(other.getIndex())){
-				pq.change(other.getIndex(), distance); // + cur.distanceTo(target)
+				pq.change(other.getIndex(), distance + eval.heuristic(cur, target)); // + cur.distanceTo(target)
 			}else{
-				pq.insert(other.getIndex(), distance); // + |--|
+				pq.insert(other.getIndex(), distance + eval.heuristic(cur, target)); // + |--|
 			}
 		}
 	}
