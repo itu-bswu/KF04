@@ -112,7 +112,36 @@ the route is saved in memory when first found.
 \subsection{Dijkstra}
 1. Skrevet ud fra implementationen fra Algorithms men modificeret meget til vores benyttelse. IndexMinPQ er svagt modificeret fra Algorithms.
 2. Beskrivelse generelt af Dijkstra.
-2. Ændringer: KrakNode istedet for integers (dog bliver index stadig brugt i PQ), Statisk metode istedet for Objekt, Evaluator så man kan benytte forskellige prioriteringer, Tjek for ensrettet.
+
+We have made some rather big changes to the Dijkstra algorithm to make it fit our 
+requirements. First of all we have replaced the arrays that holds edgeTo and distTo
+with Maps so we can use our objects instead of integers. We have however not changed
+anything in the \class{IndexMinPQ} implementation that takes integers as values, this is not
+a problem though, since our nodes have a unique integer index.
+Another major change in the Dijkstra code is that we have modified it to be a static
+method instead of a seperate object. This way the classes using it will not have to
+instantiate it before use.
+To be able to evaluate the edges differently depending on the type of transportation
+that the user has selected, we have created the \class{Evaluator} class. This must be passed to
+the pathfinding and is responsible for transforming the \class{KrakEdge} to a value that can
+be inserted into the priority queue.
+An important part of the pathfinding is the exclusion of the roads that are unidirectional
+in the opposite direction. This check is performed every time a road is going to be
+added to the priority queue, if the road can't be used it will skip to the next.
+It is important to note here that we have found an error in the data from krak. The
+problem is that some of the roads at the highways are oriented in the wrong direction,
+this implies that the pathfinding will avoid the highway because it will only be able
+to use short stretches of it. In order to be able to use the highway we have inserted a
+little snip of code that allows traveling on the highway even though it is facing the
+wrong way. This cheat however, gives accurate routes since the access and exit roads are
+without error and can only be entered from the right direction.
+
+We we're implementing the A* variation of the Dijkstra algorithm, but had to cut it off
+just before turning in since it didn't work reliably. A* is a slight change of Dijkstra
+where the direct distance to the target is included in the priortization of the node.
+The problem was with the heuristics of the direct path that the A* code consists of, it 
+worked well when only using distance as the measure of best path, but when opening up 
+for more complicated evaluations of the road (ex. drive time) it didn't work properly.
 
 \subsection{Control}
 A lot has changed in \class{Control} since our last version. We have changed a
