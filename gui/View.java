@@ -355,7 +355,6 @@ public class View extends JFrame{
 	 * Updates the route statistics on the screen.
 	 * @param routeDistance The total length of the route (in kilometers)
 	 * @param routeTime The total time to travel the route (in hours)
-	 * @param routeTurns The total number of turns in the route
 	 */
 	public void setRouteInfo(float routeDistance, float routeTime) {
 		routeTotalDistValue.setText(String.format("%.1f km", routeDistance));

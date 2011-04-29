@@ -1,6 +1,5 @@
 package dataobjects;
 import java.awt.geom.Rectangle2D;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,12 +9,7 @@ import java.util.Set;
  *
  * @param <T> The KrakEdge sub-type to store.
  */
-public class QuadTreeNode<T extends KrakEdge> implements Serializable {
-
-	/**
-	 * Generated serial version UID.
-	 */
-	private static final long serialVersionUID = 4409394409382684458L;
+public class QuadTreeNode<T extends KrakEdge> {
 
 	public static final int MAX_CONTENT = 10000;
 

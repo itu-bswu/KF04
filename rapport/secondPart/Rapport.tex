@@ -110,8 +110,18 @@ by the \class{Model} since it's the object that primarliy handles the data. This
 information can be calculated in linear time relative to the length of the current route since
 the route is saved in memory when first found.
 \subsection{Dijkstra}
+<<<<<<< HEAD
+
+We use Dijkstras algorithm to find the shortest route from one node to another.This algorithm builds a Shortest Path Tree by always looks at the node nearest the source node. This means that whenever the destination node is reached, the shortest route to that node is found. When that happens, we stop the algorithm because we have found what we are looking for.
+In order to always choose the node closest to the source, our implementation use a priority queue, where its distance to the source indexes each node. Sometimes, we want to decrease the index of a node, because we have found a route that is shorter than the one previously indexed. Because the priority queue in javaÕs library is slow when decreasing keys, we use an implementation from the book Algorithms Fourth Editon.
+We have written the code for the dijkstra algoritm using our knowledge of how it works. We have been inspired by the implementation used in Algorithms Fourth Editon.
+
+
+2. Ændringer: KrakNode istedet for integers (dog bliver index stadig brugt i PQ), Statisk metode istedet for Objekt, Evaluator så man kan benytte forskellige prioriteringer, Tjek for ensrettet.
+=======
 1. Skrevet ud fra implementationen fra Algorithms men modificeret meget til vores benyttelse. IndexMinPQ er svagt modificeret fra Algorithms.
 2. Beskrivelse generelt af Dijkstra.
+>>>>>>> 0d962e1a1c5277660b452fbae28c01744d2d174e
 
 We have made some rather big changes to the Dijkstra algorithm to make it fit our 
 requirements. First of all we have replaced the arrays that holds edgeTo and distTo
@@ -204,5 +214,10 @@ toggle between Car mode and Bike mode in the pathfinding.
 Beneath the tools for pathfinding there are displayed two pieces of information (and
 spare space for more). This information is changed by a simple public method in the View
 and the units will adjust will be adjusted accordingly.
+\pagebreak
+\section{Other?}
+This is where we bla bla.
+\subsection{Serialization}
+yadiya
 \pagebreak
 \end{document}
