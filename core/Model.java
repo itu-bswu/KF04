@@ -73,15 +73,17 @@ public class Model {
 		}
 
 		try {
-			//if (!fromFile) {
+			if (!fromFile) {
 				throw new Exception("Could not load serialized objects - creating datastructures");
-			/*}
+			}
 
 			Stopwatch sw = new Stopwatch("Loading");
 			graph = inputGraph;
 			// Load serialized objects
-			loadSerializedFromFiles( (inputGraph==null) );
-			sw.printTime();*/
+			if (inputGraph==null) {
+				loadSerializedFromFiles();
+			}
+			sw.printTime();
 
 		} catch (Exception e) {
 			
@@ -102,7 +104,9 @@ public class Model {
 			sw.printTime();
 
 			// Save all important objects to files.
-			//serializeToFiles( (inputGraph==null) );
+			if (inputGraph==null) {
+				serializeToFiles();
+			}
 		}
 	}
 
@@ -183,7 +187,7 @@ public class Model {
 	 * @param serializeGraph 
 	 * 
 	 */
-	private void serializeToFiles (final boolean serializeGraph) {
+	private void serializeToFiles () {
 		new Thread () {
 			@Override
 			public void run () {
@@ -193,35 +197,21 @@ public class Model {
 					BufferedOutputStream fout;
 					ObjectOutputStream oos;
 
-					if (serializeGraph) {
-						fout = new BufferedOutputStream(new FileOutputStream(Properties.get("graphFile")));
-						oos = new ObjectOutputStream(fout);
-						oos.writeObject(graph);
-						oos.flush();
-						oos.close();
-					}
-
-					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("maxBoundsFile")));
+					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("dataNodeEdge")));
 					oos = new ObjectOutputStream(fout);
+					
 					oos.writeObject(maxBounds);
 					oos.flush();
-					oos.close();
-
-					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("bigRoadsQuadTree")));
-					oos = new ObjectOutputStream(fout);
+					
 					oos.writeObject(qt.get(0));
 					oos.flush();
-					oos.close();
-
-					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("mediumRoadsQuadTree")));
-					oos = new ObjectOutputStream(fout);
+					
+					oos.writeObject(graph);
+					oos.flush();
+					
 					oos.writeObject(qt.get(1));
 					oos.flush();
-					oos.close();
-
 					
-					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("smallRoadsQuadTree")));
-					oos = new ObjectOutputStream(fout);
 					oos.writeObject(qt.get(2));
 					oos.flush();
 					oos.close();
@@ -231,47 +221,36 @@ public class Model {
 					Properties.set("nodeFileChecksum", chk);
 					Properties.save();
 				} catch (Exception ex) {
-					ex.printStackTrace();
+					System.out.println("Serialization failed.");
+					//ex.printStackTrace();
 				}
 				sw.printTime();
 			}
 		}.start();
 	}
 
-	private void loadSerializedFromFiles (final boolean loadGraph) throws IOException, ClassNotFoundException {
+	private void loadSerializedFromFiles () throws IOException, ClassNotFoundException {
 		BufferedInputStream bin;
-		bin = new BufferedInputStream(new FileInputStream(Properties.get("bigRoadsQuadTree")));
-		ObjectInputStream ois = new ObjectInputStream(bin);
-		qt.add((QuadTree<KrakEdge>) ois.readObject());
-		ois.close();
-
-		bin = new BufferedInputStream(new FileInputStream(Properties.get("maxBoundsFile")));
-		ois = new ObjectInputStream(bin);
+		bin = new BufferedInputStream(new FileInputStream(Properties.get("dataNodeEdge")));
+		final ObjectInputStream ois = new ObjectInputStream(bin);
+		
 		maxBounds = (Rectangle2D.Double) ois.readObject();
 		bounds = originalBounds();
-		ois.close();
+		
+		qt.add((QuadTree<KrakEdge>) ois.readObject());
 
 		new Thread() {
 			@Override
 			public void run () {
 				Stopwatch sw = new Stopwatch("Load serialized");
 				try {
-					BufferedInputStream bin = new BufferedInputStream(new FileInputStream(Properties.get("mediumRoadsQuadTree")));
-					ObjectInputStream ois = new ObjectInputStream(bin);
+					graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
+					
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
-					ois.close();
 
-					bin = new BufferedInputStream(new FileInputStream(Properties.get("smallRoadsQuadTree")));
-					ois = new ObjectInputStream(bin);
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
-					ois.close();
 
-					if (loadGraph) {
-						bin = new BufferedInputStream(new FileInputStream(Properties.get("graphFile")));
-						ois = new ObjectInputStream(bin);
-						graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
-						ois.close();
-					}
+					ois.close();
 					
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
