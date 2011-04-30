@@ -2,8 +2,14 @@ package core;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -11,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import loader.KrakLoader;
 import utils.Evaluator;
+import utils.MD5Checksum;
 import utils.Properties;
 import utils.Stopwatch;
 import graphlib.Graph;
@@ -53,18 +60,53 @@ public class Model {
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
 
-		// If the inputGraph is null, load from file.
-		if (inputGraph == null) {
-			graph = loadGraph();
-		} else {
-			graph = inputGraph;
+		boolean fromFile = false;
+		try {
+			File dataDir = new File(".", Properties.get("dataDir"));
+			String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
+			if (chk.equals(Properties.get("nodeFileChecksum"))) {
+				fromFile = true;
+			}
+		} catch (Exception e) {
+			fromFile = false;
 		}
-		
-		maxBounds = maxBounds(graph.getNodes());
-		bounds = originalBounds();
-		Stopwatch sw = new Stopwatch("Quadtrees");
-		createQuadTrees(graph.getAllEdges());
-		sw.printTime();
+
+		try {
+			if (!fromFile) {
+				throw new Exception("Could not load serialized objects - creating datastructures");
+			}
+
+			Stopwatch sw = new Stopwatch("Loading");
+			graph = inputGraph;
+			// Load serialized objects
+			if (inputGraph==null) {
+				loadSerializedFromFiles();
+			}
+			sw.printTime();
+
+		} catch (Exception e) {
+			
+			
+			System.out.println(e.getMessage());
+
+			// If the inputGraph is null, load from file.
+			if (inputGraph == null) {
+				graph = loadGraph();
+			} else {
+				graph = inputGraph;
+			}
+			
+			maxBounds = maxBounds(graph.getNodes());
+			bounds = originalBounds();
+			Stopwatch sw = new Stopwatch("Quadtrees");
+			createQuadTrees(graph.getAllEdges());
+			sw.printTime();
+
+			// Save all important objects to files.
+			if (inputGraph==null) {
+				serializeToFiles();
+			}
+		}
 	}
 
 	/**
@@ -138,6 +180,84 @@ public class Model {
 		qt.add(new QuadTree<KrakEdge>(bounds,set1));
 		qt.add(new QuadTree<KrakEdge>(bounds,set2));
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
+	}
+
+	/**
+	 * @param serializeGraph 
+	 * 
+	 */
+	private void serializeToFiles () {
+		new Thread () {
+			@Override
+			public void run () {
+				Stopwatch sw = new Stopwatch("Serialize");
+				// Serialize
+				try {
+					BufferedOutputStream fout;
+					ObjectOutputStream oos;
+
+					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("dataNodeEdge")));
+					oos = new ObjectOutputStream(fout);
+					
+					oos.writeObject(maxBounds);
+					oos.flush();
+					
+					oos.writeObject(qt.get(0));
+					oos.flush();
+					
+					oos.writeObject(graph);
+					oos.flush();
+					
+					oos.writeObject(qt.get(1));
+					oos.flush();
+					
+					oos.writeObject(qt.get(2));
+					oos.flush();
+					oos.close();
+
+					File dataDir = new File(".", Properties.get("dataDir"));
+					String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
+					Properties.set("nodeFileChecksum", chk);
+					Properties.save();
+				} catch (Exception ex) {
+					System.out.println("Serialization failed.");
+					//ex.printStackTrace();
+				}
+				sw.printTime();
+			}
+		}.start();
+	}
+
+	private void loadSerializedFromFiles () throws IOException, ClassNotFoundException {
+		BufferedInputStream bin;
+		bin = new BufferedInputStream(new FileInputStream(Properties.get("dataNodeEdge")));
+		final ObjectInputStream ois = new ObjectInputStream(bin);
+		
+		maxBounds = (Rectangle2D.Double) ois.readObject();
+		bounds = originalBounds();
+		
+		qt.add((QuadTree<KrakEdge>) ois.readObject());
+
+		new Thread() {
+			@Override
+			public void run () {
+				Stopwatch sw = new Stopwatch("Load serialized");
+				try {
+					graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
+					
+					qt.add((QuadTree<KrakEdge>) ois.readObject());
+
+					qt.add((QuadTree<KrakEdge>) ois.readObject());
+
+					ois.close();
+					
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+					System.exit(0);
+				}
+				sw.printTime();
+			}
+		}.start();
 	}
 
 	/**
