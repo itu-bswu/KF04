@@ -58,7 +58,7 @@ public class InstanceCreator {
 			NodeData nd = new NodeData(line);
 			if (nf == null || nf.accept(nd)) {
 				used++;
-				acceptedNodes.put(new Integer(nd.KDV), nd);
+				acceptedNodes.put(Integer.valueOf(nd.KDV), nd);
 			}
 			nodeCount++;
 			line = br.readLine();
@@ -66,6 +66,7 @@ public class InstanceCreator {
 
 		System.out.println("Found " + nodeCount + " nodes in file "
 				+ srcNodeFile + " node filter accepted " + used);
+		br.close();
 
 		br = new BufferedReader(new FileReader(srcEdgeFile));
 
@@ -83,8 +84,8 @@ public class InstanceCreator {
 				Object fo = acceptedNodes.get(ed.FNODE);
 				Object to = acceptedNodes.get(ed.TNODE);
 				if (to != null && fo != null) {
-					neededNodes.add(new Integer(((NodeData) fo).KDV));
-					neededNodes.add(new Integer(((NodeData) to).KDV));
+					neededNodes.add(Integer.valueOf(((NodeData) fo).KDV));
+					neededNodes.add(Integer.valueOf(((NodeData) to).KDV));
 					edges.add(ed);
 				}
 			}
@@ -97,6 +98,7 @@ public class InstanceCreator {
 		}
 		System.out.println("Found " + edgeCount + " edges after filtering "
 				+ edges.size() + " remains");
+		br.close();
 
 		HashMap<Integer, Integer> idMapping = new HashMap<Integer, Integer>();
 		Iterator<Integer> it = neededNodes.iterator();
@@ -108,7 +110,7 @@ public class InstanceCreator {
 			NodeData node = acceptedNodes.get(nodeID);
 			newID++;
 			node.KDV = newID;
-			idMapping.put(nodeID, new Integer(newID));
+			idMapping.put(nodeID, Integer.valueOf(newID));
 			nfw.write(node.toString() + "\n");
 		}
 		nfw.close();
@@ -119,8 +121,8 @@ public class InstanceCreator {
 		while (eit.hasNext()) {
 			EdgeData ed = eit.next();
 			// update node references in edge
-			ed.FNODE = idMapping.get(new Integer(ed.FNODE)).intValue();
-			ed.TNODE = idMapping.get(new Integer(ed.TNODE)).intValue();
+			ed.FNODE = idMapping.get(Integer.valueOf(ed.FNODE)).intValue();
+			ed.TNODE = idMapping.get(Integer.valueOf(ed.TNODE)).intValue();
 			efw.write(ed.toString() + "\n");
 		}
 		efw.close();

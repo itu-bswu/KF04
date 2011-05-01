@@ -68,10 +68,6 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 			this.direction = Edge.BACKWARD;
 		} else if (dir.equalsIgnoreCase("ft")) {
 			this.direction = Edge.FORWARD;
-		} else if (dir.equalsIgnoreCase("n")) {
-			// FIXME:this road can not be travelled on, shouldn't really be
-			// included
-			this.direction = Edge.BOTH;
 		} else {
 			this.direction = Edge.BOTH;
 		}

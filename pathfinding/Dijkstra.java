@@ -1,4 +1,4 @@
-package core;
+package pathfinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import utils.Evaluator;
+import utils.IndexMinPQ;
 
-import core.IndexMinPQ;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
 import graphlib.Edge;
@@ -127,6 +127,7 @@ public class Dijkstra {
 		try {
 			evaluation = eval.evaluate(edge);
 		} catch (NotPassableException e) {
+			// Ignore if we cannot pass anyway.
 			return;
 		}
 		if(!distTo.containsKey(other) || distTo.get(other) > distTo.get(cur) + evaluation){

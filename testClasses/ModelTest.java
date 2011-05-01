@@ -23,9 +23,9 @@ import utils.Properties;
 import utils.Stopwatch;
 
 import core.Model;
-import core.NoPathException;
-import core.NotPassableException;
-import core.NothingCloseException;
+import pathfinding.NoPathException;
+import pathfinding.NotPassableException;
+import exceptions.NothingCloseException;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
 

@@ -16,6 +16,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import pathfinding.Dijkstra;
+import pathfinding.NoPathException;
 import loader.KrakLoader;
 import utils.Evaluator;
 import utils.MD5Checksum;
@@ -25,6 +28,7 @@ import graphlib.Graph;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
 import dataobjects.QuadTree;
+import exceptions.NothingCloseException;
 import gui.Line;
 
 /**
@@ -126,8 +130,7 @@ public class Model {
 					.getAbsolutePath());
 			sw.printTime();
 		} catch (IOException e) {
-			System.out.println("A problem occured when trying to read input. System will now exit.");
-			System.exit(0);
+			throw new IllegalStateException("Could not load graph.");
 		}
 
 		return graph;
@@ -254,7 +257,7 @@ public class Model {
 					
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
-					System.exit(0);
+					throw new RuntimeException("Failed to load all of the neccesary data.");
 				}
 				sw.printTime();
 			}

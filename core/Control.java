@@ -1,5 +1,6 @@
 package core;
 
+import exceptions.NothingCloseException;
 import gui.View;
 
 import java.awt.event.ActionEvent;
@@ -14,7 +15,8 @@ import java.awt.geom.Point2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import dataobjects.KrakEdge;
+
+import pathfinding.NoPathException;
 import utils.Direction;
 import utils.Evaluator;
 import utils.PointMethods;

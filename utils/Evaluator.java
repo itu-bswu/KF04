@@ -1,6 +1,6 @@
 package utils;
 
-import core.NotPassableException;
+import pathfinding.NotPassableException;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
 
