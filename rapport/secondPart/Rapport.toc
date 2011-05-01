@@ -11,9 +11,10 @@
 \contentsline {section}{\numberline {2}Implementation}{4}
 \contentsline {subsection}{\numberline {2.1}Model}{4}
 \contentsline {subsection}{\numberline {2.2}Dijkstra}{4}
+\contentsline {subsubsection}{\numberline {2.2.1}The A-star technique}{5}
 \contentsline {subsection}{\numberline {2.3}Control}{5}
 \contentsline {subsection}{\numberline {2.4}Car/Bike routes}{6}
-\contentsline {subsection}{\numberline {2.5}View}{6}
+\contentsline {subsection}{\numberline {2.5}View}{7}
 \contentsline {section}{\numberline {3}Other?}{8}
 \contentsline {subsection}{\numberline {3.1}Serialization}{8}
 \contentsline {subsubsection}{\numberline {3.1.1}Threading}{8}
