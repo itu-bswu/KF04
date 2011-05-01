@@ -68,6 +68,10 @@ public class Properties {
 		properties.setProperty("nodeTestFile", "node_test.txt");
 		properties.setProperty("edgeTestFile", "edge_test.txt");
 		
+		properties.setProperty("nodeFileChecksum", "");
+		properties.setProperty("dataNodeEdge", "data.dat");
+		properties.setProperty("maxBoundsFile", "maxbounds.dat");
+		
 		try {
 			properties.store(new FileOutputStream(fileName), null);
 		} catch (FileNotFoundException e) {

@@ -4,6 +4,7 @@ import graphlib.Edge;
 import graphlib.Graph;
 
 import java.awt.geom.Line2D;
+import java.io.Serializable;
 import java.util.HashMap;
 
 import loader.EdgeData;
@@ -17,7 +18,13 @@ import loader.EdgeData;
  * 
  * @author Peter Tiedemann petert@itu.dk
  */
-public class KrakEdge extends Edge<KrakNode> {
+public class KrakEdge extends Edge<KrakNode> implements Serializable {
+	/**
+	 * Generated serial version UID.
+	 */
+	private static final long serialVersionUID = -7456296442319315859L;
+	
+	
 	// sestoft: For sharing roadname strings
 	private static HashMap<String, String> interner = new HashMap<String, String>();
 	public final float length;

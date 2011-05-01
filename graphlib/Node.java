@@ -1,10 +1,17 @@
 package graphlib;
 
+import java.io.Serializable;
+
 /**
  * Node in a graph
  */
-public class Node {
+public class Node implements Serializable {
 
+	/**
+	 * Generated serial version UID.
+	 */
+	private static final long serialVersionUID = 3955424651126182871L;
+	
 	/**
 	 * Index of node.
 	 */
