@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,7 +42,7 @@ public class Model {
 	private Rectangle2D.Double bounds;
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
-	private List<QuadTree<KrakEdge>> qt = new ArrayList<QuadTree<KrakEdge>>();
+	private List<QuadTree<KrakEdge>> qt = Collections.synchronizedList(new ArrayList<QuadTree<KrakEdge>>());
 	public Graph<KrakEdge,KrakNode> graph;
 
 	/**
