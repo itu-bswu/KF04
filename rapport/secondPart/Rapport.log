@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.4.1)  30 APR 2011 13:30
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.1)  1 MAY 2011 13:09
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/rapport/secondPart/Rapport.tex
 ("C:/Users/Jakob Melnyk/workspace/KF04/src/rapport/secondPart/Rapport.tex"
@@ -114,15 +114,17 @@ Package: babel 2008/07/06 v3.8l The Babel package
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\bblopts.cfg"
 File: bblopts.cfg 2006/07/31 v1.0 MiKTeX 'babel' configuration
 )
-("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\babel\danish.ldf"
-Language: danish 2009/09/19 v1.3r Danish support from the babel system
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\babel\english.ldf"
+Language: english 2005/03/30 v3.3o English support from the babel system
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\babel\babel.def"
 File: babel.def 2008/07/06 v3.8l Babel common definitions
 \babel@savecnt=\count87
 \U@D=\dimen103
 )
-Package babel Info: Making " an active character on input line 82.
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
 ))
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
@@ -211,16 +213,16 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 [1] [2
 
-] [3] [4] [5] [6] [7] [8]
+] [3] [4] [5] [6] [7] [8] [9] [10]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\rapport\secondPart\Rapport.aux") ) 
 Here is how much of TeX's memory you used:
- 1910 strings out of 494019
- 25852 string characters out of 3143862
- 79870 words of memory out of 3000000
- 5212 multiletter control sequences out of 15000+200000
- 9457 words of font info for 33 fonts, out of 3000000 for 9000
+ 1887 strings out of 494019
+ 25522 string characters out of 3143862
+ 79270 words of memory out of 3000000
+ 5188 multiletter control sequences out of 15000+200000
+ 9803 words of font info for 34 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 25i,6n,43p,266b,189s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 25i,6n,43p,266b,191s stack positions out of 5000i,500n,10000p,200000b,50000s
  <
 C:\Users\Jakob Melnyk\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi6
 00\tcrm1095.pk><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/c
@@ -229,9 +231,11 @@ cmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
 r10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12
 .pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pf
 b><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb>
-Output written on Rapport.pdf (9 pages, 107904 bytes).
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C
+:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on Rapport.pdf (11 pages, 130573 bytes).
 PDF statistics:
- 61 PDF objects out of 1000 (max. 8388607)
+ 75 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
