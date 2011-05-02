@@ -59,7 +59,7 @@ between those two locations, if there is a route between them.
 \subsection{Display path using blue coloured roads}
 When the user has selected two or more locations, the map will show the shortest
 route highlighted in blue. The algorithm we use for finding this route (A*) is
-quite fast, so a user will not feel annoyed by how long it takes to find a
+quite fast, so a user will not feel annoyed by the time it takes to find a
 route.
 \subsection{Multiple pins}
 It is possible for a user to place multiple pins on the map. This is done
@@ -76,7 +76,7 @@ As with the total travel distance, our Map of Denmark calculates the estimated
 time it will take to travel the route found by our algorithm. This was
 relatively easy to calculate and is a huge benefit for the end user. We estimate
 the travel time of bikes to be 15 km/hour and with no breaks. This is
-optimistic, but we prefer optimistic to not having the feature at all.
+optimistic, but we prefer optimistic to not having the feature for bikes at all.
 \subsection{Bike or car route}
 It is possible for the user to choose between a car route and a bike route. The
 different options will make our algorithm consider what is possible to traverse
@@ -115,10 +115,10 @@ the route is saved in memory when first found.
 \subsection{Dijkstra}
 Originally we inteded to use \class{Dijkstra}s algorithm to find the shortest
 path from one node in the graph to another. \class{Dijkstra}s algorithm builds a
-\class{Shortest Path Tree} by always lokking a the node closest to the source node. Because of
-this, whenever the destination node is reached, the shortest path to that node is
-found. When that happens we stop the algorith, because we have found what we
-were looking for.
+\class{Shortest Path Tree} by always looking a the node closest to the source
+node. Because of this, whenever the destination node is reached, the shortest
+path to that node is found. When that happens we stop the algorithm, because we
+have found what we were looking for.
 
 In order to always choose the node closest to the source, we use a
 \class{priority queue}, where the distance to the source indexes each node.
@@ -128,7 +128,7 @@ library is slow when decreasing keys, we use an implementation from
 \cite{algs4} called \class{IndexMinPQ}. Our \class{Dijkstra}s algorithm is a
 version inspired from the implementation in \cite{algs4}.
 
-We made some rather big changes to the Dijkstra algoritm to make it fit our
+We made some rather big changes to the Dijkstra algorithm to make it fit our
 requirements. First of all, we replaced the arrays that are used to hold
 \field{edgeTo} and \field{distTo} in the \cite{algs4} with \class{Map}s, so we
 can use our objects instead of integers used in \cite{algs4}. 
@@ -141,7 +141,7 @@ object. This means we do not have to instantiate it before we use it.
 
 To be able to compare the edges differently depending on the type of
 transportation the user has selected, we have created an \class{Evaluator}. An
-evaluator is given as argument to the pathfinding and is responsible for
+evaluator is given as argument to the pathfinding method and is responsible for
 transforming the \class{KrakEdge}s to a value that can be inserted into the
 \class{priority queue}.
 
@@ -150,7 +150,7 @@ right direction. This check is performed every time a road is going to be added
 to the \class{priority queue}. If the road cannot be traversed, it is skipped.
 
 It is important to note that we have found an error in the data from
-\textbf{krak}. Some of the highways are oriented in the wrong direction, so the
+\textbf{Krak}. Some of the highways are oriented in the wrong direction, so the
 pathfinding cannot traverse a long stretch of highway. This will make it look
 like it wants the user to get on and off the highway in a very weird way. 
 
@@ -166,27 +166,37 @@ roads in both directions, which means they cannot be entered from either end.
 \subsubsection{A-star (A*)}
 As mentioned in the start of the previous section, we originally intended to use
 \class{Dijkstra}. After we had implemented it, we learned of another, similar
-algorithm called \class{A-star} or \class{A*}. 
+algorithm called \class{A-star} or \class{A*}. \class{A*} is a variation of
+\class{Dijkstra} and, in our case, an improvement in the way it works.
 
-In order to make our path finding algorithm even faster, we used a variation
-called A-star. This implementation benefits from the fact that the roads, in contrast
-to a theoretical graph, are part of a geometric system. This means that we can
-calculate the fastest possible route from one point to another. This helps us
-determine which routes to look at first. The fastest possible route is always a
-straight line from the source point to the end point. The smaller the difference
-from the straight line is to the fastest possible route, the more we will
-benefit from the A-star technique. This difference will often be bigger for the
-routes calculated for the car. This is because the fastest route would be a
-straight highway, which often is far from possible. We can therefore conclude
-that the A-star technique typically is more of a benefit when calculating routes
-for bicycling because they rely on the distance.
-In order to make the code work with our dynamic evaluations for the \class{Edge}s we have
-created another method in the \class{Evaluator} that calculates the heuristic for
-at given \class{Node} relative to the target \class{Node}.
+\class{A*} benefits from the fact that the roads are part of an actual map
+compared to the abstract graph that Dijkstra works with. This makes it possible
+to calculate the fastest possible route from one point to another. This helps us
+determine which roads to look at first when creating our \class{Shortest Path
+Tree}. Because we look at the ``best'' roads first, we end up looking at fewer
+roads than with \class{Dijkstra}.
 
+The smaller the difference between the straight line to the end point and the
+fastest possible route, the better \class{A*} works. This makes it a very good
+algorithm for calculating the shortest possible route - something that we use
+for bike routes. 
+
+It does not work as well for car routes, because it is hard to make a good
+heuristic for the straight line to the finish. We have chosen to make an
+abstract highway from start to finish where it is possible to travel at 110
+km/hour. This will almost always be very, very optimistic and as such,
+\class{A*} will look at many roads. It is still very much faster than our
+\class{Dijkstra} implementation, so we have decided to use it. It could
+certainly be improved, if we found a better heuristic for calculating the
+car speed.
+
+In our \class{Evaluator} class, we have created a method that calculates the
+heuristic at a given \class{Node} relative to the target \class{Node}. This
+enables us to easily add new ways of calculating the heuristic on new vehicle
+types.
 \subsection{Control}
 A lot has changed in \class{Control} since our last version. We have changed a
-lot of the methods to work as static methods in seperate \class{Tools} classes,
+lot of the methods to work as static methods in seperate \class{Tool} classes,
 so \class{Control} will feel less cluttered in this version. 
 New logic has taken
 the place of the old logic however. Route calculation, pin placement, pin
@@ -216,11 +226,11 @@ one might make the recalculating take a while. We decided to use this
 implementation, for now at least, because we wanted a working functionality
 that we could later improve upon if nessecary.
 \subsection{Car/Bike routes}
-Another useful feature we have included is the ability to switch between multiple
-modes of pathfinding. We have named these two modes Car and Bike. In the Car mode
-the pathfinding will priorize lower travel times, since we believe this to be most
-important when driving. Additionally the Car mode will exclude small paths and 
-pedestrian zones.
+Another useful feature we have included is the option to switch between multiple
+types of vehicles for pathfinding. We have named these two modes Car and
+Bike. In the Car mode the pathfinding will priorize lower travel times, since we
+believe this to be most important when driving. Additionally the Car mode will
+exclude small paths and pedestrian zones.
 The Bike mode prioritizes lower distances highest since intersections and speed-limits
 are of relatively low importance here. When using Bike mode the route will not include
 highways.
@@ -229,60 +239,64 @@ As described earlier these different ways of prioritizing the roads are achieved
 using the \class{Evalutator} that is provided when asking the pathfinding
 method for a best path. We have written these two evaluators as static objects
 on the \class{Evaluator} class for easy use in the code, but the use of a
-seperate object for the evaluations open up for later variation with little impact on the original code.
+seperate object for the evaluations open up for later variation with little
+impact on the original code.
 \subsection{View}
 When looking at the changes in \class{View} relatively little has happened since
 most of the new code is located "behind the curtain". The \class{Canvas} has
-been extended to allow adding and drawing of the route. This is however, as mentioned earlier, done in exactly the same way
-as with the roads in the map itself. The \class{Canvas} also includes some
-points that is positions where the pins are placed. These are drawn on top of the map and (like the map)
-needs provided again if the map moves.
+been extended to allow adding and drawing of the route. This is done in exactly
+the same way as with the roads in the map itself. The \class{Canvas} also
+includes some points that are positions where the pins are placed. These are
+drawn on top of the map and (like the map) needs provided again if the map moves.
 
-When looking at the menu to the left there are a few more options to the user. There is a
-new button to remove all pins from the map and two \class{RadioButtons} to
-toggle between Car mode and Bike mode in the pathfinding.
+When looking at the menu to the left there are a few more options to the user.
+There is a new button to remove all pins from the map and two
+\class{RadioButtons} to toggle between Car mode and Bike mode in the
+pathfinding.
 
-Beneath the tools for pathfinding there are displayed two pieces of information (and
-spare space for more). This information is changed by a simple public method in the View
-and the units will adjust will be adjusted accordingly.
-\pagebreak
-\section{Features that did not make it in}
-This chapter covers features we spend a lot of time on, but did not make it into
-the version that we hand in with this report.
-\subsection{Serialization}
-Everytime we start the program, we loop through the entire dataset given to us by Krak. 
-This data is huge, and because of this it takes quite a lot of time to start the
-program. Because we need to load all these data, the user is presented with a blank screen for 
-a long time, before all these data are loaded and the program starts.
+Below the tools for changing the vehicle type, we display information about the
+route (and includes spare space for more). This information is changed by a
+simple public method in the View and the units will be adjusted accordingly.
+\subsection{Performance improvement}
+During the last month we have spent a lot of time improving the speed of our
+map. We have fiddled with lowering RAM-usage, serialization, using threads,
+drawing less roads and more. Below are the interesting and most effective ways
+we have sped up performance.
+\subsubsection{Serialization}
+Everytime we start the program, we run through the entire dataset given to us by
+Krak. This data is huge, and because of this it takes quite a lot of time to
+start the program. Because we need to load all this data, the user is presented
+with a blank screen for a long time, before all these data are loaded and the
+program starts.
 
-We started looking for a way to speed up the loading process, so the user has a map in front of 
-him or her quickly, when the user starts the program. What takes the most time is looping 
-through the data and creating the needed datastructures (quadtrees and so on),
-so if we could skip these steps or speed them up, we could save a lot of time.
+We started looking for a way to speed up the loading process, so the user has a
+map in front of him or her quickly, when the user starts the program. What takes
+the most time is running through the data and creating the needed datastructures
+(quadtrees, etc.), so if we could skip these steps or speed them up, we
+could save a lot of time.
 
-This is where serialization comes into play. By serializing an object, you transform your object 
-into something that can be passed around, through streams and such. So by serializing objects, 
-you can save them to files. If the object to be serialized contains references to other objects, these 
-will also be serialized (if they are Serializable / implements java.io.Serializable).
-By doing this, we only need to build our datastructures the first time you start the program. After the 
-objects have been created, they are been serialized and saved to files. The next time the user starts 
-the program, we check whether the data has been changed. If it hasn't been changed, we load the 
-objects that we saved, instead of making them all over.
-
-Neither our serialization or our threading (described below) features made it
-into this version, because we had problems with using the serialized objects when making our
-Shortest Path Tree. It was always intended as a nice to have feature, and we
-hope to have it working in a later version of the project.
-
+This is where serialization comes into play. By serializing an object, you
+transform your object into something that can be passed around, through streams
+and so on. So by serializing objects, you can save them to files. If the object
+to be serialized contains references to other objects, these will also be
+serialized (if they are \class{Serializable} / implements java.io.Serializable).
+By doing this, we only need to build our datastructures the first time the
+program starts. After the objects have been created, they are been serialized
+and saved to files. The next time the user starts the program, we check whether the data has been changed. If it hasn't been changed, we load the objects that we
+saved, instead of making them all over.
 \subsubsection{Threading}
-By serializing our main objects, we cut several seconds of our load times. But we can do it even faster. 
-We are using several objects, but only few of them are needed right from the start. So what we can do 
-to speed it up even more, is loading the few neccesary objects, and then load the rest in the background. 
-We do this with threads. We load the few objects we need from the start, then create a new thread to load the rest of the objects, and in the mean time, we create the window and draw the map.
+By serializing our main objects, we cut several seconds of our load times. But
+we could do it even faster. We are using several objects, but only few of them
+are needed right from the start. So what we can do to speed it up even more, is
+loading the few neccesary objects, and then load the rest in the background. We
+do this with threads. We load the few objects we need from the start, then
+create a new thread to load the rest of the objects, and in the mean time, we
+create the window and draw the map.
 
-The same goes for the first run. The user doesn't need to wait for the program to finish serializing and 
-saving to files. By using threads, we can create the datastructures, and then immediately show the window 
-to the user, while saving the objects to files in the background.
+The same goes for the first run. The user doesn't need to wait for the program
+to finish serializing and saving to files. By using threads, we can create the
+datastructures, and then immediately show the window to the user, while saving
+the objects to files in the background.
 \pagebreak
 \begin{thebibliography}{99}
 \bibitem{algs4}

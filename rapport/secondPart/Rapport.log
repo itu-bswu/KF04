@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.1)  1 MAY 2011 13:09
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.1)  2 MAY 2011 10:42
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/rapport/secondPart/Rapport.tex
 ("C:/Users/Jakob Melnyk/workspace/KF04/src/rapport/secondPart/Rapport.tex"
@@ -218,11 +218,11 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 Here is how much of TeX's memory you used:
  1887 strings out of 494019
  25522 string characters out of 3143862
- 79270 words of memory out of 3000000
+ 78270 words of memory out of 3000000
  5188 multiletter control sequences out of 15000+200000
  9803 words of font info for 34 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 25i,6n,43p,266b,191s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 25i,6n,43p,265b,191s stack positions out of 5000i,500n,10000p,200000b,50000s
  <
 C:\Users\Jakob Melnyk\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi6
 00\tcrm1095.pk><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/c
@@ -233,7 +233,7 @@ r10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12
 b><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb>
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C
 :/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Rapport.pdf (11 pages, 130573 bytes).
+Output written on Rapport.pdf (11 pages, 132868 bytes).
 PDF statistics:
  75 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
