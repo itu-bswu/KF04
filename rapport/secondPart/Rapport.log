@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.1)  2 MAY 2011 10:42
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.1)  2 MAY 2011 23:56
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/rapport/secondPart/Rapport.tex
 ("C:/Users/Jakob Melnyk/workspace/KF04/src/rapport/secondPart/Rapport.tex"
@@ -213,7 +213,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 [1] [2
 
-] [3] [4] [5] [6] [7] [8] [9] [10]
+] [3] [4] [5] [6] [7] [8] [9]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\rapport\secondPart\Rapport.aux") ) 
 Here is how much of TeX's memory you used:
  1887 strings out of 494019
@@ -233,9 +233,9 @@ r10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12
 b><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb>
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C
 :/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Rapport.pdf (11 pages, 132868 bytes).
+Output written on Rapport.pdf (10 pages, 132456 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
+ 72 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
