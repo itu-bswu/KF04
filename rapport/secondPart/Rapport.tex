@@ -113,11 +113,11 @@ by the \class{Model} since it's the object that primarliy handles the data. This
 information can be calculated in linear time relative to the length of the current route since
 the route is saved in memory when first found.
 \subsection{Dijkstra}
-Originally we inteded to use \class{Dijkstra}s algorithm to find the shortest
+Originally we intended to use \class{Dijkstra}s algorithm to find the shortest
 path from one node in the graph to another. \class{Dijkstra}s algorithm builds a
-\class{Shortest Path Tree} by always lokking a the node closest to the source node. Because of
+\class{Shortest Path Tree} by always looking a the node closest to the source node. Because of
 this, whenever the destination node is reached, the shortest path to that node is
-found. When that happens we stop the algorith, because we have found what we
+found. When that happens we stop the algorithm, because we have found what we
 were looking for.
 
 In order to always choose the node closest to the source, we use a

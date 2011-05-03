@@ -51,6 +51,12 @@ public class KrakNode extends Node implements Serializable {
 		return Y;
 	}
 
+	//TODO: Passer denne metode ikke bedre ind i noget utility hall¿j? BŒde pga RAM og renhed?
+	/**
+	 * The (crow flying) distance to another node
+	 * @param that The other node
+	 * @return The distance
+	 */
 	public float distanceTo(KrakNode that){
 		float x_part = (float) Math.pow(this.getX()-that.getX(),2);
 		float y_part = (float) Math.pow(this.getY()-that.getY(),2);
