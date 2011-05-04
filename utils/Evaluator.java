@@ -46,5 +46,20 @@ public abstract class Evaluator {
 		}
 	};
 	
+	// To include everything
+	public static Evaluator ANYTHING = new Evaluator(){
+
+		@Override
+		public float evaluate(KrakEdge item) throws NotPassableException {
+			return 0;
+		}
+
+		@Override
+		public float heuristic(KrakNode item, KrakNode target) {
+			return 0;
+		}
+		
+	};
+	
 	public static Evaluator DEFAULT = Evaluator.CAR;
 }

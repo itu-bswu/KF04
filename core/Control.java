@@ -334,7 +334,7 @@ public class Control {
 		}
 
 		try {
-			model.findPath(model.getClosestNode(pins.get(start)), model.getClosestNode(pins.get(end)),eval);
+			model.findPath(model.getClosestNode(pins.get(start),eval), model.getClosestNode(pins.get(end),eval),eval);
 		}catch(NothingCloseException e1){
 			view.displayDialog("You have placed one or more of your markers too far away from a node.", "Too far away from node.");
 		}catch (NoPathException e2) {

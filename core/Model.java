@@ -19,6 +19,7 @@ import java.util.Set;
 
 import pathfinding.Dijkstra;
 import pathfinding.NoPathException;
+import pathfinding.NotPassableException;
 import loader.KrakLoader;
 import utils.Evaluator;
 import utils.MD5Checksum;
@@ -90,8 +91,8 @@ public class Model {
 			sw.printTime();
 
 		} catch (Exception e) {
-			
-			
+
+
 			System.out.println(e.getMessage());
 
 			// If the inputGraph is null, load from file.
@@ -100,7 +101,7 @@ public class Model {
 			} else {
 				graph = inputGraph;
 			}
-			
+
 			maxBounds = maxBounds(graph.getNodes());
 			bounds = originalBounds();
 			Stopwatch sw = new Stopwatch("Quadtrees");
@@ -202,19 +203,19 @@ public class Model {
 
 					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("dataNodeEdge")));
 					oos = new ObjectOutputStream(fout);
-					
+
 					oos.writeObject(maxBounds);
 					oos.flush();
-					
+
 					oos.writeObject(qt.get(0));
 					oos.flush();
-					
+
 					oos.writeObject(graph);
 					oos.flush();
-					
+
 					oos.writeObject(qt.get(1));
 					oos.flush();
-					
+
 					oos.writeObject(qt.get(2));
 					oos.flush();
 					oos.close();
@@ -236,10 +237,10 @@ public class Model {
 		BufferedInputStream bin;
 		bin = new BufferedInputStream(new FileInputStream(Properties.get("dataNodeEdge")));
 		final ObjectInputStream ois = new ObjectInputStream(bin);
-		
+
 		maxBounds = (Rectangle2D.Double) ois.readObject();
 		bounds = originalBounds();
-		
+
 		qt.add((QuadTree<KrakEdge>) ois.readObject());
 
 		new Thread() {
@@ -248,13 +249,13 @@ public class Model {
 				Stopwatch sw = new Stopwatch("Load serialized");
 				try {
 					graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
-					
+
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
 
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
 
 					ois.close();
-					
+
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 					throw new RuntimeException("Failed to load all of the neccesary data.");
@@ -280,7 +281,7 @@ public class Model {
 
 		path.addAll(Dijkstra.findPath(graph, startNode, endNode,eval));
 	}
-	
+
 	/**
 	 * Create a new DijkstraSP from the startNode, and finds the path to the 
 	 * endNode. The path is returned as an arraylist of lines. The default 
@@ -566,10 +567,11 @@ public class Model {
 	/**
 	 * Get closest edge within 200 meters.
 	 * @param point the point to search from.
+	 * @param an evaluator to eliminate roads that can't be traveled by the given travel mode
 	 * @return the closest edge within the maximum search distance.
 	 * @throws NothingCloseException If there are no edges within the maximum search distance.
 	 */
-	public KrakEdge getClosestEdge(Point2D.Double point, float radius) throws NothingCloseException{
+	public KrakEdge getClosestEdge(Point2D.Double point, float radius, Evaluator eval) throws NothingCloseException{
 		//System.out.println("Finding closest road");
 		// get all nearby roads
 
@@ -590,10 +592,13 @@ public class Model {
 			if(edge.roadname.length() > 1){
 				double cur_dist = edge.getLine().ptSegDist(point);
 				//System.out.println("\t"+edge.roadname+" is "+(int)cur_dist+" meters away");
-				if(cur_dist < distance){
-					distance = (float) cur_dist;
-					closest = edge;
-				}
+				try{
+					eval.evaluate(edge); // we don't need the return, just the exception if it is unpassable
+					if(cur_dist < distance){
+						distance = (float) cur_dist;
+						closest = edge;
+					}
+				}catch(NotPassableException e){} // silent catch to avoid having the unpassable edge as closest
 			}
 		}
 
@@ -614,7 +619,7 @@ public class Model {
 	public String getClosestRoadname(Point2D.Double point){
 		KrakEdge road;
 		try {
-			road = getClosestEdge(point,Model.ROAD_SEARCH_DISTANCE);
+			road = getClosestEdge(point,Model.ROAD_SEARCH_DISTANCE, Evaluator.ANYTHING);
 			return road.roadname;
 		} catch (NothingCloseException e) {
 			return " ";
@@ -624,15 +629,16 @@ public class Model {
 	/**
 	 * Finds the closest node within 200 meters from a given point
 	 * @param point the given point
+	 * @param an evaluator to eliminate roads that can't be traveled by the given travel mode
 	 * @return the closest node from the point
 	 * @throws NothingCloseException If there are no nodes within the maximum search distance.
 	 */
-	public KrakNode getClosestNode(Point2D.Double point) throws NothingCloseException{
+	public KrakNode getClosestNode(Point2D.Double point, Evaluator eval) throws NothingCloseException{
 		float curDistance = Model.ROAD_SEARCH_DISTANCE;
 		KrakEdge edge = null;
 		while(edge == null){
 			try{
-				edge = getClosestEdge(point, curDistance);
+				edge = getClosestEdge(point, curDistance, eval);
 			}catch(NothingCloseException e){
 				if(2*curDistance > maxBounds.width && 2*curDistance > maxBounds.height){
 					throw e;
@@ -645,7 +651,7 @@ public class Model {
 		KrakNode second = edge.getOtherEnd(first);
 
 		if(first.getPoint().distance(point) < second.getPoint().distance(point)){
-			
+
 			return first;
 		}
 		return second;
