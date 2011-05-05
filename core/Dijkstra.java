@@ -38,7 +38,6 @@ public class Dijkstra {
 
 		distTo.put(startNode, 0.0f);
 		pq.insert(startNode.getIndex(),0.0f);
-		System.out.println("...");
 		while(!pq.isEmpty()){
 			visited++;
 			KrakNode cur = G.getNode(pq.delMin());

@@ -29,7 +29,7 @@ import utils.RectangleMethods;
  */
 public class Control {
 
-	private static final int bikeSpeed = 20;
+	private static final int bikeSpeed = 20; // km/t
 	private static final float MOVE_LENGTH = (float) 0.30;
 	private static final float ZOOM_LENGTH = (float) 0.15;
 	private static final String NAME = Properties.get("programName"); //Name of the window containing the map.
