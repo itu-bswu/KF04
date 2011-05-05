@@ -1,31 +1,25 @@
 package testClasses;
 import static junit.framework.Assert.*;
 
-import graphlib.Edge;
 import graphlib.Graph;
-import graphlib.Node;
 import gui.Line;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 
-import junit.framework.TestCase;
+
 import loader.KrakLoader;
 
 import org.junit.*;
 
+import pathfinding.NoPathException;
+
 import utils.Evaluator;
 import utils.Properties;
-import utils.Stopwatch;
 
 import core.Model;
-import core.NoPathException;
-import core.NotPassableException;
-import core.NothingCloseException;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
 
@@ -105,9 +99,11 @@ public class ModelTest {
 	
 	/**					
 	 * Test the lines.
-	 * To simplyfy things, we simply count the number of lines, which is 27
+	 * To simplify things, we simply count the number of lines, which is 27
 	 */
 	@Test public void testGetLines() {
+		System.out.println("WTF??");
+		System.out.println("lines:" + model.getLines().size());
 		assertEquals(28, model.getLines().size());
 	}
 	
@@ -123,7 +119,7 @@ public class ModelTest {
 	 * Testing the pathfinder.
 	 * Testing a continuing path
 	 */
-	@Test public void testPath() {
+	@Test public void testContinuingPath() {
 		try {
 			/*
 			 * Testing the path finding, and the returning of the lines,
@@ -132,6 +128,8 @@ public class ModelTest {
 			 * 
 			 * It tests the route distance and travel time as well.
 			 */
+			model.clearPath();
+			
 			model.findPath(testGraph.getNode(1),testGraph.getNode(3),Evaluator.BIKE);
 			assertEquals(1,model.getPath().size());
 			assertEquals(0.0035f,model.getRouteDistance()); //This roads length is 3.5m
@@ -163,10 +161,67 @@ public class ModelTest {
 		}
 	}
 	
-	//TODO: Add test for an unreachable path
-	//TODO: Add test for at one-way road
-	//TODO: Add test for 
+	/**
+	 * Test for an unreachable path
+	 */
+	@Test public void testUnreachablePath() {
+		model.clearPath();
+		try {
+			model.findPath(testGraph.getNode(1),testGraph.getNode(12),Evaluator.BIKE);
+			assert false;
+		}
+		catch (NoPathException e) {
+			System.out.println("Test posetive");
+		}
+	}
 	
+	/**
+	 * Test for a one-way road
+	 */
+	@Test public void testOneWayPath() {		
+		try {
+			model.clearPath();
+			model.findPath(testGraph.getNode(8),testGraph.getNode(7),Evaluator.CAR);
+			System.out.println("size2: "+model.getPath().size());
+			assertEquals(1,model.getPath().size());
+			
+			model.clearPath();
+			model.findPath(testGraph.getNode(7),testGraph.getNode(8),Evaluator.CAR);
+			System.out.println("size2: "+model.getPath().size());
+			assertEquals(3,model.getPath().size());
+			
+			model.clearPath();
+			model.findPath(testGraph.getNode(6),testGraph.getNode(7),Evaluator.CAR);
+			System.out.println("size2: "+model.getPath().size());
+			assertEquals(3,model.getPath().size());
+			
+			model.clearPath();
+			model.findPath(testGraph.getNode(7),testGraph.getNode(6),Evaluator.CAR);
+			System.out.println("size2: "+model.getPath().size());
+			assertEquals(3,model.getPath().size());
+		}
+		catch (NoPathException e) {
+			System.out.println("Test negative");
+		}
+	}
+	
+	/**
+	 * Test of the evaluator
+	 */
+	@Test public void testEvaluator() {		
+		try {
+			model.clearPath();
+			model.findPath(testGraph.getNode(10),testGraph.getNode(9),Evaluator.BIKE);
+			assertEquals(1,model.getPath().size());
+			
+			model.clearPath();
+			model.findPath(testGraph.getNode(10),testGraph.getNode(9),Evaluator.CAR);
+			assertEquals(3,model.getPath().size()); //The car cannot take the sti and must go around
+		}
+		catch (NoPathException e) {
+			System.out.println("Test negative");
+		}
+	}
 	
 	private void printPath() {
 		for (Line l : model.getPath()) {

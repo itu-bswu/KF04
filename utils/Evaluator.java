@@ -1,6 +1,6 @@
 package utils;
 
-import core.NotPassableException;
+import pathfinding.NotPassableException;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
 
@@ -44,6 +44,21 @@ public abstract class Evaluator {
 		public float heuristic(KrakNode item, KrakNode target) {
 			return item.distanceTo(target);
 		}
+	};
+	
+	// To include everything
+	public static Evaluator ANYTHING = new Evaluator(){
+
+		@Override
+		public float evaluate(KrakEdge item) throws NotPassableException {
+			return 0;
+		}
+
+		@Override
+		public float heuristic(KrakNode item, KrakNode target) {
+			return 0;
+		}
+		
 	};
 	
 	public static Evaluator DEFAULT = Evaluator.CAR;

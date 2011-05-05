@@ -1,5 +1,6 @@
 package graphlib;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,10 +15,15 @@ import java.util.Set;
  * @author Peter Tiedemann petert@itu.dk
  */
 
-public class Graph<E extends Edge<N>, N extends Node> {
+public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 	// sestoft: Changed edge representation from linked list to array list.
 	// Important to create them small: 3 resp. 1 items because the average
 	// node degree is very low.
+
+	/**
+	 * Generated serial version UID.
+	 */
+	private static final long serialVersionUID = 2574086346373620997L;
 
 	/**
 	 * This is the standard adjacency list representation of a graph in

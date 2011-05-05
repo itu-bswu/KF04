@@ -1,7 +1,4 @@
-package core;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
+package utils;
 /*************************************************************************
  *  Compilation:  javac IndexMinPQ.java
  *  Execution:    java IndexMinPQ
@@ -10,13 +7,17 @@ import java.util.NoSuchElementException;
  *
  *********************************************************************/
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 public class IndexMinPQ<Key extends Comparable<Key>> implements Iterable<Integer> {
     private int N;           // number of elements on PQ
     private int[] pq;        // binary heap using 1-based indexing
     private int[] qp;        // inverse of pq - qp[pq[i]] = pq[qp[i]] = i
     private Key[] keys;      // keys[i] = priority of i
 
-    public IndexMinPQ(int NMAX) {
+    @SuppressWarnings("unchecked")
+	public IndexMinPQ(int NMAX) {
         keys = (Key[]) new Comparable[NMAX + 1];    // make this of length NMAX??
         pq   = new int[NMAX + 1];
         qp   = new int[NMAX + 1];                   // make this of length NMAX??

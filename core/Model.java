@@ -2,21 +2,34 @@ package core;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import pathfinding.Dijkstra;
+import pathfinding.NoPathException;
+import pathfinding.NotPassableException;
 import loader.KrakLoader;
 import utils.Evaluator;
+import utils.MD5Checksum;
 import utils.Properties;
 import utils.Stopwatch;
 import graphlib.Graph;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
 import dataobjects.QuadTree;
+import exceptions.NothingCloseException;
 import gui.Line;
 
 /**
@@ -34,7 +47,7 @@ public class Model {
 	private Rectangle2D.Double bounds;
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
-	private List<QuadTree<KrakEdge>> qt = new ArrayList<QuadTree<KrakEdge>>();
+	private List<QuadTree<KrakEdge>> qt = Collections.synchronizedList(new ArrayList<QuadTree<KrakEdge>>());
 	public Graph<KrakEdge,KrakNode> graph;
 
 	/**
@@ -53,18 +66,53 @@ public class Model {
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
 
-		// If the inputGraph is null, load from file.
-		if (inputGraph == null) {
-			graph = loadGraph();
-		} else {
-			graph = inputGraph;
+		boolean fromFile = false;
+		try {
+			File dataDir = new File(".", Properties.get("dataDir"));
+			String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
+			if (chk.equals(Properties.get("nodeFileChecksum"))) {
+				fromFile = true;
+			}
+		} catch (Exception e) {
+			fromFile = false;
 		}
-		
-		maxBounds = maxBounds(graph.getNodes());
-		bounds = originalBounds();
-		Stopwatch sw = new Stopwatch("Quadtrees");
-		createQuadTrees(graph.getAllEdges());
-		sw.printTime();
+
+		try {
+			if (!fromFile) {
+				throw new Exception("Could not load serialized objects - creating datastructures");
+			}
+
+			Stopwatch sw = new Stopwatch("Loading");
+			graph = inputGraph;
+			// Load serialized objects
+			if (inputGraph==null) {
+				loadSerializedFromFiles();
+			}
+			sw.printTime();
+
+		} catch (Exception e) {
+
+
+			System.out.println(e.getMessage());
+
+			// If the inputGraph is null, load from file.
+			if (inputGraph == null) {
+				graph = loadGraph();
+			} else {
+				graph = inputGraph;
+			}
+
+			maxBounds = maxBounds(graph.getNodes());
+			bounds = originalBounds();
+			Stopwatch sw = new Stopwatch("Quadtrees");
+			createQuadTrees(graph.getAllEdges());
+			sw.printTime();
+
+			// Save all important objects to files.
+			if (inputGraph==null) {
+				serializeToFiles();
+			}
+		}
 	}
 
 	/**
@@ -83,8 +131,7 @@ public class Model {
 					.getAbsolutePath());
 			sw.printTime();
 		} catch (IOException e) {
-			System.out.println("A problem occured when trying to read input. System will now exit.");
-			System.exit(0);
+			throw new IllegalStateException("Could not load graph.");
 		}
 
 		return graph;
@@ -141,6 +188,84 @@ public class Model {
 	}
 
 	/**
+	 * @param serializeGraph 
+	 * 
+	 */
+	private void serializeToFiles () {
+		new Thread () {
+			@Override
+			public void run () {
+				Stopwatch sw = new Stopwatch("Serialize");
+				// Serialize
+				try {
+					BufferedOutputStream fout;
+					ObjectOutputStream oos;
+
+					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("dataNodeEdge")));
+					oos = new ObjectOutputStream(fout);
+
+					oos.writeObject(maxBounds);
+					oos.flush();
+
+					oos.writeObject(qt.get(0));
+					oos.flush();
+
+					oos.writeObject(graph);
+					oos.flush();
+
+					oos.writeObject(qt.get(1));
+					oos.flush();
+
+					oos.writeObject(qt.get(2));
+					oos.flush();
+					oos.close();
+
+					File dataDir = new File(".", Properties.get("dataDir"));
+					String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
+					Properties.set("nodeFileChecksum", chk);
+					Properties.save();
+				} catch (Exception ex) {
+					System.out.println("Serialization failed.");
+					//ex.printStackTrace();
+				}
+				sw.printTime();
+			}
+		}.start();
+	}
+
+	private void loadSerializedFromFiles () throws IOException, ClassNotFoundException {
+		BufferedInputStream bin;
+		bin = new BufferedInputStream(new FileInputStream(Properties.get("dataNodeEdge")));
+		final ObjectInputStream ois = new ObjectInputStream(bin);
+
+		maxBounds = (Rectangle2D.Double) ois.readObject();
+		bounds = originalBounds();
+
+		qt.add((QuadTree<KrakEdge>) ois.readObject());
+
+		new Thread() {
+			@Override
+			public void run () {
+				Stopwatch sw = new Stopwatch("Load serialized");
+				try {
+					graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
+
+					qt.add((QuadTree<KrakEdge>) ois.readObject());
+
+					qt.add((QuadTree<KrakEdge>) ois.readObject());
+
+					ois.close();
+
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+					throw new RuntimeException("Failed to load all of the neccesary data.");
+				}
+				sw.printTime();
+			}
+		}.start();
+	}
+
+	/**
 	 * Create a new DijkstraSP from the startNode, and finds the path to the 
 	 * endNode. The path is returned as an arraylist of lines
 	 * 
@@ -156,7 +281,7 @@ public class Model {
 
 		path.addAll(Dijkstra.findPath(graph, startNode, endNode,eval));
 	}
-	
+
 	/**
 	 * Create a new DijkstraSP from the startNode, and finds the path to the 
 	 * endNode. The path is returned as an arraylist of lines. The default 
@@ -306,7 +431,7 @@ public class Model {
 		Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 		Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 		//Choosing the right color and thickness for each line
-		Color yellow = new Color(214,207,0);
+		Color yellow = new Color(205,204,0);
 		Color roadColor = new Color(0x000000);
 		int thickness = 1;
 		switch(e.type){
@@ -443,10 +568,11 @@ public class Model {
 	/**
 	 * Get closest edge within 200 meters.
 	 * @param point the point to search from.
+	 * @param an evaluator to eliminate roads that can't be traveled by the given travel mode
 	 * @return the closest edge within the maximum search distance.
 	 * @throws NothingCloseException If there are no edges within the maximum search distance.
 	 */
-	public KrakEdge getClosestEdge(Point2D.Double point, float radius) throws NothingCloseException{
+	public KrakEdge getClosestEdge(Point2D.Double point, float radius, Evaluator eval) throws NothingCloseException{
 		//System.out.println("Finding closest road");
 		// get all nearby roads
 
@@ -467,10 +593,13 @@ public class Model {
 			if(edge.roadname.length() > 1){
 				double cur_dist = edge.getLine().ptSegDist(point);
 				//System.out.println("\t"+edge.roadname+" is "+(int)cur_dist+" meters away");
-				if(cur_dist < distance){
-					distance = (float) cur_dist;
-					closest = edge;
-				}
+				try{
+					eval.evaluate(edge); // we don't need the return, just the exception if it is unpassable
+					if(cur_dist < distance){
+						distance = (float) cur_dist;
+						closest = edge;
+					}
+				}catch(NotPassableException e){} // silent catch to avoid having the unpassable edge as closest
 			}
 		}
 
@@ -491,7 +620,7 @@ public class Model {
 	public String getClosestRoadname(Point2D.Double point){
 		KrakEdge road;
 		try {
-			road = getClosestEdge(point,Model.ROAD_SEARCH_DISTANCE);
+			road = getClosestEdge(point,Model.ROAD_SEARCH_DISTANCE, Evaluator.ANYTHING);
 			return road.roadname;
 		} catch (NothingCloseException e) {
 			return " ";
@@ -501,15 +630,16 @@ public class Model {
 	/**
 	 * Finds the closest node within 200 meters from a given point
 	 * @param point the given point
+	 * @param an evaluator to eliminate roads that can't be traveled by the given travel mode
 	 * @return the closest node from the point
 	 * @throws NothingCloseException If there are no nodes within the maximum search distance.
 	 */
-	public KrakNode getClosestNode(Point2D.Double point) throws NothingCloseException{
+	public KrakNode getClosestNode(Point2D.Double point, Evaluator eval) throws NothingCloseException{
 		float curDistance = Model.ROAD_SEARCH_DISTANCE;
 		KrakEdge edge = null;
 		while(edge == null){
 			try{
-				edge = getClosestEdge(point, curDistance);
+				edge = getClosestEdge(point, curDistance, eval);
 			}catch(NothingCloseException e){
 				if(2*curDistance > maxBounds.width && 2*curDistance > maxBounds.height){
 					throw e;
@@ -522,7 +652,7 @@ public class Model {
 		KrakNode second = edge.getOtherEnd(first);
 
 		if(first.getPoint().distance(point) < second.getPoint().distance(point)){
-			
+
 			return first;
 		}
 		return second;

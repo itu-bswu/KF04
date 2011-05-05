@@ -64,7 +64,6 @@ public class KrakLoader {
 		Graph<KrakEdge, KrakNode> graph = new Graph<KrakEdge, KrakNode>(nodes);
 
 		nodes = null;
-		System.gc();
 
 		// Open the file containing the edge entries
 		br = new BufferedReader(new FileReader(edgeFile));
@@ -85,7 +84,6 @@ public class KrakLoader {
 		// Clean up interning table (sestoft)
 		KrakEdge.clear();
 
-		System.gc();
 		return graph;
 	}
 

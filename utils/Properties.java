@@ -1,5 +1,7 @@
 package utils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,7 +24,9 @@ public class Properties {
 	 */
 	public static String get (String key) {
 		try {
-			properties.load(new FileInputStream(fileName));
+			BufferedInputStream is = new BufferedInputStream(new FileInputStream(fileName));
+			properties.load(is);
+			is.close();
 			return properties.getProperty(key);
 		} catch (FileNotFoundException e) {
 			defaultSettings();
@@ -52,7 +56,10 @@ public class Properties {
 	 * @throws IOException
 	 */
 	public static void save () throws FileNotFoundException, IOException {
-		properties.store(new FileOutputStream(fileName), null);
+		BufferedOutputStream fos = new BufferedOutputStream(new FileOutputStream(fileName));
+		properties.store(fos, null);
+		fos.flush();
+		fos.close();
 	}
 	
 	/**
@@ -68,8 +75,12 @@ public class Properties {
 		properties.setProperty("nodeTestFile", "node_test.txt");
 		properties.setProperty("edgeTestFile", "edge_test.txt");
 		
+		properties.setProperty("nodeFileChecksum", "");
+		properties.setProperty("dataNodeEdge", "data.dat");
+		properties.setProperty("maxBoundsFile", "maxbounds.dat");
+		
 		try {
-			properties.store(new FileOutputStream(fileName), null);
+			save();
 		} catch (FileNotFoundException e) {
 			System.err.println("Couldn't find settings file.");
 		} catch (IOException e) {

@@ -3,7 +3,6 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -29,10 +28,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -491,7 +488,7 @@ public class View extends JFrame{
 	 * @author Emil
 	 *
 	 */
-	private class Canvas extends JComponent{
+	private static class Canvas extends JComponent{
 		private static final long serialVersionUID = 1L;
 
 		private BufferedImage pin_img;
