@@ -193,7 +193,6 @@ public class Model {
 					}
 				}
 			}
-			System.out.println("type "+edge.type+" not placed");
 		}
 		qt.add(new QuadTree<KrakEdge>(bounds,set1));
 		qt.add(new QuadTree<KrakEdge>(bounds,set2));
