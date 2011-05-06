@@ -42,8 +42,8 @@ public class Model {
 	public static final int[] part1 = new int[]{0,1,2,3,4,21,22,31,32,33,34,35,41,42,43,44,45,46,80};
 	public static final int[] part2 = new int[]{5,11,23,24,25};
 	public static final int[] part3 = new int[]{6,8,10,26,28,48,95,99};
-	public static final int INNER_LEVEL = 2000;
-	public static final int CENTER_LEVEL = 50000;
+	public static final int INNER_LEVEL = 50;
+	public static final int CENTER_LEVEL = 1600;
 
 	private Rectangle2D.Double bounds;
 	private Rectangle2D.Double maxBounds;
