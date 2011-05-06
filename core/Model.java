@@ -21,6 +21,7 @@ import pathfinding.Dijkstra;
 import pathfinding.NoPathException;
 import pathfinding.NotPassableException;
 import loader.KrakLoader;
+import utils.Colors;
 import utils.Evaluator;
 import utils.MD5Checksum;
 import utils.Properties;
@@ -431,109 +432,108 @@ public class Model {
 		Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 		Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 		//Choosing the right color and thickness for each line
-		Color yellow = new Color(205,204,0);
-		Color roadColor = new Color(0x000000);
+		Color roadColor = Colors.SMALL_ROAD;
 		int thickness = 1;
 		switch(e.type){
 		case 1:
 			//motorvej
-			roadColor = Color.RED;
+			roadColor = Colors.HIGHWAY;
 			thickness = 3;
 			break;
 		case 2:
 			//Motortrafikvej
-			roadColor = Color.RED;
+			roadColor = Colors.HIGHWAY;
 			thickness = 3;
 			break;
 		case 3:
 			//Primærrute > 6 meter
-			roadColor = yellow;
+			roadColor = Colors.LARGE_ROAD;
 			thickness = 2;
 			break;
 		case 4:
 			//Sekundærrute > 6 meter
-			roadColor = yellow;
+			roadColor = Colors.LARGE_ROAD;
 			thickness = 2;
 			break;
 		case 5:
 			//Vej 3 - 6 meter
-			roadColor = Color.ORANGE;
+			roadColor = Colors.SMALL_ROAD;
 			break;
 		case 6:
 			//Anden vej
-			roadColor = Color.ORANGE;
+			roadColor = Colors.SMALL_ROAD;
 			break;
 		case 8:
 			//sti
-			roadColor = Color.GRAY;
+			roadColor = Colors.PATH;
 			break;
 		case 10:
 			//markvej
-			roadColor = Color.ORANGE;
+			roadColor = Colors.SMALL_ROAD;
 			break;
 		case 11:
 			//gågader
-			roadColor = Color.GRAY;
+			roadColor = Colors.PATH;
 			break;
 		case 21:
 			//proj. motorvej
-			roadColor = Color.BLUE;
+			roadColor = Colors.HIGHWAY;
 			break;
 		case 22:
 			//proj. motortrafikvej
-			roadColor = Color.BLUE;
+			roadColor = Colors.HIGHWAY;
 			break;
 		case 23:
 			//proj. primærvej
-			roadColor = Color.BLUE;
+			roadColor = Colors.LARGE_ROAD;
 			break;
 		case 24:
 			//proj. sekundærvej
-			roadColor = Color.BLUE;
+			roadColor = Colors.LARGE_ROAD;
 			break;
 		case 25:
 			//Proj. vej 3-6 m
-			roadColor = Color.BLUE;
+			roadColor = Colors.SMALL_ROAD;
 			break;
 		case 26:
 			//Proj. vej < 3 m
-			roadColor = Color.BLUE;
+			roadColor = Colors.SMALL_ROAD;
 			break;
 		case 28:
 			//Proj. sti
-			roadColor = Color.BLUE;
+			roadColor = Colors.PATH;
 			break;
 		case 31:
 			//Motorvejsafkørsel
-			roadColor = Color.RED;
+			roadColor = Colors.HIGHWAY;
 			thickness = 3;
 			break;
 		case 32:
 			//Motortrafikvejsafkørsel
-			roadColor = Color.RED;
+			roadColor = Colors.HIGHWAY;
 			thickness = 3;
 			break;
 		case 33:
 			//Primærvejsafkørsel
-			roadColor = yellow;
+			roadColor = Colors.LARGE_ROAD;
 			thickness = 2;
 			break;
 		case 34:
 			//Sekundærvejsafkørsel
-			roadColor = yellow;
+			roadColor = Colors.LARGE_ROAD;
 			break;
 		case 35:
 			//Anden vejafkørsel
-			roadColor = yellow;
+			roadColor = Colors.LARGE_ROAD;
 			break;
 		case 41:
 			//Motorvejstunnel
-			roadColor = Color.RED;
+			roadColor = Colors.HIGHWAY;
 			thickness = 3;
 			break;
 		case 42:
 			//Motortrafikvejstunnel
-			roadColor = Color.RED;
+			roadColor = Colors.HIGHWAY;
 			thickness = 3;
 			break;
 

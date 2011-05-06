@@ -39,6 +39,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
+import utils.Colors;
+
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
  * 
