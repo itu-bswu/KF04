@@ -303,7 +303,6 @@ public class Model {
 		ArrayList<Line> lines = new ArrayList<Line>(); 
 		for (KrakEdge e : path) {	
 			Line line = getLine(e);
-			line.setThickness(3);
 			line.setRoadColor(Colors.ROUTE);
 			lines.add(line);
 		}
@@ -434,27 +433,27 @@ public class Model {
 		Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 		//Choosing the right color and thickness for each line
 		Color roadColor = Colors.SMALL_ROAD;
-		int thickness = 1;
+		int size = 1;
 		switch(e.type){
 		case 1:
 			//motorvej
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 2:
 			//Motortrafikvej
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 3:
 			//Primærrute > 6 meter
 			roadColor = Colors.LARGE_ROAD;
-			thickness = 2;
+			size = 2;
 			break;
 		case 4:
 			//Sekundærrute > 6 meter
 			roadColor = Colors.LARGE_ROAD;
-			thickness = 2;
+			size = 2;
 			break;
 		case 5:
 			//Vej 3 - 6 meter
@@ -507,17 +506,17 @@ public class Model {
 		case 31:
 			//Motorvejsafkørsel
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 32:
 			//Motortrafikvejsafkørsel
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 33:
 			//Primærvejsafkørsel
 			roadColor = Colors.LARGE_ROAD;
-			thickness = 2;
+			size = 2;
 			break;
 		case 34:
 			//Sekundærvejsafkørsel
@@ -530,20 +529,23 @@ public class Model {
 		case 41:
 			//Motorvejstunnel
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 42:
 			//Motortrafikvejstunnel
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 80:
 			// færge
 			roadColor = Colors.OCEAN;
-			thickness = 1;
+			size = 1;
 			break;
 		}
-		return new Line(firstPoint,secondPoint,roadColor,thickness,e.roadname);
+		
+		float thickness = (float) (8/bounds.width);
+		
+		return new Line(firstPoint,secondPoint,roadColor,thickness,size,e.roadname);
 	}
 
 	/**
