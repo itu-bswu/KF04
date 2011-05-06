@@ -39,10 +39,11 @@ import gui.Line;
  */
 public class Model {
 
-	public static final int[] part1 = new int[]{0,1,2,3,4,21,22,31,32,33,34,35,41,42,43,44,45,46,80};
-	public static final int[] part2 = new int[]{5,11,23,24,25};
-	public static final int[] part3 = new int[]{6,8,10,26,28,48,95,99};
-	public static final int[] quadTreeLimits = new int[]{1600,50};
+	public static final int[] part1 = new int[]{0,1,2,3,21,22,31,32,41,42,80};
+	public static final int[] part2 = new int[]{4,23,33,34,43,44};
+	public static final int[] part3 = new int[]{5,11,24,25,35,45};
+	public static final int[] part4 = new int[]{6,8,10,26,28,46,48,95,99};
+	public static final int[] quadTreeLimits = new int[]{17000,600,75};
 	private static final float ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
@@ -148,6 +149,7 @@ public class Model {
 		Set<KrakEdge> set1 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set2 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set3 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set4 = new HashSet<KrakEdge>();
 
 		boolean found;
 		for(KrakEdge edge : content){
@@ -160,19 +162,17 @@ public class Model {
 					break;
 				}
 			}
-
-			// regular sized roads
-			if(!found){
-				for(int i : part2){
-					if(edge.type == i){
-						set2.add(edge);
-						found = true;
-						break;
-					}
+			
+			// Larger roads
+			for(int i : part2){
+				if(edge.type == i){
+					set2.add(edge);
+					found = true;
+					break;
 				}
 			}
 
-			// smaller roads and paths
+			// regular sized roads
 			if(!found){
 				for(int i : part3){
 					if(edge.type == i){
@@ -182,10 +182,23 @@ public class Model {
 					}
 				}
 			}
+
+			// smaller roads and paths
+			if(!found){
+				for(int i : part4){
+					if(edge.type == i){
+						set4.add(edge);
+						found = true;
+						break;
+					}
+				}
+			}
+			System.out.println("type "+edge.type+" not placed");
 		}
 		qt.add(new QuadTree<KrakEdge>(bounds,set1));
 		qt.add(new QuadTree<KrakEdge>(bounds,set2));
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
+		qt.add(new QuadTree<KrakEdge>(bounds,set4));
 	}
 
 	/**
@@ -346,6 +359,7 @@ public class Model {
 		try {
 			for(int index = qt.size()-1; index > 0; index--){
 				if(area < quadTreeLimits[index-1]){
+					//System.out.println(index+":"+quadTreeLimits[index-1]);
 					total.addAll(qt.get(index).query(qarea));
 				}
 			}
