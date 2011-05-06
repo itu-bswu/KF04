@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,12 +39,11 @@ import gui.Line;
  */
 public class Model {
 
-	private static final float ROAD_SEARCH_DISTANCE = 200;
 	public static final int[] part1 = new int[]{0,1,2,3,4,21,22,31,32,33,34,35,41,42,43,44,45,46,80};
 	public static final int[] part2 = new int[]{5,11,23,24,25};
 	public static final int[] part3 = new int[]{6,8,10,26,28,48,95,99};
-	public static final int INNER_LEVEL = 50;
-	public static final int CENTER_LEVEL = 1600;
+	public static final int[] quadTreeLimits = new int[]{1600,50};
+	private static final float ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
 	private Rectangle2D.Double maxBounds;
@@ -338,19 +338,19 @@ public class Model {
 	 * @param qarea The rectangle for which to find all KrakEdges
 	 * @return A Set with all KrakEdges within the given Rectangle
 	 */
-	private Set<KrakEdge> query(Rectangle2D.Double qarea){
+	private List<KrakEdge> query(Rectangle2D.Double qarea){
 		double area = (qarea.width/1000)*(qarea.height/1000);
 		//System.out.printf("area: %.2f km2\n",area);
-		Set<KrakEdge> total;
-
-		total = qt.get(0).query(qarea);
+		List<KrakEdge> total = new ArrayList<KrakEdge>();
+		
 		try {
-			if(area < CENTER_LEVEL){
-				total.addAll(qt.get(1).query(qarea));
-				if(area < INNER_LEVEL){
-					total.addAll(qt.get(2).query(qarea));
+			for(int index = qt.size()-1; index > 0; index--){
+				if(area < quadTreeLimits[index-1]){
+					total.addAll(qt.get(index).query(qarea));
 				}
 			}
+			total.addAll(qt.get(0).query(qarea));
+
 		} catch (Exception e) {
 			// Only return what has already been found, and don't care about 
 			// the rest. They will be available later.
@@ -359,7 +359,6 @@ public class Model {
 			//Thread.yield();
 			//return query(qarea);
 		}
-
 		return total;
 	}
 
@@ -553,7 +552,7 @@ public class Model {
 	 * @return All the lines.
 	 */
 	public Collection<Line> getLines() {
-		HashSet<Line> lines = new HashSet<Line>();
+		ArrayList<Line> lines = new ArrayList<Line>();
 		for (KrakEdge e : query(bounds)) {
 			lines.add(getLine(e));
 		}
@@ -589,7 +588,7 @@ public class Model {
 				point.y - radius,
 				2*radius,
 				2*radius);
-		Set<KrakEdge> all = query(search_area);
+		List<KrakEdge> all = query(search_area);
 
 		// find the closest
 		float distance = Integer.MAX_VALUE;
