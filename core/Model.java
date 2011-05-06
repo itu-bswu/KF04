@@ -303,7 +303,8 @@ public class Model {
 		ArrayList<Line> lines = new ArrayList<Line>(); 
 		for (KrakEdge e : path) {	
 			Line line = getLine(e);
-			line.setToPath();
+			line.setThickness(3);
+			line.setRoadColor(Colors.ROUTE);
 			lines.add(line);
 		}
 		return lines;
@@ -536,7 +537,11 @@ public class Model {
 			roadColor = Colors.HIGHWAY;
 			thickness = 3;
 			break;
-
+		case 80:
+			// færge
+			roadColor = Colors.OCEAN;
+			thickness = 1;
+			break;
 		}
 		return new Line(firstPoint,secondPoint,roadColor,thickness,e.roadname);
 	}

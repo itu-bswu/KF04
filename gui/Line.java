@@ -32,14 +32,6 @@ public class Line {
 	}
 	
 	/**
-	 * Set to path
-	 */
-	public void setToPath() {
-		this.roadColor = Color.blue;
-		this.thickness = 3;
-	}
-	
-	/**
 	 * Get start point
 	 */
 	public Point2D.Double getStartPoint() {
@@ -59,6 +51,14 @@ public class Line {
 		return roadColor;
 	}
 	
+	/**
+	 * Set the color of the road.
+	 * @param c the new color.
+	 */
+	public void setRoadColor(Color c){
+		roadColor = c;
+	}
+	
 	@Override
 	public String toString(){
 		return "x1="+startPoint.x+" y1="+startPoint.y+" x2="+endPoint.x+" y2="+endPoint.y+" color="+roadColor;
@@ -66,5 +66,9 @@ public class Line {
 
 	public float getThickness() {
 		return thickness;
+	}
+	
+	public void setThickness(int thickness){
+		this.thickness = thickness;
 	}
 }

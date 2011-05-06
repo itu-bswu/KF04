@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.RenderingHints;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -38,8 +39,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
-
-import utils.Colors;
 
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
@@ -562,10 +561,14 @@ public class View extends JFrame{
 				//Stopwatch timer = new Stopwatch("Drawing");
 				img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = (Graphics2D) img.getGraphics();
-
+				
 				// draw background
 				g.setColor(getBackground());
 				g.fillRect(0, 0, getWidth(), getHeight());
+				
+				// Anti-aliasing
+				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				
 				// draw lines
 				for(Line l : lines){
 					drawLine(g,l);

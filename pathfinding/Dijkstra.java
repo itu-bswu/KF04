@@ -46,7 +46,7 @@ public class Dijkstra {
 			while(edgesOut.hasNext()){
 				KrakEdge edge = edgesOut.next();
 
-				if(canDrive(edge,cur)){
+				//if(canDrive(edge,cur)){
 					//System.out.println("kører ad "+edge.roadname);
 					relax(cur,targetNode,edge,distTo,edgeTo, pq, eval);
 
@@ -64,50 +64,11 @@ public class Dijkstra {
 						//list.addAll(edgeTo.values());
 						return list;
 					}
-				}
+				//}
 			}
 		}
 
 		throw new NoPathException("no path from " + startNode.index + " to " + targetNode.index);
-	}
-
-	/**
-	 * Tells if a road can be used due to the direction of traffic.
-	 * @param edge The edge to check.
-	 * @param cur The place "we are" when looking at the direction of the traffic.
-	 * @return true if the road can be used, else false.
-	 */
-	private static boolean canDrive(KrakEdge edge, KrakNode cur) {
-		if(edge.direction == Edge.BOTH){
-			//System.out.println(edge.roadname+": is both ways");
-			return true; 
-		}
-		
-		// IMPORTANT: This is a hack, placed here to be able to use the highways
-		if(edge.roadname.startsWith("Motorvej")){
-			return true;
-		}
-		
-		if(edge.getStart().equals(cur)){
-			if(edge.direction == Edge.FORWARD){
-				//System.out.println(edge.roadname+" is forward oriented and we are at start");
-				return true;
-			}else{
-				//System.out.println(edge.roadname+" is backward oriented but we are at the start!");
-				return false;
-			}
-		}
-		if(edge.getEnd().equals(cur)){
-			if(edge.direction == Edge.BACKWARD){
-				//System.out.println(edge.roadname+" is backward oriented and we are at the end");
-				return true;
-			}else{
-				//System.out.println(edge.roadname+" is forward oriented but we are at the end!");
-				return false;
-			}
-		}
-
-		return false;
 	}
 
 	/**
