@@ -173,14 +173,43 @@ public class Control {
 		view.addKeyListener(new KeyAdapter(){
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+				Rectangle2D.Double move = null;
+				switch (e.getKeyCode()){
+
+				case KeyEvent.VK_ESCAPE:
 					Rectangle2D.Double temp = model.originalBounds();
 					RectangleMethods.fixRatioByOuterRectangle(temp, model.getBounds());
 					model.updateBounds(temp);
 					repaint();
-				}
-				if(e.getKeyCode() == KeyEvent.VK_C){
+					break;
+
+				case KeyEvent.VK_C:
 					clearPins();
+					break;
+
+				case KeyEvent.VK_DOWN:
+					move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
+					model.updateBounds(move);
+					repaint();
+					break;
+
+				case KeyEvent.VK_UP:
+					move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
+					model.updateBounds(move);
+					repaint();
+					break;
+
+				case KeyEvent.VK_LEFT:
+					move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.WEST);
+					model.updateBounds(move);
+					repaint();
+					break;
+
+				case KeyEvent.VK_RIGHT:
+					move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.EAST);
+					model.updateBounds(move);
+					repaint();
+					break;
 				}
 			}
 		});
@@ -314,7 +343,7 @@ public class Control {
 			view.setRouteInfo(model.getRouteDistance(), bikeTime);
 		}
 		else{
-		view.setRouteInfo(model.getRouteDistance(),model.getRouteTime());
+			view.setRouteInfo(model.getRouteDistance(),model.getRouteTime());
 		}
 	}
 

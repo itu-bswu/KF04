@@ -1,0 +1,291 @@
+\documentclass[11pt,a4paper,titlepage]{article}
+\usepackage{textcomp}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\newcommand{\class}[1]{\textsf{#1}}
+\newcommand{\field}[1]{\textit{#1}}
+
+\title{KF04 project report}
+\author{
+Group 12:\\
+Jakob Melnyk\\
+Niklas Hansen\\
+Emil Juul Jacobsen\\
+Filip Hjermind Jensen\\
+Jens Dahl Møllerhøj\\
+}
+
+\date{May 3, 2011}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.8ex plus 0.5ex minus 0.2ex}
+
+\clearpage
+
+\section{Features}
+\label{Feat}
+This chapter describes the features and functions, we have included in our Map
+of Denmark project, part 2, Spring 2011.
+\begin{itemize}
+  \item
+  Find shortest route
+  \item
+  Display path using blue coloured roads
+  \item
+  Multiple pins
+  \item
+  Total distance
+  \item 
+  Estimated travel time 
+  \item 
+  Bike or car route
+  \item 
+  Remove a single pin by clicking
+  \item 
+  Remove all pins
+\end{itemize}
+\subsection{Find shortest route}
+Our map is able to calculate the shortest route between two points. This is done
+by clicking the map. Clicking the map places a pin at the clicked location. If
+the user clicks on another part of the map, our map will show the shortest route
+between those two locations, if there is a route between them.
+\subsection{Display path using blue coloured roads}
+When the user has selected two or more locations, the map will show the shortest
+route highlighted in blue. The algorithm we use for finding this route (A*) is
+quite fast, so a user will not feel annoyed by how long it takes to find a
+route.
+\subsection{Multiple pins}
+It is possible for a user to place multiple pins on the map. This is done
+similarly to finding the shortest route between two points. When any number of
+pins are placed, the user can add an additional one. This will calculate the
+route between the latest two pins placed. The route shown will be from pin
+1$\rightarrow$ 2$\rightarrow$ 3$\rightarrow$ 4..
+\subsection{Total distance}
+Our Map of Denmark program calculates the total distance of the route found, a
+functionality that assists the end-user in planning their trip. This was
+relatively simple to implement, but adds a big functionality.
+\subsection{Estimated travel time}
+As with the total travel distance, our Map of Denmark calculates the estimated
+time it will take to travel the route found by our algorithm. This was
+relatively easy to calculate and is a huge benefit for the end user. We estimate
+the travel time of bikes to be 15 km/hour and with no breaks. This is
+optimistic, but we prefer optimistic to not having the feature at all.
+\subsection{Bike or car route}
+It is possible for the user to choose between a car route and a bike route. The
+different options will make our algorithm consider what is possible to traverse
+for both cars and bikes. It will make sure not to show small paths for cars and
+not show highways for bikes.
+\subsection{Remove a single pin}
+To make it easier to use our Map of Denmark, we have it possible to remove a pin
+by clicking on the location it was placed. This makes it possible for the end
+user to clear up a missclick without having to shut down the entire Map or
+clearing all the pins the user has placed.
+\subsection{Remove all pins}
+In addition to enabling the user to remove a single pin by clicking on it, we
+have also made it possible to remove all the pins currently placed. This can be
+done by either pressing the ``c'' key on the keyboard or by clicking the button
+on the graphical interface. This means that the user will not have to click
+every single point in order to start a new route planning.
+\pagebreak
+\section{Implementation}
+\label{Impl}
+This chapter describes our implementation of interesting methods and functions
+in our Map of Denmark project, part 2, Spring 2011.
+\subsection{Model}
+In order to implement the previously mentioned pathfinding the \class{Model}
+has been extended to include a list of \class{Edges}. These correspond to all the roads
+that are in the current route. Whenever it recieves a new request to find a path
+from one \class{Node} to another it uses the static method in the Dijkstra class
+and adds the result to the list. When \class{Control} needs to draw the route it
+uses a method that returns the entire route as Line objects relative to the view. This approach is identical to what we 
+use when the \class{Control} requests all roads that should be drawn as the map
+for a given view.
+
+We have also included some statistics of the current route. These are calculated
+by the \class{Model} since it's the object that primarliy handles the data. This
+information can be calculated in linear time relative to the length of the current route since
+the route is saved in memory when first found.
+\subsection{Dijkstra}
+Originally we inteded to use \class{Dijkstra}s algorithm to find the shortest
+path from one node in the graph to another. \class{Dijkstra}s algorithm builds a
+\class{Shortest Path Tree} by always lokking a the node closest to the source node. Because of
+this, whenever the destination node is reached, the shortest path to that node is
+found. When that happens we stop the algorith, because we have found what we
+were looking for.
+
+In order to always choose the node closest to the source, we use a
+\class{priority queue}, where the distance to the source indexes each node.
+Sometimes we want to decrease the index of a node, because we have found a route that is shorter than
+the previously indexed route. Because the \class{priority queue} in Java's
+library is slow when decreasing keys, we use an implementation from
+\cite{algs4} called \class{IndexMinPQ}. Our \class{Dijkstra}s algorithm is a
+version inspired from the implementation in \cite{algs4}.
+
+We made some rather big changes to the Dijkstra algoritm to make it fit our
+requirements. First of all, we replaced the arrays that are used to hold
+\field{edgeTo} and \field{distTo} in the \cite{algs4} with \class{Map}s, so we
+can use our objects instead of integers used in \cite{algs4}. 
+We have not changed anything in the \class{IndexMinPQ} implementation. It takes
+integers as values - this is not a problem, however, because our \class{node}s
+have unique index integers.
+Another major change we have made compared to the \class{Dijkstra}
+implementation from \cite{algs4} is that ours is a static method instead of an
+object. This means we do not have to instantiate it before we use it.
+
+To be able to compare the edges differently depending on the type of
+transportation the user has selected, we have created an \class{Evaluator}. An
+evaluator is given as argument to the pathfinding and is responsible for
+transforming the \class{KrakEdge}s to a value that can be inserted into the
+\class{priority queue}.
+
+We have made sure one-way roads are only traversable if you are coming from the
+right direction. This check is performed every time a road is going to be added
+to the \class{priority queue}. If the road cannot be traversed, it is skipped.
+
+It is important to note that we have found an error in the data from
+\textbf{krak}. Some of the highways are oriented in the wrong direction, so the
+pathfinding cannot traverse a long stretch of highway. This will make it look
+like it wants the user to get on and off the highway in a very weird way. 
+
+We have included a ``hack'' to avoid this issue. This means that we can always
+travel on highways even if they are facing in the opposite direction. This works
+and gives accurate routes, because the entry and exit points for the highways
+are without error.
+
+This gives accurate roads, but it is a bad fix. We have decided to use it, but
+it would be preferable if the data was correct. There are other errors in the
+data as well, where roads are not traversable at all, because they are one-way
+roads in both directions, which means they cannot be entered from either end.
+\subsubsection{A-star (A*)}
+As mentioned in the start of the previous section, we originally intended to use
+\class{Dijkstra}. After we had implemented it, we learned of another, similar
+algorithm called \class{A-star} or \class{A*}. 
+
+In order to make our path finding algorithm even faster, we used a variation
+called A-star. This implementation benefits from the fact that the roads, in contrast
+to a theoretical graph, are part of a geometric system. This means that we can
+calculate the fastest possible route from one point to another. This helps us
+determine which routes to look at first. The fastest possible route is always a
+straight line from the source point to the end point. The smaller the difference
+from the straight line is to the fastest possible route, the more we will
+benefit from the A-star technique. This difference will often be bigger for the
+routes calculated for the car. This is because the fastest route would be a
+straight highway, which often is far from possible. We can therefore conclude
+that the A-star technique typically is more of a benefit when calculating routes
+for bicycling because they rely on the distance.
+In order to make the code work with our dynamic evaluations for the \class{Edge}s we have
+created another method in the \class{Evaluator} that calculates the heuristic for
+at given \class{Node} relative to the target \class{Node}.
+
+\subsection{Control}
+A lot has changed in \class{Control} since our last version. We have changed a
+lot of the methods to work as static methods in seperate \class{Tools} classes,
+so \class{Control} will feel less cluttered in this version. 
+New logic has taken
+the place of the old logic however. Route calculation, pin placement, pin
+removal and route display all goes through \class{Control}.
+
+When a user clicks on the map, \class{Control} uses our \class{Tools} classes to
+convert the screen coordinates to UTM coordinates. It then stores these in a
+\class{List}. 
+If the list holds two or more elements, it asks the \class{Model}
+to calculate the shortest path between the first and second element, the second
+and third element and so on, if any additional elements exist beyond the first
+two. 
+Every time \class{Control} calls it's internal repaint method, it clears
+all the pins currently in the \class{View}. It then recalculates the pin
+position(s) according to the new size and postion of the \class{View}.
+
+When a user takes advantage of one of the options to clear all the pins
+currently on the Map of Denmark, \class{Control} empties the collection holding
+all the pin points, asks \class{Model} to clear the route and asks \class{View}
+to repaint.
+
+If a user removes a single pin by clicking on the location of the pin, we run
+through our collection and remove one of the pins within a specific range of
+pixels. It then makes \class{Model} recalculate the route for all the pins. This
+is not an effective implementation - if there are a lot of pins, then removing
+one might make the recalculating take a while. We decided to use this
+implementation, for now at least, because we wanted a working functionality
+that we could later improve upon if nessecary.
+\subsection{Car/Bike routes}
+Another useful feature we have included is the ability to switch between multiple
+modes of pathfinding. We have named these two modes Car and Bike. In the Car mode
+the pathfinding will priorize lower travel times, since we believe this to be most
+important when driving. Additionally the Car mode will exclude small paths and 
+pedestrian zones.
+The Bike mode prioritizes lower distances highest since intersections and speed-limits
+are of relatively low importance here. When using Bike mode the route will not include
+highways.
+
+As described earlier these different ways of prioritizing the roads are achieved by
+using the \class{Evalutator} that is provided when asking the pathfinding
+method for a best path. We have written these two evaluators as static objects
+on the \class{Evaluator} class for easy use in the code, but the use of a
+seperate object for the evaluations open up for later variation with little impact on the original code.
+\subsection{View}
+When looking at the changes in \class{View} relatively little has happened since
+most of the new code is located "behind the curtain". The \class{Canvas} has
+been extended to allow adding and drawing of the route. This is however, as mentioned earlier, done in exactly the same way
+as with the roads in the map itself. The \class{Canvas} also includes some
+points that is positions where the pins are placed. These are drawn on top of the map and (like the map)
+needs provided again if the map moves.
+
+When looking at the menu to the left there are a few more options to the user. There is a
+new button to remove all pins from the map and two \class{RadioButtons} to
+toggle between Car mode and Bike mode in the pathfinding.
+
+Beneath the tools for pathfinding there are displayed two pieces of information (and
+spare space for more). This information is changed by a simple public method in the View
+and the units will adjust will be adjusted accordingly.
+\pagebreak
+\section{Features that did not make it in}
+This chapter covers features we spend a lot of time on, but did not make it into
+the version that we hand in with this report.
+\subsection{Serialization}
+Everytime we start the program, we loop through the entire dataset given to us by Krak. 
+This data is huge, and because of this it takes quite a lot of time to start the
+program. Because we need to load all these data, the user is presented with a blank screen for 
+a long time, before all these data are loaded and the program starts.
+
+We started looking for a way to speed up the loading process, so the user has a map in front of 
+him or her quickly, when the user starts the program. What takes the most time is looping 
+through the data and creating the needed datastructures (quadtrees and so on),
+so if we could skip these steps or speed them up, we could save a lot of time.
+
+This is where serialization comes into play. By serializing an object, you transform your object 
+into something that can be passed around, through streams and such. So by serializing objects, 
+you can save them to files. If the object to be serialized contains references to other objects, these 
+will also be serialized (if they are Serializable / implements java.io.Serializable).
+By doing this, we only need to build our datastructures the first time you start the program. After the 
+objects have been created, they are been serialized and saved to files. The next time the user starts 
+the program, we check whether the data has been changed. If it hasn't been changed, we load the 
+objects that we saved, instead of making them all over.
+
+Neither our serialization or our threading (described below) features made it
+into this version, because we had problems with using the serialized objects when making our
+Shortest Path Tree. It was always intended as a nice to have feature, and we
+hope to have it working in a later version of the project.
+
+\subsubsection{Threading}
+By serializing our main objects, we cut several seconds of our load times. But we can do it even faster. 
+We are using several objects, but only few of them are needed right from the start. So what we can do 
+to speed it up even more, is loading the few neccesary objects, and then load the rest in the background. 
+We do this with threads. We load the few objects we need from the start, then create a new thread to load the rest of the objects, and in the mean time, we create the window and draw the map.
+
+The same goes for the first run. The user doesn't need to wait for the program to finish serializing and 
+saving to files. By using threads, we can create the datastructures, and then immediately show the window 
+to the user, while saving the objects to files in the background.
+\pagebreak
+\begin{thebibliography}{99}
+\bibitem{algs4}
+Robert Sedgewick and Kevin Wayne. \emph {Algorithms, Fourth Edition}. Preliminary Edition Fall 2010. Addision-Wesley 2010.
+\end{thebibliography}
+\end{document}
