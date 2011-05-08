@@ -67,13 +67,16 @@ public class Model {
 	 * Set the map to look at the specified graph.
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
-
+		
+		
 		boolean fromFile = false;
 		try {
 			File dataDir = new File(".", Properties.get("dataDir"));
 			String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
 			if (chk.equals(Properties.get("nodeFileChecksum"))) {
 				fromFile = true;
+				//TODO: Niklas dette her fungerer ikke for min testgraph. Den den tror den har hentet "fromFile" og det giver en masse problemer, blandt andet fordi qt ikke laves.
+				//fromFile = false; //I have to set this to false in order to run my test graph
 			}
 		} catch (Exception e) {
 			fromFile = false;
@@ -84,6 +87,7 @@ public class Model {
 				throw new Exception("Could not load serialized objects - creating datastructures");
 			}
 
+			
 			Stopwatch sw = new Stopwatch("Loading");
 			graph = inputGraph;
 			// Load serialized objects
@@ -105,6 +109,9 @@ public class Model {
 			}
 
 			maxBounds = maxBounds(graph.getNodes());
+			
+			System.out.println("Test1: " + maxBounds);
+			
 			bounds = originalBounds();
 			Stopwatch sw = new Stopwatch("Quadtrees");
 			createQuadTrees(graph.getAllEdges());
@@ -360,12 +367,13 @@ public class Model {
 		double area = (qarea.width/1000)*(qarea.height/1000);
 		//System.out.printf("area: %.2f km2\n",area);
 		List<KrakEdge> total = new ArrayList<KrakEdge>();
-		
+	
 		try {
 			for(int index = qt.size()-1; index > 0; index--){
 				if(area < quadTreeLimits[index-1]){
 					//System.out.println(index+":"+quadTreeLimits[index-1]);
 					total.addAll(qt.get(index).query(qarea));
+					
 				}
 			}
 			total.addAll(qt.get(0).query(qarea));
@@ -405,6 +413,11 @@ public class Model {
 	 * Sets the Map boundaries back to the outer bounds calculated at start-up.
 	 */
 	public Rectangle2D.Double originalBounds(){
+		
+		if (maxBounds==null) {
+			maxBounds = maxBounds(graph.getNodes());
+		}
+		
 		return new Rectangle2D.Double(maxBounds.x, maxBounds.y, maxBounds.width, maxBounds.height);
 	}
 
@@ -591,7 +604,7 @@ public class Model {
 	}
 
 	/**
-	 * Get closest edge within 200 meters.
+	 * Get closest edge within within a specified number of meters.
 	 * @param point the point to search from.
 	 * @param an evaluator to eliminate roads that can't be traveled by the given travel mode
 	 * @return the closest edge within the maximum search distance.
@@ -653,7 +666,7 @@ public class Model {
 	}
 
 	/**
-	 * Finds the closest node within 200 meters from a given point
+	 * Finds the closest node in meters from a given point
 	 * @param point the given point
 	 * @param an evaluator to eliminate roads that can't be traveled by the given travel mode
 	 * @return the closest node from the point
