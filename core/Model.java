@@ -365,6 +365,14 @@ public class Model {
 	}
 
 	/**
+	 * Get the bounds of the map. The bounds are what the user is currently looking at
+	 * @return The bounds
+	 */
+	public Rectangle2D.Double getBounds() {
+		return bounds;
+	}
+	
+	/**
 	 * Update the bounds
 	 * @param view The rectangle of the view to zoom to.
 	 */
@@ -374,14 +382,6 @@ public class Model {
 		if (bounds.height < 0) throw new IllegalArgumentException("The height of the rectangle is negative");
 
 		this.bounds = bounds;
-	}
-
-	/**
-	 * Get the bounds of the map. The bounds are what the user is currently looking at
-	 * @return The bounds
-	 */
-	public Rectangle2D.Double getBounds() {
-		return bounds;
 	}
 
 	/**

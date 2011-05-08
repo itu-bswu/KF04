@@ -116,6 +116,7 @@ public class Control {
 						|| Math.abs(b_mouseZoom.y - a_mouseZoom.y) < view.getCanvasHeight()/100){ 
 					return; //Prevents the user from zooming in too much.
 				}
+				
 				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model, view));
 
 				repaint();
