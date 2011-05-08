@@ -9,25 +9,28 @@ public class Line {
 	private Point2D.Double startPoint;
 	private Point2D.Double endPoint;
 	private Color roadColor;
-	public int thickness;
+	public float thickness;
 	public String name;
+	private int size;
 	
 	/**
 	 * Constructor
 	 */
-	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, int thickness, String name) {
+	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, float thickness, int size, String name) {
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.roadColor = roadColor;
 		this.thickness = thickness;
+		this.size = size;
 		this.name = name;
 	}
 	
-	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, int thickness) {
+	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, float thickness, int size) {
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.roadColor = roadColor;
 		this.thickness = thickness;
+		this.size = size;
 		this.name = "";
 	}
 	
@@ -68,7 +71,11 @@ public class Line {
 		return thickness;
 	}
 	
-	public void setThickness(int thickness){
+	public void setThickness(float thickness){
 		this.thickness = thickness;
+	}
+	
+	public int getSize(){
+		return size;
 	}
 }

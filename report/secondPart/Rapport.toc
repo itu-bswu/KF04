@@ -13,8 +13,8 @@
 \contentsline {subsection}{\numberline {2.2}Dijkstra}{4}
 \contentsline {subsubsection}{\numberline {2.2.1}A-star (A*)}{5}
 \contentsline {subsection}{\numberline {2.3}Control}{6}
-\contentsline {subsection}{\numberline {2.4}Car/Bike routes}{7}
+\contentsline {subsection}{\numberline {2.4}Car/Bike routes}{6}
 \contentsline {subsection}{\numberline {2.5}View}{7}
-\contentsline {subsection}{\numberline {2.6}Performance improvement}{7}
-\contentsline {subsubsection}{\numberline {2.6.1}Serialization}{8}
-\contentsline {subsubsection}{\numberline {2.6.2}Threading}{8}
+\contentsline {section}{\numberline {3}Features that did not make it in}{8}
+\contentsline {subsection}{\numberline {3.1}Serialization}{8}
+\contentsline {subsubsection}{\numberline {3.1.1}Threading}{8}

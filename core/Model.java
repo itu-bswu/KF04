@@ -13,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,12 +39,12 @@ import gui.Line;
  */
 public class Model {
 
+	public static final int[] part1 = new int[]{0,1,2,3,21,22,31,32,41,42,80};
+	public static final int[] part2 = new int[]{4,23,33,34,43,44};
+	public static final int[] part3 = new int[]{5,11,24,25,35,45};
+	public static final int[] part4 = new int[]{6,8,10,26,28,46,48,95,99};
+	public static final int[] quadTreeLimits = new int[]{20000,1000,125};
 	private static final float ROAD_SEARCH_DISTANCE = 200;
-	public static final int[] part1 = new int[]{0,1,2,3,4,21,22,31,32,33,34,35,41,42,43,44,45,46,80};
-	public static final int[] part2 = new int[]{5,11,23,24,25};
-	public static final int[] part3 = new int[]{6,8,10,26,28,48,95,99};
-	public static final int INNER_LEVEL = 50;
-	public static final int CENTER_LEVEL = 1600;
 
 	private Rectangle2D.Double bounds;
 	private Rectangle2D.Double maxBounds;
@@ -148,6 +149,7 @@ public class Model {
 		Set<KrakEdge> set1 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set2 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set3 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set4 = new HashSet<KrakEdge>();
 
 		boolean found;
 		for(KrakEdge edge : content){
@@ -160,19 +162,17 @@ public class Model {
 					break;
 				}
 			}
-
-			// regular sized roads
-			if(!found){
-				for(int i : part2){
-					if(edge.type == i){
-						set2.add(edge);
-						found = true;
-						break;
-					}
+			
+			// Larger roads
+			for(int i : part2){
+				if(edge.type == i){
+					set2.add(edge);
+					found = true;
+					break;
 				}
 			}
 
-			// smaller roads and paths
+			// regular sized roads
 			if(!found){
 				for(int i : part3){
 					if(edge.type == i){
@@ -182,10 +182,22 @@ public class Model {
 					}
 				}
 			}
+
+			// smaller roads and paths
+			if(!found){
+				for(int i : part4){
+					if(edge.type == i){
+						set4.add(edge);
+						found = true;
+						break;
+					}
+				}
+			}
 		}
 		qt.add(new QuadTree<KrakEdge>(bounds,set1));
 		qt.add(new QuadTree<KrakEdge>(bounds,set2));
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
+		qt.add(new QuadTree<KrakEdge>(bounds,set4));
 	}
 
 	/**
@@ -219,6 +231,10 @@ public class Model {
 
 					oos.writeObject(qt.get(2));
 					oos.flush();
+					
+					oos.writeObject(qt.get(3));
+					oos.flush();
+					
 					oos.close();
 
 					File dataDir = new File(".", Properties.get("dataDir"));
@@ -253,6 +269,8 @@ public class Model {
 
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
 
+					qt.add((QuadTree<KrakEdge>) ois.readObject());
+					
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
 
 					ois.close();
@@ -303,7 +321,6 @@ public class Model {
 		ArrayList<Line> lines = new ArrayList<Line>(); 
 		for (KrakEdge e : path) {	
 			Line line = getLine(e);
-			line.setThickness(3);
 			line.setRoadColor(Colors.ROUTE);
 			lines.add(line);
 		}
@@ -339,19 +356,20 @@ public class Model {
 	 * @param qarea The rectangle for which to find all KrakEdges
 	 * @return A Set with all KrakEdges within the given Rectangle
 	 */
-	private Set<KrakEdge> query(Rectangle2D.Double qarea){
+	private List<KrakEdge> query(Rectangle2D.Double qarea){
 		double area = (qarea.width/1000)*(qarea.height/1000);
 		//System.out.printf("area: %.2f km2\n",area);
-		Set<KrakEdge> total;
-
-		total = qt.get(0).query(qarea);
+		List<KrakEdge> total = new ArrayList<KrakEdge>();
+		
 		try {
-			if(area < CENTER_LEVEL){
-				total.addAll(qt.get(1).query(qarea));
-				if(area < INNER_LEVEL){
-					total.addAll(qt.get(2).query(qarea));
+			for(int index = qt.size()-1; index > 0; index--){
+				if(area < quadTreeLimits[index-1]){
+					//System.out.println(index+":"+quadTreeLimits[index-1]);
+					total.addAll(qt.get(index).query(qarea));
 				}
 			}
+			total.addAll(qt.get(0).query(qarea));
+
 		} catch (Exception e) {
 			// Only return what has already been found, and don't care about 
 			// the rest. They will be available later.
@@ -360,7 +378,6 @@ public class Model {
 			//Thread.yield();
 			//return query(qarea);
 		}
-
 		return total;
 	}
 
@@ -434,27 +451,27 @@ public class Model {
 		Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
 		//Choosing the right color and thickness for each line
 		Color roadColor = Colors.SMALL_ROAD;
-		int thickness = 1;
+		int size = 1;
 		switch(e.type){
 		case 1:
 			//motorvej
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 2:
 			//Motortrafikvej
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 3:
 			//Primærrute > 6 meter
 			roadColor = Colors.LARGE_ROAD;
-			thickness = 2;
+			size = 2;
 			break;
 		case 4:
 			//Sekundærrute > 6 meter
 			roadColor = Colors.LARGE_ROAD;
-			thickness = 2;
+			size = 2;
 			break;
 		case 5:
 			//Vej 3 - 6 meter
@@ -507,17 +524,17 @@ public class Model {
 		case 31:
 			//Motorvejsafkørsel
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 32:
 			//Motortrafikvejsafkørsel
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 33:
 			//Primærvejsafkørsel
 			roadColor = Colors.LARGE_ROAD;
-			thickness = 2;
+			size = 2;
 			break;
 		case 34:
 			//Sekundærvejsafkørsel
@@ -530,20 +547,23 @@ public class Model {
 		case 41:
 			//Motorvejstunnel
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 42:
 			//Motortrafikvejstunnel
 			roadColor = Colors.HIGHWAY;
-			thickness = 3;
+			size = 3;
 			break;
 		case 80:
 			// færge
 			roadColor = Colors.OCEAN;
-			thickness = 1;
+			size = 1;
 			break;
 		}
-		return new Line(firstPoint,secondPoint,roadColor,thickness,e.roadname);
+		
+		float thickness = (float) (8/bounds.width);
+		
+		return new Line(firstPoint,secondPoint,roadColor,thickness,size,e.roadname);
 	}
 
 	/**
@@ -551,7 +571,7 @@ public class Model {
 	 * @return All the lines.
 	 */
 	public Collection<Line> getLines() {
-		HashSet<Line> lines = new HashSet<Line>();
+		ArrayList<Line> lines = new ArrayList<Line>();
 		for (KrakEdge e : query(bounds)) {
 			lines.add(getLine(e));
 		}
@@ -587,7 +607,7 @@ public class Model {
 				point.y - radius,
 				2*radius,
 				2*radius);
-		Set<KrakEdge> all = query(search_area);
+		List<KrakEdge> all = query(search_area);
 
 		// find the closest
 		float distance = Integer.MAX_VALUE;

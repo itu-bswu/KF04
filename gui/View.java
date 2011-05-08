@@ -61,7 +61,7 @@ public class View extends JFrame{
 	private JButton zoomInButton;
 	private JButton zoomOutButton;
 	private JLabel infobar;
-	
+
 	private JButton clearPinsButton;
 	private JRadioButton carChoice;
 	private JRadioButton bikeChoice;
@@ -204,7 +204,7 @@ public class View extends JFrame{
 	public void addOutListener(ActionListener actionListener) {
 		zoomOutButton.addActionListener(actionListener);
 	}
-	
+
 	/**
 	 * Adds an ActionListener to the Clear Pins-button in the Route Options-panel.
 	 * @param a
@@ -212,7 +212,7 @@ public class View extends JFrame{
 	public void addClearPinsListener(ActionListener a){
 		clearPinsButton.addActionListener(a);
 	}
-	
+
 	/**
 	 * Adds an ActionListener to all the route mode RadioButtons.
 	 * @param a 
@@ -221,7 +221,7 @@ public class View extends JFrame{
 		carChoice.addActionListener(a);
 		bikeChoice.addActionListener(a);
 	}
-	
+
 	/**
 	 * Tells if the Car Choice is selected.
 	 * @return true if selected.
@@ -229,7 +229,7 @@ public class View extends JFrame{
 	public boolean isCarChoiceSelected(){
 		return carChoice.isSelected();
 	}
-	
+
 	/**
 	 * Tells if the Bike Choice is selected.
 	 * @return true if selected.
@@ -384,11 +384,11 @@ public class View extends JFrame{
 		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
-		
+
 		clearPinsButton = new JButton("Clear Pins");
 		carChoice = new JRadioButton("Car");
 		bikeChoice = new JRadioButton("Bike");
-		
+
 		infobar = new JLabel(" ",SwingConstants.CENTER);
 
 		// labels for route info
@@ -407,7 +407,7 @@ public class View extends JFrame{
 		// TODO: routeOptions setLayout
 		routeInfo.setBorder(BorderFactory.createTitledBorder("Route Information"));
 		routeInfoGrid.setLayout(new GridLayout(0,2));
-		
+
 		carChoice.setSelected(true);
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(carChoice);
@@ -423,7 +423,7 @@ public class View extends JFrame{
 		outer.add(canvas,BorderLayout.CENTER);
 		outer.add(menuPanel,BorderLayout.WEST);
 		outer.add(infobar,BorderLayout.SOUTH);
-		
+
 		routeOptions.add(clearPinsButton);
 		routeOptions.add(carChoice);
 		routeOptions.add(bikeChoice);
@@ -439,7 +439,7 @@ public class View extends JFrame{
 		c.fill = GridBagConstraints.BOTH;
 
 		menuPanel.add(navigationPanel,c);
-		
+
 		c.gridy = 1;
 		menuPanel.add(routeOptions,c);
 
@@ -561,22 +561,20 @@ public class View extends JFrame{
 				//Stopwatch timer = new Stopwatch("Drawing");
 				img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = (Graphics2D) img.getGraphics();
-				
+
 				// draw background
 				g.setColor(getBackground());
 				g.fillRect(0, 0, getWidth(), getHeight());
-				
+
 				// Anti-aliasing
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				
+
 				// draw lines
-				for(Line l : lines){
-					drawLine(g,l);
-				}
+				drawLines(g,lines,0.0f,true);
+				drawLines(g,lines,-1.0f,false);
+
 				if(route != null){
-					for(Line r : route){
-						drawLine(g,r);
-					}
+					drawLines(g,route,-1.0f,false);
 				}
 
 				for(int index = 0 ; index < pins.size() ; index++){
@@ -592,13 +590,21 @@ public class View extends JFrame{
 			}
 		}
 
-		private void drawLine(Graphics2D g, Line l) {
-			g.setColor(l.getRoadColor());
-			g.setStroke(new BasicStroke(l.getThickness()));
-			g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
-					(int)(l.getStartPoint().y*this.getHeight()),
-					(int)(l.getEndPoint().x*this.getWidth()),
-					(int)(l.getEndPoint().y*this.getHeight()));
+		private void drawLines(Graphics2D g, Collection<Line> lines, float ThicknessAddition, boolean darker) {
+			for(Line l : lines){
+				if(darker){
+					g.setColor(l.getRoadColor().darker().darker());
+				}
+				else{
+					g.setColor(l.getRoadColor());
+				}
+				
+				g.setStroke(new BasicStroke(l.getSize()*Math.max(1.0f,l.getThickness()*this.getWidth() + ThicknessAddition),BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
+				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
+						(int)(l.getStartPoint().y*this.getHeight()),
+						(int)(l.getEndPoint().x*this.getWidth()),
+						(int)(l.getEndPoint().y*this.getHeight()));
+			}
 		}
 
 		/**
@@ -619,8 +625,8 @@ public class View extends JFrame{
 	 */
 	public static void main(String[] args){
 		Collection<Line> x = new HashSet<Line>();
-		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1));
-		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2));
+		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1,1));
+		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2,1));
 
 		final View v = new View("X marks the spot",(float) 1.0);
 

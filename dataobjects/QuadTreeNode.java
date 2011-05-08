@@ -17,7 +17,7 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 	 */
 	private static final long serialVersionUID = 4409394409382684458L;
 
-	public static final int MAX_CONTENT = 100;
+	public static final int MAX_CONTENT = 500;
 
 	private Rectangle2D.Double bounds;
 	private Set<T> contents;
