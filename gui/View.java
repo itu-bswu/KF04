@@ -574,7 +574,7 @@ public class View extends JFrame{
 				drawLines(g,lines,-1.0f,false);
 
 				if(route != null){
-					drawLines(g,route,-2.0f,false);
+					drawLines(g,route,-1.0f,false);
 				}
 
 				for(int index = 0 ; index < pins.size() ; index++){

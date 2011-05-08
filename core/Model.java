@@ -43,7 +43,7 @@ public class Model {
 	public static final int[] part2 = new int[]{4,23,33,34,43,44};
 	public static final int[] part3 = new int[]{5,11,24,25,35,45};
 	public static final int[] part4 = new int[]{6,8,10,26,28,46,48,95,99};
-	public static final int[] quadTreeLimits = new int[]{17000,600,75};
+	public static final int[] quadTreeLimits = new int[]{20000,1000,125};
 	private static final float ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
@@ -231,6 +231,10 @@ public class Model {
 
 					oos.writeObject(qt.get(2));
 					oos.flush();
+					
+					oos.writeObject(qt.get(3));
+					oos.flush();
+					
 					oos.close();
 
 					File dataDir = new File(".", Properties.get("dataDir"));
@@ -265,6 +269,8 @@ public class Model {
 
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
 
+					qt.add((QuadTree<KrakEdge>) ois.readObject());
+					
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
 
 					ois.close();
