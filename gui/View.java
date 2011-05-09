@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.RenderingHints;
 
 import javax.imageio.ImageIO;
@@ -39,6 +40,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+
+import core.Model;
 
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
@@ -580,9 +583,9 @@ public class View extends JFrame{
 				for(int index = 0 ; index < pins.size() ; index++){
 					g.setFont(new Font("Arial", Font.BOLD, 16));
 					g.setColor(Color.BLACK);
-					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth(), pins.get(index).y - pin_img.getHeight(), null);
-					g.setColor(Color.BLUE);
-					g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
+					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth()/2-2, pins.get(index).y - pin_img.getHeight()-3, null);
+					String number = String.valueOf(index+1);
+					g.drawString(number, pins.get(index).x-6-(number.length()-1)*4, pins.get(index).y-14);
 				}
 
 				g.dispose();
@@ -591,6 +594,25 @@ public class View extends JFrame{
 		}
 
 		private void drawLines(Graphics2D g, Collection<Line> lines, float ThicknessAddition, boolean darker) {
+			
+			/*
+			 * Draw polygon
+			 */			
+			if (Model.drawLand.size() > 0) {
+				
+				Polygon landShape = new Polygon();
+				for(Point2D.Double point : Model.drawLand) {
+					landShape.addPoint((int)(point.x*this.getWidth()),(int)(point.y*this.getHeight()));
+					
+					//System.out.println((int)(point.x*this.getWidth()) +", " + (int)(point.y*this.getHeight()));
+				}
+				
+				
+				g.setColor(Color.WHITE);
+				g.drawPolygon(landShape);
+				
+			}
+			
 			for(Line l : lines){
 				if(darker){
 					g.setColor(l.getRoadColor().darker().darker());

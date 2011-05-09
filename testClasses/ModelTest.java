@@ -223,11 +223,7 @@ public class ModelTest {
 		try {
 			model.clearPath();
 			model.findPath(testGraph.getNode(5),testGraph.getNode(9),Evaluator.CAR);
-
-			System.out.println("Program is bugged because I can drive at: ");
-			printPath();
-			
-			assertEquals(2,model.getPath().size());
+			assertEquals(2,model.getPath().size()); //Ff is undriveable, therefor the car must go around!
 			
 		}
 		catch (NoPathException e) {
