@@ -31,7 +31,7 @@ import utils.RectangleMethods;
  */
 public class Control {
 	private static final int bikeSpeed = 15;
-	private static final float MOVE_LENGTH = (float) 0.30;
+	private static final float MOVE_LENGTH = (float) 0.25;
 	private static final float ZOOM_LENGTH = (float) 0.15;
 	private static final String NAME = Properties.get("programName"); //Name of the window containing the map.
 	private View view;
@@ -208,6 +208,18 @@ public class Control {
 
 				case KeyEvent.VK_C:
 					clearPins();
+					break;
+					
+				case KeyEvent.VK_I:
+					temp = RectangleMethods.zoomRectangle(ZOOM_LENGTH, true, model.getBounds());
+					model.updateBounds(temp);
+					repaint();
+					break;
+					
+				case KeyEvent.VK_O:
+					temp = RectangleMethods.zoomRectangle(ZOOM_LENGTH, false, model.getBounds());
+					model.updateBounds(temp);
+					repaint();
 					break;
 				}
 			}
