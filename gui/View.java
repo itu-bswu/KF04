@@ -78,7 +78,7 @@ public class View extends JFrame{
 	 * @param header The title for the frame.
 	 * @param startRatio The initial ratio of the canvas component.
 	 */
-	public View(String header, float startRatio){
+	public View(String header, double startRatio){
 
 		super(header);
 
@@ -354,7 +354,7 @@ public class View extends JFrame{
 	 * @param routeDistance The total length of the route (in kilometers)
 	 * @param routeTime The total time to travel the route (in hours)
 	 */
-	public void setRouteInfo(float routeDistance, float routeTime) {
+	public void setRouteInfo(double routeDistance, double routeTime) {
 		routeTotalDistValue.setText(String.format("%.1f km", routeDistance));
 
 		// displaying the travel time with right precision (routeTime is given as minutes)
@@ -590,7 +590,7 @@ public class View extends JFrame{
 			}
 		}
 
-		private void drawLines(Graphics2D g, Collection<Line> lines, float ThicknessAddition, boolean darker) {
+		private void drawLines(Graphics2D g, Collection<Line> lines, double ThicknessAddition, boolean darker) {
 			for(Line l : lines){
 				if(darker){
 					g.setColor(l.getRoadColor().darker().darker());
@@ -599,7 +599,7 @@ public class View extends JFrame{
 					g.setColor(l.getRoadColor());
 				}
 				
-				g.setStroke(new BasicStroke(l.getSize()*Math.max(1.0f,l.getThickness()*this.getWidth() + ThicknessAddition),BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
+				g.setStroke(new BasicStroke((float) (l.getSize()*Math.max(1.0,l.getThickness()*this.getWidth() + ThicknessAddition)),BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
 				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
 						(int)(l.getStartPoint().y*this.getHeight()),
 						(int)(l.getEndPoint().x*this.getWidth()),
@@ -625,10 +625,10 @@ public class View extends JFrame{
 	 */
 	public static void main(String[] args){
 		Collection<Line> x = new HashSet<Line>();
-		x.add(new Line(new Point2D.Float(0.25f,0.25f),new Point2D.Float(0.75f,0.75f),Color.BLACK,1,1));
-		x.add(new Line(new Point2D.Float(0.75f,0.25f),new Point2D.Float(0.25f,0.75f),Color.BLACK,2,1));
+		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1,1));
+		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2,1));
 
-		final View v = new View("X marks the spot",(float) 1.0);
+		final View v = new View("X marks the spot", 1.0);
 
 		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
 		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));

@@ -17,20 +17,20 @@ public class RectangleMethods {
 	 * @param direction Which way should the rectangle move
 	 * @return The rectangle that has been moved. 
 	 */
-	public static Rectangle2D.Float move(Rectangle2D.Float old, float length, Direction direction){
+	public static Rectangle2D.Double move(Rectangle2D.Double old, double length, Direction direction){
 		switch(direction){
 		case WEST:
-			Float xw = old.x + (-1 * old.width * length);
-			return new Rectangle2D.Float(xw, old.y, old.width, old.height);
+			double xw = old.x + (-1 * old.width * length);
+			return new Rectangle2D.Double(xw, old.y, old.width, old.height);
 		case EAST:
-			Float xe = old.x + (1 * old.width * length);
-			return new Rectangle2D.Float(xe, old.y, old.width, old.height);
+			double xe = old.x + (1 * old.width * length);
+			return new Rectangle2D.Double(xe, old.y, old.width, old.height);
 		case NORTH:
-			Float yn = old.y + (1 * old.height * length);
-			return new Rectangle2D.Float(old.x, yn, old.width, old.height);
+			double yn = old.y + (1 * old.height * length);
+			return new Rectangle2D.Double(old.x, yn, old.width, old.height);
 		case SOUTH:
-			Float ys = old.y + (-1 * old.height * length);
-			return new Rectangle2D.Float(old.x, ys, old.width, old.height);
+			double ys = old.y + (-1 * old.height * length);
+			return new Rectangle2D.Double(old.x, ys, old.width, old.height);
 		}
 		return old;
 	}
@@ -40,20 +40,20 @@ public class RectangleMethods {
 	 * @param a The Rectangle to adjust.
 	 * @param b The Rectangle that has the desired ratio.
 	 */
-	public static void fixRatioByInnerRectangle(Rectangle2D.Float inner, Rectangle2D.Float outer){
-		float outer_ratio = (float) (outer.width / outer.height);
-		float inner_ratio = (float) (inner.width / inner.height);
+	public static void fixRatioByInnerRectangle(Rectangle2D.Double inner, Rectangle2D.Double outer){
+		double outer_ratio = (outer.width / outer.height);
+		double inner_ratio = (inner.width / inner.height);
 
 		if(inner_ratio < outer_ratio){
 			// cut height
 
-			float temp = (float) inner.height;	
+			double temp = inner.height;	
 			inner.height = inner.width / outer_ratio;
 			inner.y = inner.y - (inner.height - temp) / 2;
 		}else{
 			// cut width
 
-			float temp = (float) inner.width;
+			double temp = inner.width;
 			inner.width = outer_ratio * inner.height;
 			inner.x = inner.x - (inner.width - temp) / 2;
 		}
@@ -65,19 +65,19 @@ public class RectangleMethods {
 	 * @param a The Rectangle to adjust.
 	 * @param b The Rectangle that has the desired ratio.
 	 */
-	public static void fixRatioByOuterRectangle(Rectangle2D.Float inner, Rectangle2D.Float outer){
-		float outer_ratio = (float) (outer.width / outer.height);
-		float inner_ratio = (float) (inner.width / inner.height);
+	public static void fixRatioByOuterRectangle(Rectangle2D.Double inner, Rectangle2D.Double outer){
+		double outer_ratio = (outer.width / outer.height);
+		double inner_ratio = (inner.width / inner.height);
 
 		if(inner_ratio < outer_ratio){
 			// make wider
-			float temp = (float) inner.width;
+			double temp = inner.width;
 			inner.width = outer_ratio * inner.height;
 			inner.x = inner.x - (inner.width - temp) / 2;
 
 		}else{
 			// make taller
-			float temp = (float) inner.height;	
+			double temp = inner.height;	
 			inner.height = inner.width / outer_ratio;
 			inner.y = inner.y - (inner.height - temp) / 2;
 		}
@@ -89,22 +89,22 @@ public class RectangleMethods {
 	 * @param b The second Point.
 	 * @return A Rectangle with x,y in the upper left corner.
 	 */
-	public static Rectangle2D.Float point2DToRectangle(Point2D.Float a, Point2D.Float b){
-		Rectangle2D.Float p;
+	public static Rectangle2D.Double point2DToRectangle(Point2D.Double a, Point2D.Double b){
+		Rectangle2D.Double p;
 		if(b.x < a.x){ //If the second point is to the left of the first point, then do this 
 			if(b.y < a.y){ //If the second point is above the first point, then do this.
-				p = new Rectangle2D.Float(b.x, b.y, (a.x - b.x), (a.y - b.y));
+				p = new Rectangle2D.Double(b.x, b.y, (a.x - b.x), (a.y - b.y));
 			}
 			else{
-				p = new Rectangle2D.Float(b.x, a.y, (a.x - b.x), (b.y - a.y));
+				p = new Rectangle2D.Double(b.x, a.y, (a.x - b.x), (b.y - a.y));
 			}
 		}
 		else{
 			if(b. y < a.y){ //If the second point is above the first point, then do this.
-				p = new Rectangle2D.Float(a.x, b.y, (b.x - a.x), (a.y - b.y));
+				p = new Rectangle2D.Double(a.x, b.y, (b.x - a.x), (a.y - b.y));
 			}
 			else{//If the second point is both to the right and below the first, then do this.
-				p = new Rectangle2D.Float(a.x, a.y, (b.x - a.x), (b.y - a.y));
+				p = new Rectangle2D.Double(a.x, a.y, (b.x - a.x), (b.y - a.y));
 			}
 		}
 		return p;
@@ -119,9 +119,9 @@ public class RectangleMethods {
 	 * @param old The original view.
 	 * @return The finished Rectangle
 	 */
-	public static Rectangle2D.Float zoomRectangle(float factor, boolean zoom, Rectangle2D.Float old){
+	public static Rectangle2D.Double zoomRectangle(double factor, boolean zoom, Rectangle2D.Double old){
 		if(zoom){
-			return new Rectangle2D.Float(
+			return new Rectangle2D.Double(
 					old.x + factor * old.width, //x is increased by the factor in proportion to the width
 					old.y + factor * old.height, //y is increased by the factor in proportion to the height
 					old.width - (factor * old.width * 2), //width is decreased by the factor
@@ -129,7 +129,7 @@ public class RectangleMethods {
 			); 
 		}
 		else{
-			return new Rectangle2D.Float(old.x - old.width * factor, //x is decreased by the factor in proportion to the width
+			return new Rectangle2D.Double(old.x - old.width * factor, //x is decreased by the factor in proportion to the width
 					old.y - old.height * factor, //y is decreased by the factor in proportion to the height
 					old.width + old.width * factor * 2, //width is increased by the factor
 					old.height + old.height * factor * 2//height is increased by the factor
@@ -146,8 +146,8 @@ public class RectangleMethods {
 	 * @param view The view that has been attempted a mouse zoom on.
 	 * @return The zoomed rectangle in UTM coordinates.
 	 */
-	public static Rectangle2D.Float mouseZoom(Point a, Point b, Model model, View view){
-		Rectangle2D.Float p = point2DToRectangle(
+	public static Rectangle2D.Double mouseZoom(Point a, Point b, Model model, View view){
+		Rectangle2D.Double p = point2DToRectangle(
 				PointMethods.pixelToUTM(a, model, view), PointMethods.pixelToUTM(b, model, view));
 		fixRatioByOuterRectangle(p, model.getBounds());
 		return p;

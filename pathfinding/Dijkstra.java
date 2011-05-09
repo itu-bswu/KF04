@@ -31,13 +31,13 @@ public class Dijkstra {
 	//TODO comment this please.
 	public static List<KrakEdge> findPath(Graph<KrakEdge,KrakNode> G, KrakNode startNode, KrakNode targetNode, Evaluator eval) throws NoPathException{
 		HashMap<KrakNode,KrakEdge> edgeTo = new HashMap<KrakNode,KrakEdge>();
-		HashMap<KrakNode,Float> distTo = new HashMap<KrakNode,Float>();
-		IndexMinPQ<Float> pq = new IndexMinPQ<Float>(G.getNodeCount());
+		HashMap<KrakNode,Double> distTo = new HashMap<KrakNode,Double>();
+		IndexMinPQ<Double> pq = new IndexMinPQ<Double>(G.getNodeCount());
 
 		int visited = 0;
 
-		distTo.put(startNode, 0.0f);
-		pq.insert(startNode.getIndex(),0.0f);
+		distTo.put(startNode, 0.0);
+		pq.insert(startNode.getIndex(),0.0);
 		while(!pq.isEmpty()){
 			visited++;
 			KrakNode cur = G.getNode(pq.delMin());
@@ -81,9 +81,9 @@ public class Dijkstra {
 	 * @param pq
 	 */
 	//TODO Also add some comments here.
-	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Float> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Float> pq, Evaluator eval){
+	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Double> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Double> pq, Evaluator eval){
 		KrakNode other = edge.getOtherEnd(cur);
-		float evaluation;
+		double evaluation;
 		try {
 			evaluation = eval.evaluate(edge);
 		} catch (NotPassableException e) {
@@ -91,7 +91,7 @@ public class Dijkstra {
 			return;
 		}
 		if(!distTo.containsKey(other) || distTo.get(other) > distTo.get(cur) + evaluation){
-			float distance = distTo.get(cur) + evaluation;
+			double distance = distTo.get(cur) + evaluation;
 			distTo.put(other, distance);
 			edgeTo.put(other, edge);
 			if(pq.contains(other.getIndex())){

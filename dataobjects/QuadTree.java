@@ -1,5 +1,6 @@
 package dataobjects;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -18,14 +19,14 @@ public class QuadTree<T extends KrakEdge> implements Serializable {
 	 */
 	private QuadTreeNode<T> root;
 
-	public QuadTree(Rectangle2D.Float bounds, Set<T> content){
+	public QuadTree(Rectangle2D.Double bounds, Set<T> content){
 		Stopwatch timer = new Stopwatch("Creating QuadTree");
 		root = new QuadTreeNode<T>(bounds,content);
 		timer.printTime();
 	}
 
 
-	public Set<T> query(Rectangle2D.Float qarea){
+	public Set<T> query(Rectangle2D.Double qarea){
 		return root.query(qarea);
 	}
 }
