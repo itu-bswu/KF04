@@ -392,7 +392,40 @@ public class Control {
 	 * @return The rectangle that has been moved or zoomed.
 	 */
 	private Rectangle2D.Double newBounds(Rectangle2D.Double old, double length, Direction direction){
-		
-		return newBounds(old, length, direction);
+		//TODO: Possibly integrate better with mousezoom - possible to go out borders using a combination of zoom and movement.
+		Rectangle2D.Double temp = RectangleMethods.newBounds(old, length, direction);
+		switch(direction){
+		case NORTH:
+			if(temp.y > (model.originalBounds().y + model.originalBounds().height)){
+				return old;
+			}
+			return temp;
+		case SOUTH:
+			if((temp.y + model.originalBounds().height) < model.originalBounds().y){
+				return old;
+			}
+			return temp;
+		case WEST:
+			if((temp.x + model.originalBounds().width) < model.originalBounds().x){
+				return old;
+			}
+			return temp;
+		case EAST:
+			if(temp.x > (model.originalBounds().x + model.originalBounds().width)){
+				return old;
+			}
+			return temp;
+		case IN:
+			if(temp.width < 200 || temp.height < 200){
+				return old;
+			}
+			else{
+				return temp;				
+			}
+		case OUT:
+			
+			return temp;
+		}
+		return old;
 	}
 }

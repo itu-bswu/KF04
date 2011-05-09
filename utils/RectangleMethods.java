@@ -142,6 +142,9 @@ public class RectangleMethods {
 		Rectangle2D.Double p = point2DToRectangle(
 				PointMethods.pixelToUTM(a, model, view), PointMethods.pixelToUTM(b, model, view));
 		fixRatioByOuterRectangle(p, model.getBounds());
+		if(p.width < 200 || p.height < 200){
+			return model.getBounds();
+		}
 		return p;
 	}
 }
