@@ -19,7 +19,7 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 
 	public static final int MAX_CONTENT = 500;
 
-	private Rectangle2D.Double bounds;
+	private Rectangle2D.Float bounds;
 	private Set<T> contents;
 	QuadTreeNode<T> nw, ne, sw, se;
 	QuadTreeNode[] nodes = { nw, ne, sw, se };
@@ -30,17 +30,17 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 	 * @param content The content for the new QuadTreeNode.
 	 */
 	@SuppressWarnings("unchecked")
-	public QuadTreeNode(Rectangle2D.Double bounds, Set<T> content){
+	public QuadTreeNode(Rectangle2D.Float bounds, Set<T> content){
 		//System.out.print("creating QuadTreeNode of size "+content.size());
 
 		// if there are too much content
 		if(content.size() > MAX_CONTENT){
 			// The sub-bounds
-			Rectangle2D.Double nw = new Rectangle2D.Double(bounds.x, bounds.y, bounds.width/2.0, bounds.height/2.0);
-			Rectangle2D.Double ne = new Rectangle2D.Double(bounds.x+bounds.width/2.0, bounds.y, bounds.width/2.0, bounds.height/2.0);
-			Rectangle2D.Double sw = new Rectangle2D.Double(bounds.x, bounds.y+bounds.height/2.0, bounds.width/2.0, bounds.height/2.0);
-			Rectangle2D.Double se = new Rectangle2D.Double(bounds.x+bounds.width/2.0, bounds.y+bounds.height/2.0, bounds.width/2.0, bounds.height/2.0);
-			Rectangle2D.Double[] rects = new Rectangle2D.Double[]{nw,ne,sw,se};
+			Rectangle2D.Float nw = new Rectangle2D.Float((float)bounds.x, (float)bounds.y, (float)bounds.width/2.0f, (float)bounds.height/2.0f);
+			Rectangle2D.Float ne = new Rectangle2D.Float((float)(bounds.x+bounds.width/2.0f), (float)bounds.y, (float)bounds.width/2.0f, (float)bounds.height/2.0f);
+			Rectangle2D.Float sw = new Rectangle2D.Float((float)bounds.x, (float)(bounds.y+bounds.height/2.0f), (float)bounds.width/2.0f, (float)bounds.height/2.0f);
+			Rectangle2D.Float se = new Rectangle2D.Float((float)(bounds.x+bounds.width/2.0f), (float)(bounds.y+bounds.height/2.0f), (float)bounds.width/2.0f, (float)bounds.height/2.0f);
+			Rectangle2D.Float[] rects = new Rectangle2D.Float[]{nw,ne,sw,se};
 
 			// the sets of Krakedges
 			Set<T> nw_set = new HashSet<T>();
@@ -85,7 +85,7 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 	 * To find the boundaries of the area that the Node covers.
 	 * @return The boundaries of the area that the Node covers.
 	 */
-	public Rectangle2D.Double getBounds(){
+	public Rectangle2D.Float getBounds(){
 		return bounds;
 	}
 
@@ -94,7 +94,7 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 	 * @param qarea The rectangle for which to find all KrakEdges
 	 * @return A Set with all KrakEdges within the given Rectangle
 	 */
-	public Set<T> query(Rectangle2D.Double qarea){
+	public Set<T> query(Rectangle2D.Float qarea){
 		if(!isEmpty()){
 			Set<T> results = new HashSet<T>();
 			for(QuadTreeNode<T> item : nodes){

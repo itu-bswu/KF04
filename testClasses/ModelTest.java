@@ -76,7 +76,7 @@ public class ModelTest {
 	
 	@Test public void testUpdateBoundsWidth() {
 		try {
-			model.updateBounds(new Rectangle2D.Double(0,0,-1,0));
+			model.updateBounds(new Rectangle2D.Float(0,0,-1,0));
 		}catch (IllegalArgumentException e) {
 			return;
 		}
@@ -85,7 +85,7 @@ public class ModelTest {
 	
 	@Test public void testUpdateBoundsHeight() {
 		try {
-			model.updateBounds(new Rectangle2D.Double(0,0,0,-1));
+			model.updateBounds(new Rectangle2D.Float(0,0,0,-1));
 		}catch (IllegalArgumentException e) {
 			return;
 		}
@@ -94,7 +94,7 @@ public class ModelTest {
 	
 	@Test public void testUpdateBoundsOutOfBounds() {
 		try {
-			model.updateBounds(new Rectangle2D.Double(-10,-10,100,70));
+			model.updateBounds(new Rectangle2D.Float(-10,-10,100,70));
 		}catch (IllegalArgumentException e) {
 			System.out.println(e);
 			return;
@@ -106,8 +106,8 @@ public class ModelTest {
 	 * Test get bounds
 	 */
 	@Test public void testGetBounds() {
-		model.updateBounds(new Rectangle2D.Double(0,0,10,10));
-		assertEquals(new Rectangle2D.Double(0,0,10,10), model.getBounds());
+		model.updateBounds(new Rectangle2D.Float(0,0,10,10));
+		assertEquals(new Rectangle2D.Float(0,0,10,10), model.getBounds());
 	}
 	
 	/**					
@@ -124,7 +124,7 @@ public class ModelTest {
 	 */
 	@Test public void testOriginalBounds() {
 		model.updateBounds(model.originalBounds());
-		assertEquals(new Rectangle2D.Double(0,0,12.0,11.5), model.getBounds());
+		assertEquals(new Rectangle2D.Float(0,0,12.0f,11.5f), model.getBounds());
 	}
 	
 	/**
@@ -279,15 +279,15 @@ public class ModelTest {
 	@Test public void testGetClosestEdge() {
 		
 		try {
-			assertEquals("Mm", model.getClosestEdge(new Point2D.Double(10,10),200,Evaluator.ANYTHING).roadname);
-			assertEquals("Ii", model.getClosestEdge(new Point2D.Double(5,8),200,Evaluator.ANYTHING).roadname);			
+			assertEquals("Mm", model.getClosestEdge(new Point2D.Float(10,10),200,Evaluator.ANYTHING).roadname);
+			assertEquals("Ii", model.getClosestEdge(new Point2D.Float(5,8),200,Evaluator.ANYTHING).roadname);			
 		} catch (NothingCloseException e) {
 			assertTrue(false);
 		}
 		
 		//Here, the search does not go far enough to find the edge
 		try {
-			model.getClosestEdge(new Point2D.Double(100,100),10,Evaluator.ANYTHING);
+			model.getClosestEdge(new Point2D.Float(100,100),10,Evaluator.ANYTHING);
 		} catch (NothingCloseException e) {
 			return;
 		}
@@ -300,8 +300,8 @@ public class ModelTest {
 	 */
 	@Test public void testGetClosestNode() {
 		try {		
-			assertEquals(2, model.getClosestNode(new Point2D.Double(6,2),Evaluator.ANYTHING).getIndex());
-			assertEquals(6, model.getClosestNode(new Point2D.Double(4,7),Evaluator.ANYTHING).getIndex());
+			assertEquals(2, model.getClosestNode(new Point2D.Float(6,2),Evaluator.ANYTHING).getIndex());
+			assertEquals(6, model.getClosestNode(new Point2D.Float(4,7),Evaluator.ANYTHING).getIndex());
 		} catch (NothingCloseException e) {
 			assertTrue(false);
 		}
@@ -311,8 +311,8 @@ public class ModelTest {
 	 * Test the closest roadname
 	 */
 	@Test public void testGetClosestRoadname() {
-		assertEquals("Aa", model.getClosestRoadname(new Point2D.Double(0,0)));
-		assertEquals("Ee", model.getClosestRoadname(new Point2D.Double(3,3)));
+		assertEquals("Aa", model.getClosestRoadname(new Point2D.Float(0,0)));
+		assertEquals("Ee", model.getClosestRoadname(new Point2D.Float(3,3)));
 	}
 	
 	/**

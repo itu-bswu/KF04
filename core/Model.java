@@ -2,6 +2,7 @@ package core;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -46,8 +47,8 @@ public class Model {
 	public static final int[] quadTreeLimits = new int[]{20000,1000,125};
 	private static final float ROAD_SEARCH_DISTANCE = 200;
 
-	private Rectangle2D.Double bounds;
-	private Rectangle2D.Double maxBounds;
+	private Float bounds;
+	private Float maxBounds;
 	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
 	private List<QuadTree<KrakEdge>> qt = Collections.synchronizedList(new ArrayList<QuadTree<KrakEdge>>());
 	public Graph<KrakEdge,KrakNode> graph;
@@ -262,7 +263,7 @@ public class Model {
 		bin = new BufferedInputStream(new FileInputStream(Properties.get("dataNodeEdge")));
 		final ObjectInputStream ois = new ObjectInputStream(bin);
 
-		maxBounds = (Rectangle2D.Double) ois.readObject();
+		maxBounds = (Rectangle2D.Float) ois.readObject();
 		bounds = originalBounds();
 
 		qt.add((QuadTree<KrakEdge>) ois.readObject());
@@ -361,7 +362,7 @@ public class Model {
 	 * @param qarea The rectangle for which to find all KrakEdges
 	 * @return A Set with all KrakEdges within the given Rectangle
 	 */
-	private List<KrakEdge> query(Rectangle2D.Double qarea){
+	private List<KrakEdge> query(Float qarea){
 		double area = (qarea.width/1000)*(qarea.height/1000);
 		//System.out.printf("area: %.2f km2\n",area);
 		List<KrakEdge> total = new ArrayList<KrakEdge>();
@@ -391,7 +392,7 @@ public class Model {
 	 * Get the bounds of the map. The bounds are what the user is currently looking at
 	 * @return The bounds
 	 */
-	public Rectangle2D.Double getBounds() {
+	public Rectangle2D.Float getBounds() {
 		return bounds;
 	}
 	
@@ -399,7 +400,7 @@ public class Model {
 	 * Update the bounds
 	 * @param view The rectangle of the view to zoom to.
 	 */
-	public void updateBounds(Rectangle2D.Double bounds) {
+	public void updateBounds(Rectangle2D.Float bounds) {
 		if (bounds == null) throw new NullPointerException("Trying to set the bounds to null");
 		if (bounds.width < 0) throw new IllegalArgumentException("The width of the rectangle is negative");
 		if (bounds.height < 0) throw new IllegalArgumentException("The height of the rectangle is negative");
@@ -410,13 +411,13 @@ public class Model {
 	/**
 	 * Sets the Map boundaries back to the outer bounds calculated at start-up.
 	 */
-	public Rectangle2D.Double originalBounds(){
+	public Rectangle2D.Float originalBounds(){
 		
 		if (maxBounds==null) {
 			maxBounds = maxBounds(graph.getNodes());
 		}
 		
-		return new Rectangle2D.Double(maxBounds.x, maxBounds.y, maxBounds.width, maxBounds.height);
+		return new Rectangle2D.Float(maxBounds.x, maxBounds.y, maxBounds.width, maxBounds.height);
 	}
 
 	/**
@@ -428,7 +429,7 @@ public class Model {
 	 * @return The outer bounds
 	 */
 	//TODO this should be deleted, the data should be saved in the inforamtion loader textfile
-	private Rectangle2D.Double maxBounds(List<KrakNode> list) {
+	private Rectangle2D.Float maxBounds(List<KrakNode> list) {
 		float minX = -1;
 		float minY = -1;
 		float maxX = -1;
@@ -449,7 +450,7 @@ public class Model {
 				maxY = (float) node.getY();
 		}
 
-		return new Rectangle2D.Double(minX, minY, maxX - minX, maxY - minY);
+		return new Rectangle2D.Float(minX, minY, maxX - minX, maxY - minY);
 	}
 
 	/**
@@ -458,8 +459,8 @@ public class Model {
 	 * @return
 	 */
 	private Line getLine(KrakEdge e) {
-		Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
-		Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
+		Point2D.Float firstPoint = relativePoint(new Point2D.Float(e.getStart().getX(),e.getStart().getY()));
+		Point2D.Float secondPoint = relativePoint(new Point2D.Float(e.getEnd().getX(),e.getEnd().getY()));
 		//Choosing the right color and thickness for each line
 		Color roadColor = Colors.SMALL_ROAD;
 		int size = 1;
@@ -595,10 +596,10 @@ public class Model {
 	 * @param coordinates A point of coordinates on the map.
 	 * @return The point on the screen corresponding to the coordinates given.
 	 */
-	private Point2D.Double relativePoint(Point2D coordinates) {
+	private Point2D.Float relativePoint(Point2D coordinates) {
 		float nx = (float) (	(coordinates.getX()-bounds.getX()) / bounds.getWidth()	); 
 		float ny = (float) (1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight()	);
-		return new Point2D.Double(nx,ny);
+		return new Point2D.Float(nx,ny);
 	}
 
 	/**
@@ -608,13 +609,13 @@ public class Model {
 	 * @return the closest edge within the maximum search distance.
 	 * @throws NothingCloseException If there are no edges within the maximum search distance.
 	 */
-	public KrakEdge getClosestEdge(Point2D.Double point, float radius, Evaluator eval) throws NothingCloseException{
+	public KrakEdge getClosestEdge(Point2D.Float point, float radius, Evaluator eval) throws NothingCloseException{
 		//System.out.println("Finding closest road");
 		// get all nearby roads
 
 		//System.out.println(point);
 
-		Rectangle2D.Double search_area = new Rectangle2D.Double(point.x - radius,
+		Rectangle2D.Float search_area = new Rectangle2D.Float(point.x - radius,
 				point.y - radius,
 				2*radius,
 				2*radius);
@@ -653,7 +654,7 @@ public class Model {
 	 * @param point the point to search from
 	 * @return the name of the closest road. If there is no path it will return a String of one whitespace.
 	 */
-	public String getClosestRoadname(Point2D.Double point){
+	public String getClosestRoadname(Point2D.Float point){
 		KrakEdge road;
 		try {
 			road = getClosestEdge(point,Model.ROAD_SEARCH_DISTANCE, Evaluator.ANYTHING);
@@ -670,7 +671,7 @@ public class Model {
 	 * @return the closest node from the point
 	 * @throws NothingCloseException If there are no nodes within the maximum search distance.
 	 */
-	public KrakNode getClosestNode(Point2D.Double point, Evaluator eval) throws NothingCloseException{
+	public KrakNode getClosestNode(Point2D.Float point, Evaluator eval) throws NothingCloseException{
 		float curDistance = Model.ROAD_SEARCH_DISTANCE;
 		KrakEdge edge = null;
 		while(edge == null){

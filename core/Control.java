@@ -36,7 +36,7 @@ public class Control {
 	private static final String NAME = Properties.get("programName"); //Name of the window containing the map.
 	private View view;
 	private Model model;
-	private ArrayList<Point2D.Double> pins = new ArrayList<Point2D.Double>();
+	private ArrayList<Point2D.Float> pins = new ArrayList<Point2D.Float>();
 	private Object currentRouteMode = null;
 
 	/**
@@ -71,15 +71,15 @@ public class Control {
 
 			@Override
 			public void componentResized(ComponentEvent e){
-				Rectangle2D.Double map = model.getBounds();
+				Rectangle2D.Float map = model.getBounds();
 				int newWidth = view.getCanvasWidth();
 				int newHeight = view.getCanvasHeight();
 
 				if(oldWidth < newWidth || oldHeight < newHeight){
-					RectangleMethods.fixRatioByInnerRectangle(map, new Rectangle2D.Double(0, 0, newWidth, newHeight));
+					RectangleMethods.fixRatioByInnerRectangle(map, new Rectangle2D.Float(0, 0, newWidth, newHeight));
 				}
 				else{
-					RectangleMethods.fixRatioByOuterRectangle(map, new Rectangle2D.Double(0, 0, newWidth, newHeight));
+					RectangleMethods.fixRatioByOuterRectangle(map, new Rectangle2D.Float(0, 0, newWidth, newHeight));
 				}
 
 				oldWidth = newWidth;
@@ -125,9 +125,9 @@ public class Control {
 			@Override
 			public void mouseClicked(MouseEvent e){
 				boolean remove = false; // Will be set to true, if a pin needs to be removed. 
-				Point2D.Double tempPin = null; //The pin to be removed, if anything. 
+				Point2D.Float tempPin = null; //The pin to be removed, if anything. 
 
-				for(Point2D.Double pin : pins){ 
+				for(Point2D.Float pin : pins){ 
 					//Runs through all the current pins to check if there are any pins close to the clicked point.
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
 					if(Math.abs(tempPoint.x - e.getX()) < 7 && Math.abs(tempPoint.y - e.getY()) < 7){
@@ -158,7 +158,7 @@ public class Control {
 			@Override
 			public void mouseMoved(MouseEvent e){
 				//Set label to closest road
-				Point2D.Double p = PointMethods.pixelToUTM(e.getPoint(), model, view);
+				Point2D.Float p = PointMethods.pixelToUTM(e.getPoint(), model, view);
 				String roadName = model.getClosestRoadname(p);
 				view.setLabel(roadName);
 			}
@@ -171,7 +171,7 @@ public class Control {
 	private void addKeyboardListeners(){
 		//Listener for maxZoom function.
 		view.addKeyListener(new KeyAdapter(){
-			Rectangle2D.Double temp = null;
+			Rectangle2D.Float temp = null;
 
 			@Override
 			public void keyReleased(KeyEvent e) {	
@@ -243,7 +243,7 @@ public class Control {
 		view.addUpListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
+				Rectangle2D.Float move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
 				model.updateBounds(move);
 				repaint();
 			}});
@@ -251,7 +251,7 @@ public class Control {
 		view.addDownListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
+				Rectangle2D.Float move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
 				model.updateBounds(move);
 				repaint();
 			}});
@@ -259,7 +259,7 @@ public class Control {
 		view.addLeftListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.WEST);
+				Rectangle2D.Float move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.WEST);
 				model.updateBounds(move);
 				repaint();
 			}});
@@ -267,7 +267,7 @@ public class Control {
 		view.addRightListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.EAST);
+				Rectangle2D.Float move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.EAST);
 				model.updateBounds(move);
 				repaint();
 			}});
@@ -282,7 +282,7 @@ public class Control {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
-				Rectangle2D.Double p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, true, model.getBounds());
+				Rectangle2D.Float p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, true, model.getBounds());
 				model.updateBounds(p);
 				repaint();
 			}});
@@ -291,7 +291,7 @@ public class Control {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
-				Rectangle2D.Double p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, false, model.getBounds());
+				Rectangle2D.Float p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, false, model.getBounds());
 				model.updateBounds(p);
 				repaint();
 			}});
@@ -332,7 +332,7 @@ public class Control {
 	private void repaint(){
 		view.clearPins();
 		view.clearRoute();
-		for(Point2D.Double pin : pins){
+		for(Point2D.Float pin : pins){
 			Point tempPin = PointMethods.UTMToPixel(pin, model, view);
 			view.addPin(tempPin);
 		}
