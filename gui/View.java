@@ -574,7 +574,7 @@ public class View extends JFrame{
 				drawLines(g,lines,-1.0f,false);
 
 				if(route != null){
-					drawLines(g,route,-2.0f,false);
+					drawLines(g,route,-1.0f,false);
 				}
 
 				for(int index = 0 ; index < pins.size() ; index++){
@@ -625,8 +625,8 @@ public class View extends JFrame{
 	 */
 	public static void main(String[] args){
 		Collection<Line> x = new HashSet<Line>();
-		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1,1));
-		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2,1));
+		x.add(new Line(new Point2D.Float(0.25f,0.25f),new Point2D.Float(0.75f,0.75f),Color.BLACK,1,1));
+		x.add(new Line(new Point2D.Float(0.75f,0.25f),new Point2D.Float(0.25f,0.75f),Color.BLACK,2,1));
 
 		final View v = new View("X marks the spot",(float) 1.0);
 

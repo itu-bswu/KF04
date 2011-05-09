@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
  * Line class
  */
 public class Line {
-	private Point2D.Double startPoint;
-	private Point2D.Double endPoint;
+	private Point2D.Float startPoint;
+	private Point2D.Float endPoint;
 	private Color roadColor;
 	public float thickness;
 	public String name;
@@ -16,7 +16,7 @@ public class Line {
 	/**
 	 * Constructor
 	 */
-	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, float thickness, int size, String name) {
+	public Line(Point2D.Float startPoint, Point2D.Float endPoint, Color roadColor, float thickness, int size, String name) {
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.roadColor = roadColor;
@@ -25,7 +25,7 @@ public class Line {
 		this.name = name;
 	}
 	
-	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, float thickness, int size) {
+	public Line(Point2D.Float startPoint, Point2D.Float endPoint, Color roadColor, float thickness, int size) {
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.roadColor = roadColor;
@@ -37,13 +37,13 @@ public class Line {
 	/**
 	 * Get start point
 	 */
-	public Point2D.Double getStartPoint() {
+	public Point2D.Float getStartPoint() {
 		return startPoint;
 	}
 	/**
 	 * Get end point
 	 */
-	public Point2D.Double getEndPoint() {
+	public Point2D.Float getEndPoint() {
 		return endPoint;
 	}
 

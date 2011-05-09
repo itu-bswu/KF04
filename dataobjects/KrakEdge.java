@@ -79,8 +79,8 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 	 * 
 	 * @return Line from KrakEdge.
 	 */
-	public Line2D.Double getLine(){
-		return new Line2D.Double(n1.getX(), n1.getY(), n2.getX(), n2.getY());
+	public Line2D.Float getLine(){
+		return new Line2D.Float(n1.getX(), n1.getY(), n2.getX(), n2.getY());
 	}
 
 	/**

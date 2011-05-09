@@ -33,8 +33,8 @@ public class KrakNode extends Node implements Serializable {
 	 * 
 	 * @return Point object.
 	 */
-	public Point2D.Double getPoint(){
-		return new Point2D.Double(X,Y);
+	public Point2D.Float getPoint(){
+		return new Point2D.Float(X,Y);
 	}
 	
 	/**

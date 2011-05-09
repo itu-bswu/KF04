@@ -45,7 +45,7 @@ public class Dijkstra {
 
 			while(edgesOut.hasNext()){
 				KrakEdge edge = edgesOut.next();
-
+				
 				//if(canDrive(edge,cur)){
 					//System.out.println("kører ad "+edge.roadname);
 					relax(cur,targetNode,edge,distTo,edgeTo, pq, eval);
