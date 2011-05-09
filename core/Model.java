@@ -70,16 +70,16 @@ public class Model {
 		
 		
 		boolean fromFile = false;
-		try {
-			File dataDir = new File(".", Properties.get("dataDir"));
-			String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
-			if (chk.equals(Properties.get("nodeFileChecksum"))) {
-				fromFile = true;
-				//TODO: Niklas dette her fungerer ikke for min testgraph. Den den tror den har hentet "fromFile" og det giver en masse problemer, blandt andet fordi qt ikke laves.
-				//fromFile = false; //I have to set this to false in order to run my test graph
+		if (inputGraph == null) {
+			try {
+				File dataDir = new File(".", Properties.get("dataDir"));
+				String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
+				if (chk.equals(Properties.get("nodeFileChecksum"))) {
+					fromFile = true;
+				}
+			} catch (Exception e) {
+				fromFile = false;
 			}
-		} catch (Exception e) {
-			fromFile = false;
 		}
 
 		try {
@@ -275,9 +275,7 @@ public class Model {
 					graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
 
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
-
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
-					
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
 
 					ois.close();
