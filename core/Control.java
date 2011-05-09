@@ -184,25 +184,25 @@ public class Control {
 					break;
 					
 				case KeyEvent.VK_UP:
-					temp = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
+					temp = newBounds(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
 					model.updateBounds(temp);
 					repaint();
 					break;
 					
 				case KeyEvent.VK_DOWN:
-					temp = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
+					temp = newBounds(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
 					model.updateBounds(temp);
 					repaint();
 					break;
 
 				case KeyEvent.VK_LEFT:
-					temp = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.WEST);
+					temp = newBounds(model.getBounds(), MOVE_LENGTH, Direction.WEST);
 					model.updateBounds(temp);
 					repaint();
 					break;
 
 				case KeyEvent.VK_RIGHT:
-					temp = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.EAST);
+					temp = newBounds(model.getBounds(), MOVE_LENGTH, Direction.EAST);
 					model.updateBounds(temp);
 					repaint();
 					break;
@@ -212,13 +212,13 @@ public class Control {
 					break;
 					
 				case KeyEvent.VK_I:
-					temp = RectangleMethods.zoomRectangle(ZOOM_LENGTH, true, model.getBounds());
+					temp = newBounds(model.getBounds(), ZOOM_LENGTH, Direction.IN);
 					model.updateBounds(temp);
 					repaint();
 					break;
 					
 				case KeyEvent.VK_O:
-					temp = RectangleMethods.zoomRectangle(ZOOM_LENGTH, false, model.getBounds());
+					temp = newBounds(model.getBounds(), ZOOM_LENGTH, Direction.OUT);
 					model.updateBounds(temp);
 					repaint();
 					break;
@@ -255,7 +255,7 @@ public class Control {
 		view.addUpListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
+				Rectangle2D.Double move = newBounds(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
 				model.updateBounds(move);
 				repaint();
 			}});
@@ -263,7 +263,7 @@ public class Control {
 		view.addDownListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
+				Rectangle2D.Double move = newBounds(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
 				model.updateBounds(move);
 				repaint();
 			}});
@@ -271,7 +271,7 @@ public class Control {
 		view.addLeftListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.WEST);
+				Rectangle2D.Double move = newBounds(model.getBounds(), MOVE_LENGTH, Direction.WEST);
 				model.updateBounds(move);
 				repaint();
 			}});
@@ -279,7 +279,7 @@ public class Control {
 		view.addRightListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0){
-				Rectangle2D.Double move = RectangleMethods.move(model.getBounds(), MOVE_LENGTH, Direction.EAST);
+				Rectangle2D.Double move = newBounds(model.getBounds(), MOVE_LENGTH, Direction.EAST);
 				model.updateBounds(move);
 				repaint();
 			}});
@@ -294,8 +294,8 @@ public class Control {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
-				Rectangle2D.Double p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, true, model.getBounds());
-				model.updateBounds(p);
+				Rectangle2D.Double temp = newBounds(model.getBounds(), ZOOM_LENGTH, Direction.IN);
+				model.updateBounds(temp);
 				repaint();
 			}});
 		//Listener for "zoom-out" button.
@@ -303,8 +303,8 @@ public class Control {
 			@Override
 			public void actionPerformed(ActionEvent arg0){
 				//Constructs a new rectangle using the maps bounds and the ZOOM_LENGTH variable.
-				Rectangle2D.Double p = RectangleMethods.zoomRectangle(ZOOM_LENGTH, false, model.getBounds());
-				model.updateBounds(p);
+				Rectangle2D.Double temp = newBounds(model.getBounds(), ZOOM_LENGTH, Direction.OUT);
+				model.updateBounds(temp);
 				repaint();
 			}});
 	}
@@ -366,7 +366,7 @@ public class Control {
 	 * @param end What pin the end point is at.
 	 */
 	private void findPath(int start, int end){
-		// getting the right selector for the pathfinding		
+		// getting the right selector for the path finding		
 		Evaluator eval = Evaluator.DEFAULT;
 		if (view.isCarChoiceSelected()) {
 			eval = Evaluator.CAR;
@@ -381,5 +381,18 @@ public class Control {
 		}catch (NoPathException e2) {
 			view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
 		}	
+	}
+	
+	/**
+	 * Creates a rectangle moved in a direction compared to the old rectangle.
+	 * 
+	 * @param old The rectangle to be moved or zoomed.
+	 * @param length How far the rectangle should be moved or zoomed.
+	 * @param direction Which way should the rectangle move or zoom.
+	 * @return The rectangle that has been moved or zoomed.
+	 */
+	private Rectangle2D.Double newBounds(Rectangle2D.Double old, double length, Direction direction){
+		
+		return newBounds(old, length, direction);
 	}
 }

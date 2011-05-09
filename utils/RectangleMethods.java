@@ -6,32 +6,50 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-
 public class RectangleMethods {
 
 	/**
 	 * Creates a rectangle moved in a direction compared to the old rectangle.
 	 * 
-	 * @param old The rectangle to be moved.
-	 * @param length How far the rectangle should be moved.
-	 * @param direction Which way should the rectangle move
-	 * @return The rectangle that has been moved. 
+	 * @param old The rectangle to be moved or zoomed.
+	 * @param length How far the rectangle should be moved or zoomed.
+	 * @param direction Which way should the rectangle move or zoom.
+	 * @return The rectangle that has been moved or zoomed. 
 	 */
-	public static Rectangle2D.Double move(Rectangle2D.Double old, double length, Direction direction){
+	public static Rectangle2D.Double newBounds(Rectangle2D.Double old, double length, Direction direction){
 		switch(direction){
 		case WEST:
 			double xw = old.x + (-1 * old.width * length);
 			return new Rectangle2D.Double(xw, old.y, old.width, old.height);
+			
 		case EAST:
 			double xe = old.x + (1 * old.width * length);
 			return new Rectangle2D.Double(xe, old.y, old.width, old.height);
+			
 		case NORTH:
 			double yn = old.y + (1 * old.height * length);
 			return new Rectangle2D.Double(old.x, yn, old.width, old.height);
+			
 		case SOUTH:
 			double ys = old.y + (-1 * old.height * length);
 			return new Rectangle2D.Double(old.x, ys, old.width, old.height);
+			
+		case IN:
+			return new Rectangle2D.Double(
+					old.x + length * old.width, //x is increased by the factor in proportion to the width
+					old.y + length * old.height, //y is increased by the factor in proportion to the height
+					old.width - (length * old.width * 2), //width is decreased by the factor
+					old.height - (length * old.height * 2) //height is decreased by the factor
+			);
+			
+		case OUT:
+			return new Rectangle2D.Double(old.x - old.width * length, //x is decreased by the factor in proportion to the width
+					old.y - old.height * length, //y is decreased by the factor in proportion to the height
+					old.width + old.width * length * 2, //width is increased by the factor
+					old.height + old.height * length * 2//height is increased by the factor
+			);
 		}
+		
 		return old;
 	}
 
@@ -87,7 +105,7 @@ public class RectangleMethods {
 	 * Converts a two Points to a Rectangle. Their relative location is irrelevant.
 	 * @param a The first Point.
 	 * @param b The second Point.
-	 * @return A Rectangle with x,y in the upper left corner.
+	 * @return A rectangle with x,y in the upper left corner.
 	 */
 	public static Rectangle2D.Double point2DToRectangle(Point2D.Double a, Point2D.Double b){
 		Rectangle2D.Double p;
@@ -110,33 +128,7 @@ public class RectangleMethods {
 		return p;
 
 	}
-
-	/**
-	 * Creates a Rectangle that is a zoomed in/out version of another.
-	 * 
-	 * @param factor The factor to zoom with, for example 0.2 for a 20% zoom.
-	 * @param zoom True if zooming IN, else false.
-	 * @param old The original view.
-	 * @return The finished Rectangle
-	 */
-	public static Rectangle2D.Double zoomRectangle(double factor, boolean zoom, Rectangle2D.Double old){
-		if(zoom){
-			return new Rectangle2D.Double(
-					old.x + factor * old.width, //x is increased by the factor in proportion to the width
-					old.y + factor * old.height, //y is increased by the factor in proportion to the height
-					old.width - (factor * old.width * 2), //width is decreased by the factor
-					old.height - (factor * old.height * 2) //height is decreased by the factor
-			); 
-		}
-		else{
-			return new Rectangle2D.Double(old.x - old.width * factor, //x is decreased by the factor in proportion to the width
-					old.y - old.height * factor, //y is decreased by the factor in proportion to the height
-					old.width + old.width * factor * 2, //width is increased by the factor
-					old.height + old.height * factor * 2//height is increased by the factor
-			);
-		}
-	}
-
+	
 	/**
 	 * Creates the proper UTM rectangle for zooming with the mouse.
 	 * 
