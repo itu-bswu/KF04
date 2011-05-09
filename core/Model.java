@@ -557,7 +557,7 @@ public class Model {
 		
 		float thickness = (float) (8/bounds.width);
 		
-		return new Line(firstPoint,secondPoint,roadColor,thickness,size,e.roadname);
+		return new Line(firstPoint,secondPoint,roadColor,thickness,size,e.roadname,e);
 	}
 
 	/**

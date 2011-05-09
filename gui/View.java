@@ -1,6 +1,7 @@
 package gui;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -25,12 +26,15 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -38,7 +42,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+
+import dataobjects.KrakEdge;
 
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
@@ -72,6 +79,9 @@ public class View extends JFrame{
 	// values of stats
 	private JLabel routeTotalDistValue;
 	private JLabel routeTimeValue;
+	
+	// Route description
+	private JPanel routeDescription;
 
 	/**
 	 * Creates the frame with the given header title and the initially wanted ratio for the canvas.
@@ -299,13 +309,82 @@ public class View extends JFrame{
 	 */
 	public void addRoute(Collection<Line> route){
 		canvas.updateRoute(route);
+		updateRouteDescription(route);
 	}
-
+	
 	/**
 	 * Removes any route currently stored.
 	 */
 	public void clearRoute(){
 		canvas.updateRoute(null);
+		updateRouteDescription(null);
+	}
+	
+	// FIXME: IM FUCKING UGLY!
+	private void updateRouteDescription (Collection<Line> route) {
+		routeDescription.removeAll();
+		if (route == null || route.size() == 0) return;
+		
+		JPanel container = new JPanel();
+		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		
+		NumberFormat formatter = new DecimalFormat("#0.00");
+		
+		// TODO: GUI
+		// TODO: Max-height (= scrollbars)
+		// TODO: Right width
+		// TODO: Flip order
+		// FIXME: StŒr i forkert r¾kkef¿lge
+		KrakEdge prevEdge 		= null;
+		float totalDriveTime 	= 0.0f;
+		float totalDistance 	= 0.0f;
+		for (Line l : route) {
+			KrakEdge edge = l.getEdge();
+			// Hvis vi k¿rer pŒ samme vej (men anden edge)
+			if (prevEdge != null && edge.roadname.equals(prevEdge.roadname)) {
+				totalDriveTime 	+= edge.DRIVETIME;
+				totalDistance 	+= edge.length;
+			// Hvis vi kommer over pŒ en anden vej (som ikke er en rundk¿rsel)
+			} else if (!edge.roadname.equals("Rundkørsel") && !edge.roadname.equals("Rundk¿rsel")) {
+				// Hvis vi har k¿rt pŒ en anden vej f¿r den nuv¾rende
+				if (prevEdge != null && prevEdge.roadname.length() > 0 && totalDriveTime > 0.0f && totalDistance > 0.0f) {
+					switch (prevEdge.type) {
+						case 31: // Til-/af-k¿rsel (Motorvej)
+							// Hvis den n¾ste vej ikke er en motorvej, er det en afk¿rsel.
+							if (edge.type != 1) container.add(createRoadLabel("Leave the highway", "at " + prevEdge.roadname));
+							break;
+						case 80: // Ferry
+							container.add(createRoadLabel("Take the ferry: " + prevEdge.roadname, "(" + formatter.format(totalDriveTime) + " minutes)"));
+							break;
+						default:
+							container.add(createRoadLabel(prevEdge.roadname, formatter.format(totalDriveTime) + " minutes (" + formatter.format(totalDistance/1000.0) + " km)"));
+					}
+				}
+				prevEdge 		= edge;
+				totalDriveTime 	= edge.DRIVETIME;
+				totalDistance 	= edge.length;
+			}
+		}
+		if (prevEdge != null && prevEdge.roadname.length() > 0 && totalDriveTime > 0.0f && totalDistance > 0.0f) {
+			container.add(createRoadLabel(prevEdge.roadname, formatter.format(totalDriveTime) + " minutes (" + formatter.format(totalDistance/1000.0) + " km)"));
+		}
+		
+		JScrollPane scroll = new JScrollPane(container);
+		scroll.setBorder(BorderFactory.createEmptyBorder());
+		routeDescription.add(scroll);
+	}
+	
+	private JPanel createRoadLabel (String line1, String line2) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
+		panel.add(new JLabel(line1));
+		
+		JLabel label2 = new JLabel(line2);
+		label2.setForeground(Color.GRAY);
+		panel.add(label2);
+		
+		return panel;
 	}
 
 	/**
@@ -397,6 +476,9 @@ public class View extends JFrame{
 
 		routeTotalDistValue = new JLabel();
 		routeTimeValue		= new JLabel();
+		
+		// route description
+		routeDescription	= new JPanel();
 
 		// layouts & borders
 		outer.setLayout(new BorderLayout());
@@ -407,6 +489,7 @@ public class View extends JFrame{
 		// TODO: routeOptions setLayout
 		routeInfo.setBorder(BorderFactory.createTitledBorder("Route Information"));
 		routeInfoGrid.setLayout(new GridLayout(0,2));
+		routeDescription.setBorder(BorderFactory.createTitledBorder("Route Description"));
 
 		carChoice.setSelected(true);
 		ButtonGroup bg = new ButtonGroup();
@@ -443,9 +526,12 @@ public class View extends JFrame{
 		c.gridy = 1;
 		menuPanel.add(routeOptions,c);
 
-		c.weighty = 1;
 		c.gridy = 2;
 		menuPanel.add(routeInfo,c);
+		
+		c.gridy = 3;
+		c.weighty = 1;
+		menuPanel.add(routeDescription, c);
 
 		// nested gridbag for the navigation buttons
 		setupNavigation(navigationPanel);
@@ -551,6 +637,10 @@ public class View extends JFrame{
 		public void updateRoute(Collection<Line> route){
 			this.route = route;
 		}
+		
+		public Collection<Line> getRoute () {
+			return route;
+		}
 
 		/**
 		 * Draws the given Lines on the off-screen image for later display on the canvas.
@@ -572,7 +662,7 @@ public class View extends JFrame{
 				// draw lines
 				drawLines(g,lines,0.0f,true);
 				drawLines(g,lines,-1.0f,false);
-
+				
 				if(route != null){
 					drawLines(g,route,-2.0f,false);
 				}

@@ -1,6 +1,9 @@
 package gui;
+
 import java.awt.Color;
 import java.awt.geom.Point2D;
+
+import dataobjects.KrakEdge;
 
 /**
  * Line class
@@ -12,26 +15,27 @@ public class Line {
 	public float thickness;
 	public String name;
 	private int size;
+	private KrakEdge edge;
 	
 	/**
 	 * Constructor
 	 */
-	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, float thickness, int size, String name) {
+	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, float thickness, int size, String name, KrakEdge edge) {
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.roadColor = roadColor;
 		this.thickness = thickness;
 		this.size = size;
 		this.name = name;
+		this.edge = edge;
+	}
+	
+	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, float thickness, int size, KrakEdge edge) {
+		this(startPoint, endPoint, roadColor, thickness, size, "", edge);
 	}
 	
 	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, float thickness, int size) {
-		this.startPoint = startPoint;
-		this.endPoint = endPoint;
-		this.roadColor = roadColor;
-		this.thickness = thickness;
-		this.size = size;
-		this.name = "";
+		this(startPoint, endPoint, roadColor, thickness, size, "", null);
 	}
 	
 	/**
@@ -77,5 +81,9 @@ public class Line {
 	
 	public int getSize(){
 		return size;
+	}
+	
+	public KrakEdge getEdge() {
+		return edge;
 	}
 }
