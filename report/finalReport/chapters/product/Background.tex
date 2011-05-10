@@ -1,12 +1,49 @@
 \chapter{Background}
 \section{Problem area}
-
+Over the last decade people have switched from traditional roadmaps 
+to using the web-maps. This is a change without any negative side-effects. 
+The online services remove all the problems with determining the quickest 
+route between two points and you spend no time browsing the pages of 
+the map to find what you need. With the popular smartphones the online 
+map is even more useful, since you no longer need to prepare your trip 
+before you leave.
+The online maps have now been used for many years and haven’t been slow 
+at adopting new features to improve their usability. They have both 
+implemented satellite-maps that allow us to browse the entire planet 
+from above, and lately the feature called Google Street View has upped 
+the stakes when allowing us to look at any direction from a given point 
+of a road. The two maps that we use the most are Google Maps and the 
+Danish map called Krak. These maps both have the mentioned features 
+but slight differences in the way the user navigates and searches 
+for routes.
+Because of the widespread knowledge of the online maps, the users 
+have been accustomed to certain features and ways of using the map. 
+It is very important that we, with a new map program, use this knowledge 
+to our advantage and don’t try to reinvent the wheel. By using some 
+of the commonly used controls in our map, a user will be able to quickly 
+adapt to our program and use it efficiently. 
 \section{Our requirements}
 \subsection{Project requirements}
 \subsection{Our own requirements}
 
 \section{Data set}
-\subsection{UTM-coordinates}
+We have been provided with a dataset of roads and intersections in Denmark 
+from Krak. Additionally we got some code for loading the data in from the 
+text files. We have only made minor changes to the code for loading the data.
 \subsection{Graph}
+When the data has been loaded it is stored as a Graph containing KrakNodes 
+and KrakEdges. The KrakEdges are the road segments and contains the name 
+of the road, an estimated drive time, a direction of traffic and references 
+to the two KrakNodes that are at either end of the road.  The KrakNode itself 
+contains only the coordinates for the point.
+The Graph itself contains a number of useful methods for searching the data 
+like getting all edges that is connected to a KrakNode. We will be using these 
+methods extensively throughout the project both for drawing the map and for 
+finding the route between two points.
+\subsection{UTM-Coordinates}
+It is important to note that the KrakNodes are in UTM-32 coordinates. When 
+using the UTM standard the origo is placed at the south-west corner. These 
+coordinates need some conversion when using in Java since the origo is placed 
+differently.
 
 \section{MVC structure}
