@@ -2,8 +2,13 @@ package core;
 import java.awt.Color;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
+<<<<<<< HEAD
 import java.awt.geom.Rectangle2D.Double;
+=======
+import java.awt.geom.Rectangle2D.Float;
+>>>>>>> 64a14081a839b949f9c39e5f662211886d1604c8
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -41,12 +46,12 @@ import gui.Line;
  */
 public class Model {
 
-	public static final int[] part1 = new int[]{0,1,2,3,21,22,31,32,41,42,80};
-	public static final int[] part2 = new int[]{4,23,33,34,43,44};
+	public static final int[] part1 = new int[]{0,1,2,3,4,21,22,31,32,41,42,80};
+	public static final int[] part2 = new int[]{23,33,34,43,44};
 	public static final int[] part3 = new int[]{5,11,24,25,35,45};
 	public static final int[] part4 = new int[]{6,8,10,26,28,46,48,95,99};
 	public static final int[] quadTreeLimits = new int[]{20000,1000,125};
-	private static final float ROAD_SEARCH_DISTANCE = 200;
+	private static final double ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
 	private Rectangle2D.Double maxBounds;
@@ -77,6 +82,7 @@ public class Model {
 		
 		
 		boolean fromFile = false;
+<<<<<<< HEAD
 		try {
 			File dataDir = new File(".", Properties.get("dataDir"));
 			String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
@@ -84,9 +90,18 @@ public class Model {
 				fromFile = true;
 				//TODO: Niklas dette her fungerer ikke for min testgraph. Den den tror den har hentet "fromFile" og det giver en masse problemer, blandt andet fordi qt ikke laves.
 				fromFile = false; //I have to set this to false in order to run my test graph
+=======
+		if (inputGraph == null) {
+			try {
+				File dataDir = new File(".", Properties.get("dataDir"));
+				String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
+				if (chk.equals(Properties.get("nodeFileChecksum"))) {
+					fromFile = true;
+				}
+			} catch (Exception e) {
+				fromFile = false;
+>>>>>>> 64a14081a839b949f9c39e5f662211886d1604c8
 			}
-		} catch (Exception e) {
-			fromFile = false;
 		}
 
 		try {
@@ -398,9 +413,7 @@ public class Model {
 					graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
 
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
-
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
-					
 					qt.add((QuadTree<KrakEdge>) ois.readObject());
 
 					ois.close();
@@ -461,20 +474,20 @@ public class Model {
 	 * Calculate the total distance of the current route.
 	 * @return the total distance in kilometers.
 	 */
-	public float getRouteDistance(){
-		float total = 0.0f;
+	public double getRouteDistance(){
+		double total = 0.0f;
 		for(KrakEdge e : path){
 			total += e.length;
 		}
-		return total/1000.0f;
+		return total/1000.0;
 	}
 
 	/**
 	 * Calculates the time needed to travel the current route (at the speed limits).
 	 * @return Total (in minutes) time to travel the route.
 	 */
-	public float getRouteTime(){
-		float minutes = 0.0f;
+	public double getRouteTime(){
+		double minutes = 0.0;
 		for(KrakEdge e : path){
 			minutes += e.DRIVETIME;
 		}
@@ -560,10 +573,10 @@ public class Model {
 	 */
 	//TODO this should be deleted, the data should be saved in the inforamtion loader textfile
 	private Rectangle2D.Double maxBounds(List<KrakNode> list) {
-		float minX = -1;
-		float minY = -1;
-		float maxX = -1;
-		float maxY = -1;
+		double minX = -1;
+		double minY = -1;
+		double maxX = -1;
+		double maxY = -1;
 
 		for (KrakNode node : list) {
 
@@ -571,13 +584,13 @@ public class Model {
 				continue;
 
 			if ((node.getX() < minX) || (minX == -1))
-				minX = (float) node.getX();
+				minX = node.getX();
 			if ((node.getX() > maxX) || (maxX == -1))
-				maxX = (float) node.getX();
+				maxX = node.getX();
 			if ((node.getY() < minY) || (minY == -1))
-				minY = (float) node.getY();
+				minY = node.getY();
 			if ((node.getY() > maxY) || (maxY == -1))
-				maxY = (float) node.getY();
+				maxY = node.getY();
 		}
 
 		return new Rectangle2D.Double(minX, minY, maxX - minX, maxY - minY);
@@ -703,7 +716,7 @@ public class Model {
 			break;
 		}
 		
-		float thickness = (float) (8/bounds.width);
+		double thickness = 8.0/bounds.width;
 		
 		return new Line(firstPoint,secondPoint,roadColor,thickness,size,e.roadname);
 	}
@@ -727,8 +740,8 @@ public class Model {
 	 * @return The point on the screen corresponding to the coordinates given.
 	 */
 	private Point2D.Double relativePoint(Point2D coordinates) {
-		float nx = (float) (	(coordinates.getX()-bounds.getX()) / bounds.getWidth()	); 
-		float ny = (float) (1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight()	);
+		double nx = (coordinates.getX()-bounds.getX()) / bounds.getWidth(); 
+		double ny = 1 - (coordinates.getY()-bounds.getY()) / bounds.getHeight();
 		return new Point2D.Double(nx,ny);
 	}
 
@@ -739,7 +752,7 @@ public class Model {
 	 * @return the closest edge within the maximum search distance.
 	 * @throws NothingCloseException If there are no edges within the maximum search distance.
 	 */
-	public KrakEdge getClosestEdge(Point2D.Double point, float radius, Evaluator eval) throws NothingCloseException{
+	public KrakEdge getClosestEdge(Point2D.Double point, double radius, Evaluator eval) throws NothingCloseException{
 		//System.out.println("Finding closest road");
 		// get all nearby roads
 
@@ -752,7 +765,7 @@ public class Model {
 		List<KrakEdge> all = query(search_area);
 
 		// find the closest
-		float distance = Integer.MAX_VALUE;
+		double distance = Integer.MAX_VALUE;
 		KrakEdge closest = null;
 
 		//System.out.println(all.size()+" roads within 200 meters");
@@ -763,7 +776,7 @@ public class Model {
 				try{
 					eval.evaluate(edge); // we don't need the return, just the exception if it is unpassable
 					if(cur_dist < distance){
-						distance = (float) cur_dist;
+						distance = cur_dist;
 						closest = edge;
 					}
 				}catch(NotPassableException e){} // silent catch to avoid having the unpassable edge as closest
@@ -802,7 +815,7 @@ public class Model {
 	 * @throws NothingCloseException If there are no nodes within the maximum search distance.
 	 */
 	public KrakNode getClosestNode(Point2D.Double point, Evaluator eval) throws NothingCloseException{
-		float curDistance = Model.ROAD_SEARCH_DISTANCE;
+		double curDistance = Model.ROAD_SEARCH_DISTANCE;
 		KrakEdge edge = null;
 		while(edge == null){
 			try{

@@ -1,5 +1,6 @@
 package dataobjects;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,21 +27,21 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 
 	/**
 	 * The constructor for creating a QuadTreeNode with the given boundaries and content.
-	 * @param bounds The boundaries of the new QuadTreeNode.
+	 * @param bounds2 The boundaries of the new QuadTreeNode.
 	 * @param content The content for the new QuadTreeNode.
 	 */
 	@SuppressWarnings("unchecked")
-	public QuadTreeNode(Rectangle2D.Double bounds, Set<T> content){
+	public QuadTreeNode(Rectangle2D.Double bounds2, Set<T> content){
 		//System.out.print("creating QuadTreeNode of size "+content.size());
 
 		// if there are too much content
 		if(content.size() > MAX_CONTENT){
 			// The sub-bounds
-			Rectangle2D.Double nw = new Rectangle2D.Double(bounds.x, bounds.y, bounds.width/2.0, bounds.height/2.0);
-			Rectangle2D.Double ne = new Rectangle2D.Double(bounds.x+bounds.width/2.0, bounds.y, bounds.width/2.0, bounds.height/2.0);
-			Rectangle2D.Double sw = new Rectangle2D.Double(bounds.x, bounds.y+bounds.height/2.0, bounds.width/2.0, bounds.height/2.0);
-			Rectangle2D.Double se = new Rectangle2D.Double(bounds.x+bounds.width/2.0, bounds.y+bounds.height/2.0, bounds.width/2.0, bounds.height/2.0);
-			Rectangle2D.Double[] rects = new Rectangle2D.Double[]{nw,ne,sw,se};
+			Rectangle2D.Double nw = new Rectangle2D.Double(bounds2.x, bounds2.y, bounds2.width/2.0f, bounds2.height/2.0);
+			Rectangle2D.Double ne = new Rectangle2D.Double(bounds2.x+bounds2.width/2.0, bounds2.y, bounds2.width/2.0, bounds2.height/2.0);
+			Rectangle2D.Double sw = new Rectangle2D.Double(bounds2.x, bounds2.y+bounds2.height/2.0, bounds2.width/2.0f, bounds2.height/2.0);
+			Rectangle2D.Double se = new Rectangle2D.Double(bounds2.x+bounds2.width/2.0, bounds2.y+bounds2.height/2.0, bounds2.width/2.0, bounds2.height/2.0);
+			Double[] rects = new Rectangle2D.Double[]{nw,ne,sw,se};
 
 			// the sets of Krakedges
 			Set<T> nw_set = new HashSet<T>();
@@ -66,7 +67,7 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 		}else{
 			contents = content;
 		}
-		this.bounds = bounds;
+		this.bounds = bounds2;
 	}
 
 	/**

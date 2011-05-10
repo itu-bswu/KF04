@@ -6,6 +6,6 @@ package utils;
  * 
  */
 public enum Direction {
-	WEST, EAST, NORTH, SOUTH;
+	WEST, EAST, NORTH, SOUTH, IN, OUT;
 }
 

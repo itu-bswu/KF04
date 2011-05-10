@@ -20,8 +20,8 @@ public class PointMethods {
 		//UTM coordinate system
 		e.y = view.getCanvasHeight() - e.y;
 		// Convert pixel to meters
-		float x_m = (float) (model.getBounds().x + (e.getX() / (float) view.getCanvasWidth()) * model.getBounds().width);
-		float y_m = (float) (model.getBounds().y + (e.getY() / (float) view.getCanvasHeight()) * model.getBounds().height);
+		double x_m = (model.getBounds().x + (e.getX() / view.getCanvasWidth()) * model.getBounds().width);
+		double y_m = (model.getBounds().y + (e.getY() / view.getCanvasHeight()) * model.getBounds().height);
 		return new Point2D.Double(x_m, y_m);	
 	}
  

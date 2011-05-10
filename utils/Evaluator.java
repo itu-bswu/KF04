@@ -6,13 +6,13 @@ import dataobjects.KrakNode;
 
 public abstract class Evaluator {
 
-	public abstract float evaluate(KrakEdge item) throws NotPassableException;
-	public abstract float heuristic(KrakNode item, KrakNode target);
+	public abstract double evaluate(KrakEdge item) throws NotPassableException;
+	public abstract double heuristic(KrakNode item, KrakNode target);
 	
 	public static Evaluator CAR = new Evaluator(){
 
 		@Override
-		public float evaluate(KrakEdge item) throws NotPassableException {
+		public double evaluate(KrakEdge item) throws NotPassableException {
 			
 			if((item.type == 8 || item.type == 11 || item.type == 28
 					|| item.type == 48) || item.direction == 0){ // Sti og gågade
@@ -22,8 +22,8 @@ public abstract class Evaluator {
 		}
 
 		@Override
-		public float heuristic(KrakNode item, KrakNode target) {
-			float distance = item.distanceTo(target);
+		public double heuristic(KrakNode item, KrakNode target) {
+			double distance = item.distanceTo(target);
 			return distance/(1000*(110.0f/60));
 		}
 	};
@@ -31,7 +31,7 @@ public abstract class Evaluator {
 	public static Evaluator BIKE = new Evaluator(){
 
 		@Override
-		public float evaluate(KrakEdge item) throws NotPassableException {
+		public double evaluate(KrakEdge item) throws NotPassableException {
 			if((item.type == 1 || item.type == 2 || item.type == 11
 					|| item.type == 21 || item.type == 22 || item.type == 31
 					|| item.type == 32 || item.type == 41 || item.type == 42 || item.direction == 0)){
@@ -42,7 +42,7 @@ public abstract class Evaluator {
 		}
 
 		@Override
-		public float heuristic(KrakNode item, KrakNode target) {
+		public double heuristic(KrakNode item, KrakNode target) {
 			return item.distanceTo(target);
 		}
 	};
@@ -51,12 +51,12 @@ public abstract class Evaluator {
 	public static Evaluator ANYTHING = new Evaluator(){
 
 		@Override
-		public float evaluate(KrakEdge item) throws NotPassableException {
+		public double evaluate(KrakEdge item) throws NotPassableException {
 			return 0;
 		}
 
 		@Override
-		public float heuristic(KrakNode item, KrakNode target) {
+		public double heuristic(KrakNode item, KrakNode target) {
 			return 0;
 		}
 		

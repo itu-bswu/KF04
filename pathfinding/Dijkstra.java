@@ -27,6 +27,7 @@ public class Dijkstra {
 	 * @throws NoPathException
 	 */
 	public static List<KrakEdge> findPath(Graph<KrakEdge,KrakNode> G, KrakNode startNode, KrakNode targetNode, Evaluator eval) throws NoPathException{
+<<<<<<< HEAD
 		HashMap<KrakNode,KrakEdge> edgeTo = new HashMap<KrakNode,KrakEdge>(); //A map with nodes as keys and their edgeTo as values
 		HashMap<KrakNode,Float> distTo = new HashMap<KrakNode,Float>(); //A map with nodes as keys and their distTo as values
 		IndexMinPQ<Float> pq = new IndexMinPQ<Float>(G.getNodeCount()); //The priorityqueue in which the distance to startNode indexes the 
@@ -36,6 +37,16 @@ public class Dijkstra {
 		pq.insert(startNode.getIndex(),0.0f);
 		
 		//While the priorityqueue is not empty, take the nearest node and relax each of its edges.
+=======
+		HashMap<KrakNode,KrakEdge> edgeTo = new HashMap<KrakNode,KrakEdge>();
+		HashMap<KrakNode,Double> distTo = new HashMap<KrakNode,Double>();
+		IndexMinPQ<Double> pq = new IndexMinPQ<Double>(G.getNodeCount());
+
+		int visited = 0;
+
+		distTo.put(startNode, 0.0);
+		pq.insert(startNode.getIndex(),0.0);
+>>>>>>> 64a14081a839b949f9c39e5f662211886d1604c8
 		while(!pq.isEmpty()){
 			KrakNode cur = G.getNode(pq.delMin());
 			Iterator<KrakEdge> edgesOut = G.outGoingEdges(cur);
@@ -71,12 +82,19 @@ public class Dijkstra {
 	 * @param edgeTo	The map containing nodes and their edges
 	 * @param pq		The priorityqueue.
 	 */
+<<<<<<< HEAD
 	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Float> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Float> pq, Evaluator eval){
 		
 		KrakNode other = edge.getOtherEnd(cur); //The node at the other side of the edge
 		
 		//Get the evaluation of the edge
 		float evaluation;
+=======
+	//TODO Also add some comments here.
+	private static void relax(KrakNode cur,KrakNode target,KrakEdge edge, HashMap<KrakNode,Double> distTo, HashMap<KrakNode,KrakEdge> edgeTo, IndexMinPQ<Double> pq, Evaluator eval){
+		KrakNode other = edge.getOtherEnd(cur);
+		double evaluation;
+>>>>>>> 64a14081a839b949f9c39e5f662211886d1604c8
 		try {
 			evaluation = eval.evaluate(edge);
 		} catch (NotPassableException e) {
@@ -86,7 +104,7 @@ public class Dijkstra {
 		
 		//If we are visiting the node for the first time, or if we have found a better way to it, insert it to our maps. 
 		if(!distTo.containsKey(other) || distTo.get(other) > distTo.get(cur) + evaluation){
-			float distance = distTo.get(cur) + evaluation;
+			double distance = distTo.get(cur) + evaluation;
 			distTo.put(other, distance);
 			edgeTo.put(other, edge);
 			

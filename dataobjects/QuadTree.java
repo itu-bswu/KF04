@@ -1,5 +1,6 @@
 package dataobjects;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.io.Serializable;
 import java.util.Set;
 

@@ -1,6 +1,7 @@
 package gui;
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 
 /**
  * Line class
@@ -9,23 +10,23 @@ public class Line {
 	private Point2D.Double startPoint;
 	private Point2D.Double endPoint;
 	private Color roadColor;
-	public float thickness;
+	public double thickness;
 	public String name;
 	private int size;
 	
 	/**
 	 * Constructor
 	 */
-	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, float thickness, int size, String name) {
-		this.startPoint = startPoint;
-		this.endPoint = endPoint;
+	public Line(Point2D.Double firstPoint, Point2D.Double secondPoint, Color roadColor, double thickness2, int size, String name) {
+		this.startPoint = firstPoint;
+		this.endPoint = secondPoint;
 		this.roadColor = roadColor;
-		this.thickness = thickness;
+		this.thickness = thickness2;
 		this.size = size;
 		this.name = name;
 	}
 	
-	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, float thickness, int size) {
+	public Line(Point2D.Double startPoint, Point2D.Double endPoint, Color roadColor, double thickness, int size) {
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.roadColor = roadColor;
@@ -67,11 +68,11 @@ public class Line {
 		return "x1="+startPoint.x+" y1="+startPoint.y+" x2="+endPoint.x+" y2="+endPoint.y+" color="+roadColor;
 	}
 
-	public float getThickness() {
+	public double getThickness() {
 		return thickness;
 	}
 	
-	public void setThickness(float thickness){
+	public void setThickness(double thickness){
 		this.thickness = thickness;
 	}
 	
