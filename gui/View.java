@@ -157,7 +157,7 @@ public class View extends JFrame{
 		};
 
 		this.addCanvasMouseListener(m);
-		canvas.addMouseMotionListener(m);
+		canvas.addMouseMotionListener(m); //TODO: Jens: Bliver denne ikke tilf¿jet 1 gang i addCanvasMouseListener() ??
 	}
 
 	/**

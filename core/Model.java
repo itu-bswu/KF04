@@ -197,7 +197,7 @@ public class Model {
 		double tempAngle = currentAngle;
 		KrakNode node;
 		
-		for(KrakEdge edge : graph.getAllEdges()) {
+		for(KrakEdge edge : query(area,true)) {
 			for(int n=0;n<2;n++) {
 				node = edge.getN1();
 				if (n == 1) node = edge.getN2();
@@ -208,7 +208,7 @@ public class Model {
 					double angleToCoordinate = Math.PI + Math.atan2(y, x);
 					double distance = angleToCoordinate - currentAngle;
 					
-					if (distance <= 0) {
+					if (distance <= 0.001) {
 						distance = Math.PI*2 + distance;
 					}
 					
