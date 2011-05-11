@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  9 MAY 2011 13:56
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  10 MAY 2011 23:56
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex
 ("C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex"
@@ -93,31 +93,31 @@ Constitution.aux")
 Diary.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.aux"))
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
 Package lastpage Info: Please have a look at the pagesLTS package at
 (lastpage)             http://www.ctan.org/tex-archive/ 
 (lastpage)             macros/latex/contrib/pagesLTS/ 
 (lastpage)             or
 (lastpage)             http://www.ctan.org/tex-archive/ 
 (lastpage)             install/macros/latex/contrib/pagesLTS.tds.zip
-(lastpage)             ! on input line 28.
+(lastpage)             ! on input line 30.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 29.
+(Font)              <12> on input line 31.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 29.
+(Font)              <8> on input line 31.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 29.
+(Font)              <6> on input line 31.
  [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
@@ -129,32 +129,32 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 [1
 
-])
+] [2])
 \tf@toc=\write3
- [2]
+ [3]
 Chapter 1.
-[3
+[4
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Background.tex"
 Chapter 2.
-) [4
+) [5
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 UI-Analysis.tex"
 Chapter 3.
-) [5
+[6
 
 
 
-]
+]) [7]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Implementation.tex"
 Chapter 4.
-) [6
+) [8
 
 
 
@@ -162,7 +162,7 @@ Chapter 4.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 TechnicalUML.tex"
 Chapter 5.
-) [7
+) [9
 
 
 
@@ -170,7 +170,7 @@ Chapter 5.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Tests.tex"
 Chapter 6.
-) [8
+) [10
 
 
 
@@ -178,27 +178,27 @@ Chapter 6.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Manual.tex"
 Chapter 7.
-) [9
+) [11
 
 
 
 ]
 Chapter 8.
-[10
+[12
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Constitution.tex"
 Chapter 9.
-) [11
+) [13
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Diary.tex"
 Chapter 10.
-) [12
+) [14
 
 
 
@@ -206,14 +206,14 @@ Chapter 10.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.tex"
 Chapter 11.
-) [13
+) [15
 
 
 
 ]
 Chapter 12.
 AED: lastpage setting LastPage 
-[14
+[16
 
 
 ]
@@ -237,13 +237,13 @@ Diary.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.aux")) ) 
 Here is how much of TeX's memory you used:
- 844 strings out of 494019
- 15219 string characters out of 3143862
- 65247 words of memory out of 3000000
- 4108 multiletter control sequences out of 15000+200000
+ 893 strings out of 494019
+ 15651 string characters out of 3143862
+ 65764 words of memory out of 3000000
+ 4157 multiletter control sequences out of 15000+200000
  9806 words of font info for 34 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 29i,10n,43p,244b,232s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,11n,43p,244b,310s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfon
 ts/cm/cmbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/c
@@ -252,9 +252,9 @@ mr12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
 7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.
 pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pf
 b>
-Output written on finalReport.pdf (15 pages, 120807 bytes).
+Output written on finalReport.pdf (17 pages, 126955 bytes).
 PDF statistics:
- 79 PDF objects out of 1000 (max. 8388607)
+ 85 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

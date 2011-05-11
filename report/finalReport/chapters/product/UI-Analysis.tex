@@ -1,11 +1,51 @@
-\chapter{UI-analysis}
-\section{Interesting features}
-\subsection{Pins}
-\subsection{Navigation}
-\subsection{Bike/car}
-\subsection{Hotkeys}
+\chapter{User Interface analysis}
+\label{UIA}
+In this chapter we describe our decisions and present our analysis and
+arguments regarding some of the features that we find interesting.
 
-\section{Features we did not implement}
+\section{User interface as a whole}
+\label{UIA-UIW}
+
+
+\section{Interesting implemented features}
+\label{UIA-IF}
+This section presents some of the interesting features we have implemented.
+\subsection{Zoom}
+\label{UIA-IF-Z}
+We have several options for zooming in and out on the map. As described in
+section \ref{BG-R-PR} on page \pageref{BG-R-PR}, it was required that we made it
+possible to zoom by dragging a box around the part of the map the user wants to
+view.
+
+In addition to the option of using the mouse to zoom, we have implemented a
+zoom-in and out function on the GUI and a hotkey for zooming out to the original
+view. 
+
+We felt that we really needed a zoom out function, so that a user did not
+need to close the program and start it again, when the user wants to view the
+map further zoomed out. A combination of the zoom in and out functions helps the
+user a lot when navigating the map.
+
+
+\subsection{Navigation}
+\label{UIA-IF-N}
+We have made it possible for the user to navigate the map by scrolling 
+
+\subsection{Hotkeys}
+\label{UIA-IF-H}
+\subsection{Markers}
+\label{UIA-IF-M}
+\subsection{Bike/car}
+\label{UIA-IF-BC}
+
+\section{Features not in}
+\label{UIA-NF}
+This section presents some of the features we have chosen not to implement.
+These features are not in the final program, because we did not feel there were
+compelling arguments for implementing them.
 \subsection{Choice of roads to be displayed}
+\label{UIA-NF-CRD}
 \subsection{Smooth scrolling}
+\label{UIA-NF-SS}
 \subsection{Dynamic route finding}
+\label{UIA-NF-DRF}
