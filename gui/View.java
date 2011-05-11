@@ -593,7 +593,6 @@ public class View extends JFrame{
 			}
 		}
 
-<<<<<<< HEAD
 		private void drawLines(Graphics2D g, Collection<Line> lines, float ThicknessAddition, boolean darker) {
 			
 			/*
@@ -614,9 +613,6 @@ public class View extends JFrame{
 				
 			}
 			
-=======
-		private void drawLines(Graphics2D g, Collection<Line> lines, double ThicknessAddition, boolean darker) {
->>>>>>> 64a14081a839b949f9c39e5f662211886d1604c8
 			for(Line l : lines){
 				if(darker){
 					g.setColor(l.getRoadColor().darker().darker());

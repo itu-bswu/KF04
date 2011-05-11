@@ -4,11 +4,7 @@ import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
-<<<<<<< HEAD
-import java.awt.geom.Rectangle2D.Double;
-=======
 import java.awt.geom.Rectangle2D.Float;
->>>>>>> 64a14081a839b949f9c39e5f662211886d1604c8
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -82,15 +78,6 @@ public class Model {
 		
 		
 		boolean fromFile = false;
-<<<<<<< HEAD
-		try {
-			File dataDir = new File(".", Properties.get("dataDir"));
-			String chk = MD5Checksum.getMD5Checksum(new File(dataDir, Properties.get("nodeFile")).getAbsolutePath());
-			if (chk.equals(Properties.get("nodeFileChecksum"))) {
-				fromFile = true;
-				//TODO: Niklas dette her fungerer ikke for min testgraph. Den den tror den har hentet "fromFile" og det giver en masse problemer, blandt andet fordi qt ikke laves.
-				fromFile = false; //I have to set this to false in order to run my test graph
-=======
 		if (inputGraph == null) {
 			try {
 				File dataDir = new File(".", Properties.get("dataDir"));
@@ -100,7 +87,6 @@ public class Model {
 				}
 			} catch (Exception e) {
 				fromFile = false;
->>>>>>> 64a14081a839b949f9c39e5f662211886d1604c8
 			}
 		}
 
@@ -138,7 +124,7 @@ public class Model {
 			sw.printTime();
 
 			//Calculate outline
-			outline();
+			//outline();
 			
 			// Save all important objects to files.
 			if (inputGraph==null) {
@@ -175,7 +161,7 @@ public class Model {
 	 * Calculate the outline
 	 * @return
 	 */
-	public void outline() {
+	/*public void outline() {
 		
 		System.out.println("Calculating outlines");
 		System.out.println();
@@ -203,10 +189,10 @@ public class Model {
 		//System.out.println(area);
 		//System.out.println(query(area, true));
 		
-		/*TODO this simply takes the edges and looks at their nodes.
-		 * A better implementation should get the nodes directly, 
-		 * but we're too lazy for that.
-		 */	
+		//TODO this simply takes the edges and looks at their nodes.
+		 / A better implementation should get the nodes directly, 
+		 / but we're too lazy for that.
+		 //	
 		double minDistance = 2*Math.PI;
 		KrakNode tempNode = null;
 		double tempAngle = currentAngle;
@@ -256,7 +242,7 @@ public class Model {
 	/**
 	 * Most western Node;
 	 * @return
-	 */
+	 
 	private KrakNode westernNode() {
 		
 		KrakNode westernNode = null;
@@ -279,11 +265,11 @@ public class Model {
 	/**
 	 * 
 	 * @return
-	 */
+	 
 	private Boolean nodeInsideShape() {
 		return false;
 	}
-	
+	*/
 	/**
 	 * Create QuadTrees
 	 * @param content
