@@ -38,16 +38,16 @@ wants to sit and wait too long for the program to find the route.
 \section{Evaluator}
 \label{IMPL-EVA}
 In order to make our path finding algorithm flexible enough for different 
-interpretations of the “best route”, we have added an entity called Evaluator. 
+interpretations of the “best route”, we have added an entity called \class{Evaluator}. 
 This is an object that has the responsibility of evaluating a node relative to 
-the target node. The Evaluator also has the responsibility of calculating the 
-heuristics that the A* algorithm relies on. By using the Evaluator we are able to 
+the target node. The \class{Evaluator} also has the responsibility of calculating the 
+heuristics that the A* algorithm relies on. By using the \class{Evaluator} we are able to 
 use the same path finding algorithm for two very different tasks, namely the 
 biking route and the car route. The major difference between these is that the 
 bike uses the distance and the car uses the total drive time. This implementation 
 is also a good example of making our code ready for future features, since if we 
 needed to add other means of transportation or simply variations of the ones we 
-have, we would only need to create new Evaluator objects and not change a single 
+have, we would only need to create new \class{Evaluator} objects and not change a single 
 line of code in the A* algorithm.
 
 \section{Quadtree}
