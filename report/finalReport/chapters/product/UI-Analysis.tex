@@ -5,46 +5,126 @@ arguments regarding some of the features that we find interesting.
 
 \section{User interface as a whole}
 \label{UIA-UIW}
+When we designed the first version of the graphical user interface in the first
+part of the project, we decided to make a window inside of the graphical user
+interface where the actual map should be displayed. We chose to have have this
+window placed on the right side of our graphical user interface and interaction
+with the user mainly placed on the left.
 
+We believe that this is a simple way of representing a user interface for a map.
+A lot of software use a menu bar with dropdown menus for selecting different
+functions. When we designed our outline for the graphical user interface, we did
+not design it with a huge amount of functions in mind. 
 
-\section{Interesting implemented features}
+The features that we have implemented in this version can easily fit in our
+simple user interface, but if features like searching for roads, route planning,
+etc. are included, then space and overview may become an issue on the left side.
+
+Depending on the feature, we feel it would be beneficial to let the main window
+change when different feature types are selected.
+
+Below is a screenshot of our standard user interface. How to use it will be
+explained in the \class{\nameref{MAN}} on page \pageref{MAN}.
+\section{Interesting features}
 \label{UIA-IF}
 This section presents some of the interesting features we have implemented.
 \subsection{Zoom}
 \label{UIA-IF-Z}
-We have several options for zooming in and out on the map. As described in
-section \ref{BG-R-PR} on page \pageref{BG-R-PR}, it was required that we made it
-possible to zoom by dragging a box around the part of the map the user wants to
+We have a few options for zooming in and out on the map. As described in
+section \ref{BG-R-PR} \class{\nameref{BG-R-PR}} on page \pageref{BG-R-PR}, it
+was required that we made it possible to zoom by dragging a box around the part of the map the user wants to
 view.
 
 In addition to the option of using the mouse to zoom, we have implemented a
 zoom-in and out function on the GUI and a hotkey for zooming out to the original
-view. 
+view. We made the original view function a hotkey only because we did not want
+to have too many buttons on the left side. We considered making it a menu bar
+function, but we did not manage to get it into this version.
 
-We felt that we really needed a zoom out function, so that a user did not
-need to close the program and start it again, when the user wants to view the
-map further zoomed out. A combination of the zoom in and out functions helps the
-user a lot when navigating the map.
+We felt we really needed a zoom out function, so users do not need to close the
+program and start it again, when the user wants to view the map further zoomed
+out. A combination of the zoom in and out functions helps the user a lot when
+navigating the map.
 
+We have limited how far a user can zoom in and out. If the user tries to zoom
+out further than the original zoom level, the view will default to the original
+zoom level. If the user attempts to zoom in further than a width or height of
+200 in UTM32-coordinates, the zoom function will do nothing. This limitation
+could be improved by zooming in on the smallest possible zoom at the postion the
+user selected, instead of doing nothing.
 \subsection{Navigation}
 \label{UIA-IF-N}
-We have made it possible for the user to navigate the map by scrolling 
+We have made it possible for the user to navigate the map by using the arrow
+buttons on the graphical user interface. When one of the buttons are pressed,
+the ``view'' will move in the direction specified by the button. While it was
+not specified as a requirement for the project, we felt it was a necessity to
+implement at least basic navigation functionality.
 
+Like we did with the two zoom functionalities, we have limited how far a user
+can move around the map. The user is free to move around the map, but if user
+moves outside the bounds of the map in a way where the view would show an image
+that is not part of the map, the move function will not do anything.
 \subsection{Hotkeys}
 \label{UIA-IF-H}
-\subsection{Markers}
+We have implemented hotkeys for all the buttons on the graphical user interface
+plus an additional for zooming back to the original view. When we discussed the
+benefits of hotkeys, we felt it was important for experienced users of the
+software should have a less cumbersome time navigating the map. 
+
+At first we just had hotkeys for the clearing of markers (mentioned in section
+\ref{UIA-IF-M}) and zooming out to the original view, but we later added the
+hotkeys for the rest of the functionalities. If more features are added in a
+future version, it would be important for us that a hotkey were provided, if at
+all possible.
+\subsection{Route planning and markers}
 \label{UIA-IF-M}
+Part of the requirements for the project was to provide the user with a way to
+get the fastest or shortest route from one point to another. We accomplish this
+by putting a ``marker'' at the spot where the user clicks with the mouse. The
+marker shows which number it is. This will change if a marker is removed.
+Originally we had ``pins'' instead of markers, but we changed it, as we felt the
+pins we had were a bit large.
+
+We have made it possible to place more than the two markers that the project
+requirements asks for. If the user places more than two markers, the software
+will find the shortest route between 1->2 and 2->3 and so on. This was cheap for
+us to implement, and we felt it added a good feature to our software. 
+
+We have implemented two methods of removing pins from the map. We have assigned
+a hotkey to the graphical user interface button ``Clear Markers'', which clears
+all the markers on the map. The other way of removing pins is by clicking on
+them. This functionality is both intuitive and confusing at the same time. It is
+intuitive to click the marker you have just placed if you want to remove it, but
+it is not obvious in our interface. We believe that it is enough to have the
+``clear all markers'' functionality for those who do not find it intuitive to
+click markers to remove them, and for the users that do find it intuitive, we
+offer them an easy way to undo a missclick.
 \subsection{Bike/car}
 \label{UIA-IF-BC}
+Another interesting feature in our \class{Map of Denmark} project is the option
+to switch between bike and car routes. The user interface will start with car
+selected when the program start. 
 
-\section{Not implemented}
-\label{UIA-NF}
+If a route is marked by the user, it will display the length and the estimated
+travel time on the left part of the user interface for a car. When the bike
+option is selected, it will recalculate the route for a bike without visiting
+highways and other roads that bikes cannot drive. If the user switches back to
+the car mode, it will recalculate the route again, but not visit small paths and
+other roads where a car is not allowed to drive.
+
+The user does not need to have planned a route before he/she changes the type of
+route planning.
+\section{Features not implemented}
+\label{UIA-NI}
 This section presents some of the features we have chosen not to implement.
 These features are not in the final program, because we did not feel there were
 compelling arguments for implementing them.
+
+Features that we wanted to implement, but did not make it into the final version
+will be discussed in chapter \class{\nameref{PRC}} on page \pageref{PRC}.
 \subsection{Choice of roads to be displayed}
-\label{UIA-NF-CRD}
+\label{UIA-NI-CRD}
 \subsection{Smooth scrolling}
-\label{UIA-NF-SS}
+\label{UIA-NI-SS}
 \subsection{Dynamic route finding}
-\label{UIA-NF-DRF}
+\label{UIA-NI-DRF}

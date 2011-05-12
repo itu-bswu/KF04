@@ -238,7 +238,7 @@ public class Control {
 	}
 
 	private void addClearPinButtonListener() {
-		view.addClearPinsListener(new ActionListener(){
+		view.addClearMarkersListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -342,7 +342,7 @@ public class Control {
 	 * Then adds the current route to the view, repaints it and sets the route info.
 	 */
 	private void repaint(){
-		view.clearPins();
+		view.clearMarkers();
 		view.clearRoute();
 		for(Point2D.Double pin : pins){
 			Point tempPin = PointMethods.UTMToPixel(pin, model, view);
