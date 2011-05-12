@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  10 MAY 2011 23:56
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  11 MAY 2011 14:03
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex
 ("C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex"
@@ -139,22 +139,22 @@ Chapter 1.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Background.tex"
 Chapter 2.
-) [5
+[5
 
 
-]
+]) [6]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 UI-Analysis.tex"
 Chapter 3.
-[6
+[7
 
 
 
-]) [7]
+]) [8]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Implementation.tex"
 Chapter 4.
-) [8
+) [9
 
 
 
@@ -162,7 +162,7 @@ Chapter 4.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 TechnicalUML.tex"
 Chapter 5.
-) [9
+) [10
 
 
 
@@ -170,7 +170,7 @@ Chapter 5.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Tests.tex"
 Chapter 6.
-) [10
+) [11
 
 
 
@@ -178,27 +178,27 @@ Chapter 6.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Manual.tex"
 Chapter 7.
-) [11
+) [12
 
 
 
 ]
 Chapter 8.
-[12
+[13
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Constitution.tex"
 Chapter 9.
-) [13
+) [14
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Diary.tex"
 Chapter 10.
-) [14
+) [15
 
 
 
@@ -206,14 +206,14 @@ Chapter 10.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.tex"
 Chapter 11.
-) [15
+) [16
 
 
 
 ]
 Chapter 12.
 AED: lastpage setting LastPage 
-[16
+[17
 
 
 ]
@@ -237,10 +237,10 @@ Diary.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.aux")) ) 
 Here is how much of TeX's memory you used:
- 893 strings out of 494019
- 15651 string characters out of 3143862
- 65764 words of memory out of 3000000
- 4157 multiletter control sequences out of 15000+200000
+ 892 strings out of 494019
+ 15637 string characters out of 3143862
+ 65769 words of memory out of 3000000
+ 4156 multiletter control sequences out of 15000+200000
  9806 words of font info for 34 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  34i,11n,43p,244b,310s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -252,9 +252,9 @@ mr12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
 7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.
 pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pf
 b>
-Output written on finalReport.pdf (17 pages, 126955 bytes).
+Output written on finalReport.pdf (18 pages, 132228 bytes).
 PDF statistics:
- 85 PDF objects out of 1000 (max. 8388607)
+ 88 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

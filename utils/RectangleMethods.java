@@ -70,7 +70,6 @@ public class RectangleMethods {
 			inner.y = inner.y - (inner.height - temp) / 2;
 		}else{
 			// cut width
-
 			double temp = inner.width;
 			inner.width = outer_ratio * inner.height;
 			inner.x = inner.x - (inner.width - temp) / 2;
@@ -142,7 +141,7 @@ public class RectangleMethods {
 		Rectangle2D.Double p = point2DToRectangle(
 				PointMethods.pixelToUTM(a, model, view), PointMethods.pixelToUTM(b, model, view));
 		fixRatioByOuterRectangle(p, model.getBounds());
-		if(p.width < 200 || p.height < 200){
+		if(p.width < 200 || p.height < 200){ //Prevents user from zooming in too far and getting disoriented.
 			return model.getBounds();
 		}
 		return p;
