@@ -57,9 +57,6 @@ public class Model {
 	public Graph<KrakEdge,KrakNode> graph;	
 	private  ArrayList<Point2D.Double> land = new ArrayList<Point2D.Double>();	
 	
-	private double currentAngle = 0;
-	private KrakNode currentNode;
-
 	/**
 	 * Constructor
 	 * Initialize variables. 
@@ -75,17 +72,6 @@ public class Model {
 	 * Set the map to look at the specified graph.
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
-		
-		try {
-			loadLand();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
 		
 		boolean fromFile = false;
 		if (inputGraph == null) {
@@ -132,9 +118,6 @@ public class Model {
 			Stopwatch sw = new Stopwatch("Quadtrees");
 			createQuadTrees(graph.getAllEdges());
 			sw.printTime();
-
-			//Calculate outline
-			//outline();
 			
 			// Save all important objects to files.
 			if (inputGraph==null) {
@@ -165,124 +148,6 @@ public class Model {
 		return graph;
 	}
 	
-	
-	//private final int NODE_CHECK_RADIUS = 1;
-	
-	/**
-	 * Calculate the outline
-	 * @return
-	 */
-	
-	/*public void outline() {
-		
-		System.out.println("Calculating outlines");
-		System.out.println();
-		
-		Polygon land = new Polygon();
-
-		KrakNode startNode = westernNode();
-		currentNode = startNode;
-		int step = 0;
-		
-		for(int i=0;i<30;i++) {
-			land.addPoint((int) currentNode.getX(),(int) currentNode.getY());
-			Point2D.Double r = relativePoint(new Point2D.Double(currentNode.getX(),currentNode.getY()));
-			Model.drawLand.add(r);
-			findNextNode();
-			step++;
-		}
-						
-	}
-	
-	private void findNextNode() {
-		
-		Double area = new Rectangle2D.Double(currentNode.getX()-NODE_CHECK_RADIUS,currentNode.getY()-NODE_CHECK_RADIUS,NODE_CHECK_RADIUS*2,NODE_CHECK_RADIUS*2);
-		
-		//System.out.println(area);
-		//System.out.println(query(area, true));
-		
-		//TODO this simply takes the edges and looks at their nodes.
-		 / A better implementation should get the nodes directly, 
-		 / but we're too lazy for that.
-		 //	
-		double minDistance = 2*Math.PI;
-		KrakNode tempNode = null;
-		double tempAngle = currentAngle;
-		KrakNode node;
-		
-		for(KrakEdge edge : query(area,true)) {
-			for(int n=0;n<2;n++) {
-				node = edge.getN1();
-				if (n == 1) node = edge.getN2();
-				
-				if (!node.equals(currentNode)) { 	
-					double x = node.getX()-currentNode.getX();
-					double y = node.getY()-currentNode.getY();
-					double angleToCoordinate = Math.PI + Math.atan2(y, x);
-					double distance = angleToCoordinate - currentAngle;
-					
-					if (distance <= 0.001) {
-						distance = Math.PI*2 + distance;
-					}
-					
-					if (distance < minDistance) {
-						minDistance = distance;
-						tempNode = node;
-						tempAngle = angleToCoordinate;
-					}
-					
-					if(((int)node.getX()-720000==4759)&&((int)node.getY()-6180000==3272)) {
-						System.out.println("                           :" + distance);
-					}
-				}
-			}
-		}
-	
-		if (tempAngle > Math.PI) {					
-			tempAngle -= Math.PI;
-		}else{
-			tempAngle += Math.PI;					
-		}
-		
-		System.out.print((int)(currentNode.getX()-720000) + ", " + (int)(currentNode.getY()-6180000));
-		System.out.println(" " + minDistance/Math.PI);
-		
-		currentAngle = tempAngle;
-		currentNode = tempNode;
-	}
-	
-	/**
-	 * Most western Node;
-	 * @return
-	 
-	private KrakNode westernNode() {
-		
-		KrakNode westernNode = null;
-		
-		for(KrakNode node : graph.getNodes()) {
-			if (westernNode == null) {
-				westernNode = node;
-			}else{
-				if (node.getX() < westernNode.getX()) {
-					//TODO add check for inside shape
-					westernNode = node;
-				}
-			}
-		}
-		
-		return westernNode;
-		
-	}
-	
-	/**
-	 * 
-	 * @return
-	 
-	private Boolean nodeInsideShape() {
-		return false;
-	}
-	*/
-
 	/**
 	 * Create QuadTrees
 	 * @param content
@@ -839,52 +704,5 @@ public class Model {
 
 	public void clearPath(){
 		path.clear();
-	}
-
-	public ArrayList<Double> getLand() {
-		ArrayList<Double> drawLand = new ArrayList<Point2D.Double>();
-		for(Point2D.Double p : land) {
-			drawLand.add(relativePoint(p));
-		}
-		return drawLand;
-	}
-
-	public void landGetPoint(Point2D.Double point) {
-		land.add(point);
-	}
-
-	public void saveLand() {
-		new Thread () {
-			@Override
-			public void run () {
-				Stopwatch sw = new Stopwatch("Serialize land");
-				// Serialize
-				try {
-					BufferedOutputStream fout;
-					ObjectOutputStream oos;
-					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("landData")));
-					oos = new ObjectOutputStream(fout);
-					oos.writeObject(land);
-					oos.flush();
-					
-					oos.close();
-					Properties.save();
-				} catch (Exception ex) {
-					System.out.println("Serialization of the land failed.");
-					//ex.printStackTrace();
-				}
-				sw.printTime();
-			}
-		}.start();	
-	}
-	
-	private void loadLand() throws IOException, ClassNotFoundException {
-		BufferedInputStream bin;
-		bin = new BufferedInputStream(new FileInputStream(Properties.get("landData")));
-		final ObjectInputStream ois = new ObjectInputStream(bin);
-
-		land = (ArrayList<Point2D.Double>) ois.readObject();
-		
-		ois.close();
 	}
 }

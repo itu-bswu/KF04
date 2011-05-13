@@ -38,8 +38,6 @@ public class Control {
 	private Model model;
 	private ArrayList<Point2D.Double> pins = new ArrayList<Point2D.Double>();
 	private Object currentRouteMode = null;
-
-	private static final boolean DRAWDATA = true;
 	
 	/**
 	 * Constructor for class Control
@@ -149,21 +147,10 @@ public class Control {
 					}
 				}
 				else{ //Else it adds a pin and calculates the newest distance.
-					//If the program is set to drawing mode
-					if (Control.DRAWDATA) {
-						if(e.isAltDown()) {
-							model.saveLand();
-						}else{
-							System.out.println("Point on screen" + e.getPoint());
-							System.out.println("Point in map" + PointMethods.pixelToUTM(e.getPoint(),model,view));
-							model.landGetPoint(PointMethods.pixelToUTM(e.getPoint(),model,view));
-						}
-					}else{
-						pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));	
-						if(pins.size() > 1){
-							findPath(pins.size()-2, pins.size()-1);
-						}
-					}	
+					pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));	
+					if(pins.size() > 1){
+						findPath(pins.size()-2, pins.size()-1);
+					}
 				}
 				repaint();
 			}
@@ -363,7 +350,7 @@ public class Control {
 			view.addPin(tempPin);
 		}
 		view.addRoute(model.getPath());
-		view.repaint(model.getLines(),model.getLand());
+		view.repaint(model.getLines());
 		if(view.isBikeChoiceSelected()){
 			double bikeTime = (model.getRouteDistance() / bikeSpeed) * 60;
 			view.setRouteInfo(model.getRouteDistance(), bikeTime);
