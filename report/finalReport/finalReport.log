@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.2.21)  13 MAY 2011 11:56
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.2.21)  13 MAY 2011 13:31
 entering extended mode
  restricted \write18 enabled.
  Source specials enabled.
@@ -115,30 +115,25 @@ LaTeX Info: Redefining \pageref on input line 338.
 (./chapters/process/Diary.aux) (./chapters/process/Worksheets.aux))
 \openout1 = `finalReport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 34.
+(Font)              <12> on input line 33.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 34.
+(Font)              <8> on input line 33.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 34.
-
-Overfull \hbox (230.3289pt too wide) in paragraph at lines 34--34
- [][] 
- []
-
-[1
+(Font)              <6> on input line 33.
+ [1
 
 {/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 (./finalReport.toc
@@ -254,7 +249,7 @@ AED: lastpage setting LastPage [21
 Here is how much of TeX's memory you used:
  1315 strings out of 493747
  18760 string characters out of 3143546
- 74333 words of memory out of 3000000
+ 74284 words of memory out of 3000000
  4555 multiletter control sequences out of 15000+200000
  10111 words of font info for 35 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
@@ -268,7 +263,7 @@ e1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1
 ublic/amsfonts/cm/cmsl10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmss10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmti10.pfb>
-Output written on finalReport.pdf (22 pages, 148214 bytes).
+Output written on finalReport.pdf (22 pages, 146463 bytes).
 PDF statistics:
  107 PDF objects out of 1000 (max. 8388607)
  74 compressed objects within 1 object stream

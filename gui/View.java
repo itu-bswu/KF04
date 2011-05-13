@@ -573,11 +573,17 @@ public class View extends JFrame{
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 				// draw lines
+<<<<<<< HEAD
 				drawLines(g,lines,0.0f,true);
 				drawLines(g,lines,-1.0f,false);
 				
+=======
+				drawLines(g,lines,0.0,true);
+				drawLines(g,lines,-1.0,false);
+
+>>>>>>> 700654ba3c34e99a95d078795067dda37d012dd0
 				if(route != null){
-					drawLines(g,route,-1.0f,false);
+					drawLines(g,route,-1.0,false);
 				}
 
 				for(int index = 0 ; index < pins.size() ; index++){
@@ -593,7 +599,7 @@ public class View extends JFrame{
 			}
 		}
 		
-		private void drawLines(Graphics2D g, Collection<Line> lines, float ThicknessAddition, boolean darker) {			
+		private void drawLines(Graphics2D g, Collection<Line> lines, double ThicknessAddition, boolean darker) {			
 			for(Line l : lines){
 				if(darker){
 					g.setColor(l.getRoadColor().darker().darker());
