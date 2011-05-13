@@ -1,4 +1,5 @@
 \select@language {english}
+<<<<<<< HEAD
 \contentsline {chapter}{\numberline {1}Preface}{3}
 \contentsline {chapter}{\numberline {2}Background}{4}
 \contentsline {section}{\numberline {2.1}Problem area}{4}
@@ -51,3 +52,60 @@
 \contentsline {chapter}{\numberline {10}Diary}{13}
 \contentsline {chapter}{\numberline {11}Worksheets}{14}
 \contentsline {chapter}{\numberline {12}Process description and reflection}{15}
+=======
+\contentsline {chapter}{\numberline {1}Preface}{4}
+\contentsline {chapter}{\numberline {2}Background}{5}
+\contentsline {section}{\numberline {2.1}Problem area}{5}
+\contentsline {section}{\numberline {2.2}Requirements for the map}{6}
+\contentsline {section}{\numberline {2.3}Our requirements}{6}
+\contentsline {subsection}{\numberline {2.3.1}Project requirements}{6}
+\contentsline {subsection}{\numberline {2.3.2}Our own requirements}{6}
+\contentsline {section}{\numberline {2.4}Data set}{6}
+\contentsline {subsection}{\numberline {2.4.1}UTM-coordinates}{6}
+\contentsline {subsection}{\numberline {2.4.2}Graph}{6}
+\contentsline {section}{\numberline {2.5}MVC structure}{6}
+\contentsline {chapter}{\numberline {3}User Interface analysis}{7}
+\contentsline {section}{\numberline {3.1}User interface as a whole}{7}
+\contentsline {section}{\numberline {3.2}Interesting features}{8}
+\contentsline {subsection}{\numberline {3.2.1}Zoom}{8}
+\contentsline {subsection}{\numberline {3.2.2}Navigation}{8}
+\contentsline {subsection}{\numberline {3.2.3}Hotkeys}{9}
+\contentsline {subsection}{\numberline {3.2.4}Route planning and markers}{9}
+\contentsline {subsection}{\numberline {3.2.5}Bike/car}{9}
+\contentsline {section}{\numberline {3.3}Features not implemented}{9}
+\contentsline {subsection}{\numberline {3.3.1}Choice of roads to be displayed}{10}
+\contentsline {subsection}{\numberline {3.3.2}Smooth scrolling}{10}
+\contentsline {subsection}{\numberline {3.3.3}Dynamic route finding}{10}
+\contentsline {chapter}{\numberline {4}Implementation}{11}
+\contentsline {section}{\numberline {4.1}Dijkstra vs A-star}{11}
+\contentsline {section}{\numberline {4.2}Evaluator}{11}
+\contentsline {section}{\numberline {4.3}Quadtree}{11}
+\contentsline {section}{\numberline {4.4}Serialization}{11}
+\contentsline {section}{\numberline {4.5}UTM-convertion}{11}
+\contentsline {section}{\numberline {4.6}Mousezoom}{11}
+\contentsline {section}{\numberline {4.7}Floats}{11}
+\contentsline {chapter}{\numberline {5}UML-diagrams}{12}
+\contentsline {section}{\numberline {5.1}MVC}{12}
+\contentsline {section}{\numberline {5.2}Simple Diagram}{12}
+\contentsline {section}{\numberline {5.3}Control flow}{12}
+\contentsline {chapter}{\numberline {6}Tests}{13}
+\contentsline {section}{\numberline {6.1}WhiteBox: closestEdge}{13}
+\contentsline {section}{\numberline {6.2}JUnit}{13}
+\contentsline {section}{\numberline {6.3}System test}{13}
+\contentsline {chapter}{\numberline {7}Manual}{14}
+\contentsline {section}{\numberline {7.1}Navigation}{14}
+\contentsline {subsection}{\numberline {7.1.1}GUI}{14}
+\contentsline {subsection}{\numberline {7.1.2}Keyboard}{14}
+\contentsline {section}{\numberline {7.2}Zoom}{14}
+\contentsline {subsection}{\numberline {7.2.1}GUI}{14}
+\contentsline {subsection}{\numberline {7.2.2}Keyboard}{14}
+\contentsline {section}{\numberline {7.3}Route find}{14}
+\contentsline {section}{\numberline {7.4}Bike/car}{14}
+\contentsline {section}{\numberline {7.5}Resize}{14}
+\contentsline {section}{\numberline {7.6}Road display}{14}
+\contentsline {chapter}{\numberline {8}Product conclusion}{15}
+\contentsline {chapter}{\numberline {9}Group norms}{16}
+\contentsline {chapter}{\numberline {10}Diary}{17}
+\contentsline {chapter}{\numberline {11}Worksheets}{18}
+\contentsline {chapter}{\numberline {12}Process description and reflection}{19}
+>>>>>>> fcd5cd78117dcc7f3dcddfa6ec6c361bb72be842

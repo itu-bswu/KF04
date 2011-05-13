@@ -42,12 +42,12 @@ import gui.Line;
  */
 public class Model {
 
-	public static final int[] part1 = new int[]{0,1,2,3,4,21,22,31,32,41,42,80};
-	public static final int[] part2 = new int[]{23,33,34,43,44};
-	// TODO FIXME: The part2 should either be merged with part1 OR "4" should come back to part2.
+	public static final int[] part1 = new int[]{0,1,2,3,21,22,31,32,41,42,80};
+	public static final int[] part2 = new int[]{4,23,33,34,43,44};
+	// TODO FIXME: The part2 should either be merged with part1 OR the first element of the quadTreeLimits should be 20.000.
 	public static final int[] part3 = new int[]{5,11,24,25,35,45};
 	public static final int[] part4 = new int[]{6,8,10,26,28,46,48,95,99};
-	public static final int[] quadTreeLimits = new int[]{20000,1000,125};
+	public static final int[] quadTreeLimits = new int[]{Integer.MAX_VALUE,1000,125};
 	private static final double ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;

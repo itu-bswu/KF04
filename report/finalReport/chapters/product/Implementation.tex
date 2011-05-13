@@ -1,14 +1,66 @@
 \chapter{Implementation}
+\label{IMPL}
 \section{Dijkstra vs A-star}
+\label{IMPL-DVA}
+In preparations to implementing the path finding feature to our program, we knew 
+two possible choices. They are named Dijkstra and A* (A-star), and are quite 
+similar but behave a little different.
+
+The Dijkstra algorithm uses a minimum priority queue to find the shortest path 
+from a given node to every other node by looking at the edges connecting nodes. 
+The program will take a node from the priority queue and add all the other nodes 
+that are connected from the current to the priority queue. The priority queue 
+takes a value to the node and this should be the distance to the current node 
+plus the length of the edge between the two. Since the priority is made to return 
+the node with the smallest value associated with it, the next node in line will 
+always be the one which is closest to the start node. This procedure continues 
+until all nodes have been visited and by logging what edge led to all the nodes 
+it is possible to trace back the route to the start node.
+
+This algorithm is great if need to find the distance from one point to many other 
+points, but can be quite slow since it just searches in all directions without 
+concerns to the direction of the target node.
+
+This is where A* comes in handy. The A* algorithm is a modification to Dijkstra 
+that also looks at the estimated distance from the given node when determining 
+the value for the priority queue. When using the geographical distance as a 
+measure of “best route” the value would be the current distance from the start 
+node plus the direct distance to the target (as if there were a road directly to 
+the target). With this subtle change the algorithm will prioritize nodes that are 
+relatively closer to the target than those that are in the other direction. This 
+makes the algorithm much faster since it will not pay much attention to the roads 
+that are not in the direction of the target.
+We have decided to use the A* algorithm since we only calculate routes between 
+two distinct nodes and therefore don`t need the route from the start node to all 
+others. The time reduction that A* gives is also a definite plus since no user 
+wants to sit and wait too long for the program to find the route.
 
 \section{Evaluator}
+\label{IMPL-EVA}
+In order to make our path finding algorithm flexible enough for different 
+interpretations of the “best route”, we have added an entity called \class{Evaluator}. 
+This is an object that has the responsibility of evaluating a node relative to 
+the target node. The \class{Evaluator} also has the responsibility of calculating the 
+heuristics that the A* algorithm relies on. By using the \class{Evaluator} we are able to 
+use the same path finding algorithm for two very different tasks, namely the 
+biking route and the car route. The major difference between these is that the 
+bike uses the distance and the car uses the total drive time. This implementation 
+is also a good example of making our code ready for future features, since if we 
+needed to add other means of transportation or simply variations of the ones we 
+have, we would only need to create new \class{Evaluator} objects and not change a single 
+line of code in the A* algorithm.
 
 \section{Quadtree}
+\label{IMPL-QT}
 
 \section{Serialization}
+\label{IMPL-SERI}
 
 \section{UTM-convertion}
+\label{IMPL-UTM}
 
 \section{Mousezoom}
+\label{IMPL-MZ}
 
 \section{Floats}
+\label{IMPL-F}

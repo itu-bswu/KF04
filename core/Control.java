@@ -118,7 +118,7 @@ public class Control {
 						|| Math.abs(b_mouseZoom.y - a_mouseZoom.y) < view.getCanvasHeight()/100){ 
 					return; //Prevents the user from zooming in too much.
 				}
-				
+
 				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model, view));
 
 				repaint();
@@ -196,13 +196,13 @@ public class Control {
 					model.updateBounds(temp);
 					repaint();
 					break;
-					
+
 				case KeyEvent.VK_UP:
 					temp = newBounds(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
 					model.updateBounds(temp);
 					repaint();
 					break;
-					
+
 				case KeyEvent.VK_DOWN:
 					temp = newBounds(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
 					model.updateBounds(temp);
@@ -224,13 +224,13 @@ public class Control {
 				case KeyEvent.VK_C:
 					clearPins();
 					break;
-					
+
 				case KeyEvent.VK_I:
 					temp = newBounds(model.getBounds(), ZOOM_LENGTH, Direction.IN);
 					model.updateBounds(temp);
 					repaint();
 					break;
-					
+
 				case KeyEvent.VK_O:
 					temp = newBounds(model.getBounds(), ZOOM_LENGTH, Direction.OUT);
 					model.updateBounds(temp);
@@ -252,7 +252,7 @@ public class Control {
 	}
 
 	private void addClearPinButtonListener() {
-		view.addClearPinsListener(new ActionListener(){
+		view.addClearMarkersListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -356,7 +356,7 @@ public class Control {
 	 * Then adds the current route to the view, repaints it and sets the route info.
 	 */
 	private void repaint(){
-		view.clearPins();
+		view.clearMarkers();
 		view.clearRoute();
 		for(Point2D.Double pin : pins){
 			Point tempPin = PointMethods.UTMToPixel(pin, model, view);
@@ -396,7 +396,7 @@ public class Control {
 			view.displayDialog("Could not find a route between two or more of your locations.", "Could not find route.");
 		}	
 	}
-	
+
 	/**
 	 * Creates a rectangle moved in a direction compared to the old rectangle.
 	 * 
@@ -406,40 +406,22 @@ public class Control {
 	 * @return The rectangle that has been moved or zoomed.
 	 */
 	private Rectangle2D.Double newBounds(Rectangle2D.Double old, double length, Direction direction){
-		//TODO: Possibly integrate better with mousezoom - possible to go out borders using a combination of zoom and movement.
+		//TODO: Check for legal rectangle
 		Rectangle2D.Double temp = RectangleMethods.newBounds(old, length, direction);
-		switch(direction){
-		case NORTH:
-			if(temp.y > (model.originalBounds().y + model.originalBounds().height)){
-				return old;
-			}
-			return temp;
-		case SOUTH:
-			if((temp.y + model.originalBounds().height) < model.originalBounds().y){
-				return old;
-			}
-			return temp;
-		case WEST:
-			if((temp.x + model.originalBounds().width) < model.originalBounds().x){
-				return old;
-			}
-			return temp;
-		case EAST:
-			if(temp.x > (model.originalBounds().x + model.originalBounds().width)){
-				return old;
-			}
-			return temp;
-		case IN:
-			if(temp.width < 200 || temp.height < 200){
-				return old;
-			}
-			else{
-				return temp;				
-			}
-		case OUT:
-			
-			return temp;
+		if(temp.height < 200 || temp.width < 200){ //Prevents user from zooming in too far.
+			return old;
 		}
-		return old;
+		if(temp.width > model.originalBounds().width || temp.height > model.originalBounds().height){ //Prevents user from zooming out too far
+			return model.originalBounds();
+		}
+		if((temp.x + temp.width) < model.originalBounds().x || //Prevents user from going too far west.
+				temp.x > (model.originalBounds().x + model.originalBounds().width)){ //Prevents user from going too far east. 
+			return old;
+		}
+		if((temp.y + temp.height) < model.originalBounds().y ||//Prevents user from going too far south
+				temp.y > (model.originalBounds().y + model.originalBounds().height)){ //Prevents user from going too far north.
+			return old;
+		}
+		return RectangleMethods.newBounds(old, length, direction);
 	}
 }

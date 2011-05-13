@@ -65,7 +65,7 @@ public class View extends JFrame{
 	private JButton zoomOutButton;
 	private JLabel infobar;
 
-	private JButton clearPinsButton;
+	private JButton clearMarkersButton;
 	private JRadioButton carChoice;
 	private JRadioButton bikeChoice;
 
@@ -209,11 +209,11 @@ public class View extends JFrame{
 	}
 
 	/**
-	 * Adds an ActionListener to the Clear Pins-button in the Route Options-panel.
+	 * Adds an ActionListener to the Clear Markers-button in the Route Options-panel.
 	 * @param a
 	 */
-	public void addClearPinsListener(ActionListener a){
-		clearPinsButton.addActionListener(a);
+	public void addClearMarkersListener(ActionListener a){
+		clearMarkersButton.addActionListener(a);
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class View extends JFrame{
 		rightButton.addKeyListener(k);
 		zoomInButton.addKeyListener(k);
 		zoomOutButton.addKeyListener(k);
-		clearPinsButton.addKeyListener(k);
+		clearMarkersButton.addKeyListener(k);
 		carChoice.addKeyListener(k);
 		bikeChoice.addKeyListener(k);
 	}
@@ -291,8 +291,8 @@ public class View extends JFrame{
 	/**
 	 * Removes all pins currently in place.
 	 */
-	public void clearPins(){
-		canvas.clearPins();
+	public void clearMarkers(){
+		canvas.clearMarkers();
 	}
 
 	/**
@@ -388,7 +388,7 @@ public class View extends JFrame{
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
 
-		clearPinsButton = new JButton("Clear Pins");
+		clearMarkersButton = new JButton("Clear Markers");
 		carChoice = new JRadioButton("Car");
 		bikeChoice = new JRadioButton("Bike");
 
@@ -427,7 +427,7 @@ public class View extends JFrame{
 		outer.add(menuPanel,BorderLayout.WEST);
 		outer.add(infobar,BorderLayout.SOUTH);
 
-		routeOptions.add(clearPinsButton);
+		routeOptions.add(clearMarkersButton);
 		routeOptions.add(carChoice);
 		routeOptions.add(bikeChoice);
 
@@ -530,7 +530,7 @@ public class View extends JFrame{
 		/**
 		 * Removes any stored pins.
 		 */
-		public void clearPins() {
+		public void clearMarkers() {
 			pins.clear();
 		}
 
