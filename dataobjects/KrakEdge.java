@@ -27,7 +27,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 	
 	// sestoft: For sharing roadname strings
 	private static HashMap<String, String> interner = new HashMap<String, String>();
-	public final double length;
+	public final float length;
 	public final int type;
 	public final String roadname;
 	//public final int DAV_DK, DAV_DK_ID;
@@ -35,7 +35,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 	//public final int TOLEFT;
 	//public final int FROMRIGHT;
 	//public final int TORIGHT;
-	public final double DRIVETIME;
+	public final float DRIVETIME;
 
 	/**
 	 * Constructor for objects of class KrakEdge.
@@ -48,7 +48,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 		this.n1 = graph.getNode(data.FNODE);
 		this.n2 = graph.getNode(data.TNODE);
 
-		length = data.LENGTH;
+		length = (float)data.LENGTH;
 		type = data.TYP;
 		// sestoft: Share roadname strings to save space
 		String interned = interner.get(data.VEJNAVN);
@@ -68,10 +68,12 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 			this.direction = Edge.BACKWARD;
 		} else if (dir.equalsIgnoreCase("ft")) {
 			this.direction = Edge.FORWARD;
+		} else if (dir.equalsIgnoreCase("n")) {
+			this.direction = Edge.NON;
 		} else {
 			this.direction = Edge.BOTH;
 		}
-		DRIVETIME = data.DRIVETIME;
+		DRIVETIME = (float)data.DRIVETIME;
 	}
 	
 	/**

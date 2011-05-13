@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.RenderingHints;
 
 import javax.imageio.ImageIO;
@@ -39,6 +40,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+
+import core.Model;
 
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
@@ -154,7 +157,7 @@ public class View extends JFrame{
 		};
 
 		this.addCanvasMouseListener(m);
-		canvas.addMouseMotionListener(m);
+		canvas.addMouseMotionListener(m); //TODO: Jens: Bliver denne ikke tilf¿jet 1 gang i addCanvasMouseListener() ??
 	}
 
 	/**
@@ -312,8 +315,8 @@ public class View extends JFrame{
 	 * Repaints the entire frame, with the new lines to be shown.
 	 * @param l The new Collection of lines.
 	 */
-	public void repaint(Collection<Line> l){
-		canvas.updateLines(l);
+	public void repaint(Collection<Line> l, ArrayList<Point2D.Double> land){
+		canvas.updateLines(l, land);
 	}
 
 	/**
@@ -539,8 +542,8 @@ public class View extends JFrame{
 		 * Updates the canvas with a new Set of Lines and repaints using them.
 		 * @param lines The Set of Lines to be drawn.
 		 */
-		public void updateLines(Collection<Line> lines){
-			drawOffScreen(lines);
+		public void updateLines(Collection<Line> lines, ArrayList<Point2D.Double> land){
+			drawOffScreen(lines, land);
 			this.repaint();
 		}
 
@@ -556,7 +559,7 @@ public class View extends JFrame{
 		 * Draws the given Lines on the off-screen image for later display on the canvas.
 		 * @param lines
 		 */
-		public void drawOffScreen(Collection<Line> lines){
+		public void drawOffScreen(Collection<Line> lines,ArrayList<Point2D.Double> land){
 			if(getWidth() > 0 && getHeight() > 0){
 				//Stopwatch timer = new Stopwatch("Drawing");
 				img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
@@ -580,17 +583,17 @@ public class View extends JFrame{
 				for(int index = 0 ; index < pins.size() ; index++){
 					g.setFont(new Font("Arial", Font.BOLD, 16));
 					g.setColor(Color.BLACK);
-					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth(), pins.get(index).y - pin_img.getHeight(), null);
-					g.setColor(Color.BLUE);
-					g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
+					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth()/2-2, pins.get(index).y - pin_img.getHeight()-3, null);
+					String number = String.valueOf(index+1);
+					g.drawString(number, pins.get(index).x-6-(number.length()-1)*4, pins.get(index).y-14);
 				}
 
 				g.dispose();
 				//timer.printTime();
 			}
 		}
-
-		private void drawLines(Graphics2D g, Collection<Line> lines, double ThicknessAddition, boolean darker) {
+		
+		private void drawLines(Graphics2D g, Collection<Line> lines, double ThicknessAddition, boolean darker) {			
 			for(Line l : lines){
 				if(darker){
 					g.setColor(l.getRoadColor().darker().darker());
@@ -627,6 +630,8 @@ public class View extends JFrame{
 		Collection<Line> x = new HashSet<Line>();
 		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1,1));
 		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2,1));
+		
+		ArrayList<Point2D.Double> p = new ArrayList<Point2D.Double>();
 
 		final View v = new View("X marks the spot", 1.0);
 
@@ -635,7 +640,7 @@ public class View extends JFrame{
 		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
 		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));
 
-		v.repaint(x);
+		v.repaint(x,p);
 
 		// testing dialog message
 		v.addCanvasMouseListener(new MouseAdapter(){

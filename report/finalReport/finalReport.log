@@ -1,3 +1,248 @@
+<<<<<<< HEAD
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.2.21)  11 MAY 2011 17:19
+entering extended mode
+ restricted \write18 enabled.
+ Source specials enabled.
+ %&-line parsing enabled.
+**finalReport.tex
+(./finalReport.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman-x-2009-06-19, ngerman-x-2009-06-19, ancientgreek, ibycus, arabic, armenian
+, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danish, dutch, u
+kenglish, usenglishmax, esperanto, estonian, farsi, finnish, french, galician, 
+german, ngerman, swissgerman, monogreek, greek, hungarian, icelandic, assamese,
+ bengali, gujarati, hindi, kannada, malayalam, marathi, oriya, panjabi, tamil, 
+telugu, indonesian, interlingua, irish, italian, kurmanji, lao, latin, latvian,
+ lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, polish, portuguese, roma
+nian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, turkish,
+ turkmen, ukrainian, uppersorbian, welsh, loaded.
+(/usr/local/texlive/2010/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2010/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2010/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(/usr/local/texlive/2010/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2008/03/30 v1.1d Input encoding file
+))
+(/usr/local/texlive/2010/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
+
+(/usr/local/texlive/2010/texmf-dist/tex/generic/babel/english.ldf
+Language: english 2005/03/30 v3.3o English support from the babel system
+
+(/usr/local/texlive/2010/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count88
+\U@D=\dimen103
+)
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
+))
+(/usr/local/texlive/2010/texmf-dist/tex/latex/lastpage/lastpage.sty
+Package: lastpage 1994/06/25 v0.1b LaTeX2e package for refs to last page number
+ (JPG)
+)
+(/usr/local/texlive/2010/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+\fancy@headwidth=\skip43
+\f@ncyO@elh=\skip44
+\f@ncyO@erh=\skip45
+\f@ncyO@olh=\skip46
+\f@ncyO@orh=\skip47
+\f@ncyO@elf=\skip48
+\f@ncyO@erf=\skip49
+\f@ncyO@olf=\skip50
+\f@ncyO@orf=\skip51
+)
+(./finalReport.aux (./chapters/product/Background.aux)
+(./chapters/product/UI-Analysis.aux) (./chapters/product/Implementation.aux)
+(./chapters/product/TechnicalUML.aux) (./chapters/product/Tests.aux)
+(./chapters/product/Manual.aux) (./chapters/process/Constitution.aux)
+(./chapters/process/Diary.aux) (./chapters/process/Worksheets.aux))
+\openout1 = `finalReport.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 29.
+
+Overfull \hbox (230.3289pt too wide) in paragraph at lines 29--29
+ [][] 
+ []
+
+[1
+
+{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+(./finalReport.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 4.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 4.
+ [1
+
+])
+\tf@toc=\write3
+\openout3 = `finalReport.toc'.
+
+ [2]
+Chapter 1.
+[3
+
+]
+\openout2 = `chapters/product/Background.aux'.
+
+ (./chapters/product/Background.tex
+Chapter 2.
+[4
+
+
+]) [5]
+\openout2 = `chapters/product/UI-Analysis.aux'.
+
+ (./chapters/product/UI-Analysis.tex
+Chapter 3.
+) [6
+
+
+
+]
+\openout2 = `chapters/product/Implementation.aux'.
+
+ (./chapters/product/Implementation.tex
+Chapter 4.
+) [7
+
+
+
+]
+\openout2 = `chapters/product/TechnicalUML.aux'.
+
+ (./chapters/product/TechnicalUML.tex
+Chapter 5.
+) [8
+
+
+
+]
+\openout2 = `chapters/product/Tests.aux'.
+
+ (./chapters/product/Tests.tex
+Chapter 6.
+) [9
+
+
+
+]
+\openout2 = `chapters/product/Manual.aux'.
+
+ (./chapters/product/Manual.tex
+Chapter 7.
+) [10
+
+
+
+]
+Chapter 8.
+[11
+
+
+]
+\openout2 = `chapters/process/Constitution.aux'.
+
+ (./chapters/process/Constitution.tex
+Chapter 9.
+) [12
+
+
+]
+\openout2 = `chapters/process/Diary.aux'.
+
+ (./chapters/process/Diary.tex
+Chapter 10.
+) [13
+
+
+
+]
+\openout2 = `chapters/process/Worksheets.aux'.
+
+ (./chapters/process/Worksheets.tex
+Chapter 11.
+) [14
+
+
+
+]
+Chapter 12.
+AED: lastpage setting LastPage [15
+
+
+] (./finalReport.aux
+(./chapters/product/Background.aux) (./chapters/product/UI-Analysis.aux)
+(./chapters/product/Implementation.aux) (./chapters/product/TechnicalUML.aux)
+(./chapters/product/Tests.aux) (./chapters/product/Manual.aux)
+(./chapters/process/Constitution.aux) (./chapters/process/Diary.aux)
+(./chapters/process/Worksheets.aux))
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 822 strings out of 493747
+ 11034 string characters out of 3143546
+ 65184 words of memory out of 3000000
+ 4094 multiletter control sequences out of 15000+200000
+ 9806 words of font info for 34 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 29i,10n,43p,184b,232s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
+r/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/
+local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/l
+ocal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on finalReport.pdf (16 pages, 120690 bytes).
+PDF statistics:
+ 84 PDF objects out of 1000 (max. 8388607)
+ 58 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+
+=======
 This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  13 MAY 2011 00:40
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex
@@ -294,3 +539,4 @@ PDF statistics:
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
+>>>>>>> fcd5cd78117dcc7f3dcddfa6ec6c361bb72be842
