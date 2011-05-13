@@ -17,40 +17,40 @@
 \contentsline {subsection}{\numberline {3.2.2}Navigation}{8}
 \contentsline {subsection}{\numberline {3.2.3}Hotkeys}{9}
 \contentsline {subsection}{\numberline {3.2.4}Route planning and markers}{9}
-\contentsline {subsection}{\numberline {3.2.5}Bike/car}{9}
-\contentsline {section}{\numberline {3.3}Features not implemented}{9}
+\contentsline {subsection}{\numberline {3.2.5}Bike/car}{10}
+\contentsline {section}{\numberline {3.3}Features not implemented}{10}
 \contentsline {subsection}{\numberline {3.3.1}Choice of roads to be displayed}{10}
 \contentsline {subsection}{\numberline {3.3.2}Smooth scrolling}{10}
 \contentsline {subsection}{\numberline {3.3.3}Dynamic route finding}{10}
 \contentsline {chapter}{\numberline {4}Implementation}{11}
-\contentsline {section}{\numberline {4.1}Dijkstra vs A-star}{11}
-\contentsline {section}{\numberline {4.2}Evaluator}{11}
-\contentsline {section}{\numberline {4.3}Quadtree}{11}
-\contentsline {section}{\numberline {4.4}Serialization}{11}
-\contentsline {section}{\numberline {4.5}UTM-convertion}{11}
-\contentsline {section}{\numberline {4.6}Mousezoom}{11}
-\contentsline {section}{\numberline {4.7}Floats}{11}
-\contentsline {chapter}{\numberline {5}UML-diagrams}{12}
-\contentsline {section}{\numberline {5.1}MVC}{12}
-\contentsline {section}{\numberline {5.2}Simple Diagram}{12}
-\contentsline {section}{\numberline {5.3}Control flow}{12}
-\contentsline {chapter}{\numberline {6}Tests}{13}
-\contentsline {section}{\numberline {6.1}WhiteBox: closestEdge}{13}
-\contentsline {section}{\numberline {6.2}JUnit}{13}
-\contentsline {section}{\numberline {6.3}System test}{13}
-\contentsline {chapter}{\numberline {7}Manual}{14}
-\contentsline {section}{\numberline {7.1}Navigation}{14}
-\contentsline {subsection}{\numberline {7.1.1}GUI}{14}
-\contentsline {subsection}{\numberline {7.1.2}Keyboard}{14}
-\contentsline {section}{\numberline {7.2}Zoom}{14}
-\contentsline {subsection}{\numberline {7.2.1}GUI}{14}
-\contentsline {subsection}{\numberline {7.2.2}Keyboard}{14}
-\contentsline {section}{\numberline {7.3}Route find}{14}
-\contentsline {section}{\numberline {7.4}Bike/car}{14}
-\contentsline {section}{\numberline {7.5}Resize}{14}
-\contentsline {section}{\numberline {7.6}Road display}{14}
-\contentsline {chapter}{\numberline {8}Product conclusion}{15}
-\contentsline {chapter}{\numberline {9}Group norms}{16}
-\contentsline {chapter}{\numberline {10}Diary}{17}
-\contentsline {chapter}{\numberline {11}Worksheets}{18}
-\contentsline {chapter}{\numberline {12}Process description and reflection}{19}
+\contentsline {section}{\numberline {4.1}UTM-conversion}{11}
+\contentsline {section}{\numberline {4.2}Mousezoom}{12}
+\contentsline {section}{\numberline {4.3}Dijkstra vs A-star}{12}
+\contentsline {section}{\numberline {4.4}Evaluator}{13}
+\contentsline {section}{\numberline {4.5}Quadtree}{14}
+\contentsline {section}{\numberline {4.6}Serialization}{14}
+\contentsline {section}{\numberline {4.7}Floats}{14}
+\contentsline {chapter}{\numberline {5}UML-diagrams}{15}
+\contentsline {section}{\numberline {5.1}MVC}{15}
+\contentsline {section}{\numberline {5.2}Simple Diagram}{15}
+\contentsline {section}{\numberline {5.3}Control flow}{15}
+\contentsline {chapter}{\numberline {6}Tests}{16}
+\contentsline {section}{\numberline {6.1}WhiteBox: closestEdge}{16}
+\contentsline {section}{\numberline {6.2}JUnit}{16}
+\contentsline {section}{\numberline {6.3}System test}{16}
+\contentsline {chapter}{\numberline {7}Manual}{17}
+\contentsline {section}{\numberline {7.1}Navigation}{17}
+\contentsline {subsection}{\numberline {7.1.1}GUI}{17}
+\contentsline {subsection}{\numberline {7.1.2}Keyboard}{17}
+\contentsline {section}{\numberline {7.2}Zoom}{17}
+\contentsline {subsection}{\numberline {7.2.1}GUI}{17}
+\contentsline {subsection}{\numberline {7.2.2}Keyboard}{17}
+\contentsline {section}{\numberline {7.3}Route find}{17}
+\contentsline {section}{\numberline {7.4}Bike/car}{17}
+\contentsline {section}{\numberline {7.5}Resize}{17}
+\contentsline {section}{\numberline {7.6}Road display}{17}
+\contentsline {chapter}{\numberline {8}Product conclusion}{18}
+\contentsline {chapter}{\numberline {9}Group norms}{19}
+\contentsline {chapter}{\numberline {10}Diary}{20}
+\contentsline {chapter}{\numberline {11}Worksheets}{21}
+\contentsline {chapter}{\numberline {12}Process description and reflection}{22}

@@ -45,6 +45,14 @@ public class PointMethods {
 		}
 	}
 	
+	/**
+	 * Used to convert UTM points to pixel values.
+	 * 
+	 * @param e The UTM-point to be converted.
+	 * @param model The model the point came from.
+	 * @param view The view the point originated in.
+	 * @return The pixel point.
+	 */
 	public static Point UTMToPixel(Point2D.Double e, Model model, View view){
 		int x_m = (int) (((e.getX() - model.getBounds().x) / model.getBounds().width) * view.getCanvasWidth());
 		int y_m = (int) (((e.getY() - model.getBounds().y) / model.getBounds().height) * view.getCanvasHeight());

@@ -169,55 +169,54 @@ public class Control {
 	 * Adds listeners to the keyboard.
 	 */
 	private void addKeyboardListeners(){
-		//Listener for maxZoom function.
 		view.addKeyListener(new KeyAdapter(){
 			Rectangle2D.Double temp = null;
 
 			@Override
 			public void keyReleased(KeyEvent e) {	
 				switch (e.getKeyCode()){
-				case KeyEvent.VK_ESCAPE:
+				case KeyEvent.VK_ESCAPE: //MaxZoom functionality.
 					temp = model.originalBounds();
 					RectangleMethods.fixRatioByOuterRectangle(temp, model.getBounds());
 					model.updateBounds(temp);
 					repaint();
 					break;
 
-				case KeyEvent.VK_UP:
+				case KeyEvent.VK_UP: //Move up.
 					temp = newBounds(model.getBounds(), MOVE_LENGTH, Direction.NORTH);
 					model.updateBounds(temp);
 					repaint();
 					break;
 
-				case KeyEvent.VK_DOWN:
+				case KeyEvent.VK_DOWN: //Move down.
 					temp = newBounds(model.getBounds(), MOVE_LENGTH, Direction.SOUTH);
 					model.updateBounds(temp);
 					repaint();
 					break;
 
-				case KeyEvent.VK_LEFT:
+				case KeyEvent.VK_LEFT: //Move left.
 					temp = newBounds(model.getBounds(), MOVE_LENGTH, Direction.WEST);
 					model.updateBounds(temp);
 					repaint();
 					break;
 
-				case KeyEvent.VK_RIGHT:
+				case KeyEvent.VK_RIGHT: //Move right.
 					temp = newBounds(model.getBounds(), MOVE_LENGTH, Direction.EAST);
 					model.updateBounds(temp);
 					repaint();
 					break;
 
-				case KeyEvent.VK_C:
+				case KeyEvent.VK_C: //Clear pins.
 					clearPins();
 					break;
 
-				case KeyEvent.VK_I:
+				case KeyEvent.VK_I: //Zoom in.
 					temp = newBounds(model.getBounds(), ZOOM_LENGTH, Direction.IN);
 					model.updateBounds(temp);
 					repaint();
 					break;
 
-				case KeyEvent.VK_O:
+				case KeyEvent.VK_O: //Zoom out
 					temp = newBounds(model.getBounds(), ZOOM_LENGTH, Direction.OUT);
 					model.updateBounds(temp);
 					repaint();
@@ -392,13 +391,14 @@ public class Control {
 	 * @return The rectangle that has been moved or zoomed.
 	 */
 	private Rectangle2D.Double newBounds(Rectangle2D.Double old, double length, Direction direction){
-		//TODO: Check for legal rectangle
 		Rectangle2D.Double temp = RectangleMethods.newBounds(old, length, direction);
 		if(temp.height < 200 || temp.width < 200){ //Prevents user from zooming in too far.
 			return old;
 		}
 		if(temp.width > model.originalBounds().width || temp.height > model.originalBounds().height){ //Prevents user from zooming out too far
-			return model.originalBounds();
+			temp = model.originalBounds();
+			RectangleMethods.fixRatioByOuterRectangle(temp, model.getBounds());
+			return temp;
 		}
 		if((temp.x + temp.width) < model.originalBounds().x || //Prevents user from going too far west.
 				temp.x > (model.originalBounds().x + model.originalBounds().width)){ //Prevents user from going too far east. 

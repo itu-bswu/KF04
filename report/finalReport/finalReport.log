@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  13 MAY 2011 00:40
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  13 MAY 2011 13:46
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex
 ("C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex"
@@ -63,6 +63,31 @@ File: babel.def 2008/07/06 v3.8l Babel common definitions
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\lastpage\lastpage.sty"
 Package: lastpage 2011/02/01 v1.2g Refers to last page's name (HMM; JPG)
 )
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks16
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2010/09/14 v0.05b Graphics/color for pdfTeX
+\Gread@gobject=\count89
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
 \fancy@headwidth=\skip43
 \f@ncyO@elh=\skip44
@@ -86,10 +111,6 @@ Package: gettitlestring 2009/12/18 v1.3 Cleanup title references (HO)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
 Package: kvoptions 2010/02/22 v3.7 Keyval support for LaTeX options (HO)
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
-Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
-\KV@toks@=\toks16
-)
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\kvsetkeys.sty"
 Package: kvsetkeys 2010/03/01 v1.9 Key value parser (HO)
 
@@ -106,7 +127,7 @@ Package etexcmds Info: Could not find \expanded.
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
 Package: ltxcmds 2010/04/26 v1.7 LaTeX kernel commands for general use (HO)
 )
-\c@section@level=\count89
+\c@section@level=\count90
 LaTeX Info: Redefining \ref on input line 338.
 LaTeX Info: Redefining \pageref on input line 338.
 )
@@ -116,7 +137,11 @@ Background.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 UI-Analysis.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
-Implementation.aux")
+Implementation.aux"
+
+LaTeX Warning: Label `UIA-UIW-PIC' multiply defined.
+
+)
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 TechnicalUML.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
@@ -129,31 +154,45 @@ Constitution.aux")
 Diary.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.aux"))
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
 Package lastpage Info: Please have a look at the pagesLTS package at
 (lastpage)             http://www.ctan.org/tex-archive/ 
 (lastpage)             macros/latex/contrib/pagesLTS/ 
 (lastpage)             or
 (lastpage)             http://www.ctan.org/tex-archive/ 
 (lastpage)             install/macros/latex/contrib/pagesLTS.tds.zip
-(lastpage)             ! on input line 33.
+(lastpage)             ! on input line 34.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count91
+\scratchdimen=\dimen106
+\scratchbox=\box26
+\nofMPsegments=\count92
+\nofMParguments=\count93
+\everyMPshowfont=\toks17
+\MPscratchCnt=\count94
+\MPscratchDim=\dimen107
+\MPnumerator=\count95
+\everyMPtoPDFconversion=\toks18
+)
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 34.
+(Font)              <12> on input line 35.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 34.
+(Font)              <8> on input line 35.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 34.
+(Font)              <6> on input line 35.
  [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
@@ -182,23 +221,31 @@ Chapter 2.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 UI-Analysis.tex"
 Chapter 3.
+<PictureOfUI.png, id=31, 590.205pt x 336.50719pt>
+File: PictureOfUI.png Graphic file (type png)
+ <use PictureOfUI.png>
 [7
 
 
 
-] [8]) [9] [10]
+] [8 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/PictureOfUI.p
+ng>] [9]) [10]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Implementation.tex"
 Chapter 4.
-) [11
+[11
 
 
 
-]
+] <UTMillu.jpg, id=50, 867.24pt x 614.295pt>
+File: UTMillu.jpg Graphic file (type jpg)
+ <use UTMillu.jpg> [12 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalRe
+port/UTMillu.jpg>]) [13]
+[14]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 TechnicalUML.tex"
 Chapter 5.
-) [12
+) [15
 
 
 
@@ -206,7 +253,7 @@ Chapter 5.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Tests.tex"
 Chapter 6.
-) [13
+) [16
 
 
 
@@ -214,27 +261,27 @@ Chapter 6.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Manual.tex"
 Chapter 7.
-) [14
+) [17
 
 
 
 ]
 Chapter 8.
-[15
+[18
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Constitution.tex"
 Chapter 9.
-) [16
+) [19
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Diary.tex"
 Chapter 10.
-) [17
+) [20
 
 
 
@@ -242,14 +289,14 @@ Chapter 10.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.tex"
 Chapter 11.
-) [18
+) [21
 
 
 
 ]
 Chapter 12.
 AED: lastpage setting LastPage 
-[19
+[22
 
 
 ]
@@ -271,26 +318,31 @@ Constitution.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Diary.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
-Worksheets.aux")) ) 
+Worksheets.aux"))
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 1336 strings out of 494019
- 22907 string characters out of 3143862
- 75728 words of memory out of 3000000
- 4568 multiletter control sequences out of 15000+200000
+ 2047 strings out of 494019
+ 32306 string characters out of 3143862
+ 89824 words of memory out of 3000000
+ 5255 multiletter control sequences out of 15000+200000
  10111 words of font info for 35 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  41i,11n,43p,345b,310s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfon
-ts/cm/cmbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-mr12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
-7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.
-pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pf
-b><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on finalReport.pdf (20 pages, 147776 bytes).
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C
+:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/P
+rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Prog
+ram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program
+ Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Fi
+les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Program File
+s (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Program Files 
+(x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on finalReport.pdf (23 pages, 444531 bytes).
 PDF statistics:
- 99 PDF objects out of 1000 (max. 8388607)
+ 116 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
