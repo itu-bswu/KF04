@@ -38,7 +38,7 @@ public class Control {
 	private Model model;
 	private ArrayList<Point2D.Double> pins = new ArrayList<Point2D.Double>();
 	private Object currentRouteMode = null;
-
+	
 	/**
 	 * Constructor for class Control
 	 */
@@ -122,11 +122,12 @@ public class Control {
 				repaint();
 			}
 
+		
+			
 			@Override
 			public void mouseClicked(MouseEvent e){
 				boolean remove = false; // Will be set to true, if a pin needs to be removed. 
 				Point2D.Double tempPin = null; //The pin to be removed, if anything. 
-
 				for(Point2D.Double pin : pins){ 
 					//Runs through all the current pins to check if there are any pins close to the clicked point.
 					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
@@ -146,7 +147,7 @@ public class Control {
 					}
 				}
 				else{ //Else it adds a pin and calculates the newest distance.
-					pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));
+					pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));	
 					if(pins.size() > 1){
 						findPath(pins.size()-2, pins.size()-1);
 					}

@@ -83,16 +83,23 @@ concerns to the direction of the target node.
 This is where A* comes in handy. The A* algorithm is a modification to Dijkstra 
 that also looks at the estimated distance from the given node when determining 
 the value for the priority queue. When using the geographical distance as a 
+<<<<<<< HEAD
 measure of ``best route'' the value would be the current distance from the start 
+=======
+measure of best route the value would be the current distance from the start 
+>>>>>>> a46f5de8fdeeb94d06e03bf185ed3eebaa15c7dd
 node plus the direct distance to the target (as if there were a road directly to 
 the target). With this subtle change the algorithm will prioritize nodes that are 
-relatively closer to the target than those that are in the other direction. This 
-makes the algorithm much faster since it will not pay much attention to the roads 
+relatively closer to the target rather than those that are in the other
+direction. This makes the algorithm much faster since it will not pay much attention to the roads 
 that are not in the direction of the target.
 We have decided to use the A* algorithm since we only calculate routes between 
 two distinct nodes and therefore don`t need the route from the start node to all 
 others. The time reduction that A* gives is also a definite plus since no user 
 wants to sit and wait too long for the program to find the route.
+
+%MŒske vi skulle have pointen med om hvilket transportmiddel A*star virker bedst
+% med?
 
 \section{Evaluator}
 \label{IMPL-EVA}

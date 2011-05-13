@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.RenderingHints;
 
 import javax.imageio.ImageIO;
@@ -39,6 +40,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+
+import core.Model;
 
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
@@ -154,7 +157,7 @@ public class View extends JFrame{
 		};
 
 		this.addCanvasMouseListener(m);
-		canvas.addMouseMotionListener(m);
+		canvas.addMouseMotionListener(m); //TODO: Jens: Bliver denne ikke tilf¿jet 1 gang i addCanvasMouseListener() ??
 	}
 
 	/**
@@ -570,27 +573,33 @@ public class View extends JFrame{
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 				// draw lines
+<<<<<<< HEAD
 				drawLines(g,lines,0.0f,true);
 				drawLines(g,lines,-1.0f,false);
+				
+=======
+				drawLines(g,lines,0.0,true);
+				drawLines(g,lines,-1.0,false);
 
+>>>>>>> 700654ba3c34e99a95d078795067dda37d012dd0
 				if(route != null){
-					drawLines(g,route,-1.0f,false);
+					drawLines(g,route,-1.0,false);
 				}
 
 				for(int index = 0 ; index < pins.size() ; index++){
 					g.setFont(new Font("Arial", Font.BOLD, 16));
 					g.setColor(Color.BLACK);
-					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth(), pins.get(index).y - pin_img.getHeight(), null);
-					g.setColor(Color.BLUE);
-					g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
+					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth()/2-2, pins.get(index).y - pin_img.getHeight()-3, null);
+					String number = String.valueOf(index+1);
+					g.drawString(number, pins.get(index).x-6-(number.length()-1)*4, pins.get(index).y-14);
 				}
 
 				g.dispose();
 				//timer.printTime();
 			}
 		}
-
-		private void drawLines(Graphics2D g, Collection<Line> lines, double ThicknessAddition, boolean darker) {
+		
+		private void drawLines(Graphics2D g, Collection<Line> lines, double ThicknessAddition, boolean darker) {			
 			for(Line l : lines){
 				if(darker){
 					g.setColor(l.getRoadColor().darker().darker());

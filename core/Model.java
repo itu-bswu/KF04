@@ -1,5 +1,6 @@
 package core;
 import java.awt.Color;
+import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
@@ -53,8 +54,9 @@ public class Model {
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
 	private List<QuadTree<KrakEdge>> qt = Collections.synchronizedList(new ArrayList<QuadTree<KrakEdge>>());
-	public Graph<KrakEdge,KrakNode> graph;
-
+	public Graph<KrakEdge,KrakNode> graph;	
+	private  ArrayList<Point2D.Double> land = new ArrayList<Point2D.Double>();	
+	
 	/**
 	 * Constructor
 	 * Initialize variables. 
@@ -70,7 +72,6 @@ public class Model {
 	 * Set the map to look at the specified graph.
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
-		
 		
 		boolean fromFile = false;
 		if (inputGraph == null) {
@@ -112,21 +113,19 @@ public class Model {
 			}
 
 			maxBounds = maxBounds(graph.getNodes());
-			
-			System.out.println("Test1: " + maxBounds);
-			
+
 			bounds = originalBounds();
 			Stopwatch sw = new Stopwatch("Quadtrees");
 			createQuadTrees(graph.getAllEdges());
 			sw.printTime();
-
+			
 			// Save all important objects to files.
 			if (inputGraph==null) {
 				serializeToFiles();
 			}
 		}
 	}
-
+	
 	/**
 	 * Create Graph object from Krak data-files.
 	 * @return Graph object from Krak files.
@@ -148,7 +147,7 @@ public class Model {
 
 		return graph;
 	}
-
+	
 	/**
 	 * Create QuadTrees
 	 * @param content
@@ -364,15 +363,21 @@ public class Model {
 	 * @param qarea The rectangle for which to find all KrakEdges
 	 * @return A Set with all KrakEdges within the given Rectangle
 	 */
-	private List<KrakEdge> query(Rectangle2D.Double qarea){
+	private List<KrakEdge> query(Rectangle2D.Double qarea) {
+		return query(qarea,false);
+	}
+	/**
+	 * Querries the node for KrakEdges with a specific rectangle
+	 * @param qarea The rectangle for which to find all KrakEdges
+	 * @return A Set with all KrakEdges within the given Rectangle
+	 */
+	private List<KrakEdge> query(Rectangle2D.Double qarea,Boolean getAll){
 		double area = (qarea.width/1000)*(qarea.height/1000);
 		//System.out.printf("area: %.2f km2\n",area);
 		List<KrakEdge> total = new ArrayList<KrakEdge>();
-	
 		try {
 			for(int index = qt.size()-1; index > 0; index--){
-				if(area < quadTreeLimits[index-1]){
-					//System.out.println(index+":"+quadTreeLimits[index-1]);
+				if(area < quadTreeLimits[index-1]||(getAll)){
 					total.addAll(qt.get(index).query(qarea));
 					
 				}

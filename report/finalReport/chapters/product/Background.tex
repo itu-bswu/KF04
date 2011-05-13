@@ -28,8 +28,54 @@ of the commonly used controls in our map, a user will be able to quickly
 adapt to our program and use it efficiently. 
 
 \section{Requirements for the map}
+Our teachers had a few requirements for features in the project, that we had to
+obey. The requirements were presented to us during development, in 3 steps. This made
+it easier for us to focus on getting the basic features of the program to work,
+but it made it harder for us to plan ahead as well.  Here is a list of the
+features we had to implement: 1) We had to make a visual representation of all
+the roads from the dataset. 2) We had to draw different roads in different
+colours. 3) We had to adjust our drawing of the roads to the windows size of
+our GUI. 4) We had to make mouse zooming possible.  The user should be able to
+drag the mouse from one corner of the map to another, in order to zoom in on
+the selected area. 5) We had to implement a method to find a path from one road
+in the map to another, and we had to allow the user to find that path by
+clicking at each of the roads. We had to consider these requirements while
+deciding how the program should be designed. Of course, some of the
+requirements were so self explanatory that we would have made them regardless
+of them being required. Only requirement 4 were against the design idea we
+would have chosen ourselves. Instead of implementing the mouse zoom by dragging
+a specific area, we would have made the user zoom in on the map using the
+scrolling wheel. This would have been a more intuitive implementation, where
+the current system is more precise.
+
 \label{BG-R}
 \section{Our requirements}
+In the process of designing the program we made some requirements that we
+wanted to make sure was met before making more advanced features. Since it was
+required to make the user able to zoom-in on the map, we found it logical to
+allow him to zoom-out, and scroll the map as well. With these basic features
+covered, we decided which advanced featured we wanted implement. In order to
+give the user a chance to find more specific places, we decided to show the
+user the name of the road closest to the cursor. This means that the user can
+get orientated without clicking or pressing any button. The most interesting
+feature of our program perhaps is the ability to choose whether you want to
+travel by car or by bicycle. Many Danish people uses bicycles to travel,
+therefore this feature is very relevant. Because this is a feature that
+wouldn’t make sense on a world map, it makes our program superior to its
+international competitors. We also decided to let the user create routes with
+an unlimited amount of waypoints. This makes our map well suited for planning
+bicycling trips where you want to reach more than one destination. Because of
+this feature, we required our path finding algorithm to be fast enough to make
+this possible. We wanted to make sure that the shape of Denmark is recognizable
+when the user has zoomed out to show the entire country. There is a balance
+between showing a big amount of roads and the elay when navigating. We wanted
+to make the user able to navigate the map with a reasonable amount of delay.
+The fact that we chose specific requirements for our program gave us two big
+advantages. It both made the working process easier, and it made our choices of
+features more consistent.  Both because we knew which direction we wanted to go
+with program. In the process of creating the program, we changed and created
+new requirements to ourselves. In the last part of the coding process, we
+decided on our final requirements and worked towards completing them.
 \subsection{Project requirements}
 \label{BG-R-PR}
 \subsection{Our own requirements}
