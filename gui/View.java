@@ -315,8 +315,8 @@ public class View extends JFrame{
 	 * Repaints the entire frame, with the new lines to be shown.
 	 * @param l The new Collection of lines.
 	 */
-	public void repaint(Collection<Line> l){
-		canvas.updateLines(l);
+	public void repaint(Collection<Line> l, ArrayList<Point2D.Double> land){
+		canvas.updateLines(l, land);
 	}
 
 	/**
@@ -542,8 +542,8 @@ public class View extends JFrame{
 		 * Updates the canvas with a new Set of Lines and repaints using them.
 		 * @param lines The Set of Lines to be drawn.
 		 */
-		public void updateLines(Collection<Line> lines){
-			drawOffScreen(lines);
+		public void updateLines(Collection<Line> lines, ArrayList<Point2D.Double> land){
+			drawOffScreen(lines, land);
 			this.repaint();
 		}
 
@@ -559,7 +559,7 @@ public class View extends JFrame{
 		 * Draws the given Lines on the off-screen image for later display on the canvas.
 		 * @param lines
 		 */
-		public void drawOffScreen(Collection<Line> lines){
+		public void drawOffScreen(Collection<Line> lines,ArrayList<Point2D.Double> land){
 			if(getWidth() > 0 && getHeight() > 0){
 				//Stopwatch timer = new Stopwatch("Drawing");
 				img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
@@ -575,6 +575,9 @@ public class View extends JFrame{
 				// draw lines
 				drawLines(g,lines,0.0f,true);
 				drawLines(g,lines,-1.0f,false);
+				
+				// draw polygon
+				drawLand(g,land);
 
 				if(route != null){
 					drawLines(g,route,-1.0f,false);
@@ -593,26 +596,23 @@ public class View extends JFrame{
 			}
 		}
 
-		private void drawLines(Graphics2D g, Collection<Line> lines, float ThicknessAddition, boolean darker) {
-			
-			/*
-			 * Draw polygon
-			 */			
-			if (Model.drawLand.size() > 0) {
-				
-				Polygon landShape = new Polygon();
-				for(Point2D.Double point : Model.drawLand) {
-					landShape.addPoint((int)(point.x*this.getWidth()),(int)(point.y*this.getHeight()));
-					
-					//System.out.println((int)(point.x*this.getWidth()) +", " + (int)(point.y*this.getHeight()));
+		/*
+		 * Draw polygon
+		 */	
+		private void drawLand(Graphics2D g, ArrayList<Point.Double> land) {	
+			if (land != null) {
+				if (land.size() > 0) {
+					Polygon landShape = new Polygon();
+					for(Point2D.Double point : land) {
+						landShape.addPoint((int)(point.x*this.getWidth()),(int)(point.y*this.getHeight()));
+					}
+					g.setColor(Color.WHITE);
+					g.drawPolygon(landShape);
 				}
-				
-				
-				g.setColor(Color.WHITE);
-				g.drawPolygon(landShape);
-				
 			}
-			
+		}
+		
+		private void drawLines(Graphics2D g, Collection<Line> lines, float ThicknessAddition, boolean darker) {			
 			for(Line l : lines){
 				if(darker){
 					g.setColor(l.getRoadColor().darker().darker());
@@ -649,6 +649,8 @@ public class View extends JFrame{
 		Collection<Line> x = new HashSet<Line>();
 		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1,1));
 		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2,1));
+		
+		ArrayList<Point2D.Double> p = new ArrayList<Point2D.Double>();
 
 		final View v = new View("X marks the spot", 1.0);
 
@@ -657,7 +659,7 @@ public class View extends JFrame{
 		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
 		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));
 
-		v.repaint(x);
+		v.repaint(x,p);
 
 		// testing dialog message
 		v.addCanvasMouseListener(new MouseAdapter(){

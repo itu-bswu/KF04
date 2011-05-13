@@ -1,4 +1,4 @@
-package testClasses;
+/*package testClasses;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -110,7 +110,8 @@ public class RectangleMethodsTest extends TestCase{
 	 * 
 	 * @return A rectangle with x,y at 50, 50 and width and height of 100
 	 */
+/*
 	private Rectangle2D.Double constructRectangle(){
 		return new Rectangle2D.Double(50, 50, 100, 100);
 	}
-}
+}*/

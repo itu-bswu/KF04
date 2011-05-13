@@ -2,52 +2,52 @@
 \contentsline {chapter}{\numberline {1}Preface}{3}
 \contentsline {chapter}{\numberline {2}Background}{4}
 \contentsline {section}{\numberline {2.1}Problem area}{4}
-\contentsline {section}{\numberline {2.2}Our requirements}{4}
-\contentsline {subsection}{\numberline {2.2.1}Project requirements}{4}
-\contentsline {subsection}{\numberline {2.2.2}Our own requirements}{4}
-\contentsline {section}{\numberline {2.3}Data set}{4}
-\contentsline {subsection}{\numberline {2.3.1}UTM-coordinates}{4}
-\contentsline {subsection}{\numberline {2.3.2}Graph}{4}
-\contentsline {section}{\numberline {2.4}MVC structure}{4}
-\contentsline {chapter}{\numberline {3}UI-analysis}{5}
-\contentsline {section}{\numberline {3.1}Interesting features}{5}
-\contentsline {subsection}{\numberline {3.1.1}Pins}{5}
-\contentsline {subsection}{\numberline {3.1.2}Navigation}{5}
-\contentsline {subsection}{\numberline {3.1.3}Bike/car}{5}
-\contentsline {subsection}{\numberline {3.1.4}Hotkeys}{5}
-\contentsline {section}{\numberline {3.2}Features we did not implement}{5}
-\contentsline {subsection}{\numberline {3.2.1}Choice of roads to be displayed}{5}
-\contentsline {subsection}{\numberline {3.2.2}Smooth scrolling}{5}
-\contentsline {subsection}{\numberline {3.2.3}Dynamic route finding}{5}
-\contentsline {chapter}{\numberline {4}Implementation}{6}
-\contentsline {section}{\numberline {4.1}Dijkstra vs A-star}{6}
-\contentsline {section}{\numberline {4.2}Evaluator}{6}
-\contentsline {section}{\numberline {4.3}Quadtree}{6}
-\contentsline {section}{\numberline {4.4}Serialization}{6}
-\contentsline {section}{\numberline {4.5}UTM-convertion}{6}
-\contentsline {section}{\numberline {4.6}Mousezoom}{6}
-\contentsline {section}{\numberline {4.7}Floats}{6}
-\contentsline {chapter}{\numberline {5}UML-diagrams}{7}
-\contentsline {section}{\numberline {5.1}MVC}{7}
-\contentsline {section}{\numberline {5.2}Simple Diagram}{7}
-\contentsline {section}{\numberline {5.3}Control flow}{7}
-\contentsline {chapter}{\numberline {6}Tests}{8}
-\contentsline {section}{\numberline {6.1}WB: closestEdge}{8}
-\contentsline {section}{\numberline {6.2}JUnit}{8}
-\contentsline {section}{\numberline {6.3}System test}{8}
-\contentsline {chapter}{\numberline {7}Manual}{9}
-\contentsline {section}{\numberline {7.1}Navigation}{9}
-\contentsline {subsection}{\numberline {7.1.1}GUI}{9}
-\contentsline {subsection}{\numberline {7.1.2}Keyboard}{9}
-\contentsline {section}{\numberline {7.2}Zoom}{9}
-\contentsline {subsection}{\numberline {7.2.1}GUI}{9}
-\contentsline {subsection}{\numberline {7.2.2}Keyboard}{9}
-\contentsline {section}{\numberline {7.3}Route find}{9}
-\contentsline {section}{\numberline {7.4}Bike/car}{9}
-\contentsline {section}{\numberline {7.5}Resize}{9}
-\contentsline {section}{\numberline {7.6}Road display}{9}
-\contentsline {chapter}{\numberline {8}Product conclusion}{10}
-\contentsline {chapter}{\numberline {9}Group norms}{11}
-\contentsline {chapter}{\numberline {10}Diary}{12}
-\contentsline {chapter}{\numberline {11}Worksheets}{13}
-\contentsline {chapter}{\numberline {12}Process description and reflection}{14}
+\contentsline {section}{\numberline {2.2}Our requirements}{5}
+\contentsline {subsection}{\numberline {2.2.1}Project requirements}{5}
+\contentsline {subsection}{\numberline {2.2.2}Our own requirements}{5}
+\contentsline {section}{\numberline {2.3}Data set}{5}
+\contentsline {subsection}{\numberline {2.3.1}Graph}{5}
+\contentsline {subsection}{\numberline {2.3.2}UTM-Coordinates}{5}
+\contentsline {section}{\numberline {2.4}MVC structure}{5}
+\contentsline {chapter}{\numberline {3}UI-analysis}{6}
+\contentsline {section}{\numberline {3.1}Interesting features}{6}
+\contentsline {subsection}{\numberline {3.1.1}Pins}{6}
+\contentsline {subsection}{\numberline {3.1.2}Navigation}{6}
+\contentsline {subsection}{\numberline {3.1.3}Bike/car}{6}
+\contentsline {subsection}{\numberline {3.1.4}Hotkeys}{6}
+\contentsline {section}{\numberline {3.2}Features we did not implement}{6}
+\contentsline {subsection}{\numberline {3.2.1}Choice of roads to be displayed}{6}
+\contentsline {subsection}{\numberline {3.2.2}Smooth scrolling}{6}
+\contentsline {subsection}{\numberline {3.2.3}Dynamic route finding}{6}
+\contentsline {chapter}{\numberline {4}Implementation}{7}
+\contentsline {section}{\numberline {4.1}Dijkstra vs A-star}{7}
+\contentsline {section}{\numberline {4.2}Evaluator}{7}
+\contentsline {section}{\numberline {4.3}Quadtree}{7}
+\contentsline {section}{\numberline {4.4}Serialization}{7}
+\contentsline {section}{\numberline {4.5}UTM-convertion}{7}
+\contentsline {section}{\numberline {4.6}Mousezoom}{7}
+\contentsline {section}{\numberline {4.7}Floats}{7}
+\contentsline {chapter}{\numberline {5}UML-diagrams}{8}
+\contentsline {section}{\numberline {5.1}MVC}{8}
+\contentsline {section}{\numberline {5.2}Simple Diagram}{8}
+\contentsline {section}{\numberline {5.3}Control flow}{8}
+\contentsline {chapter}{\numberline {6}Tests}{9}
+\contentsline {section}{\numberline {6.1}WB: closestEdge}{9}
+\contentsline {section}{\numberline {6.2}JUnit}{9}
+\contentsline {section}{\numberline {6.3}System test}{9}
+\contentsline {chapter}{\numberline {7}Manual}{10}
+\contentsline {section}{\numberline {7.1}Navigation}{10}
+\contentsline {subsection}{\numberline {7.1.1}GUI}{10}
+\contentsline {subsection}{\numberline {7.1.2}Keyboard}{10}
+\contentsline {section}{\numberline {7.2}Zoom}{10}
+\contentsline {subsection}{\numberline {7.2.1}GUI}{10}
+\contentsline {subsection}{\numberline {7.2.2}Keyboard}{10}
+\contentsline {section}{\numberline {7.3}Route find}{10}
+\contentsline {section}{\numberline {7.4}Bike/car}{10}
+\contentsline {section}{\numberline {7.5}Resize}{10}
+\contentsline {section}{\numberline {7.6}Road display}{10}
+\contentsline {chapter}{\numberline {8}Product conclusion}{11}
+\contentsline {chapter}{\numberline {9}Group norms}{12}
+\contentsline {chapter}{\numberline {10}Diary}{13}
+\contentsline {chapter}{\numberline {11}Worksheets}{14}
+\contentsline {chapter}{\numberline {12}Process description and reflection}{15}

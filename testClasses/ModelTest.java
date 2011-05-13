@@ -64,35 +64,26 @@ public class ModelTest {
 	/**
 	 * Update Bounds Tests
 	 */
-	@Test public void testUpdateBoundsNull() {
+	@Test public void testUpdateBounds() {
+		//Null
 		try {
 		model.updateBounds(null);
-		}
-		catch (NullPointerException e){
-			return;
-		}
+		}catch (NullPointerException e){return;}
 		assertTrue(false);
-	}
-	
-	@Test public void testUpdateBoundsWidth() {
+		
+		//Width negative
 		try {
 			model.updateBounds(new Rectangle2D.Double(0,0,-1,0));
-		}catch (IllegalArgumentException e) {
-			return;
-		}
+		}catch (IllegalArgumentException e) {return;}
 		assertTrue(false);
-	}
-	
-	@Test public void testUpdateBoundsHeight() {
+		
+		//Height negative
 		try {
 			model.updateBounds(new Rectangle2D.Double(0,0,0,-1));
-		}catch (IllegalArgumentException e) {
-			return;
-		}
+		}catch (IllegalArgumentException e) {return;}
 		assertTrue(false);
-	}
-	
-	@Test public void testUpdateBoundsOutOfBounds() {
+		
+		//Out of bounds
 		try {
 			model.updateBounds(new Rectangle2D.Double(-10,-10,100,70));
 		}catch (IllegalArgumentException e) {
@@ -106,17 +97,16 @@ public class ModelTest {
 	 * Test get bounds
 	 */
 	@Test public void testGetBounds() {
-		model.updateBounds(new Rectangle2D.Double(0,0,10,10));
-		assertEquals(new Rectangle2D.Double(0,0,10,10), model.getBounds());
+		model.updateBounds(new Rectangle2D.Double(4,5,10,10));
+		assertEquals(new Rectangle2D.Double(4,5,10,10), model.getBounds());
 	}
 	
 	/**					
 	 * Test the lines.
-	 * To simplify things, we simply count the number of lines, which is 27
 	 */
 	@Test public void testGetLines() {
 		model.updateBounds(model.originalBounds()); //Reset the bounds
-		assertEquals(15, model.getLines().size());
+		assertEquals(16, model.getLines().size());
 	}
 	
 	/**
@@ -137,36 +127,34 @@ public class ModelTest {
 			 * Testing the path finding, and the returning of the lines,
 			 * by adding more and more to the path,
 			 * and count how many road that has been added.
-			 * 
-			 * It tests the route distance and travel time as well.
 			 */
 			model.clearPath();
 			
 			model.findPath(testGraph.getNode(1),testGraph.getNode(3),Evaluator.BIKE);
 			assertEquals(1,model.getPath().size());
-			assertEquals(0.0035f,model.getRouteDistance()); //This roads length is 3.5m
-			assertEquals(1.0f,model.getRouteTime()); //Each roads drivetime is 1 minute
+			assertEquals(0.0035,model.getRouteDistance()); //This roads length is 3.5m
+			assertEquals(1.0,model.getRouteTime()); //Each roads drivetime is 1 minute
 			
 			model.findPath(testGraph.getNode(3),testGraph.getNode(2),Evaluator.BIKE);
 			assertEquals(2,model.getPath().size());
-			assertEquals(0.0045f,model.getRouteDistance()); //This roads length is 1.0m
-			assertEquals(2.0f,model.getRouteTime()); //Each roads drivetime is 1 minute
+			assertEquals(0.0045,model.getRouteDistance()); //This roads length is 1.0m
+			assertEquals(2.0,model.getRouteTime()); //Each roads drivetime is 1 minute
 			
 			model.findPath(testGraph.getNode(2),testGraph.getNode(4),Evaluator.BIKE);
 			assertEquals(4,model.getPath().size());
-			assertEquals(0.0105f,model.getRouteDistance());//These roads lengths are 4.0m and 2.0m
-			assertEquals(4.0f,model.getRouteTime());//Each roads drivetime is 1 minute
+			assertEquals(0.0105,model.getRouteDistance());//These roads lengths are 4.0m and 2.0m
+			assertEquals(4.0,model.getRouteTime());//Each roads drivetime is 1 minute
 			
 			model.findPath(testGraph.getNode(4),testGraph.getNode(7),Evaluator.BIKE);
 			assertEquals(7,model.getPath().size());		
-			//assertEquals(0.0205f,model.getRouteDistance());//These roads lengths are 2.0m ,3m and 5m
-			assertEquals(7.0f,model.getRouteTime());//Each roads drivetime is 1 minute
+			assertEquals(0.0205,model.getRouteDistance());//These roads lengths are 2.0m ,3m and 5m
+			assertEquals(7.0,model.getRouteTime());//Each roads drivetime is 1 minute
 			
 			model.findPath(testGraph.getNode(7),testGraph.getNode(9),Evaluator.BIKE);
 			assertEquals(8,model.getPath().size());
 
-			//assertEquals(0.026f,model.getRouteDistance());//This roads length is 5.5m
-			assertEquals(8.0f,model.getRouteTime());//Each roads drivetime is 1 minute
+			assertEquals(0.026,model.getRouteDistance());//This roads length is 5.5m
+			assertEquals(8.0,model.getRouteTime());//Each roads drivetime is 1 minute
 			
 		}
 		catch (NoPathException e) {
@@ -223,7 +211,7 @@ public class ModelTest {
 		try {
 			model.clearPath();
 			model.findPath(testGraph.getNode(5),testGraph.getNode(9),Evaluator.CAR);
-			assertEquals(2,model.getPath().size()); //Ff is undriveable, therefor the car must go around!
+			assertTrue(model.getPath().size()>1); //Ff is undriveable, therefor the car must go around!
 			
 		}
 		catch (NoPathException e) {
@@ -232,17 +220,27 @@ public class ModelTest {
 	}
 	
 	/**
-	 * Test of the evaluator
+	 * Test of route determined by evaluator
 	 */
-	@Test public void testEvaluator() {		
+	@Test public void testRouteEvaluator() {		
 		try {
+			//Testing that the "sti" is avoided
 			model.clearPath();
 			model.findPath(testGraph.getNode(10),testGraph.getNode(9),Evaluator.BIKE);
 			assertEquals(1,model.getPath().size());
 			
 			model.clearPath();
 			model.findPath(testGraph.getNode(10),testGraph.getNode(9),Evaluator.CAR);
-			assertEquals(3,model.getPath().size()); //The car cannot take the sti and must go around
+			assertTrue(model.getPath().size()>1); //The car cannot take the sti and must go around
+			
+			//Testing that the car takes the fastest route, while the bicycle takes the shortest
+			model.clearPath();
+			model.findPath(testGraph.getNode(1),testGraph.getNode(8),Evaluator.BIKE);
+			assertEquals(2,model.getPath().size());
+			
+			model.clearPath();
+			model.findPath(testGraph.getNode(8),testGraph.getNode(1),Evaluator.CAR);
+			assertEquals(1,model.getPath().size());
 		}
 		catch (NoPathException e) {
 			assertTrue(false);
@@ -318,13 +316,17 @@ public class ModelTest {
 		
 		model.clearPath();
 		
+		//Test no path
+		assertEquals(0.0, model.getRouteDistance()); 
+		
+		//Test some path
 		try {
 			model.findPath(testGraph.getNode(1),testGraph.getNode(4));
 		} catch (NoPathException e) {
 			assertTrue(false);
 		}
 		
-		assertEquals(0.0105f, model.getRouteDistance()); //The lengths of the edges are: 0.001+0.002+0.0035+0.004
+		assertEquals(0.0105, model.getRouteDistance()); //The lengths of the edges are: 0.001+0.002+0.0035+0.004
 		
 	}
 	
@@ -335,13 +337,17 @@ public class ModelTest {
 		
 		model.clearPath();
 		
+		//Test no path
+		assertEquals(0.0, model.getRouteTime());
+
+		//Test some path
 		try {
 			model.findPath(testGraph.getNode(1),testGraph.getNode(4));
 		} catch (NoPathException e) {
 			assertTrue(false);
 		}
 		
-		assertEquals(4.0f, model.getRouteTime()); //There are four edges, each with a traveltime of 1.
+		assertEquals(4.0, model.getRouteTime()); //There are four edges, each with a traveltime of 1.
 		
 	}
 }

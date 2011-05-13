@@ -54,9 +54,8 @@ public class Model {
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
 	private List<QuadTree<KrakEdge>> qt = Collections.synchronizedList(new ArrayList<QuadTree<KrakEdge>>());
-	public Graph<KrakEdge,KrakNode> graph;
-	
-	public static ArrayList<Point2D.Double> drawLand = new ArrayList<Point2D.Double>();	
+	public Graph<KrakEdge,KrakNode> graph;	
+	private  ArrayList<Point2D.Double> land = new ArrayList<Point2D.Double>();	
 	
 	private double currentAngle = 0;
 	private KrakNode currentNode;
@@ -76,6 +75,16 @@ public class Model {
 	 * Set the map to look at the specified graph.
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
+		
+		try {
+			loadLand();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		
 		boolean fromFile = false;
@@ -156,12 +165,14 @@ public class Model {
 		return graph;
 	}
 	
-	private final int NODE_CHECK_RADIUS = 1;
+	
+	//private final int NODE_CHECK_RADIUS = 1;
 	
 	/**
 	 * Calculate the outline
 	 * @return
 	 */
+	
 	/*public void outline() {
 		
 		System.out.println("Calculating outlines");
@@ -271,6 +282,7 @@ public class Model {
 		return false;
 	}
 	*/
+
 	/**
 	 * Create QuadTrees
 	 * @param content
@@ -827,5 +839,52 @@ public class Model {
 
 	public void clearPath(){
 		path.clear();
+	}
+
+	public ArrayList<Double> getLand() {
+		ArrayList<Double> drawLand = new ArrayList<Point2D.Double>();
+		for(Point2D.Double p : land) {
+			drawLand.add(relativePoint(p));
+		}
+		return drawLand;
+	}
+
+	public void landGetPoint(Point2D.Double point) {
+		land.add(point);
+	}
+
+	public void saveLand() {
+		new Thread () {
+			@Override
+			public void run () {
+				Stopwatch sw = new Stopwatch("Serialize land");
+				// Serialize
+				try {
+					BufferedOutputStream fout;
+					ObjectOutputStream oos;
+					fout = new BufferedOutputStream(new FileOutputStream(Properties.get("landData")));
+					oos = new ObjectOutputStream(fout);
+					oos.writeObject(land);
+					oos.flush();
+					
+					oos.close();
+					Properties.save();
+				} catch (Exception ex) {
+					System.out.println("Serialization of the land failed.");
+					//ex.printStackTrace();
+				}
+				sw.printTime();
+			}
+		}.start();	
+	}
+	
+	private void loadLand() throws IOException, ClassNotFoundException {
+		BufferedInputStream bin;
+		bin = new BufferedInputStream(new FileInputStream(Properties.get("landData")));
+		final ObjectInputStream ois = new ObjectInputStream(bin);
+
+		land = (ArrayList<Point2D.Double>) ois.readObject();
+		
+		ois.close();
 	}
 }
