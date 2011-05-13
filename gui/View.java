@@ -570,11 +570,11 @@ public class View extends JFrame{
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 				// draw lines
-				drawLines(g,lines,0.0f,true);
-				drawLines(g,lines,-1.0f,false);
+				drawLines(g,lines,0.0,true);
+				drawLines(g,lines,-1.0,false);
 
 				if(route != null){
-					drawLines(g,route,-1.0f,false);
+					drawLines(g,route,-1.0,false);
 				}
 
 				for(int index = 0 ; index < pins.size() ; index++){
