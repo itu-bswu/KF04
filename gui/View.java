@@ -10,7 +10,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.RenderingHints;
 
 import javax.imageio.ImageIO;
@@ -40,8 +39,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
-
-import core.Model;
 
 /**
  * The frame that visualizes the roads (lines that are given), with controlls to the left.
@@ -573,15 +570,9 @@ public class View extends JFrame{
 				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 				// draw lines
-<<<<<<< HEAD
-				drawLines(g,lines,0.0f,true);
-				drawLines(g,lines,-1.0f,false);
-				
-=======
 				drawLines(g,lines,0.0,true);
 				drawLines(g,lines,-1.0,false);
 
->>>>>>> 700654ba3c34e99a95d078795067dda37d012dd0
 				if(route != null){
 					drawLines(g,route,-1.0,false);
 				}
