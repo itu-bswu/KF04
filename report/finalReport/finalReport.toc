@@ -21,36 +21,36 @@
 \contentsline {section}{\numberline {3.3}Features not implemented}{11}
 \contentsline {subsection}{\numberline {3.3.1}Choice of roads to be displayed}{11}
 \contentsline {subsection}{\numberline {3.3.2}Smooth scrolling}{11}
-\contentsline {subsection}{\numberline {3.3.3}Dynamic route finding}{11}
-\contentsline {chapter}{\numberline {4}Implementation}{12}
-\contentsline {section}{\numberline {4.1}UTM-conversion}{12}
-\contentsline {section}{\numberline {4.2}Mousezoom}{13}
-\contentsline {section}{\numberline {4.3}Dijkstra vs A-star}{14}
-\contentsline {section}{\numberline {4.4}Evaluator}{15}
-\contentsline {section}{\numberline {4.5}Quadtree}{15}
-\contentsline {section}{\numberline {4.6}Serialization}{15}
-\contentsline {section}{\numberline {4.7}Floats}{15}
-\contentsline {chapter}{\numberline {5}UML-diagrams}{16}
-\contentsline {section}{\numberline {5.1}MVC}{16}
-\contentsline {section}{\numberline {5.2}Simple Diagram}{16}
-\contentsline {section}{\numberline {5.3}Control flow}{16}
-\contentsline {chapter}{\numberline {6}Tests}{17}
-\contentsline {section}{\numberline {6.1}WhiteBox: closestEdge}{17}
-\contentsline {section}{\numberline {6.2}JUnit}{17}
-\contentsline {section}{\numberline {6.3}System test}{17}
-\contentsline {chapter}{\numberline {7}Manual}{18}
-\contentsline {section}{\numberline {7.1}Navigation}{18}
-\contentsline {subsection}{\numberline {7.1.1}GUI}{18}
-\contentsline {subsection}{\numberline {7.1.2}Keyboard}{18}
-\contentsline {section}{\numberline {7.2}Zoom}{18}
-\contentsline {subsection}{\numberline {7.2.1}GUI}{18}
-\contentsline {subsection}{\numberline {7.2.2}Keyboard}{18}
-\contentsline {section}{\numberline {7.3}Route find}{18}
-\contentsline {section}{\numberline {7.4}Bike/car}{18}
-\contentsline {section}{\numberline {7.5}Resize}{18}
-\contentsline {section}{\numberline {7.6}Road display}{18}
-\contentsline {chapter}{\numberline {8}Product conclusion}{19}
-\contentsline {chapter}{\numberline {9}Group norms}{20}
-\contentsline {chapter}{\numberline {10}Diary}{21}
-\contentsline {chapter}{\numberline {11}Worksheets}{22}
-\contentsline {chapter}{\numberline {12}Process description and reflection}{23}
+\contentsline {subsection}{\numberline {3.3.3}Dynamic route finding}{12}
+\contentsline {chapter}{\numberline {4}Implementation}{13}
+\contentsline {section}{\numberline {4.1}UTM-conversion}{13}
+\contentsline {section}{\numberline {4.2}Mousezoom}{14}
+\contentsline {section}{\numberline {4.3}Dijkstra vs A-star}{15}
+\contentsline {section}{\numberline {4.4}Evaluator}{16}
+\contentsline {section}{\numberline {4.5}Quadtree}{16}
+\contentsline {section}{\numberline {4.6}Serialization}{16}
+\contentsline {section}{\numberline {4.7}Floats}{16}
+\contentsline {chapter}{\numberline {5}UML-diagrams}{17}
+\contentsline {section}{\numberline {5.1}MVC}{17}
+\contentsline {section}{\numberline {5.2}Simple Diagram}{17}
+\contentsline {section}{\numberline {5.3}Control flow}{17}
+\contentsline {chapter}{\numberline {6}Tests}{18}
+\contentsline {section}{\numberline {6.1}WhiteBox: closestEdge}{18}
+\contentsline {section}{\numberline {6.2}JUnit}{18}
+\contentsline {section}{\numberline {6.3}System test}{18}
+\contentsline {chapter}{\numberline {7}Manual}{19}
+\contentsline {section}{\numberline {7.1}Navigation}{19}
+\contentsline {subsection}{\numberline {7.1.1}GUI}{19}
+\contentsline {subsection}{\numberline {7.1.2}Keyboard}{19}
+\contentsline {section}{\numberline {7.2}Zoom}{19}
+\contentsline {subsection}{\numberline {7.2.1}GUI}{19}
+\contentsline {subsection}{\numberline {7.2.2}Keyboard}{19}
+\contentsline {section}{\numberline {7.3}Route find}{19}
+\contentsline {section}{\numberline {7.4}Bike/car}{19}
+\contentsline {section}{\numberline {7.5}Resize}{19}
+\contentsline {section}{\numberline {7.6}Road display}{19}
+\contentsline {chapter}{\numberline {8}Product conclusion}{20}
+\contentsline {chapter}{\numberline {9}Group norms}{21}
+\contentsline {chapter}{\numberline {10}Diary}{22}
+\contentsline {chapter}{\numberline {11}Worksheets}{23}
+\contentsline {chapter}{\numberline {12}Process description and reflection}{24}

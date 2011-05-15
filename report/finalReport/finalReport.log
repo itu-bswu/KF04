@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  15 MAY 2011 18:19
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  15 MAY 2011 21:28
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex
 ("C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex"
@@ -217,31 +217,31 @@ Chapter 2.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 UI-Analysis.tex"
 Chapter 3.
-<PictureOfUI.png, id=34, 590.205pt x 336.50719pt>
-File: PictureOfUI.png Graphic file (type png)
- <use PictureOfUI.png>
-[8
+<images/PictureOfUI.png, id=34, 590.205pt x 336.50719pt>
+File: images/PictureOfUI.png Graphic file (type png)
+
+<use images/PictureOfUI.png> [8
 
 
 
-] [9 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/PictureOfUI.p
-ng>] [10]) [11]
+] [9 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/images/Pictur
+eOfUI.png>] [10] [11]) [12]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Implementation.tex"
 Chapter 4.
-[12
+[13
 
 
 
-] <UTMillu.jpg, id=54, 867.24pt x 614.295pt>
-File: UTMillu.jpg Graphic file (type jpg)
- <use UTMillu.jpg> [13 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalRe
-port/UTMillu.jpg>] [14])
-[15]
+] <images/UTMillu.jpg, id=57, 867.24pt x 614.295pt>
+File: images/UTMillu.jpg Graphic file (type jpg)
+
+<use images/UTMillu.jpg> [14 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/f
+inalReport/images/UTMillu.jpg>] [15]) [16]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 TechnicalUML.tex"
 Chapter 5.
-) [16
+) [17
 
 
 
@@ -249,7 +249,7 @@ Chapter 5.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Tests.tex"
 Chapter 6.
-) [17
+) [18
 
 
 
@@ -257,27 +257,27 @@ Chapter 6.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Manual.tex"
 Chapter 7.
-) [18
+) [19
 
 
 
 ]
 Chapter 8.
-[19
+[20
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Constitution.tex"
 Chapter 9.
-) [20
+) [21
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Diary.tex"
 Chapter 10.
-) [21
+) [22
 
 
 
@@ -285,14 +285,14 @@ Chapter 10.
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.tex"
 Chapter 11.
-) [22
+) [23
 
 
 
 ]
 Chapter 12.
 AED: lastpage setting LastPage 
-[23
+[24
 
 
 ]
@@ -316,8 +316,8 @@ Diary.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.aux")) ) 
 Here is how much of TeX's memory you used:
- 2048 strings out of 494019
- 32325 string characters out of 3143862
+ 2049 strings out of 494019
+ 32388 string characters out of 3143862
  90807 words of memory out of 3000000
  5256 multiletter control sequences out of 15000+200000
  10111 words of font info for 35 fonts, out of 3000000 for 9000
@@ -332,9 +332,9 @@ mr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
 fb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.pfb
 ><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><
 C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on finalReport.pdf (24 pages, 449616 bytes).
+Output written on finalReport.pdf (25 pages, 452120 bytes).
 PDF statistics:
- 119 PDF objects out of 1000 (max. 8388607)
+ 123 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
