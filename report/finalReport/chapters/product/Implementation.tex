@@ -41,9 +41,9 @@ Below is an illustration of the conversion from pixel to UTM.
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5\linewidth]{PictureOfUI}
-\caption{Screenshot of GUI}
-\label{UIA-UIW-PIC}
+\includegraphics[width=0.5\linewidth]{UTMillu}
+\caption{UTMillustration}
+\label{fig:UTMconversion}
 \end{figure}
 
 To convert from UTM to pixels we use the same formula but reversed.
@@ -58,6 +58,26 @@ return \class{point}(PIXEL$_x$, PIXEL$_y$)
 
 \section{Mousezoom}
 \label{IMPL-MZ}
+We have implemented the mouse zoom requirement by using \class{mouseEvent}s on
+our canvas. When the user presses the left mouse button down, it generates a
+\class{mousePressed} event. We record the position of the mouse at the time of
+the \class{mousePressed} event and wait for the \class{mouseReleased} event.
+When the left mouse button is released, it generates a \class{mouseReleased}
+event. We use the position of the mouse at the \class{mouseReleased} event and
+the \class{mousePressed} to calculate new bounds for the model.
+
+As mentioned in section \ref{IMPL-UTM} \nameref{IMPL-UTM}, we use UTM-conversion
+to convert pixel values into the UTM values we need.
+
+Often the user will not drag a square that is in perfect ratio with the
+canvas. If it does not have the same ratio as the canvas, we change the ratio
+of the dragged square behind the scenes. We do this by either adding length or
+width to the dragged square. We always make sure to at least show what was
+inside the box the user dragged.
+
+If the ratio of the dragged square is smaller than the canvas ratio, we make the
+dragged box wider. If the ratio of the dragged square is larger, we make the
+dragged box taller.
 
 \section{Dijkstra vs A-star}
 \label{IMPL-DVA}
@@ -83,11 +103,8 @@ concerns to the direction of the target node.
 This is where A* comes in handy. The A* algorithm is a modification to Dijkstra 
 that also looks at the estimated distance from the given node when determining 
 the value for the priority queue. When using the geographical distance as a 
-<<<<<<< HEAD
 measure of ``best route'' the value would be the current distance from the start 
-=======
 measure of best route the value would be the current distance from the start 
->>>>>>> a46f5de8fdeeb94d06e03bf185ed3eebaa15c7dd
 node plus the direct distance to the target (as if there were a road directly to 
 the target). With this subtle change the algorithm will prioritize nodes that are 
 relatively closer to the target rather than those that are in the other

@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -103,21 +104,22 @@ public class Control {
 			public void mousePressed(MouseEvent e){
 				if(e == null) return; //Attempt to catch null pointer from weird mouse events.
 				a_mouseZoom = e.getPoint();
-				PointMethods.pointOutOfBounds(a_mouseZoom, view);
+				PointMethods.pointOutOfBounds(a_mouseZoom, new Rectangle(0, 0, view.getCanvasWidth(), view.getCanvasHeight()));
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e){
 				if(a_mouseZoom == null || e == null) return; //Attempt to catch null pointer from weird mouse events.
 				b_mouseZoom = e.getPoint();
-				PointMethods.pointOutOfBounds(b_mouseZoom, view);
+				PointMethods.pointOutOfBounds(b_mouseZoom, new Rectangle(0, 0, view.getCanvasWidth(), view.getCanvasHeight()));
 
 				if(Math.abs(b_mouseZoom.x - a_mouseZoom.x) < view.getCanvasWidth()/100 
 						|| Math.abs(b_mouseZoom.y - a_mouseZoom.y) < view.getCanvasHeight()/100){ 
 					return; //Prevents the user from zooming in too much.
 				}
 
-				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model, view));
+				model.updateBounds(RectangleMethods.mouseZoom(a_mouseZoom, b_mouseZoom, model.getBounds(), 
+						new Rectangle(0, 0, view.getCanvasWidth(), view.getCanvasHeight())));
 
 				repaint();
 			}
@@ -130,7 +132,8 @@ public class Control {
 				Point2D.Double tempPin = null; //The pin to be removed, if anything. 
 				for(Point2D.Double pin : pins){ 
 					//Runs through all the current pins to check if there are any pins close to the clicked point.
-					Point tempPoint = PointMethods.UTMToPixel(pin, model, view);
+					Point tempPoint = PointMethods.UTMToPixel(pin, model.getBounds(), 
+							new Rectangle(0, 0, view.getCanvasWidth(), view.getCanvasHeight()));
 					if(Math.abs(tempPoint.x - e.getX()) < 7 && Math.abs(tempPoint.y - e.getY()) < 7){
 						tempPin = pin;
 						remove = true;
@@ -147,7 +150,8 @@ public class Control {
 					}
 				}
 				else{ //Else it adds a pin and calculates the newest distance.
-					pins.add(PointMethods.pixelToUTM(e.getPoint(), model, view));	
+					pins.add(PointMethods.pixelToUTM(e.getPoint(), model.getBounds(), 
+							new Rectangle(0, 0, view.getCanvasWidth(), view.getCanvasHeight())));	
 					if(pins.size() > 1){
 						findPath(pins.size()-2, pins.size()-1);
 					}
@@ -159,7 +163,8 @@ public class Control {
 			@Override
 			public void mouseMoved(MouseEvent e){
 				//Set label to closest road
-				Point2D.Double p = PointMethods.pixelToUTM(e.getPoint(), model, view);
+				Point2D.Double p = PointMethods.pixelToUTM(e.getPoint(), model.getBounds(), 
+						new Rectangle(0, 0, view.getCanvasWidth(), view.getCanvasHeight()));
 				String roadName = model.getClosestRoadname(p);
 				view.setLabel(roadName);
 			}
@@ -345,7 +350,8 @@ public class Control {
 		view.clearMarkers();
 		view.clearRoute();
 		for(Point2D.Double pin : pins){
-			Point tempPin = PointMethods.UTMToPixel(pin, model, view);
+			Point tempPin = PointMethods.UTMToPixel(pin, model.getBounds(), 
+					new Rectangle(0, 0, view.getCanvasWidth(), view.getCanvasHeight()));
 			view.addPin(tempPin);
 		}
 		view.addRoute(model.getPath());
