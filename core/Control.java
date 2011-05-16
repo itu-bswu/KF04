@@ -242,6 +242,9 @@ public class Control {
 		addCarBikeRadioButtonListener();
 	}
 
+	/**
+	 * Adds listener to the button to clear all pins.
+	 */
 	private void addClearPinButtonListener() {
 		view.addClearMarkersListener(new ActionListener(){
 
@@ -314,6 +317,9 @@ public class Control {
 			}});
 	}
 
+	/**
+	 * Adds listeners for the two modes of drive (car & bike)
+	 */
 	private void addCarBikeRadioButtonListener(){
 		view.addRouteModeListener(new ActionListener(){
 			@Override

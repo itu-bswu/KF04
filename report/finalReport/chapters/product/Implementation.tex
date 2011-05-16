@@ -134,18 +134,27 @@ have, we would only need to create new \class{Evaluator} objects and not change 
 line of code in the A* algorithm.
 
 \section{Quadtree}
-QuadTree
-In order to improve the drawing of our map, we have implemented the data structure Quadtree. The Quadtree divide our road data into smaller rectangles. When we want to retrieve data from the map, we can give the quadtree a rectangle, and it will return all the roads within rectangles that intersect that rectangle.
-This technique optimizes the drawing of the roads, because we don’t draw roads outside of the view.
-However, when viewing the entire map of Denmark, this implementation doesn’t help us. Therefore, it is necessary to only to draw the bigger roads when zoomed out. We have discussed two different techniques to do this.
-The first technique relayed on putting the bigger roads at the top of the quadtree when building it. Then we could specify at which depth we wanted to search the quadtree.
-The second technique relayed on dividing the quadtree into different parts, each containing their own road types. Going with this implementation, we simply specify which roads we want to draw. This method requires more RAM than the first one, because it requires more instances of object QuadTreeNode.
-%MAKE ILLUSTRATIONS
-At first glance, the first method seemed to be superior to the second, because it saves some RAM. However, the second implementation is easier to implement, and the extra RAM are such a small percentage of the overall RAM use, that it doesn’t really matter.
 \label{IMPL-QT}
+In order to improve the drawing of our map, we have implemented the data
+structure Quadtree. The Quadtree divide our road data into smaller rectangles.
+When we want to retrieve data from the map, we can give the quadtree a
+rectangle, and it will return all the roads within rectangles that intersect
+that rectangle. This technique optimizes the drawing of the roads, because we
+don’t draw roads outside of the view. However, when viewing the entire map of
+Denmark, this implementation does not help us. Therefore, it is necessary to
+only to draw the bigger roads when zoomed out. We have discussed two different
+techniques to do this. The first technique relayed on putting the bigger roads
+at the top of the quadtree when building it. Then we could specify at which
+depth we wanted to search the quadtree. The second technique relayed on dividing
+the quadtree into different parts, each containing their own road types. Going
+with this implementation, we simply specify which roads we want to draw. This
+method requires more RAM than the first one, because it requires more instances
+of object QuadTreeNode.
+%MAKE ILLUSTRATIONS
+At first glance, the first method seemed to be superior to the second, because
+it saves some RAM. However, the second implementation is easier to implement,
+and the extra RAM are such a small percentage of the overall RAM use, that it
+does not really matter.
 
 \section{Serialization}
 \label{IMPL-SERI}
-
-\section{Floats}
-\label{IMPL-F}

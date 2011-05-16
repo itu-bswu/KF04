@@ -28,54 +28,67 @@ of the commonly used controls in our map, a user will be able to quickly
 adapt to our program and use it efficiently. 
 
 \section{Requirements for the map}
+\label{BG-R}
 Our teachers had a few requirements for features in the project. The requirements were presented to us during development, in 3 steps. This made
 it easier for us to focus on getting the basic features of the program to work,
-but it made it harder for us to plan ahead as well.  Here is a list of the
-features we had to implement: 1) We had to make a visual representation of all
-the roads from the dataset. 2) We had to draw different roads in different
-colors. 3) We had to adjust our drawing of the roads to the windows size of
-our GUI. 4) We had to make mouse zooming possible.  The user should be able to
-drag the mouse from one corner of the map to another, in order to zoom in on
-the selected area. 5) We had to implement a method to find a path from one road
-in the map to another, and we had to allow the user to find that path by
-clicking at each of the roads. We had to consider these requirements while
+but it made it harder for us to plan ahead as well.
+
+Here is a list of the features we had to implement: 
+\begin{itemize}
+  \item We had to make a visual representation of all the roads from the
+  dataset.
+  \item We had to draw different roads in different colors.
+  \item We had to adjust our drawing of the roads to the windows size of our
+  GUI.
+  \item We had to make mouse zooming possible.  The user should be able to drag
+  the mouse from one corner of the map to another, in order to zoom in on the
+  selected area.
+  \item We had to implement a method to find a route from one road in the map to
+  another, and we had to allow the user to find that route by clicking at each
+  of the roads.
+\end{itemize}
+We had to consider these requirements while
 deciding how the program should be designed. Of course, some of the
 requirements were so self explanatory that we would have made them regardless
 of them being required.
-
-\label{BG-R}
 \section{Our requirements}
 In the process of designing the program we made some requirements that we
 wanted to make sure was met before making more advanced features. Since it was
 required to make the user able to zoom-in on the map, we found it logical to
-allow him to zoom-out, and scroll the map as well. With these basic features
-covered, we decided which advanced featured we wanted implement. In order to
-give the user a chance to find more specific places, we decided to show the
-user the name of the road closest to the cursor. This means that the user can
-get orientated without clicking or pressing any button. The most interesting
-feature of our program perhaps is the ability to choose whether you want to
-travel by car or by bicycle. Many Danish people uses bicycles to travel,
-therefore this feature is very relevant. It is a feature we haven`t see on the
-international maps. 
+allow him or her to:
+\begin{itemize}
+  \item Zoom out
+  \item Scroll the map
+\end{itemize}
+With these basic features covered, we decided which advanced featured we wanted
+implement. In order to give the user a chance to find more specific places, we
+decided to show the user the name of the road closest to the cursor. This means
+that the user can get orientated without clicking or pressing any button. 
 
-We also decided to let the user create routes with
-an unlimited amount of waypoints. This makes our map well suited for planning
-bicycling trips or longer car rides where you want to reach more than one destination. Because of
-this feature, we required our path finding algorithm to be fast enough to make
-this possible. We wanted to make sure that the shape of Denmark is recognizable
-when the user has zoomed out to show the entire country. There is a balance
-between showing a big amount of roads and the delay when navigating. We wanted
-to make the user able to navigate the map with a reasonable amount of delay.
+The most interesting feature of our \class{Map of Denmark} is perhaps the
+option of selecting whether you want to travel by car or by bicycle. Many Danish
+people use bicycles to travel and as such this feature is a very relevant and
+nice one to have in the software. It is a feature not usually seen on
+international maps - this is most likely due to the size of these maps.
+
+We also decided to let the user create routes with an unlimited amount of
+waypoints. This makes our map well suited for planning bicycling trips or longer
+car rides where you want to reach more than one destination. Because this
+feature can be quite demanding when a lot of waypoints are selected, we had to
+make sure that the algorithm for finding routes was fast enough so we avoided
+making use of the map cumbersome for an end-user.
+
+We wanted to make sure that the shape of Denmark is recognizable when
+the user has zoomed out to show the entire country. There is a balance between
+showing a big amount of roads and the delay when navigating. We wanted to make
+the user able to navigate the map with a reasonable amount of delay. 
+
 The fact that we chose specific requirements for our program gave us two big
-advantages. It both made the planning process easier, and it made the structuring
-of the code easier to choose. In the process of creating the program, we had to change and create new requirements to ourselves, when we felt some feature was
-necessary to the user. In the last part of the coding process, we
-decided on our final requirements and worked towards completing them.
-\subsection{Project requirements}
-\label{BG-R-PR}
-\subsection{Our own requirements}
-\label{BG-R-OOR}
-
+advantages. It both made the planning process easier, and it made the
+structuring of the code easier to choose. In the process of creating the
+program, we had to change and create new requirements for ourselves, when we
+felt some feature was necessary for the end-user to have. In the last part of
+the coding process, we decided on our final requirements and worked towards completing them. 
 \section{Data set}
 \label{BG-DS}
 We have been provided with a dataset of roads and intersections in Denmark 
@@ -100,3 +113,58 @@ methods extensively throughout the project both for drawing the map and for
 finding the route between two points.
 \section{MVC structure}
 \label{BG-MVC}
+In order to achieve a decent code structure and separation of responsibilities, 
+we utilize the Model-View-Controller (MVC) architecture. By doing this, we split 
+the code into smaller sections, which can be easier to handle and easier to 
+coorporate on the code.
+
+This is because we split the code into three parts: graphical user interface 
+(``view''), data handling (``model'') 'and the connection between the two 
+(``controller''). Read more in section \ref{UML-MVC} on page \pageref{UML-MVC}.
+
+\subsection{What is it? How does it work?}
+In order to achieve a decent code structure, it is important to split the 
+responsibilities of the program into different pieces, which work together 
+to make the program work as intended.
+
+One way to do this, is to have the graphical user interface in a class of its
+own, and the rest of the program in another class. The downside to this
+approach, is that it can get ambiguously where to put specific pieces of code
+(button listeners and such).
+
+We chose to utilize the Model-View-Controller (MVC) architecture, which is
+another way of structuring a program (a better one). With MVC we divide our code
+in three main parts, in order to achieve a decent separation of data, logic and
+the graphical interface.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\linewidth]{images/mvc}
+\caption{Overview of MVC}
+\label{mvc-overview}
+\end{figure}
+
+Like the picture above shows, every graphical window has its own class. These
+classes are called ``views''. Where we beforehand had one class to handle both
+communication with the data and the graphical windows, we now split this into
+two: ``models'' and ``controllers''.
+
+The models handle all communication with the data sources, and every model
+handle one data source. If we were to use relational databases, we would have a
+model for each table in the database. In our case we only have one data source
+(Krak's dataset), and therefore only have one model, to communicate with this.
+
+Controllers
+Now we only need a way to connect the graphical interface with the data. This is
+where controllers enter the picture. In MVC you have one controller per view.
+This controller provides the view with all the neccessary data from the models.
+The controllers also have listeners on the view, that listens to events on the
+view (like when the user presses a button, clicks his/her mouse and such). Then
+the controller can provide new data to the view or save new data from the view
+to the data source (through the models).
+
+An example of this could be that the user updates some info and presses the 
+``Save''-button. Then the controller listens to this event, passes the new data
+to the models and it gets saved.
+In our case we have listeners to (among other things) mouseclicks, so we can
+place pins when the user clicks the map.
