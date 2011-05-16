@@ -377,7 +377,7 @@ public class Model {
 		ArrayList<Line> lines = new ArrayList<Line>(); 
 		for (KrakEdge e : path) {	
 			Line line = getLine(e);
-			line.setRoadColor(Colors.ROUTE);
+			line.setLineColor(Colors.ROUTE);
 			lines.add(line);
 		}
 		return lines;

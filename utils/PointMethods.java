@@ -5,6 +5,9 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * A utilities class with static methods for various Point methods about UTM-coordinates.
+ */
 public class PointMethods {
 
 	/**
