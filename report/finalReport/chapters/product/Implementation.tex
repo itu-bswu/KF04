@@ -103,7 +103,6 @@ concerns to the direction of the target node.
 This is where A* comes in handy. The A* algorithm is a modification to Dijkstra 
 that also looks at the estimated distance from the given node when determining 
 the value for the priority queue. When using the geographical distance as a 
-measure of ``best route'' the value would be the current distance from the start 
 measure of best route the value would be the current distance from the start 
 node plus the direct distance to the target (as if there were a road directly to 
 the target). With this subtle change the algorithm will prioritize nodes that are 
