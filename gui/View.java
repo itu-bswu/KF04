@@ -43,8 +43,7 @@ import javax.swing.SwingConstants;
 /**
  * The frame that visualizes the roads (Lines that are given), with controls shown as a panel to the left.
  * 
- * @author Emil
- *
+ * @author Emil Juul Jacobsen
  */
 public class View extends JFrame{
 
@@ -501,7 +500,7 @@ public class View extends JFrame{
 
 		public Canvas(){
 			try{
-				pin_img = ImageIO.read(new File("src","pin.png"));
+				pin_img = ImageIO.read(new File("src","gfx/pin.png"));
 			}catch(IOException e){
 				e.printStackTrace();
 			}

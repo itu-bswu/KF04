@@ -7,8 +7,8 @@ import dataobjects.KrakNode;
 /**
  * Has the responsibility to evaluate a given KrakEdge (into a number) and calculate the heuristic for
  * a KrakNode relative to a target KrakNode.
- * @author Emil
- *
+ * 
+ * @author Emil Juul Jacobsen
  */
 public abstract class Evaluator {
 	// the needed methods

@@ -4,8 +4,6 @@ import java.awt.Color;
 
 /**
  * Contains all our selected colors for various things.
- * @author Emil
- *
  */
 public class Colors {
 

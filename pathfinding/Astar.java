@@ -14,9 +14,9 @@ import dataobjects.KrakNode;
 import graphlib.Graph;
 
 /**
- * The Dijkstra algorithm modified with A-star as a static class
+ * The Dijkstra algorithm, modified with A-star, as a static class.
  */
-public class Dijkstra {
+public class Astar {
 
 	/**
 	 * Finds the best path between two points with respect to the given Evaluator.
