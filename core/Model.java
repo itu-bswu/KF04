@@ -366,7 +366,7 @@ public class Model {
 	 * @param qarea The rectangle for which to find all KrakEdges
 	 * @return A Set with all KrakEdges within the given Rectangle
 	 */
-	private List<KrakEdge> query(Rectangle2D.Double qarea,Boolean getAll){
+	private List<KrakEdge> query(Rectangle2D.Double qarea, Boolean getAll){
 		double area = (qarea.width/1000)*(qarea.height/1000);
 		//System.out.printf("area: %.2f km2\n",area);
 		List<KrakEdge> total = new ArrayList<KrakEdge>();

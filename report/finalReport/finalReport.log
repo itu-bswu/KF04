@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  16 MAY 2011 12:13
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  16 MAY 2011 13:45
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex
 ("C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex"
@@ -213,89 +213,101 @@ Chapter 2.
 [5
 
 
-] [6]) [7]
+]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 38.
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 38.
+ [6] [7]
+<images/mvc.jpg, id=36, 286.82156pt x 258.9675pt>
+File: images/mvc.jpg Graphic file (type jpg)
+ <use images/mvc.jpg>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[8]) [9 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/images/mvc
+.jpg>]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 UI-Analysis.tex"
 Chapter 3.
-<images/PictureOfUI.png, id=34, 590.205pt x 336.50719pt>
+<images/PictureOfUI.png, id=43, 590.205pt x 336.50719pt>
 File: images/PictureOfUI.png Graphic file (type png)
 
-<use images/PictureOfUI.png> [8
+<use images/PictureOfUI.png> [10
 
 
 
-] [9 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/images/Pictur
-eOfUI.png>] [10] [11]) [12]
+] [11 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/images/Pictu
+reOfUI.png>] [12] [13]) [14]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Implementation.tex"
 Chapter 4.
-[13
+[15
 
 
 
-] <images/UTMillu.jpg, id=57, 867.24pt x 614.295pt>
+] <images/UTMillu.jpg, id=65, 867.24pt x 614.295pt>
 File: images/UTMillu.jpg Graphic file (type jpg)
 
-<use images/UTMillu.jpg> [14 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/f
-inalReport/images/UTMillu.jpg>] [15]) [16]
+<use images/UTMillu.jpg> [16 <C:/Users/Jakob Melnyk/workspace/KF04/src/report/f
+inalReport/images/UTMillu.jpg>] [17]) [18]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 TechnicalUML.tex"
 Chapter 5.
-) [17
+File: images/mvc.jpg Graphic file (type jpg)
+<use images/mvc.jpg> [19
 
 
 
-]
-("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
-Tests.tex"
-Chapter 6.
-) [18
+]) [20]
+No file chapters/product/Tests.tex.
 
-
-
-]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/product/
 Manual.tex"
-Chapter 7.
-) [19
+Chapter 6.
+) [21
+
+
 
 
 
 ]
-Chapter 8.
-[20
+Chapter 7.
+[22
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Constitution.tex"
-Chapter 9.
-) [21
+Chapter 8.
+[23
 
 
-]
+]) [24]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Diary.tex"
-Chapter 10.
-) [22
+Chapter 9.
+) [25
 
 
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.tex"
-Chapter 11.
-) [23
+Chapter 10.
+) [26
 
 
 
 ]
-Chapter 12.
-[24
+Chapter 11.
+[27
 
 
 ] AED: lastpage setting LastPage 
-[25
+[28
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\finalReport.aux"
@@ -318,13 +330,13 @@ Diary.aux")
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\chapters/process/
 Worksheets.aux")) ) 
 Here is how much of TeX's memory you used:
- 2049 strings out of 494019
- 32387 string characters out of 3143862
- 90787 words of memory out of 3000000
- 5256 multiletter control sequences out of 15000+200000
+ 2066 strings out of 494019
+ 32574 string characters out of 3143862
+ 90725 words of memory out of 3000000
+ 5271 multiletter control sequences out of 15000+200000
  10111 words of font info for 35 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 41i,11n,43p,345b,310s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,10n,43p,345b,310s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfon
 ts/cm/cmbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/c
@@ -333,10 +345,11 @@ mr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
 2.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.p
 fb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.pfb
 ><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><
-C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on finalReport.pdf (26 pages, 453943 bytes).
+C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:
+/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on finalReport.pdf (29 pages, 493189 bytes).
 PDF statistics:
- 126 PDF objects out of 1000 (max. 8388607)
+ 140 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
