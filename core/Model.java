@@ -38,10 +38,17 @@ import gui.Line;
  */
 public class Model {
 
-	public static final int[] part1 = new int[]{0,1,2,3,21,22,31,32,41,42,80,4,23,33,34,43,44};
-	public static final int[] part2 = new int[]{5,11,24,25,35,45};
-	public static final int[] part3 = new int[]{6,8,10,26,28,46,48,95,99};
-	public static final int[] quadTreeLimits = new int[]{1000,125};
+	// How to divide roads into quadtrees by road-type (int).
+	public static final int[] part1 = new int[]{1, 2, 21, 22};
+	public static final int[] part2 = new int[]{3, 4, 23, 24};
+	public static final int[] part3 = new int[]{31, 32, 41, 42, 80};
+	public static final int[] part4 = new int[]{33, 34, 35, 43, 44, 45};
+	public static final int[] part5 = new int[]{5, 25, 46};
+	public static final int[] part6 = new int[]{6, 26, 99};
+	public static final int[] part7 = new int[]{0, 8, 10, 11, 28, 48, 95};
+	
+	public static final int[] quadTreeLimits = new int[]{Integer.MAX_VALUE,40000,10000,4000,500,125};
+
 	private static final double ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
@@ -146,16 +153,20 @@ public class Model {
 	 * @param content A Set containing all the KrakEdges to be stored.
 	 */
 	private void createQuadTrees(Set<KrakEdge> content) {
-		qt = new ArrayList<QuadTree<KrakEdge>>(3);
+		qt = new ArrayList<QuadTree<KrakEdge>>();
 
 		Set<KrakEdge> set1 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set2 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set3 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set4 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set5 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set6 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set7 = new HashSet<KrakEdge>();
 
 		boolean found;
 		for(KrakEdge edge : content){
 			found = false;
-			// Highways and larger roads
+			// Highways
 			for(int i : part1){
 				if(edge.type == i){
 					set1.add(edge);
@@ -163,6 +174,7 @@ public class Model {
 					break;
 				}
 			}
+			if (found) continue;
 			
 			// regular sized roads
 			for(int i : part2){
@@ -172,21 +184,65 @@ public class Model {
 					break;
 				}
 			}
+			if (found) continue;
 
-			// smaller roads and paths
-			if(!found){
-				for(int i : part3){
-					if(edge.type == i){
-						set3.add(edge);
-						found = true;
-						break;
-					}
+
+			// Highway exits, tunnels and ferries
+			for(int i : part3){
+				if(edge.type == i){
+					set3.add(edge);
+					found = true;
+					break;
+				}
+			}
+			if (found) continue;
+
+			// (Larger) road exits and tunnels
+			for(int i : part4){
+				if(edge.type == i){
+					set4.add(edge);
+					found = true;
+					break;
+				}
+			}
+			if (found) continue;
+			
+			// Smaller roads
+			for(int i : part5){
+				if(edge.type == i){
+					set5.add(edge);
+					found = true;
+					break;
+				}
+			}
+			if (found) continue;
+			
+			// Smaller roads
+			for(int i : part6){
+				if(edge.type == i){
+					set6.add(edge);
+					found = true;
+					break;
+				}
+			}
+			if (found) continue;
+			
+			// Paths, pedestrian zones
+			for(int i : part7){
+				if(edge.type == i){
+					set7.add(edge);
+					found = true;
+					break;
 				}
 			}
 		}
 		qt.add(new QuadTree<KrakEdge>(bounds,set1));
 		qt.add(new QuadTree<KrakEdge>(bounds,set2));
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
+		qt.add(new QuadTree<KrakEdge>(bounds,set4));
+		qt.add(new QuadTree<KrakEdge>(bounds,set5));
+		qt.add(new QuadTree<KrakEdge>(bounds,set6));
+		qt.add(new QuadTree<KrakEdge>(bounds,set7));
 	}
 
 	/**
@@ -211,16 +267,19 @@ public class Model {
 
 					oos.writeObject(qt.get(0));
 					oos.flush();
+					
+					oos.writeObject(qt.get(1));
+					oos.flush();
 
 					oos.writeObject(graph);
 					oos.flush();
 
-					oos.writeObject(qt.get(1));
-					oos.flush();
-
-					oos.writeObject(qt.get(2));
-					oos.flush();
-					
+					// Skip first two quadtrees (has already been serialized).
+					for (int i = 2; i < qt.size(); i++) {
+						oos.writeObject(qt.get(i));
+						oos.flush();
+					}
+						
 					oos.close();
 
 					File dataDir = new File(".", Properties.get("dataDir"));
@@ -255,6 +314,7 @@ public class Model {
 		bounds = originalBounds();
 
 		qt.add((QuadTree<KrakEdge>) ois.readObject());
+		qt.add((QuadTree<KrakEdge>) ois.readObject());
 
 		new Thread() {
 			@Override
@@ -263,8 +323,10 @@ public class Model {
 				try {
 					graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
 
-					qt.add((QuadTree<KrakEdge>) ois.readObject());
-					qt.add((QuadTree<KrakEdge>) ois.readObject());
+					// Quadtrees
+					for (int i = 0; i < quadTreeLimits.length-1; i++) {
+						qt.add((QuadTree<KrakEdge>) ois.readObject());
+					}
 
 					ois.close();
 
@@ -576,6 +638,7 @@ public class Model {
 		for (KrakEdge e : query(bounds)) {
 			lines.add(getLine(e));
 		}
+		//System.out.println("Drawing " + lines.size() + " lines.");
 		return lines;
 	}
 
