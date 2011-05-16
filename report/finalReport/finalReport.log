@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.2.21)  13 MAY 2011 13:31
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.2.21)  16 MAY 2011 11:26
 entering extended mode
  restricted \write18 enabled.
  Source specials enabled.
@@ -177,12 +177,12 @@ Chapter 4.
 
 
 
-]) [13]
+]) [13] [14]
 \openout2 = `chapters/product/TechnicalUML.aux'.
 
  (./chapters/product/TechnicalUML.tex
 Chapter 5.
-) [14
+) [15
 
 
 
@@ -191,7 +191,7 @@ Chapter 5.
 
  (./chapters/product/Tests.tex
 Chapter 6.
-) [15
+) [16
 
 
 
@@ -200,13 +200,13 @@ Chapter 6.
 
  (./chapters/product/Manual.tex
 Chapter 7.
-) [16
+) [17
 
 
 
 ]
 Chapter 8.
-[17
+[18
 
 
 ]
@@ -214,7 +214,7 @@ Chapter 8.
 
  (./chapters/process/Constitution.tex
 Chapter 9.
-) [18
+) [19
 
 
 ]
@@ -222,7 +222,7 @@ Chapter 9.
 
  (./chapters/process/Diary.tex
 Chapter 10.
-) [19
+) [20
 
 
 
@@ -231,13 +231,13 @@ Chapter 10.
 
  (./chapters/process/Worksheets.tex
 Chapter 11.
-) [20
+) [21
 
 
 
 ]
 Chapter 12.
-AED: lastpage setting LastPage [21
+AED: lastpage setting LastPage [22
 
 
 ] (./finalReport.aux
@@ -253,7 +253,7 @@ Here is how much of TeX's memory you used:
  4555 multiletter control sequences out of 15000+200000
  10111 words of font info for 35 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 41i,11n,43p,285b,310s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,11n,43p,375b,310s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local/texlive/2010/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/t
@@ -263,10 +263,10 @@ e1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1
 ublic/amsfonts/cm/cmsl10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmss10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmti10.pfb>
-Output written on finalReport.pdf (22 pages, 146463 bytes).
+Output written on finalReport.pdf (23 pages, 148054 bytes).
 PDF statistics:
- 107 PDF objects out of 1000 (max. 8388607)
- 74 compressed objects within 1 object stream
+ 110 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
