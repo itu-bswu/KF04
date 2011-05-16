@@ -34,16 +34,21 @@ import exceptions.NothingCloseException;
 import gui.Line;
 
 /**
- * Map class
+ * The Model class than handles data
  */
 public class Model {
 
-	public static final int[] part1 = new int[]{0,1,2,3,21,22,31,32,41,42,80};
-	public static final int[] part2 = new int[]{4,23,33,34,43,44};
-	// TODO FIXME: The part2 should either be merged with part1 OR the first element of the quadTreeLimits should be 20.000.
-	public static final int[] part3 = new int[]{5,11,24,25,35,45};
-	public static final int[] part4 = new int[]{6,8,10,26,28,46,48,95,99};
-	public static final int[] quadTreeLimits = new int[]{Integer.MAX_VALUE,1000,125};
+	// How to divide roads into quadtrees by road-type (int).
+	public static final int[] part1 = new int[]{1, 2, 21, 22};
+	public static final int[] part2 = new int[]{3, 4, 23, 24};
+	public static final int[] part3 = new int[]{31, 32, 41, 42, 80};
+	public static final int[] part4 = new int[]{33, 34, 35, 43, 44, 45};
+	public static final int[] part5 = new int[]{5, 25, 46};
+	public static final int[] part6 = new int[]{6, 26, 99};
+	public static final int[] part7 = new int[]{0, 8, 10, 11, 28, 48, 95};
+	
+	public static final int[] quadTreeLimits = new int[]{Integer.MAX_VALUE,40000,10000,4000,500,125};
+
 	private static final double ROAD_SEARCH_DISTANCE = 200;
 
 	private Rectangle2D.Double bounds;
@@ -90,7 +95,7 @@ public class Model {
 			Stopwatch sw = new Stopwatch("Loading");
 			graph = inputGraph;
 			// Load serialized objects
-			if (inputGraph==null) {
+			if (inputGraph == null) {
 				loadSerializedFromFiles();
 			}
 			sw.printTime();
@@ -115,7 +120,7 @@ public class Model {
 			sw.printTime();
 			
 			// Save all important objects to files.
-			if (inputGraph==null) {
+			if (inputGraph == null) {
 				serializeToFiles();
 			}
 		}
@@ -144,21 +149,24 @@ public class Model {
 	}
 	
 	/**
-	 * Create QuadTrees
-	 * @param content
+	 * Create QuadTrees for the data.
+	 * @param content A Set containing all the KrakEdges to be stored.
 	 */
 	private void createQuadTrees(Set<KrakEdge> content) {
-		qt = new ArrayList<QuadTree<KrakEdge>>(3);
+		qt = new ArrayList<QuadTree<KrakEdge>>();
 
 		Set<KrakEdge> set1 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set2 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set3 = new HashSet<KrakEdge>();
 		Set<KrakEdge> set4 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set5 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set6 = new HashSet<KrakEdge>();
+		Set<KrakEdge> set7 = new HashSet<KrakEdge>();
 
 		boolean found;
 		for(KrakEdge edge : content){
 			found = false;
-			// Highways and larger roads
+			// Highways
 			for(int i : part1){
 				if(edge.type == i){
 					set1.add(edge);
@@ -166,8 +174,9 @@ public class Model {
 					break;
 				}
 			}
+			if (found) continue;
 			
-			// Larger roads
+			// regular sized roads
 			for(int i : part2){
 				if(edge.type == i){
 					set2.add(edge);
@@ -175,26 +184,55 @@ public class Model {
 					break;
 				}
 			}
+			if (found) continue;
 
-			// regular sized roads
-			if(!found){
-				for(int i : part3){
-					if(edge.type == i){
-						set3.add(edge);
-						found = true;
-						break;
-					}
+
+			// Highway exits, tunnels and ferries
+			for(int i : part3){
+				if(edge.type == i){
+					set3.add(edge);
+					found = true;
+					break;
 				}
 			}
+			if (found) continue;
 
-			// smaller roads and paths
-			if(!found){
-				for(int i : part4){
-					if(edge.type == i){
-						set4.add(edge);
-						found = true;
-						break;
-					}
+			// (Larger) road exits and tunnels
+			for(int i : part4){
+				if(edge.type == i){
+					set4.add(edge);
+					found = true;
+					break;
+				}
+			}
+			if (found) continue;
+			
+			// Smaller roads
+			for(int i : part5){
+				if(edge.type == i){
+					set5.add(edge);
+					found = true;
+					break;
+				}
+			}
+			if (found) continue;
+			
+			// Smaller roads
+			for(int i : part6){
+				if(edge.type == i){
+					set6.add(edge);
+					found = true;
+					break;
+				}
+			}
+			if (found) continue;
+			
+			// Paths, pedestrian zones
+			for(int i : part7){
+				if(edge.type == i){
+					set7.add(edge);
+					found = true;
+					break;
 				}
 			}
 		}
@@ -202,11 +240,14 @@ public class Model {
 		qt.add(new QuadTree<KrakEdge>(bounds,set2));
 		qt.add(new QuadTree<KrakEdge>(bounds,set3));
 		qt.add(new QuadTree<KrakEdge>(bounds,set4));
+		qt.add(new QuadTree<KrakEdge>(bounds,set5));
+		qt.add(new QuadTree<KrakEdge>(bounds,set6));
+		qt.add(new QuadTree<KrakEdge>(bounds,set7));
 	}
 
 	/**
-	 * @param serializeGraph 
-	 * 
+	 * Serializes the QuadTrees, MaxBounds and Graph to files for quick loading in previous sessions. 
+	 * This is done in a separate thread to not halter the main program.
 	 */
 	private void serializeToFiles () {
 		new Thread () {
@@ -226,19 +267,19 @@ public class Model {
 
 					oos.writeObject(qt.get(0));
 					oos.flush();
+					
+					oos.writeObject(qt.get(1));
+					oos.flush();
 
 					oos.writeObject(graph);
 					oos.flush();
 
-					oos.writeObject(qt.get(1));
-					oos.flush();
-
-					oos.writeObject(qt.get(2));
-					oos.flush();
-					
-					oos.writeObject(qt.get(3));
-					oos.flush();
-					
+					// Skip first two quadtrees (has already been serialized).
+					for (int i = 2; i < qt.size(); i++) {
+						oos.writeObject(qt.get(i));
+						oos.flush();
+					}
+						
 					oos.close();
 
 					File dataDir = new File(".", Properties.get("dataDir"));
@@ -254,6 +295,16 @@ public class Model {
 		}.start();
 	}
 
+	/**
+	 * Loads previously saved data from the files.
+	 * 
+	 * There is a SuppressWarning on this method since it casts Objects to QuadTree<KrakEdge>. This can't be avoided
+	 * since we serialize the QuadTrees. This is however not a problem, since the Exceptions will be caught and if
+	 * something goes wrong with the loading, the data will be generated from scratch from the original data files. 
+	 * @throws IOException 
+	 * @throws ClassNotFoundException
+	 */
+	@SuppressWarnings("unchecked")
 	private void loadSerializedFromFiles () throws IOException, ClassNotFoundException {
 		BufferedInputStream bin;
 		bin = new BufferedInputStream(new FileInputStream(Properties.get("dataNodeEdge")));
@@ -263,6 +314,7 @@ public class Model {
 		bounds = originalBounds();
 
 		qt.add((QuadTree<KrakEdge>) ois.readObject());
+		qt.add((QuadTree<KrakEdge>) ois.readObject());
 
 		new Thread() {
 			@Override
@@ -271,9 +323,10 @@ public class Model {
 				try {
 					graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
 
-					qt.add((QuadTree<KrakEdge>) ois.readObject());
-					qt.add((QuadTree<KrakEdge>) ois.readObject());
-					qt.add((QuadTree<KrakEdge>) ois.readObject());
+					// Quadtrees
+					for (int i = 0; i < quadTreeLimits.length-1; i++) {
+						qt.add((QuadTree<KrakEdge>) ois.readObject());
+					}
 
 					ois.close();
 
@@ -288,11 +341,11 @@ public class Model {
 
 	/**
 	 * Create a new DijkstraSP from the startNode, and finds the path to the 
-	 * endNode. The path is returned as an arraylist of lines
+	 * endNode. The path is returned as an ArrayList of lines
 	 * 
 	 * @param startNode The start position.
 	 * @param endNode The destination.
-	 * @eval An evaluator deciding whether we are going by bike, car...
+	 * @param eval An evaluator deciding whether we are going by bike or car
 	 * @throws NoPathException 
 	 */
 	public void findPath(KrakNode startNode, KrakNode endNode, Evaluator eval) throws NoPathException{
@@ -318,6 +371,7 @@ public class Model {
 
 	/**
 	 * Get the path as an ArrayList of lines
+	 * @return An ordered list of the lines in the path.
 	 */
 	public ArrayList<Line> getPath() {
 		ArrayList<Line> lines = new ArrayList<Line>(); 
@@ -327,6 +381,13 @@ public class Model {
 			lines.add(line);
 		}
 		return lines;
+	}
+	
+	/**
+	 * Removes the entire saved route.
+	 */
+	public void clearPath(){
+		path.clear();
 	}
 
 	/**
@@ -343,7 +404,7 @@ public class Model {
 
 	/**
 	 * Calculates the time needed to travel the current route (at the speed limits).
-	 * @return Total (in minutes) time to travel the route.
+	 * @return Total time (in minutes) to travel the route.
 	 */
 	public double getRouteTime(){
 		double minutes = 0.0;
@@ -354,25 +415,17 @@ public class Model {
 	}
 
 	/**
-	 * Querries the node for KrakEdges with a specific rectangle
+	 * Queries the node for KrakEdges with a specific rectangle
 	 * @param qarea The rectangle for which to find all KrakEdges
-	 * @return A Set with all KrakEdges within the given Rectangle
+	 * @return A list with all KrakEdges within the given Rectangle
 	 */
-	private List<KrakEdge> query(Rectangle2D.Double qarea) {
-		return query(qarea,false);
-	}
-	/**
-	 * Querries the node for KrakEdges with a specific rectangle
-	 * @param qarea The rectangle for which to find all KrakEdges
-	 * @return A Set with all KrakEdges within the given Rectangle
-	 */
-	private List<KrakEdge> query(Rectangle2D.Double qarea, Boolean getAll){
+	private List<KrakEdge> query(Rectangle2D.Double qarea){
 		double area = (qarea.width/1000)*(qarea.height/1000);
-		//System.out.printf("area: %.2f km2\n",area);
+		
 		List<KrakEdge> total = new ArrayList<KrakEdge>();
 		try {
 			for(int index = qt.size()-1; index > 0; index--){
-				if(area < quadTreeLimits[index-1]||(getAll)){
+				if(area < quadTreeLimits[index-1]){
 					total.addAll(qt.get(index).query(qarea));
 					
 				}
@@ -380,12 +433,8 @@ public class Model {
 			total.addAll(qt.get(0).query(qarea));
 
 		} catch (Exception e) {
-			// Only return what has already been found, and don't care about 
-			// the rest. They will be available later.
-
-			// Alternative solution:
-			//Thread.yield();
-			//return query(qarea);
+			// Only return what has already been found (due to loading of the graph from serialization) 
+			// and don't care about the rest. They will be available later.
 		}
 		return total;
 	}
@@ -411,7 +460,8 @@ public class Model {
 	}
 
 	/**
-	 * Sets the Map boundaries back to the outer bounds calculated at start-up.
+	 * Gives a copy of the original boundaries of the map (the maximum bounds).
+	 * @return A copy of the original boundaries.
 	 */
 	public Rectangle2D.Double originalBounds(){
 		
@@ -426,8 +476,7 @@ public class Model {
 	 * Get the the bounds of the smallest possible rectangle, still showing the
 	 * entire graph.
 	 * 
-	 * @param list
-	 * @return 
+	 * @param list All nodes to be look at when determining the smallest bounding box.
 	 * @return The outer bounds
 	 */
 	private Rectangle2D.Double maxBounds(List<KrakNode> list) {
@@ -455,13 +504,14 @@ public class Model {
 	}
 
 	/**
-	 * Get the line of the corresponding edge
-	 * @param e
-	 * @return
+	 * Get the Line of the corresponding edge
+	 * @param e The Edge to convert.
+	 * @return The resulting Line made from the data in the Edge.
 	 */
 	private Line getLine(KrakEdge e) {
 		Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 		Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
+		
 		//Choosing the right color and thickness for each line
 		Color roadColor = Colors.SMALL_ROAD;
 		int size = 1;
@@ -574,7 +624,7 @@ public class Model {
 			break;
 		}
 		
-		double thickness = 8.0/bounds.width;
+		double thickness = 8.0/bounds.width; // 8 meters per 2-lane road.
 		
 		return new Line(firstPoint,secondPoint,roadColor,thickness,size,e.roadname);
 	}
@@ -588,14 +638,15 @@ public class Model {
 		for (KrakEdge e : query(bounds)) {
 			lines.add(getLine(e));
 		}
+		//System.out.println("Drawing " + lines.size() + " lines.");
 		return lines;
 	}
 
 	/**
 	 * Relative Point
-	 * Takes two coordinates and returns a point relative to the screen
+	 * Takes two coordinates and returns a point relative to the boundaries (as numbers between 0 and 1)
 	 * @param coordinates A point of coordinates on the map.
-	 * @return The point on the screen corresponding to the coordinates given.
+	 * @return The point with coordinates between 0 and 1 relative to the boundaries.
 	 */
 	private Point2D.Double relativePoint(Point2D coordinates) {
 		double nx = (coordinates.getX()-bounds.getX()) / bounds.getWidth(); 
@@ -604,10 +655,11 @@ public class Model {
 	}
 
 	/**
-	 * Get closest edge within within a specified number of meters.
-	 * @param point the point to search from.
-	 * @param an evaluator to eliminate roads that can't be traveled by the given travel mode
-	 * @return the closest edge within the maximum search distance.
+	 * Get closest Edge within a specified distance in meters.
+	 * @param point The point to search from.
+	 * @param radius The maximum distance an Edge can be at to be accepted.
+	 * @param eval An evaluator to eliminate roads that can't be traveled by the given travel mode
+	 * @return The closest edge within the maximum search distance.
 	 * @throws NothingCloseException If there are no edges within the maximum search distance.
 	 */
 	public KrakEdge getClosestEdge(Point2D.Double point, double radius, Evaluator eval) throws NothingCloseException{
@@ -666,10 +718,10 @@ public class Model {
 	}
 
 	/**
-	 * Finds the closest node in meters from a given point
-	 * @param point the given point
-	 * @param an evaluator to eliminate roads that can't be traveled by the given travel mode
-	 * @return the closest node from the point
+	 * Finds the closest Node in meters from a given point
+	 * @param point The point to search from.
+	 * @param eval An evaluator to eliminate roads that can't be traveled by the given travel mode
+	 * @return The closest Node from the point
 	 * @throws NothingCloseException If there are no nodes within the maximum search distance.
 	 */
 	public KrakNode getClosestNode(Point2D.Double point, Evaluator eval) throws NothingCloseException{
@@ -694,12 +746,5 @@ public class Model {
 			return first;
 		}
 		return second;
-	}
-
-	/**
-	 * Removes the entire saved route.
-	 */
-	public void clearPath(){
-		path.clear();
 	}
 }
