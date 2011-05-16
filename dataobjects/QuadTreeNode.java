@@ -22,7 +22,7 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 
 	private Rectangle2D.Double bounds;
 	private Set<T> contents;
-	QuadTreeNode<T> nw, ne, sw, se;
+	private QuadTreeNode<T> nw, ne, sw, se;
 	QuadTreeNode[] nodes = { nw, ne, sw, se };
 
 	/**
