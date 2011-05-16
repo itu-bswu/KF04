@@ -51,7 +51,6 @@ public class KrakNode extends Node implements Serializable {
 		return Y;
 	}
 
-	//TODO: Passer denne metode ikke bedre ind i noget utility hall¿j? BŒde pga RAM og renhed?
 	/**
 	 * The (crow flying) distance to another node
 	 * @param that The other node
