@@ -7,3 +7,5 @@ public class Main {
 		new Control();
 	}
 }
+
+//TODO Bug i kortet: Man kan zoome langt ind ved at resize, også kan man ikke zoome ud igen.
