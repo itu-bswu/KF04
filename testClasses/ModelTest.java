@@ -55,7 +55,7 @@ public class ModelTest {
 					new File(dataDir, Properties.get("edgeTestFile"))
 					.getAbsolutePath());
 		} catch (IOException e) {
-			System.out.println("A problem occured when trying to read test graph - system will know exit");
+			System.out.println("A problem occured when trying to read test graph - system will now exit");
 			System.exit(0);
 		}
 		return graph;

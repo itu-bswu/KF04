@@ -25,6 +25,13 @@ change when different feature types are selected.
 
 Below is a screenshot of our standard user interface. How to use it will be
 explained in the \class{\nameref{MAN}} on page \pageref{MAN}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5\linewidth]{images/PictureOfUI}
+\caption{Screenshot of GUI}
+\label{UIA-UIW-PIC}
+\end{figure}
 \section{Interesting features}
 \label{UIA-IF}
 This section presents some of the interesting features we have implemented.
@@ -110,10 +117,13 @@ travel time on the left part of the user interface for a car. When the bike
 option is selected, it will recalculate the route for a bike without visiting
 highways and other roads that bikes cannot drive. If the user switches back to
 the car mode, it will recalculate the route again, but not visit small paths and
-other roads where a car is not allowed to drive.
+other roads where a car is not allowed to drive. The estimated travel time is
+also recalculated. The user does not need to have planned a route before he/she
+changes the type of route planning.
 
-The user does not need to have planned a route before he/she changes the type of
-route planning.
+We have implemented this to help our software target a wider group of people.
+The bike/car options were a bit costly to implement, but we categorised it as a
+very beneficial feature and we did not feel we could leave it out.
 \section{Features not implemented}
 \label{UIA-NI}
 This section presents some of the features we have chosen not to implement.
@@ -124,7 +134,30 @@ Features that we wanted to implement, but did not make it into the final version
 will be discussed in chapter \class{\nameref{PRC}} on page \pageref{PRC}.
 \subsection{Choice of roads to be displayed}
 \label{UIA-NI-CRD}
+We chose not to implement the option of selecting which roads to be displayed.
+In a sense our program already does this by showing more detail the further
+zoomed in the map is. It could become very confusing if the user had the option
+of selecting roads, because the graphical user interface could become very
+cluttered, if all the roads were listed.
+
+One advantage to this could be the option for the user to select which roads
+should be included in the route planning - ferries, highways, bridges etc. 
 \subsection{Smooth scrolling}
 \label{UIA-NI-SS}
+We made an attempt to let the keyboard arrows scroll smoothly over the map, but
+we could not implement it to work fast enough, so the user would experience
+lockups and the user interface hanging at some points. A solution to this would
+be to save map at images that you can scroll across - this would be faster, but
+would require more disk space. Because we load the data fra the graph the way
+we do, we can`t loads the roads fast enough.
+
+In the end, we decided the benefit of the smooth scrolling was not big enough
+for us to implement this feature. The cost of changing a lot in our structure
+and the way we draw the roads was simply too high compared to the benefit.
 \subsection{Dynamic route finding}
 \label{UIA-NI-DRF}
+In the final project description a dynamic route finding feature was
+suggested. We considered implementing this as we thought it was a nice feature
+to have, but it conflicted with the algorithm we use for calculating the route.
+More about the algorithms can be read in section \ref{IMPL-DVA}
+\class{\nameref{IMPL-DVA}} on page \pageref{IMPL-DVA}.

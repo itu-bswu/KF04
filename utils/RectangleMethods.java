@@ -1,8 +1,7 @@
 package utils;
 
-import gui.View;
-import core.Model;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -131,18 +130,18 @@ public class RectangleMethods {
 	/**
 	 * Creates the proper UTM rectangle for zooming with the mouse.
 	 * 
-	 * @param a The first point.
-	 * @param b The second point.
+	 * @param a The first point in pixels.
+	 * @param b The second point in pixels.
 	 * @param model The model that is shown by the view.
 	 * @param view The view that has been attempted a mouse zoom on.
 	 * @return The zoomed rectangle in UTM coordinates.
 	 */
-	public static Rectangle2D.Double mouseZoom(Point a, Point b, Model model, View view){
+	public static Rectangle2D.Double mouseZoom(Point a, Point b, Rectangle2D.Double model, Rectangle view){
 		Rectangle2D.Double p = point2DToRectangle(
 				PointMethods.pixelToUTM(a, model, view), PointMethods.pixelToUTM(b, model, view));
-		fixRatioByOuterRectangle(p, model.getBounds());
+		fixRatioByOuterRectangle(p, model);
 		if(p.width < 200 || p.height < 200){ //Prevents user from zooming in too far and getting disoriented.
-			return model.getBounds();
+			return model;
 		}
 		return p;
 	}

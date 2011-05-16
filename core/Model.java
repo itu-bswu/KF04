@@ -1,10 +1,7 @@
 package core;
 import java.awt.Color;
-import java.awt.Polygon;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -16,7 +13,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -55,7 +51,6 @@ public class Model {
 	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
 	private List<QuadTree<KrakEdge>> qt = Collections.synchronizedList(new ArrayList<QuadTree<KrakEdge>>());
 	public Graph<KrakEdge,KrakNode> graph;	
-	private  ArrayList<Point2D.Double> land = new ArrayList<Point2D.Double>();	
 	
 	/**
 	 * Constructor
@@ -435,7 +430,6 @@ public class Model {
 	 * @return 
 	 * @return The outer bounds
 	 */
-	//TODO this should be deleted, the data should be saved in the inforamtion loader textfile
 	private Rectangle2D.Double maxBounds(List<KrakNode> list) {
 		double minX = -1;
 		double minY = -1;
@@ -702,6 +696,9 @@ public class Model {
 		return second;
 	}
 
+	/**
+	 * Removes the entire saved route.
+	 */
 	public void clearPath(){
 		path.clear();
 	}

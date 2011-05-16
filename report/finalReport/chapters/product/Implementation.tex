@@ -1,5 +1,84 @@
 \chapter{Implementation}
 \label{IMPL}
+This chapter describes how we have implemented some of the more interesting
+features of the software. We aim to describe it to enough detail that this
+chapter can serve as a guideline for implementing the functionalities we
+describe.
+\section{UTM-conversion}
+\label{IMPL-UTM}
+When the graphical user interface part of the map tries to communicate with the
+model through control, some conversions of the different kind of values are
+necessary. Both when going from coordinates in the java-coordinate system to
+UTM32-coordinates and back. 
+
+We need to convert the values when we want to use the mousezoom and when we want
+to place the markers for pathfinding. We get an input on the graphical user
+interface when we mousezoom and this needs to be converted to UTM-coordinates so
+that we can create the new boundaries of the zoomed rectangle.
+
+When we place markers for pathfinding, we do the same as when we do mousezoom,
+but instead we store the point as UTM32-coordinates and whenever we move the
+map, we convert it back to pixel-coordinates so that we know where to draw.
+
+The java-coordinates have origo in the top left corner with the y-coordinate
+increasing the further down the y-axis you go. UTM32-coordinates are a bit
+different. UTM32 has origo in the bottom left corner and the y-coordinate
+increasing the further up you go on the y-axis.
+
+We have a utility class with methods for converting the points back and forth.
+One takes a point from the view, the model and the view itself uses this formula
+for converting the pixelpoint to the UTM32-point.
+
+a$_y$ = canvas$_{height}$ - a$_y$
+
+UTM$_x$ = bounds$_x$ + (a$_x$ / canvas$_{width}$) * bounds$_{width}$
+
+UTM$_y$ = bounds$_y$ + (a$_y$ / canvas$_{height}$) * bounds$_{height}$
+
+return \class{point}(UTM$_x$, UTM$_y$)
+
+Below is an illustration of the conversion from pixel to UTM.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5\linewidth]{images/UTMillu}
+\caption{UTMillustration}
+\label{fig:UTMconversion}
+\end{figure}
+
+To convert from UTM to pixels we use the same formula but reversed.
+
+Pixel$_x$ = ((a$_x$ - bounds$_x$) / bounds$_{width}$) * canvas$_{width}$
+
+Pixel$_y$ = ((a$_y$ - bounds$_y$) / bounds$_{height}$) * canvas$_{height}$
+
+Pixel$_y$ = canvas$_{height}$ - Pixel$_y$
+
+return \class{point}(PIXEL$_x$, PIXEL$_y$)
+
+\section{Mousezoom}
+\label{IMPL-MZ}
+We have implemented the mouse zoom requirement by using \class{mouseEvent}s on
+our canvas. When the user presses the left mouse button down, it generates a
+\class{mousePressed} event. We record the position of the mouse at the time of
+the \class{mousePressed} event and wait for the \class{mouseReleased} event.
+When the left mouse button is released, it generates a \class{mouseReleased}
+event. We use the position of the mouse at the \class{mouseReleased} event and
+the \class{mousePressed} to calculate new bounds for the model.
+
+As mentioned in section \ref{IMPL-UTM} \class{\nameref{IMPL-UTM}}, we use
+UTM-conversion to convert pixel values into the UTM values we need.
+
+Often the user will not drag a square that is in perfect ratio with the
+canvas. If it does not have the same ratio as the canvas, we change the ratio
+of the dragged square behind the scenes. We do this by either adding length or
+width to the dragged square. We always make sure to at least show what was
+inside the box the user dragged.
+
+If the ratio of the dragged square is smaller than the canvas ratio, we make the
+dragged box wider. If the ratio of the dragged square is larger, we make the
+dragged box taller.
+
 \section{Dijkstra vs A-star}
 \label{IMPL-DVA}
 In preparations to implementing the path finding feature to our program, we knew 
@@ -24,6 +103,7 @@ concerns to the direction of the target node.
 This is where A* comes in handy. The A* algorithm is a modification to Dijkstra 
 that also looks at the estimated distance from the given node when determining 
 the value for the priority queue. When using the geographical distance as a 
+measure of ``best route'' the value would be the current distance from the start 
 measure of best route the value would be the current distance from the start 
 node plus the direct distance to the target (as if there were a road directly to 
 the target). With this subtle change the algorithm will prioritize nodes that are 
@@ -41,7 +121,7 @@ wants to sit and wait too long for the program to find the route.
 \section{Evaluator}
 \label{IMPL-EVA}
 In order to make our path finding algorithm flexible enough for different 
-interpretations of the best route, we have added an entity called \class{Evaluator}. 
+interpretations of the ``best route'', we have added an entity called \class{Evaluator}. 
 This is an object that has the responsibility of evaluating a node relative to 
 the target node. The \class{Evaluator} also has the responsibility of calculating the 
 heuristics that the A* algorithm relies on. By using the \class{Evaluator} we are able to 
@@ -66,12 +146,6 @@ At first glance, the first method seemed to be superior to the second, because i
 
 \section{Serialization}
 \label{IMPL-SERI}
-
-\section{UTM-convertion}
-\label{IMPL-UTM}
-
-\section{Mousezoom}
-\label{IMPL-MZ}
 
 \section{Floats}
 \label{IMPL-F}
