@@ -30,7 +30,6 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 	 * @param bounds2 The boundaries of the new QuadTreeNode.
 	 * @param content The content for the new QuadTreeNode.
 	 */
-	@SuppressWarnings("unchecked")
 	public QuadTreeNode(Rectangle2D.Double bounds2, Set<T> content){
 		//System.out.print("creating QuadTreeNode of size "+content.size());
 
@@ -91,7 +90,7 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 	}
 
 	/**
-	 * Querries the node for KrakEdges with a specific rectangle
+	 * Queries the node for KrakEdges with a specific rectangle
 	 * @param qarea The rectangle for which to find all KrakEdges
 	 * @return A Set with all KrakEdges within the given Rectangle
 	 */
@@ -104,7 +103,6 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 					results.addAll(item.query(qarea));
 				}
 			}
-			//System.out.println("\tsending back "+results.size()+" edges");
 			return results;
 		}else{
 			return contents;

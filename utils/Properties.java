@@ -7,6 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * A static class for reading the persistent properties of our program and saving them to the HDD.
+ */
 public class Properties {
 	
 	private final static String fileName = "config.properties";
@@ -42,8 +45,8 @@ public class Properties {
 	 * Set the property with the given key, and set it to the given value.
 	 * Remember, in order to save the properties set, call the save()-method.
 	 * 
-	 * @param key
-	 * @param value
+	 * @param key The key to save at.
+	 * @param value The value to be saved.
 	 */
 	public static void set (String key, String value) {
 		properties.setProperty(key, value);
@@ -63,7 +66,7 @@ public class Properties {
 	}
 	
 	/**
-	 * Creates the config file with the default settings.
+	 * Creates the config-file with the default settings.
 	 */
 	public static void defaultSettings() {
 		properties.setProperty("programName", "Map");
@@ -88,6 +91,9 @@ public class Properties {
 		}
 	}
 	
+	/**
+	 * Resets the properties to the default value.
+	 */
 	public static void main (String[] args) {
 		defaultSettings();
 		System.out.println("Properties finished");
