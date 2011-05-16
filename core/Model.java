@@ -312,7 +312,6 @@ public class Model {
 					graph = (Graph<KrakEdge, KrakNode>) ois.readObject();
 
 					// Quadtrees
-					// TODO: Can load variable amount of quadtrees?
 					for (int i = 0; i < quadTreeLimits.length-1; i++) {
 						qt.add((QuadTree<KrakEdge>) ois.readObject());
 					}
