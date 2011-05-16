@@ -88,14 +88,15 @@ public class Astar {
 		//If we are visiting the node for the first time, or if we have found a better way to it, insert it to our maps. 
 		if(!distTo.containsKey(other) || distTo.get(other) > distTo.get(cur) + evaluation){
 			float distance = distTo.get(cur) + evaluation;
+			float heurestic = eval.heuristic(cur, target);
 			distTo.put(other, distance);
 			edgeTo.put(other, edge);
 			
 			//If the priority queue already contains this node, change its distance value, if not add it.
 			if(pq.contains(other.getIndex())){
-				pq.change(other.getIndex(), distance + eval.heuristic(cur, target)); // + cur.distanceTo(target)
+				pq.change(other.getIndex(), distance + heurestic);
 			}else{
-				pq.insert(other.getIndex(), distance + eval.heuristic(cur, target)); // + |--|
+				pq.insert(other.getIndex(), distance + heurestic);
 			}
 		}
 	}
