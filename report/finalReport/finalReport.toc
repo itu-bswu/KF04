@@ -29,7 +29,6 @@
 \contentsline {section}{\numberline {4.4}Evaluator}{16}
 \contentsline {section}{\numberline {4.5}Quadtree}{16}
 \contentsline {section}{\numberline {4.6}Serialization}{16}
-\contentsline {section}{\numberline {4.7}Floats}{16}
 \contentsline {chapter}{\numberline {5}UML-diagrams}{17}
 \contentsline {section}{\numberline {5.1}MVC}{17}
 \contentsline {section}{\numberline {5.2}Simple Diagram}{17}

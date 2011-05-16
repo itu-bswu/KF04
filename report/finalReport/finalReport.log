@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  15 MAY 2011 21:28
+This is pdfTeX, Version 3.1415926-1.40.11 (MiKTeX 2.9) (preloaded format=pdflatex 2011.5.9)  16 MAY 2011 12:13
 entering extended mode
 **C:/Users/Jakob*Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex
 ("C:/Users/Jakob Melnyk/workspace/KF04/src/report/finalReport/finalReport.tex"
@@ -291,9 +291,11 @@ Chapter 11.
 
 ]
 Chapter 12.
-AED: lastpage setting LastPage 
 [24
 
+
+] AED: lastpage setting LastPage 
+[25
 
 ]
 ("C:\Users\Jakob Melnyk\workspace\KF04\src\report\finalReport\finalReport.aux"
@@ -317,8 +319,8 @@ Diary.aux")
 Worksheets.aux")) ) 
 Here is how much of TeX's memory you used:
  2049 strings out of 494019
- 32388 string characters out of 3143862
- 90807 words of memory out of 3000000
+ 32387 string characters out of 3143862
+ 90787 words of memory out of 3000000
  5256 multiletter control sequences out of 15000+200000
  10111 words of font info for 35 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
@@ -332,9 +334,9 @@ mr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr1
 fb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.pfb
 ><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><
 C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on finalReport.pdf (25 pages, 452120 bytes).
+Output written on finalReport.pdf (26 pages, 453943 bytes).
 PDF statistics:
- 123 PDF objects out of 1000 (max. 8388607)
+ 126 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
