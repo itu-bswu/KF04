@@ -4,6 +4,8 @@ package utils;
  *  Execution:    java IndexMinPQ
  *
  *  Indexed PQ implementation using a binary heap.
+ *  Source: Algorithms, 4th Edition by Robert Sedgewick and Kevin Wayne
+ *  		http://algs4.cs.princeton.edu/
  *
  *********************************************************************/
 

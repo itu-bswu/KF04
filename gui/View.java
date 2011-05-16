@@ -43,8 +43,7 @@ import javax.swing.SwingConstants;
 /**
  * The frame that visualizes the roads (Lines that are given), with controls shown as a panel to the left.
  * 
- * @author Emil
- *
+ * @author Emil Juul Jacobsen
  */
 public class View extends JFrame{
 

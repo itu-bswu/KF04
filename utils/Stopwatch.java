@@ -2,8 +2,8 @@ package utils;
 
 /**
  * A small utility for measuring the time passed.
- * @author Emil
- *
+ * 
+ * @author Emil Juul Jacobsen
  */
 public class Stopwatch {
 

@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import pathfinding.Dijkstra;
+import pathfinding.Astar;
 import pathfinding.NoPathException;
 import pathfinding.NotPassableException;
 import loader.KrakLoader;
@@ -35,6 +35,8 @@ import gui.Line;
 
 /**
  * The Model class than handles data
+ * 
+ * @author Jens M¿llerh¿j; Niklas Hansen
  */
 public class Model {
 
@@ -353,7 +355,7 @@ public class Model {
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
-		path.addAll(Dijkstra.findPath(graph, startNode, endNode,eval));
+		path.addAll(Astar.findPath(graph, startNode, endNode,eval));
 	}
 
 	/**

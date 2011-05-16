@@ -9,6 +9,8 @@ import java.io.IOException;
 
 /**
  * A static class for reading the persistent properties of our program and saving them to the HDD.
+ * 
+ * @author Niklas Hansen
  */
 public class Properties {
 	

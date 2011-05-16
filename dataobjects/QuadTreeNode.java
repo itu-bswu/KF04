@@ -7,8 +7,8 @@ import java.util.Set;
 
 /**
  * A QuadTree to store KrakEdges for easy access of content at a given area.
- * @author Emil
- *
+ * 
+ * @author Emil Juul Jacobsen; Niklas Hansen
  * @param <T> The KrakEdge sub-type to store.
  */
 public class QuadTreeNode<T extends KrakEdge> implements Serializable {
