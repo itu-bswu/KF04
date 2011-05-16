@@ -352,7 +352,6 @@ public class Model {
 
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
-
 		path.addAll(Dijkstra.findPath(graph, startNode, endNode,eval));
 	}
 
