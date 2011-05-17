@@ -62,5 +62,10 @@ public class PointMethodsTest extends TestCase{
 		compare = new Point(200, 600); 
 		PointMethods.pointOutOfBounds(a, view);
 		assertEquals(compare, a);
+		
+		a = new Point(-100, -200);
+		compare = new Point(0, 0);
+		PointMethods.pointOutOfBounds(a, view);
+		assertEquals(compare, a);
 	}
 }
