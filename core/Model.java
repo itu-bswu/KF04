@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.Set;
 
 import pathfinding.Astar;
+import pathfinding.Evaluator;
 import pathfinding.NoPathException;
 import pathfinding.NotPassableException;
 import loader.KrakLoader;
 import utils.Colors;
-import utils.Evaluator;
 import utils.MD5Checksum;
 import utils.Properties;
 import utils.Stopwatch;
