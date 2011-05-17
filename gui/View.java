@@ -41,10 +41,9 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 /**
- * The frame that visualizes the roads (lines that are given), with controlls to the left.
+ * The frame that visualizes the roads (Lines that are given), with controls shown as a panel to the left.
  * 
- * @author Emil
- *
+ * @author Emil Juul Jacobsen
  */
 public class View extends JFrame{
 
@@ -52,15 +51,16 @@ public class View extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 
-	// felter
 	private Canvas canvas;
+	private JLabel infobar;
+	
+	// navigation
 	private JButton upButton;
 	private JButton leftButton;
 	private JButton downButton;
 	private JButton rightButton;
 	private JButton zoomInButton;
 	private JButton zoomOutButton;
-	private JLabel infobar;
 
 	private JButton clearMarkersButton;
 	private JRadioButton carChoice;
@@ -69,6 +69,7 @@ public class View extends JFrame{
 	// names of stats
 	private JLabel routeTotalDistLabel;
 	private JLabel routeTimeLabel;
+	
 	// values of stats
 	private JLabel routeTotalDistValue;
 	private JLabel routeTimeValue;
@@ -81,7 +82,6 @@ public class View extends JFrame{
 	public View(String header, double startRatio){
 
 		super(header);
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		canvas = new Canvas();
@@ -112,11 +112,12 @@ public class View extends JFrame{
 			@Override
 			public void mouseDragged(MouseEvent e){
 				Point end = e.getPoint();
-
 				Graphics2D g = (Graphics2D) canvas.getGraphics();
+				
+				// Remove any previously drawn rectangles
 				g.drawImage(canvas.getImage(), 0, 0, null);
 
-				// draw the rectangle the right way (else it will be filled)
+				// draw the rectangle the right way (if not done this way it will be filled)
 				if(start.x < end.x && start.y < end.y){
 					// pulled right down
 					g.setColor(new Color(0,0,1,0.33f));
@@ -148,13 +149,14 @@ public class View extends JFrame{
 
 			@Override
 			public void mouseReleased(MouseEvent e){
+				// repaint without any rectangles
 				canvas.repaint();
 				start = null;
 			}
 		};
 
 		this.addCanvasMouseListener(m);
-		canvas.addMouseMotionListener(m); //TODO: Jens: Bliver denne ikke tilf¿jet 1 gang i addCanvasMouseListener() ??
+		canvas.addMouseMotionListener(m);
 	}
 
 	/**
@@ -223,22 +225,6 @@ public class View extends JFrame{
 	}
 
 	/**
-	 * Tells if the Car Choice is selected.
-	 * @return true if selected.
-	 */
-	public boolean isCarChoiceSelected(){
-		return carChoice.isSelected();
-	}
-
-	/**
-	 * Tells if the Bike Choice is selected.
-	 * @return true if selected.
-	 */
-	public boolean isBikeChoiceSelected(){
-		return bikeChoice.isSelected();
-	}
-
-	/**
 	 * Adds a MouseListener to the canvas component.
 	 * @param m The MouseListener for the canvas.
 	 */
@@ -274,6 +260,22 @@ public class View extends JFrame{
 		clearMarkersButton.addKeyListener(k);
 		carChoice.addKeyListener(k);
 		bikeChoice.addKeyListener(k);
+	}
+	
+	/**
+	 * Tells if the Car Choice is selected.
+	 * @return true if selected.
+	 */
+	public boolean isCarChoiceSelected(){
+		return carChoice.isSelected();
+	}
+
+	/**
+	 * Tells if the Bike Choice is selected.
+	 * @return true if selected.
+	 */
+	public boolean isBikeChoiceSelected(){
+		return bikeChoice.isSelected();
 	}
 
 	/**
@@ -404,7 +406,6 @@ public class View extends JFrame{
 		menuPanel.setLayout(new GridBagLayout());
 		navigationPanel.setBorder(BorderFactory.createTitledBorder("Navigation"));
 		routeOptions.setBorder(BorderFactory.createTitledBorder("Route Options"));
-		// TODO: routeOptions setLayout
 		routeInfo.setBorder(BorderFactory.createTitledBorder("Route Information"));
 		routeInfoGrid.setLayout(new GridLayout(0,2));
 
@@ -453,7 +454,7 @@ public class View extends JFrame{
 
 	/**
 	 * Creates the complicated navigation panel, this is done using a GridBagLayout.
-	 * @param nav
+	 * @param nav The panel to make the buttons in.
 	 */
 	private void setupNavigation(JPanel nav) {
 		GridBagConstraints c = new GridBagConstraints();
@@ -485,7 +486,7 @@ public class View extends JFrame{
 	}
 
 	/**
-	 * The canvas that displays lines.
+	 * The canvas that displays draws the map itself (and pins & routes)
 	 * @author Emil
 	 *
 	 */
@@ -499,7 +500,7 @@ public class View extends JFrame{
 
 		public Canvas(){
 			try{
-				pin_img = ImageIO.read(new File("src","pin.png"));
+				pin_img = ImageIO.read(new File("src","gfx/pin.png"));
 			}catch(IOException e){
 				e.printStackTrace();
 			}
@@ -517,8 +518,8 @@ public class View extends JFrame{
 		}
 
 		/**
-		 * Gives the off-screen image that is contained within the canvas.
-		 * @return
+		 * Gives the off-screen Image that is contained within the canvas.
+		 * @return The off-screen Image.
 		 */
 		public Image getImage(){
 			return img;
@@ -531,6 +532,10 @@ public class View extends JFrame{
 			pins.clear();
 		}
 
+		/**
+		 * Adds the given pin to the collection.
+		 * @param p A point where the pin should be placed.
+		 */
 		public void addPin(Point p) {
 			pins.add(p);
 		}
@@ -554,11 +559,10 @@ public class View extends JFrame{
 
 		/**
 		 * Draws the given Lines on the off-screen image for later display on the canvas.
-		 * @param lines
+		 * @param lines The lines that should be visible.
 		 */
 		public void drawOffScreen(Collection<Line> lines){
 			if(getWidth() > 0 && getHeight() > 0){
-				//Stopwatch timer = new Stopwatch("Drawing");
 				img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = (Graphics2D) img.getGraphics();
 
@@ -573,10 +577,12 @@ public class View extends JFrame{
 				drawLines(g,lines,0.0,true);
 				drawLines(g,lines,-1.0,false);
 
+				// draw the route
 				if(route != null){
 					drawLines(g,route,-1.0,false);
 				}
 
+				// draw pins and write their number
 				for(int index = 0 ; index < pins.size() ; index++){
 					g.setFont(new Font("Arial", Font.BOLD, 16));
 					g.setColor(Color.BLACK);
@@ -586,17 +592,16 @@ public class View extends JFrame{
 				}
 
 				g.dispose();
-				//timer.printTime();
 			}
 		}
 		
 		private void drawLines(Graphics2D g, Collection<Line> lines, double ThicknessAddition, boolean darker) {			
 			for(Line l : lines){
 				if(darker){
-					g.setColor(l.getRoadColor().darker().darker());
+					g.setColor(l.getLineColor().darker().darker());
 				}
 				else{
-					g.setColor(l.getRoadColor());
+					g.setColor(l.getLineColor());
 				}
 				
 				g.setStroke(new BasicStroke((float) (l.getSize()*Math.max(1.0,l.getThickness()*this.getWidth() + ThicknessAddition)),BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
@@ -608,7 +613,7 @@ public class View extends JFrame{
 		}
 
 		/**
-		 * Paints the off-screen image on the canvas.
+		 * Paints the off-screen Image on the Canvas.
 		 */
 		@Override
 		public void paint(Graphics g){
@@ -625,8 +630,8 @@ public class View extends JFrame{
 	 */
 	public static void main(String[] args){
 		Collection<Line> x = new HashSet<Line>();
-		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1,1));
-		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2,1));
+		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.YELLOW,0.01,1));
+		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLUE,0.02,1));
 
 		final View v = new View("X marks the spot", 1.0);
 

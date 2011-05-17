@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import pathfinding.Dijkstra;
+import pathfinding.Astar;
 import pathfinding.NoPathException;
 import pathfinding.NotPassableException;
 import loader.KrakLoader;
@@ -34,7 +34,11 @@ import exceptions.NothingCloseException;
 import gui.Line;
 
 /**
- * The Model class than handles data
+ * The Model class.
+ * Acts as a model in the Model-View-Controller (MVC) architectural pattern, 
+ * responsible for interaction with Krak's data-set.
+ * 
+ * @author Jens M¿llerh¿j; Niklas Hansen
  */
 public class Model {
 
@@ -46,7 +50,6 @@ public class Model {
 	public static final int[] part5 = new int[]{5, 25, 46};
 	public static final int[] part6 = new int[]{6, 26, 99};
 	public static final int[] part7 = new int[]{0, 8, 10, 11, 28, 48, 95};
-	
 	public static final int[] quadTreeLimits = new int[]{Integer.MAX_VALUE,40000,10000,4000,500,125};
 
 	private static final double ROAD_SEARCH_DISTANCE = 200;
@@ -55,7 +58,7 @@ public class Model {
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
 	private List<QuadTree<KrakEdge>> qt = Collections.synchronizedList(new ArrayList<QuadTree<KrakEdge>>());
-	public Graph<KrakEdge,KrakNode> graph;	
+	private Graph<KrakEdge,KrakNode> graph;	
 	
 	/**
 	 * Constructor
@@ -72,7 +75,7 @@ public class Model {
 	 * Set the map to look at the specified graph.
 	 */
 	public Model(Graph<KrakEdge, KrakNode> inputGraph) {
-		
+
 		boolean fromFile = false;
 		if (inputGraph == null) {
 			try {
@@ -91,7 +94,7 @@ public class Model {
 				throw new Exception("Could not load serialized objects - creating datastructures");
 			}
 
-			
+
 			Stopwatch sw = new Stopwatch("Loading");
 			graph = inputGraph;
 			// Load serialized objects
@@ -118,14 +121,14 @@ public class Model {
 			Stopwatch sw = new Stopwatch("Quadtrees");
 			createQuadTrees(graph.getAllEdges());
 			sw.printTime();
-			
+
 			// Save all important objects to files.
 			if (inputGraph == null) {
 				serializeToFiles();
 			}
 		}
 	}
-	
+
 	/**
 	 * Create Graph object from Krak data-files.
 	 * @return Graph object from Krak files.
@@ -147,7 +150,7 @@ public class Model {
 
 		return graph;
 	}
-	
+
 	/**
 	 * Create QuadTrees for the data.
 	 * @param content A Set containing all the KrakEdges to be stored.
@@ -175,7 +178,7 @@ public class Model {
 				}
 			}
 			if (found) continue;
-			
+
 			// regular sized roads
 			for(int i : part2){
 				if(edge.type == i){
@@ -206,7 +209,7 @@ public class Model {
 				}
 			}
 			if (found) continue;
-			
+
 			// Smaller roads
 			for(int i : part5){
 				if(edge.type == i){
@@ -216,7 +219,7 @@ public class Model {
 				}
 			}
 			if (found) continue;
-			
+
 			// Smaller roads
 			for(int i : part6){
 				if(edge.type == i){
@@ -226,7 +229,7 @@ public class Model {
 				}
 			}
 			if (found) continue;
-			
+
 			// Paths, pedestrian zones
 			for(int i : part7){
 				if(edge.type == i){
@@ -267,7 +270,7 @@ public class Model {
 
 					oos.writeObject(qt.get(0));
 					oos.flush();
-					
+
 					oos.writeObject(qt.get(1));
 					oos.flush();
 
@@ -279,7 +282,7 @@ public class Model {
 						oos.writeObject(qt.get(i));
 						oos.flush();
 					}
-						
+
 					oos.close();
 
 					File dataDir = new File(".", Properties.get("dataDir"));
@@ -353,7 +356,7 @@ public class Model {
 		if (startNode	== null) throw new NullPointerException("startNode is null");
 		if (endNode		== null) throw new NullPointerException("endNode is null");
 
-		path.addAll(Dijkstra.findPath(graph, startNode, endNode,eval));
+		path.addAll(Astar.findPath(graph, startNode, endNode,eval));
 	}
 
 	/**
@@ -377,12 +380,12 @@ public class Model {
 		ArrayList<Line> lines = new ArrayList<Line>(); 
 		for (KrakEdge e : path) {	
 			Line line = getLine(e);
-			line.setRoadColor(Colors.ROUTE);
+			line.setLineColor(Colors.ROUTE);
 			lines.add(line);
 		}
 		return lines;
 	}
-	
+
 	/**
 	 * Removes the entire saved route.
 	 */
@@ -421,13 +424,13 @@ public class Model {
 	 */
 	private List<KrakEdge> query(Rectangle2D.Double qarea){
 		double area = (qarea.width/1000)*(qarea.height/1000);
-		
+
 		List<KrakEdge> total = new ArrayList<KrakEdge>();
 		try {
 			for(int index = qt.size()-1; index > 0; index--){
 				if(area < quadTreeLimits[index-1]){
 					total.addAll(qt.get(index).query(qarea));
-					
+
 				}
 			}
 			total.addAll(qt.get(0).query(qarea));
@@ -446,7 +449,7 @@ public class Model {
 	public Rectangle2D.Double getBounds() {
 		return bounds;
 	}
-	
+
 	/**
 	 * Update the bounds
 	 * @param view The rectangle of the view to zoom to.
@@ -464,11 +467,11 @@ public class Model {
 	 * @return A copy of the original boundaries.
 	 */
 	public Rectangle2D.Double originalBounds(){
-		
+
 		if (maxBounds==null) {
 			maxBounds = maxBounds(graph.getNodes());
 		}
-		
+
 		return new Rectangle2D.Double(maxBounds.x, maxBounds.y, maxBounds.width, maxBounds.height);
 	}
 
@@ -511,7 +514,7 @@ public class Model {
 	private Line getLine(KrakEdge e) {
 		Point2D.Double firstPoint = relativePoint(new Point2D.Double(e.getStart().getX(),e.getStart().getY()));
 		Point2D.Double secondPoint = relativePoint(new Point2D.Double(e.getEnd().getX(),e.getEnd().getY()));
-		
+
 		//Choosing the right color and thickness for each line
 		Color roadColor = Colors.SMALL_ROAD;
 		int size = 1;
@@ -623,9 +626,9 @@ public class Model {
 			size = 1;
 			break;
 		}
-		
+
 		double thickness = 8.0/bounds.width; // 8 meters per 2-lane road.
-		
+
 		return new Line(firstPoint,secondPoint,roadColor,thickness,size,e.roadname);
 	}
 
@@ -680,17 +683,15 @@ public class Model {
 
 		//System.out.println(all.size()+" roads within 200 meters");
 		for(KrakEdge edge : all){
-			if(edge.roadname.length() > 1){
-				double cur_dist = edge.getLine().ptSegDist(point);
-				//System.out.println("\t"+edge.roadname+" is "+(int)cur_dist+" meters away");
-				try{
-					eval.evaluate(edge); // we don't need the return, just the exception if it is unpassable
-					if(cur_dist < distance){
-						distance = cur_dist;
-						closest = edge;
-					}
-				}catch(NotPassableException e){} // silent catch to avoid having the unpassable edge as closest
-			}
+			double cur_dist = edge.getLine().ptSegDist(point);
+			try{
+				eval.evaluate(edge); // we don't need the return, just the exception if it is unpassable
+				if(cur_dist < distance){
+					distance = cur_dist;
+					closest = edge;
+				}
+			}catch(NotPassableException e){} // silent catch to avoid having the unpassable edge as closest
+
 		}
 
 		// return the name of the edge (road)
@@ -710,7 +711,7 @@ public class Model {
 	public String getClosestRoadname(Point2D.Double point){
 		KrakEdge road;
 		try {
-			road = getClosestEdge(point,Model.ROAD_SEARCH_DISTANCE, Evaluator.ANYTHING);
+			road = getClosestEdge(point,Model.ROAD_SEARCH_DISTANCE, Evaluator.HAS_NAME);
 			return road.roadname;
 		} catch (NothingCloseException e) {
 			return " ";

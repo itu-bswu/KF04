@@ -5,6 +5,9 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Various methods for manipulating Rectangles for use in our program.
+ */
 public class RectangleMethods {
 
 	/**
