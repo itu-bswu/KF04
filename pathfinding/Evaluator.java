@@ -1,4 +1,4 @@
-package utils;
+package pathfinding;
 
 import pathfinding.NotPassableException;
 import dataobjects.KrakEdge;

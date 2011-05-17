@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
-import utils.Evaluator;
 import utils.IndexMinPQ;
 
 import dataobjects.KrakEdge;

@@ -15,8 +15,8 @@ import loader.KrakLoader;
 import org.junit.*;
 
 import pathfinding.NoPathException;
+import pathfinding.Evaluator;
 
-import utils.Evaluator;
 import utils.Properties;
 
 import core.Model;
