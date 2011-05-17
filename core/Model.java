@@ -34,7 +34,9 @@ import exceptions.NothingCloseException;
 import gui.Line;
 
 /**
- * The Model class than handles data
+ * The Model class.
+ * Acts as a model in the Model-View-Controller (MVC) architectural pattern, 
+ * responsible for interaction with Krak's data-set.
  * 
  * @author Jens M¿llerh¿j; Niklas Hansen
  */
@@ -48,7 +50,6 @@ public class Model {
 	public static final int[] part5 = new int[]{5, 25, 46};
 	public static final int[] part6 = new int[]{6, 26, 99};
 	public static final int[] part7 = new int[]{0, 8, 10, 11, 28, 48, 95};
-	
 	public static final int[] quadTreeLimits = new int[]{Integer.MAX_VALUE,40000,10000,4000,500,125};
 
 	private static final double ROAD_SEARCH_DISTANCE = 200;
@@ -57,7 +58,7 @@ public class Model {
 	private Rectangle2D.Double maxBounds;
 	private ArrayList<KrakEdge> path = new ArrayList<KrakEdge>();
 	private List<QuadTree<KrakEdge>> qt = Collections.synchronizedList(new ArrayList<QuadTree<KrakEdge>>());
-	public Graph<KrakEdge,KrakNode> graph;	
+	private Graph<KrakEdge,KrakNode> graph;	
 	
 	/**
 	 * Constructor
