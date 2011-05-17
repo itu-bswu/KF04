@@ -79,7 +79,6 @@ public class RectangleMethodsTest extends TestCase{
 		
 		double aRatio = a.width/a.height;
 		double bRatio = b.width/b.height;
-		
 		assertTrue(Math.abs(aRatio - bRatio) <= 1e-9);
 	}
 	
@@ -95,7 +94,6 @@ public class RectangleMethodsTest extends TestCase{
 		
 		double aRatio = a.width/a.height;
 		double bRatio = b.width/b.height;
-		
 		assertTrue(Math.abs(aRatio - bRatio) <= 1e-9);
 	}
 	
@@ -158,8 +156,8 @@ public class RectangleMethodsTest extends TestCase{
 		
 		assertEquals(compare, RectangleMethods.mouseZoom(a, b, model, view));
 		
-		a = new Point(130, 435); 
-		b = new Point(300, 440);
+		a = new Point(130, 442); 
+		b = new Point(340, 432);
 		compare = new Rectangle2D.Double(0, 0, 1000, 750);
 		
 		assertEquals(compare, RectangleMethods.mouseZoom(a, b, model, view));
