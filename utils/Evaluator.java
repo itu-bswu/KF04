@@ -55,7 +55,24 @@ public abstract class Evaluator {
 		}
 	};
 	
-	// To include everything
+	// To include everything that has a name
+	public static Evaluator HAS_NAME = new Evaluator(){
+
+		@Override
+		public float evaluate(KrakEdge item) throws NotPassableException {
+			if(item.roadname.length() >= 1){
+				return 1.0f;
+			}
+			throw new NotPassableException("has no name");
+		}
+
+		@Override
+		public float heuristic(KrakNode item, KrakNode target) {
+			return 0;
+		}
+		
+	};
+	
 	public static Evaluator ANYTHING = new Evaluator(){
 
 		@Override
