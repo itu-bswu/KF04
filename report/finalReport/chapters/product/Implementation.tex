@@ -29,6 +29,9 @@ We have a utility class with methods for converting the points back and forth.
 One takes a point from the view, the model and the view itself uses this formula
 for converting the pixelpoint to the UTM32-point.
 
+
+
+
 a$_y$ = canvas$_{height}$ - a$_y$
 
 UTM$_x$ = bounds$_x$ + (a$_x$ / canvas$_{width}$) * bounds$_{width}$
@@ -65,6 +68,8 @@ the \class{mousePressed} event and wait for the \class{mouseReleased} event.
 When the left mouse button is released, it generates a \class{mouseReleased}
 event. We use the position of the mouse at the \class{mouseReleased} event and
 the \class{mousePressed} to calculate new bounds for the model.
+
+
 
 As mentioned in section \ref{IMPL-UTM} \class{\nameref{IMPL-UTM}}, we use
 UTM-conversion to convert pixel values into the UTM values we need.
