@@ -78,7 +78,6 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 	
 	/**
 	 * Convert KrakEdge to Line.
-	 * 
 	 * @return Line from KrakEdge.
 	 */
 	public Line2D.Double getLine(){
@@ -92,9 +91,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 		interner = null;
 	}
 	
-	/**
-	 * 
-	 */
+	
 	@Override
 	public String toString() {
 		return "E("+ (int)(n1.getX()-722467) + "," + (int)(n1.getY()-6183245) + ")";
