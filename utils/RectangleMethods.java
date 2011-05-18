@@ -5,6 +5,9 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Various methods for manipulating Rectangles for use in our program.
+ */
 public class RectangleMethods {
 
 	/**
@@ -120,6 +123,7 @@ public class RectangleMethods {
 				p = new Rectangle2D.Double(a.x, b.y, (b.x - a.x), (a.y - b.y));
 			}
 			else{//If the second point is both to the right and below the first, then do this.
+					//This also happens if a.x == b.x and/or a.y == b.y.
 				p = new Rectangle2D.Double(a.x, a.y, (b.x - a.x), (b.y - a.y));
 			}
 		}

@@ -6,7 +6,6 @@ import java.io.Serializable;
  * Represents an Edge in a graph. Can be both directed an undirected
  * 
  * @author Peter Tiedemann petert@itu.dk
- * 
  */
 public class Edge<N extends Node> implements Serializable {
 	/**

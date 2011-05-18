@@ -5,6 +5,14 @@ import java.util.Set;
 
 import utils.Stopwatch;
 
+/**
+ * The quadtree datastructure, for easy access of content at a given area. 
+ * Works by constantly splitting the data in four, until the data amount 
+ * is small enough.
+ * 
+ * @author Emil Juul Jacobsen; Niklas Hansen
+ * @param <T> KrakEdge (or sub-type)
+ */
 public class QuadTree<T extends KrakEdge> implements Serializable {
 
 	/**

@@ -18,8 +18,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import pathfinding.NoPathException;
+import pathfinding.Evaluator;
 import utils.Direction;
-import utils.Evaluator;
 import utils.PointMethods;
 import utils.Properties;
 import utils.RectangleMethods;

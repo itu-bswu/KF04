@@ -103,7 +103,6 @@ concerns to the direction of the target node.
 This is where A* comes in handy. The A* algorithm is a modification to Dijkstra 
 that also looks at the estimated distance from the given node when determining 
 the value for the priority queue. When using the geographical distance as a 
-measure of ``best route'' the value would be the current distance from the start 
 measure of best route the value would be the current distance from the start 
 node plus the direct distance to the target (as if there were a road directly to 
 the target). With this subtle change the algorithm will prioritize nodes that are 
@@ -134,18 +133,78 @@ have, we would only need to create new \class{Evaluator} objects and not change 
 line of code in the A* algorithm.
 
 \section{Quadtree}
-QuadTree
-In order to improve the drawing of our map, we have implemented the data structure Quadtree. The Quadtree divide our road data into smaller rectangles. When we want to retrieve data from the map, we can give the quadtree a rectangle, and it will return all the roads within rectangles that intersect that rectangle.
-This technique optimizes the drawing of the roads, because we don’t draw roads outside of the view.
-However, when viewing the entire map of Denmark, this implementation doesn’t help us. Therefore, it is necessary to only to draw the bigger roads when zoomed out. We have discussed two different techniques to do this.
-The first technique relayed on putting the bigger roads at the top of the quadtree when building it. Then we could specify at which depth we wanted to search the quadtree.
-The second technique relayed on dividing the quadtree into different parts, each containing their own road types. Going with this implementation, we simply specify which roads we want to draw. This method requires more RAM than the first one, because it requires more instances of object QuadTreeNode.
-%MAKE ILLUSTRATIONS
-At first glance, the first method seemed to be superior to the second, because it saves some RAM. However, the second implementation is easier to implement, and the extra RAM are such a small percentage of the overall RAM use, that it doesn’t really matter.
 \label{IMPL-QT}
+In order to improve the drawing of our map, we have implemented the data
+structure Quadtree. The Quadtree divide our road data into smaller rectangles.
+When we want to retrieve data from the map, we can give the quadtree a
+rectangle, and it will return all the roads within rectangles that intersect
+that rectangle. This technique optimizes the drawing of the roads, because we
+don’t draw roads outside of the view. However, when viewing the entire map of
+Denmark, this implementation does not help us. Therefore, it is necessary to
+only to draw the bigger roads when zoomed out. We have discussed two different
+techniques to do this. The first technique relayed on putting the bigger roads
+at the top of the quadtree when building it. Then we could specify at which
+depth we wanted to search the quadtree. The second technique relayed on dividing
+the quadtree into different parts, each containing their own road types. Going
+with this implementation, we simply specify which roads we want to draw. This
+method requires more RAM than the first one, because it requires more instances
+of object QuadTreeNode.
+%MAKE ILLUSTRATIONS
+At first glance, the first method seemed to be superior to the second, because
+it saves some RAM. However, the second implementation is easier to implement,
+and the extra RAM are such a small percentage of the overall RAM use, that it
+does not really matter.
 
 \section{Serialization}
 \label{IMPL-SERI}
+We observed that the user had to wait quite a long time for the program to start. This 
+was because every time we start the program, we loop through the entire dataset given 
+to us by Krak. This data-set is huge, and because of this it takes quite a lot of time to 
+start the program. Because we need to load all these data, the user is presented with 
+a blank screen for a long time, before all these data are loaded and the program starts.
 
-\section{Floats}
-\label{IMPL-F}
+We started looking for a way to speed up the loading process, so the user has a map in 
+front of him or her quickly, when the user starts the program. What takes the most time 
+is looping through the data and creating the needed datastructures (quadtrees, the 
+graph and so on), so if we could skip these steps or speed them up, we could save a lot 
+of time.
+
+This is where serialization comes into play. By serializing an object, you transform your 
+object into something that can be passed around, through streams and such. So by 
+serializing objects, you can save them to files. If the object to be serialized contains 
+references to other objects, these will also be serialized (if they are Serializable / 
+implements java.io.Serializable).
+
+By doing this, we only need to build our datastructures the first time you start the program. 
+After the objects have been created, they are been serialized and saved to files. The next 
+time the user starts the program, we check whether the data has been changed. We check 
+this by checking the MD5 checksum of the file, with \class{MD5Checksum} (we didn't write 
+this class ourselves). When we serialize the objects, we also save the checksum to a config 
+file. If the data hasn't been changed (i.e. the checksum is the same), we load the objects that 
+we saved, instead of making them all over.
+
+We serialize all the quadtrees, the graph and the maxbounds-object (specifying the bounds 
+of Denmark), as these are the objects we need for the program to run. When saved to the 
+harddrive, it is around 65MiB, which is okay, given the sizes of harddrives today.
+
+We save all these objects to one single file, in order to keep the references. If we didn't do 
+this, the references will be ruined, which can break the program. We experienced problems 
+with this, as nodes and edges is both stored in the quadtrees and the graph. If we serialized 
+and saved the quadtrees in one file, and the graph in other file, a given node will be saved 
+twice, and when we load the data from the serialized files, the node will exist twice, and it 
+won't be the same node. But if we save the objects to a file through the same stream, we only 
+get one of each, which leads to less RAM usage, less harddrive usage, faster loadtimes and 
+fewer bugs.
+
+\subsubsection{Threading}
+By serializing our main objects, we cut several seconds of our load times. But we can do it 
+even faster. We are serializing several objects, but only few of them are needed right from 
+the start of the program. So what we can do to speed it up even more, is loading the few 
+necessary objects, and then load the rest in the background. We do this with threads. 
+We load the few objects we need from the start, then create a new thread to load the rest 
+of the objects, and in the mean time, we create the window and draw the map.
+
+The same goes for the first run. The user doesn't need to wait for the program to finish 
+serializing and saving to files. By using threads, we can create the datastructures, and 
+then immediately show the window to the user, while saving the objects to files in the 
+background.

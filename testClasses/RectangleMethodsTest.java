@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import junit.framework.TestCase;
 import org.junit.Test;
 import utils.Direction;
+import utils.PointMethods;
 import utils.RectangleMethods;
 
 public class RectangleMethodsTest extends TestCase{
@@ -68,29 +69,32 @@ public class RectangleMethodsTest extends TestCase{
 	
 	@Test
 	public void testFixRatioByInnerRectangle(){
-		Rectangle2D.Double inner = constructRectangle();
-		Rectangle2D.Double outer = constructRectangle();
+		Rectangle2D.Double a = constructRectangle();
+		Rectangle2D.Double b = constructRectangle();
 		
-		outer.width *= 1.5; outer.height *= 2.5;
+		a.width = 173.94;
+		b.width = 139.45;
 		
-		RectangleMethods.fixRatioByInnerRectangle(inner, outer);
-		double inner_ratio = inner.width/inner.height;
-		double outer_ratio = outer.width/outer.height;
+		RectangleMethods.fixRatioByInnerRectangle(a, b);
 		
-		assertEquals(inner_ratio, outer_ratio);
+		double aRatio = a.width/a.height;
+		double bRatio = b.width/b.height;
+		assertTrue(Math.abs(aRatio - bRatio) <= 1e-9);
 	}
 	
 	@Test
 	public void testFixRatioByOuterRectangle(){
-		Rectangle2D.Double inner = constructRectangle();
-		Rectangle2D.Double outer = constructRectangle();
-		outer.width *= 1.5; outer.height *= 2.5;
+		Rectangle2D.Double a = constructRectangle();
+		Rectangle2D.Double b = constructRectangle();
 		
-		RectangleMethods.fixRatioByOuterRectangle(inner, outer);
-		double inner_ratio = inner.width/inner.height;
-		double outer_ratio = outer.width/outer.height;
+		a.width = 633.51;
+		b.width = 293.37;
 		
-		assertEquals(inner_ratio, outer_ratio);
+		RectangleMethods.fixRatioByInnerRectangle(a, b);
+		
+		double aRatio = a.width/a.height;
+		double bRatio = b.width/b.height;
+		assertTrue(Math.abs(aRatio - bRatio) <= 1e-9);
 	}
 	
 	@Test
@@ -126,15 +130,35 @@ public class RectangleMethodsTest extends TestCase{
 		compare = RectangleMethods.point2DToRectangle(a, b);
 		
 		assertEquals(compare, constructRectangle());
+		
+		//a.x == b.x && a.y == b.y
+		a = new Point2D.Double(50, 150);
+		b = new Point2D.Double(50, 150);
+		compare = RectangleMethods.point2DToRectangle(a, b);
+		
+		assertEquals(compare, new Rectangle(50, 150, 0, 0));
 	}
 	
 	@Test
 	public void testMouseZoom(){
-		Point a = new Point(80, 540); Point b = new Point(480, 240);
 		Rectangle view = new Rectangle(0, 0, 800, 600);
 		Rectangle2D.Double model = new Rectangle2D.Double(0, 0, 1000, 750);
 		
+		Point a = new Point(80, 540); 
+		Point b = new Point(480, 240);
 		Rectangle2D.Double compare = new Rectangle2D.Double(100, 75, 500, 375);
+		
+		assertEquals(compare, RectangleMethods.mouseZoom(a, b, model, view));
+		
+		a = new Point(130, 5); 
+		b = new Point(140, 150);
+		compare = new Rectangle2D.Double(0, 0, 1000, 750);
+		
+		assertEquals(compare, RectangleMethods.mouseZoom(a, b, model, view));
+		
+		a = new Point(130, 442); 
+		b = new Point(340, 432);
+		compare = new Rectangle2D.Double(0, 0, 1000, 750);
 		
 		assertEquals(compare, RectangleMethods.mouseZoom(a, b, model, view));
 	}

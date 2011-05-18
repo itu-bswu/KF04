@@ -1,13 +1,16 @@
 \chapter{User Interface analysis}
 \label{UIA}
+% We probably should look at this phrasing?
 In this chapter we describe our decisions and present our analysis and
 arguments regarding some of the features that we find interesting.
 
 \section{User interface as a whole}
 \label{UIA-UIW}
+% Yo dawg, I heard you like windows, so we put a window in your window, 
+% so you can view while you view.
 When we designed the first version of the graphical user interface in the first
 part of the project, we decided to make a window inside of the graphical user
-interface where the actual map should be displayed. We chose to have have this
+interface where the actual map should be displayed. We chose to have this
 window placed on the right side of our graphical user interface and interaction
 with the user mainly placed on the left.
 
@@ -16,32 +19,40 @@ A lot of software use a menu bar with dropdown menus for selecting different
 functions. When we designed our outline for the graphical user interface, we did
 not design it with a huge amount of functions in mind. 
 
+% We have route planning?
 The features that we have implemented in this version can easily fit in our
 simple user interface, but if features like searching for roads, route planning,
 etc. are included, then space and overview may become an issue on the left side.
 
+% Hvad menes der helt bestemt her?
 Depending on the feature, we feel it would be beneficial to let the main window
 change when different feature types are selected.
 
+% ``standard'' is probably irrelevant or should be re-phrased.
 Below is a screenshot of our standard user interface. How to use it will be
 explained in the \class{\nameref{MAN}} on page \pageref{MAN}.
 
+% Picture should be updated to newest version.
+% Should probably be bigger / wider.
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.5\linewidth]{images/PictureOfUI}
 \caption{Screenshot of GUI}
 \label{UIA-UIW-PIC}
 \end{figure}
+
 \section{Interesting features}
 \label{UIA-IF}
 This section presents some of the interesting features we have implemented.
 \subsection{Zoom}
 \label{UIA-IF-Z}
 We have a few options for zooming in and out on the map. As described in
-section \ref{BG-R-PR} \class{\nameref{BG-R-PR}} on page \pageref{BG-R-PR}, it
-was required that we made it possible to zoom by dragging a box around the part of the map the user wants to
-view.
+section \ref{BG-R} \class{\nameref{BG-R}} on page \pageref{BG-R}, it
+was required that we made it possible to zoom by dragging a box around the part 
+of the map the user wants to look closer at.
 
+% ``original view'' should probably be re-phrased, to make it clear what it is.
+% menu bar function -> menu bar item ?
 In addition to the option of using the mouse to zoom, we have implemented a
 zoom-in and out function on the GUI and a hotkey for zooming out to the original
 view. We made the original view function a hotkey only because we did not want
@@ -56,9 +67,10 @@ navigating the map.
 We have limited how far a user can zoom in and out. If the user tries to zoom
 out further than the original zoom level, the view will default to the original
 zoom level. If the user attempts to zoom in further than a width or height of
-200 in UTM32-coordinates, the zoom function will do nothing. This limitation
-could be improved by zooming in on the smallest possible zoom at the postion the
-user selected, instead of doing nothing.
+200 in UTM32-coordinates, the zoom function will do nothing. This could 
+probably be improved by zooming in on the smallest possible area at the 
+position the user selected, instead of doing nothing.
+
 \subsection{Navigation}
 \label{UIA-IF-N}
 We have made it possible for the user to navigate the map by using the arrow
@@ -71,6 +83,7 @@ Like we did with the two zoom functionalities, we have limited how far a user
 can move around the map. The user is free to move around the map, but if user
 moves outside the bounds of the map in a way where the view would show an image
 that is not part of the map, the move function will not do anything.
+
 \subsection{Hotkeys}
 \label{UIA-IF-H}
 We have implemented hotkeys for all the buttons on the graphical user interface
@@ -83,55 +96,60 @@ At first we just had hotkeys for the clearing of markers (mentioned in section
 hotkeys for the rest of the functionalities. If more features are added in a
 future version, it would be important for us that a hotkey were provided, if at
 all possible.
+
 \subsection{Route planning and markers}
 \label{UIA-IF-M}
 Part of the requirements for the project was to provide the user with a way to
 get the fastest or shortest route from one point to another. We accomplish this
 by putting a ``marker'' at the spot where the user clicks with the mouse. The
-marker shows which number it is. This will change if a marker is removed.
-Originally we had ``pins'' instead of markers, but we changed it, as we felt the
-pins we had were a bit large.
+marker shows which number in the sequence of markers it is. This will change 
+if a marker is removed. Originally we had ``pins'' instead of markers, but we 
+changed it, as we felt the pins we had were a bit large.
 
-We have made it possible to place more than the two markers that the project
+We have made it possible to place more than the two markers the project
 requirements asks for. If the user places more than two markers, the software
-will find the shortest route between 1->2 and 2->3 and so on. This was cheap for
-us to implement, and we felt it added a good feature to our software. 
+will find the shortest route between 1 -> 2 and 2 -> 3 and so on. This was cheap for
+us to implement, and we felt it added a nice touch to our program. 
 
 We have implemented two methods of removing pins from the map. We have assigned
-a hotkey to the graphical user interface button ``Clear Markers'', which clears
-all the markers on the map. The other way of removing pins is by clicking on
+a hotkey to the graphical user interface button ``Clear Markers'', which removes 
+all the markers from the map. The other way of removing pins is by clicking on
 them. This functionality is both intuitive and confusing at the same time. It is
 intuitive to click the marker you have just placed if you want to remove it, but
 it is not obvious in our interface. We believe that it is enough to have the
 ``clear all markers'' functionality for those who do not find it intuitive to
 click markers to remove them, and for the users that do find it intuitive, we
 offer them an easy way to undo a missclick.
+
 \subsection{Bike/car}
 \label{UIA-IF-BC}
 Another interesting feature in our \class{Map of Denmark} project is the option
 to switch between bike and car routes. The user interface will start with car
-selected when the program start. 
+selected when the program starts.
 
+% Should probably be re-phrased (what does ``marked by the user'' mean?)
 If a route is marked by the user, it will display the length and the estimated
-travel time on the left part of the user interface for a car. When the bike
-option is selected, it will recalculate the route for a bike without visiting
-highways and other roads that bikes cannot drive. If the user switches back to
-the car mode, it will recalculate the route again, but not visit small paths and
-other roads where a car is not allowed to drive. The estimated travel time is
-also recalculated. The user does not need to have planned a route before he/she
-changes the type of route planning.
+travel time on the left part of the user interface. When the bike option is selected, 
+it recalculates the route for a bike, without visiting highways and other roads 
+that bikes cannot or are not allowed to drive on. If the user switches back to the 
+car mode, it recalculates the route again, but not visiting small paths and other 
+roads where a car is not allowed to drive. The estimated travel time is also 
+recalculated. The user does not need to have planned a route before he/she 
+changes the type of transportation.
 
 We have implemented this to help our software target a wider group of people.
-The bike/car options were a bit costly to implement, but we categorised it as a
+The bike/car options were a bit costly to implement, but we categorized it as a
 very beneficial feature and we did not feel we could leave it out.
+
 \section{Features not implemented}
 \label{UIA-NI}
 This section presents some of the features we have chosen not to implement.
 These features are not in the final program, because we did not feel there were
 compelling arguments for implementing them.
 
-Features that we wanted to implement, but did not make it into the final version
+Features that we wanted to implement, but did not make it into the final version,
 will be discussed in chapter \class{\nameref{PRC}} on page \pageref{PRC}.
+
 \subsection{Choice of roads to be displayed}
 \label{UIA-NI-CRD}
 We chose not to implement the option of selecting which roads to be displayed.
@@ -142,21 +160,26 @@ cluttered, if all the roads were listed.
 
 One advantage to this could be the option for the user to select which roads
 should be included in the route planning - ferries, highways, bridges etc. 
+
 \subsection{Smooth scrolling}
 \label{UIA-NI-SS}
 We made an attempt to let the keyboard arrows scroll smoothly over the map, but
 we could not implement it to work fast enough, so the user would experience
 lockups and the user interface hanging at some points. A solution to this would
 be to save map at images that you can scroll across - this would be faster, but
-would require more disk space. Because we load the data fra the graph the way
-we do, we can`t loads the roads fast enough.
+would require more disk space. Because we store the data the way we do, which 
+forces us to draw every line individually every time the user moves the viewport, 
+we cannot do this fast enough.
 
 In the end, we decided the benefit of the smooth scrolling was not big enough
-for us to implement this feature. The cost of changing a lot in our structure
-and the way we draw the roads was simply too high compared to the benefit.
+for us to spend a lot of time implementing this feature. The cost of changing that  
+much way we draw the roads, was simply too high compared to the benefits.
+
 \subsection{Dynamic route finding}
 \label{UIA-NI-DRF}
-In the final project description a dynamic route finding feature was
+% We should explain what a dynamic route finding is?
+% Isn't our current path-finding dynamic in a way?
+In the final project description, a dynamic route finding feature was
 suggested. We considered implementing this as we thought it was a nice feature
 to have, but it conflicted with the algorithm we use for calculating the route.
 More about the algorithms can be read in section \ref{IMPL-DVA}

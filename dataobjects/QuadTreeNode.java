@@ -7,8 +7,8 @@ import java.util.Set;
 
 /**
  * A QuadTree to store KrakEdges for easy access of content at a given area.
- * @author Emil
- *
+ * 
+ * @author Emil Juul Jacobsen; Niklas Hansen
  * @param <T> The KrakEdge sub-type to store.
  */
 public class QuadTreeNode<T extends KrakEdge> implements Serializable {
@@ -22,7 +22,7 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 
 	private Rectangle2D.Double bounds;
 	private Set<T> contents;
-	QuadTreeNode<T> nw, ne, sw, se;
+	private QuadTreeNode<T> nw, ne, sw, se;
 	QuadTreeNode[] nodes = { nw, ne, sw, se };
 
 	/**
@@ -30,7 +30,6 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 	 * @param bounds2 The boundaries of the new QuadTreeNode.
 	 * @param content The content for the new QuadTreeNode.
 	 */
-	@SuppressWarnings("unchecked")
 	public QuadTreeNode(Rectangle2D.Double bounds2, Set<T> content){
 
 		// if there are too much content

@@ -3,7 +3,6 @@ package testClasses;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 
 import junit.framework.TestCase;
@@ -61,6 +60,11 @@ public class PointMethodsTest extends TestCase{
 		
 		a = new Point(200, 2000);
 		compare = new Point(200, 600); 
+		PointMethods.pointOutOfBounds(a, view);
+		assertEquals(compare, a);
+		
+		a = new Point(-100, -200);
+		compare = new Point(0, 0);
 		PointMethods.pointOutOfBounds(a, view);
 		assertEquals(compare, a);
 	}

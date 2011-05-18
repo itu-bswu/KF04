@@ -5,6 +5,9 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * A utilities class with static methods for various Point methods about UTM-coordinates.
+ */
 public class PointMethods {
 
 	/**
@@ -18,10 +21,10 @@ public class PointMethods {
 	public static Point2D.Double pixelToUTM(Point e, Rectangle2D.Double model, Rectangle view){
 		//Inverts the y-value of the point, so that it is converted from the pixel coordinate system to the
 		//UTM coordinate system
-		e.y = view.height - e.y;
+		double y = view.height - e.y;
 		// Convert pixel to meters
 		double x_m = model.x + (e.getX() / view.width) * model.width;
-		double y_m = model.y + (e.getY() / view.height) * model.height;
+		double y_m = model.y + (y / view.height) * model.height;
 		return new Point2D.Double(x_m, y_m);	
 	}
 	

@@ -15,8 +15,8 @@ import loader.KrakLoader;
 import org.junit.*;
 
 import pathfinding.NoPathException;
+import pathfinding.Evaluator;
 
-import utils.Evaluator;
 import utils.Properties;
 
 import core.Model;
@@ -26,8 +26,8 @@ import exceptions.NothingCloseException;
 
 /**
  * Test Class for the model
- * @author mollerhoj3
- *
+ * 
+ * @author Jens M¿llerh¿j
  */
 public class ModelTest {
 	private static Model model;
@@ -244,12 +244,6 @@ public class ModelTest {
 		}
 		catch (NoPathException e) {
 			assertTrue(false);
-		}
-	}
-	
-	private void printPath() {
-		for (Line l : model.getPath()) {
-			System.out.println(l.name);
 		}
 	}
 	

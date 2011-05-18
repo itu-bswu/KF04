@@ -2,6 +2,9 @@ package utils;
 
 import java.awt.Color;
 
+/**
+ * Contains all our selected colors for various things.
+ */
 public class Colors {
 
 	public static Color OCEAN = new Color(117,196,247);
