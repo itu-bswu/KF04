@@ -39,7 +39,7 @@ public class Control {
 	private Model model;
 	private ArrayList<Point2D.Double> pins = new ArrayList<Point2D.Double>();
 	private Object currentRouteMode = null;
-	
+
 	/**
 	 * Constructor for class Control
 	 */
@@ -124,8 +124,8 @@ public class Control {
 				repaint();
 			}
 
-		
-			
+
+
 			@Override
 			public void mouseClicked(MouseEvent e){
 				boolean remove = false; // Will be set to true, if a pin needs to be removed. 
@@ -405,8 +405,10 @@ public class Control {
 	 */
 	private Rectangle2D.Double newBounds(Rectangle2D.Double old, double length, Direction direction){
 		Rectangle2D.Double temp = RectangleMethods.newBounds(old, length, direction);
-		if(temp.height < 200 || temp.width < 200){ //Prevents user from zooming in too far.
-			return old;
+		if(direction == Direction.IN){
+			if(temp.height < 200 || temp.width < 200){ //Prevents user from zooming in too far.
+				return old;
+			}
 		}
 		if(temp.width > model.originalBounds().width || temp.height > model.originalBounds().height){ //Prevents user from zooming out too far
 			temp = model.originalBounds();
