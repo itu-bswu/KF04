@@ -1,0 +1,62 @@
+\appendix
+\appendixpage
+\addappheadtotoc
+\section{RectangleMethods test table}
+\label{APP-JU-RM}
+The table in this section shows the full extent of our JUnit test coverage of
+the \class{RectangleMethods} class. Any variable that is described in the
+example column in the row of the method name is used in all the tests for that
+method.
+
+\begin{centering}
+\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
+\hline
+Test description & Example & Expected Output & Actual Output\\
+\hline
+\hline
+testNewBounds & old:(50, 50, 100, 100)) & &\\
+\hline
+Direction.WEST & length: 0.5 Direction.WEST & (0, 50,
+100, 100) & (0, 50, 100, 100)\\
+\hline
+Direction.EAST & length: 0.5 Direction.EAST & (100, 50,
+100, 100) & (100, 50, 100, 100)\\
+\hline
+Direction.NORTH & length: 0.5 Direction.NORTH & (50, 100,
+100, 100) & (50, 100, 100, 100)\\
+\hline
+Direction.WEST & length: 0.5 Direction.WEST & (50, 0,
+100, 100) & (0, 0, 100, 100)\\
+\hline
+Direction.OUT & length: 0.1 Direction.OUT & (40, 40,
+120, 120) & (0, 50, 100, 100)\\
+\hline
+Direction.IN & length: 0.1 Direction.IN & (60, 60,
+80, 80) & (60, 60, 80, 80)\\
+\hline
+\hline
+testFixByInner-Rectangle & a:(50, 50, 173.94, 100) b:(50, 50,
+139.45, 100) & Absulate value of (Ratio of a - ratio of b) less than 1e-9 &
+Value is less than 1e-9.\\
+\hline
+\hline
+testFixByOuter-Rectangle & a:(50, 50, 633.51, 100) b:(50, 50,
+293.57, 100) & Absulate value of (Ratio of a - ratio of b) less than 1e-9 &
+Value is less than 1e-9.\\
+\hline
+\hline
+Mousezoom & model:(0, 0, 1000, 750) view:(0, 0, 800, 600) & & \\
+\hline
+Standard mousezoom & a:(80, 540) b:(480, 240) & (100, 75, 600, 375) & (100, 75,
+600, 375)\\
+\hline
+Zoom too far on x-axis & a:(130, 5) b:(140, 150) & (0, 0, 1000, 750) & (0, 0,
+1000, 750)\\
+\hline
+Zoom too far on y-axis & a:(130, 442) b:(340, 432) & (0, 0, 1000, 750) & (0, 0,
+1000, 750)\\
+\hline
+\hline
+
+\end{tabular}
+\end{centering}

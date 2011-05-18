@@ -147,7 +147,6 @@ public class RectangleMethods {
 		if(p.width < 200 || p.height < 200){ //Prevents user from zooming in too far and getting disoriented.
 			return model;
 		}
-		System.out.println(p);
 		return p;
 	}
 }

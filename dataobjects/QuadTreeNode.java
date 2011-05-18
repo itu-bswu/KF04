@@ -31,7 +31,6 @@ public class QuadTreeNode<T extends KrakEdge> implements Serializable {
 	 * @param content The content for the new QuadTreeNode.
 	 */
 	public QuadTreeNode(Rectangle2D.Double bounds2, Set<T> content){
-		//System.out.print("creating QuadTreeNode of size "+content.size());
 
 		// if there are too much content
 		if(content.size() > MAX_CONTENT){
