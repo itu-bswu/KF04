@@ -38,24 +38,25 @@ public class Astar {
 		//While the priority queue is not empty, take the nearest node and relax each of its edges.
 		while(!pq.isEmpty()){
 			KrakNode cur = G.getNode(pq.delMin());
+			
+			//If we have found our targetNode, return a list of KrakEdges representing our path to it.
+			if(cur == targetNode){
+				Stack<KrakEdge> stack = new Stack<KrakEdge>();
+				KrakNode path = targetNode;
+				while(edgeTo.containsKey(path)){
+					KrakEdge cur_edge = edgeTo.get(path);
+					stack.add(cur_edge);
+					path = cur_edge.getOtherEnd(path);
+				}
+				return new ArrayList<KrakEdge>(stack);
+			}
+			
 			Iterator<KrakEdge> edgesOut = G.outGoingEdges(cur);
 
 			while(edgesOut.hasNext()){
 				KrakEdge edge = edgesOut.next();
 				
 				relax(cur,targetNode,edge,distTo,edgeTo, pq, eval);
-
-				//If we have found our targetNode, return a list of KrakEdges representing our path to it.
-				if(edge.getOtherEnd(cur) == targetNode && edgeTo.containsKey(targetNode)){
-					Stack<KrakEdge> stack = new Stack<KrakEdge>();
-					KrakNode path = targetNode;
-					while(edgeTo.containsKey(path)){
-						KrakEdge cur_edge = edgeTo.get(path);
-						stack.add(cur_edge);
-						path = cur_edge.getOtherEnd(path);
-					}
-					return new ArrayList<KrakEdge>(stack);
-				}
 			}
 		}
 

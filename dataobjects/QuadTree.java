@@ -28,7 +28,11 @@ public class QuadTree<T extends KrakEdge> implements Serializable {
 		timer.printTime();
 	}
 
-
+	/**
+	 * Queries the QuadTree for data within a given Rectangle
+	 * @param qarea The Rectangle to search within.
+	 * @return
+	 */
 	public Set<T> query(Rectangle2D.Double qarea){
 		return root.query(qarea);
 	}
