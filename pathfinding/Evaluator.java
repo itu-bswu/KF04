@@ -21,7 +21,7 @@ public abstract class Evaluator {
 		@Override
 		public float evaluate(KrakEdge item) throws NotPassableException {
 			if(item.type == 8 || item.type == 11 || item.type == 28
-					|| item.type == 48){ // Sti og gågade
+					|| item.type == 48 || (item.direction == 0) ){ // Sti og gågade
 				throw new NotPassableException("invalid roadtype");
 			}
 			return item.DRIVETIME;

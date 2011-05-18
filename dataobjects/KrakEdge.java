@@ -45,9 +45,13 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 	 */
 	public KrakEdge(EdgeData data, Graph<KrakEdge, KrakNode> graph) {
 		
+		System.out.println("!");
+		
 		this.n1 = graph.getNode(data.FNODE);
 		this.n2 = graph.getNode(data.TNODE);
 
+		System.out.println("!");
+		
 		length = (float)data.LENGTH;
 		type = data.TYP;
 		// sestoft: Share roadname strings to save space
@@ -58,6 +62,9 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 			roadname = data.VEJNAVN;
 			interner.put(roadname, roadname);
 		}
+		
+		System.out.println("!");
+		
 		String dir = data.ONE_WAY;
 		/*
 		 * tf = ensrettet modsat digitalise­rings­retning (To-From) ft =
@@ -74,6 +81,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 			this.direction = Edge.BOTH;
 		}
 		DRIVETIME = (float)data.DRIVETIME;
+		System.out.println("!");
 	}
 	
 	/**

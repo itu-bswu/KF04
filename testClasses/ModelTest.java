@@ -38,7 +38,7 @@ public class ModelTest {
 	 */
     @BeforeClass public static void onlyOnce() {
     	testGraph = loadTestGraph();
-       	
+    	
     	model = new Model(testGraph);
      }
 	
@@ -46,6 +46,7 @@ public class ModelTest {
      * load Test graph
      */
 	private static Graph<KrakEdge, KrakNode> loadTestGraph() {
+		
 		Graph<KrakEdge, KrakNode> graph = null;
 		try {
 			File dataDir = new File(".", Properties.get("dataDir"));
@@ -58,7 +59,9 @@ public class ModelTest {
 			System.out.println("A problem occured when trying to read test graph - system will now exit");
 			System.exit(0);
 		}
+		
 		return graph;
+		
 	}
     
 	/**
@@ -106,7 +109,13 @@ public class ModelTest {
 	 */
 	@Test public void testGetLines() {
 		model.updateBounds(model.originalBounds()); //Reset the bounds
-		assertEquals(16, model.getLines().size());
+		
+		for(Line l : model.getLines()) {
+			System.out.println(l);
+		}
+		
+		
+		assertEquals(15, model.getLines().size()); //There are 16 lines, but 1 is a sti that we doesn't show on this zoom level.
 	}
 	
 	/**
@@ -114,7 +123,7 @@ public class ModelTest {
 	 */
 	@Test public void testOriginalBounds() {
 		model.updateBounds(model.originalBounds());
-		assertEquals(new Rectangle2D.Double(0,0,12.0,11.5), model.getBounds());
+		assertEquals(new Rectangle2D.Double(0,0,12000,11500), model.getBounds());
 	}
 	
 	/**
@@ -132,28 +141,28 @@ public class ModelTest {
 			
 			model.findPath(testGraph.getNode(1),testGraph.getNode(3),Evaluator.BIKE);
 			assertEquals(1,model.getPath().size());
-			assertEquals(0.0035,model.getRouteDistance()); //This roads length is 3.5m
+			assertEquals(3.5,model.getRouteDistance()); //This roads length is 3.5m
 			assertEquals(1.0,model.getRouteTime()); //Each roads drivetime is 1 minute
 			
 			model.findPath(testGraph.getNode(3),testGraph.getNode(2),Evaluator.BIKE);
 			assertEquals(2,model.getPath().size());
-			assertEquals(0.0045,model.getRouteDistance()); //This roads length is 1.0m
+			assertEquals(4.5,model.getRouteDistance()); //This roads length is 1.0m
 			assertEquals(2.0,model.getRouteTime()); //Each roads drivetime is 1 minute
 			
 			model.findPath(testGraph.getNode(2),testGraph.getNode(4),Evaluator.BIKE);
 			assertEquals(4,model.getPath().size());
-			assertEquals(0.0105,model.getRouteDistance());//These roads lengths are 4.0m and 2.0m
+			assertEquals(10.5,model.getRouteDistance());//These roads lengths are 4.0m and 2.0m
 			assertEquals(4.0,model.getRouteTime());//Each roads drivetime is 1 minute
 			
 			model.findPath(testGraph.getNode(4),testGraph.getNode(7),Evaluator.BIKE);
 			assertEquals(7,model.getPath().size());		
-			assertEquals(0.0205,model.getRouteDistance());//These roads lengths are 2.0m ,3m and 5m
+			assertEquals(20.5,model.getRouteDistance());//These roads lengths are 2.0m ,3m and 5m
 			assertEquals(7.0,model.getRouteTime());//Each roads drivetime is 1 minute
 			
 			model.findPath(testGraph.getNode(7),testGraph.getNode(9),Evaluator.BIKE);
 			assertEquals(8,model.getPath().size());
 
-			assertEquals(0.026,model.getRouteDistance());//This roads length is 5.5m
+			assertEquals(26.0,model.getRouteDistance());//This roads length is 5.5m
 			assertEquals(8.0,model.getRouteTime());//Each roads drivetime is 1 minute
 			
 		}
@@ -267,8 +276,8 @@ public class ModelTest {
 	@Test public void testGetClosestEdge() {
 		
 		try {
-			assertEquals("Mm", model.getClosestEdge(new Point2D.Double(10,10),200,Evaluator.ANYTHING).roadname);
-			assertEquals("Ii", model.getClosestEdge(new Point2D.Double(5,8),200,Evaluator.ANYTHING).roadname);			
+			assertEquals("Mm", model.getClosestEdge(new Point2D.Double(10000,10000),2000,Evaluator.ANYTHING).roadname);
+			assertEquals("Ii", model.getClosestEdge(new Point2D.Double(5000,8000),2000,Evaluator.ANYTHING).roadname);			
 		} catch (NothingCloseException e) {
 			assertTrue(false);
 		}
@@ -288,8 +297,12 @@ public class ModelTest {
 	 */
 	@Test public void testGetClosestNode() {
 		try {		
-			assertEquals(2, model.getClosestNode(new Point2D.Double(6,2),Evaluator.ANYTHING).getIndex());
-			assertEquals(6, model.getClosestNode(new Point2D.Double(4,7),Evaluator.ANYTHING).getIndex());
+			assertEquals(2, model.getClosestNode(new Point2D.Double(6000,2000),Evaluator.ANYTHING).getIndex());
+			assertEquals(6, model.getClosestNode(new Point2D.Double(4000,7000),Evaluator.ANYTHING).getIndex());
+			
+			//Here, the test must spread out to find the road
+			assertEquals(4, model.getClosestNode(new Point2D.Double(-200,-200),Evaluator.ANYTHING).getIndex());
+			
 		} catch (NothingCloseException e) {
 			assertTrue(false);
 		}
@@ -299,8 +312,9 @@ public class ModelTest {
 	 * Test the closest roadname
 	 */
 	@Test public void testGetClosestRoadname() {
-		assertEquals("Aa", model.getClosestRoadname(new Point2D.Double(0,0)));
-		assertEquals("Ee", model.getClosestRoadname(new Point2D.Double(3,3)));
+		assertEquals("Jj", model.getClosestRoadname(new Point2D.Double(6050,1100)));
+		
+		assertEquals(" ", model.getClosestRoadname(new Point2D.Double(10000,5000)));
 	}
 	
 	/**
@@ -320,7 +334,7 @@ public class ModelTest {
 			assertTrue(false);
 		}
 		
-		assertEquals(0.0105, model.getRouteDistance()); //The lengths of the edges are: 0.001+0.002+0.0035+0.004
+		assertEquals(10.5, model.getRouteDistance()); //The lengths of the edges are: 0.001+0.002+0.0035+0.004
 		
 	}
 	
