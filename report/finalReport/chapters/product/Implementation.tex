@@ -28,14 +28,17 @@ increasing the further up you go on the y-axis.
 We have a utility class with methods for converting the points back and forth.
 One takes a point from the view, the model and the view itself uses this formula
 for converting the pixelpoint to the UTM32-point.
-
-a$_y$ = canvas$_{height}$ - a$_y$
-
-UTM$_x$ = bounds$_x$ + (a$_x$ / canvas$_{width}$) * bounds$_{width}$
-
-UTM$_y$ = bounds$_y$ + (a$_y$ / canvas$_{height}$) * bounds$_{height}$
-
+$
+a_y = canvas_{height} - a_y\\
+\\
+UTM_x = bounds_x + \cfrac{a_x}{canvas_{width}} \times bounds_{width}\\
+\\
+UTM_y = bounds_y + \cfrac{a_y}{canvas_{height}} \times
+bounds_{height}\\
+\\
+$
 return \class{point}(UTM$_x$, UTM$_y$)
+
 
 Below is an illustration of the conversion from pixel to UTM.
 
@@ -48,13 +51,17 @@ Below is an illustration of the conversion from pixel to UTM.
 
 To convert from UTM to pixels we use the same formula but reversed.
 
-Pixel$_x$ = ((a$_x$ - bounds$_x$) / bounds$_{width}$) * canvas$_{width}$
-
-Pixel$_y$ = ((a$_y$ - bounds$_y$) / bounds$_{height}$) * canvas$_{height}$
-
-Pixel$_y$ = canvas$_{height}$ - Pixel$_y$
-
-return \class{point}(PIXEL$_x$, PIXEL$_y$)
+$
+Pixel_x = \cfrac{(a_x - bounds_x)}{bounds_{width}} \times
+canvas_{width}\\
+\\
+Pixel_y = \cfrac{a_y - bounds_y}{bounds_{height}} \times
+canvas_{height}\\
+\\
+Pixel_y = canvas_{height} - Pixel_y\\
+\\
+$
+return:  \class{point}(PIXEL$_x$, PIXEL$_y$)
 
 \section{Mousezoom}
 \label{IMPL-MZ}
