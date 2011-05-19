@@ -11,8 +11,10 @@
 \usepackage{fancyhdr}
 \usepackage{mathtools}
 \usepackage{wrapfig}
+%\usepackage{lastpage}
 
 \pagestyle{fancy}
+%\cfoot{\thepage\ of \pageref{LastPage}}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.8ex plus 0.5ex minus 0.2ex}
@@ -58,5 +60,6 @@ Jensen and Filip Sieczkowski
 \bibitem{algs4}
 Robert Sedgewick and Kevin Wayne. \emph {Algorithms, Fourth Edition}. Preliminary Edition Fall 2010. Addision-Wesley 2010.
 \end{thebibliography}
+\pagestyle{plain}
 \include{chapters/appendix/Appendix}
 \end{document}
