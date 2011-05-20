@@ -33,8 +33,6 @@ public class ModelTest {
 	 */
     @BeforeClass public static void onlyOnce() {
     	
-    	System.out.println("!");
-    	
     	testGraph = loadTestGraph();
     	
     	model = new Model(testGraph);
@@ -300,6 +298,10 @@ public class ModelTest {
 			
 			//Here, the test must spread out to find the road
 			assertEquals(4, model.getClosestNode(new Point2D.Double(-200,-200),Evaluator.ANYTHING).getIndex());
+			
+			// For the white box tests 3 and 4
+			assertEquals(8, model.getClosestNode(new Point2D.Double(10000,8500), Evaluator.ANYTHING).getIndex());
+			assertEquals(7, model.getClosestNode(new Point2D.Double(8500,8500), Evaluator.ANYTHING).getIndex());
 			
 		} catch (NothingCloseException e) {
 			assertTrue(false);
