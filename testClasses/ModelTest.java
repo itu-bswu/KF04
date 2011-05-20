@@ -113,7 +113,7 @@ public class ModelTest {
 		}
 		
 		assertEquals(15, model.getLines().size()); //There are 16 lines, but 1 is a sti that we doesn't show on this zoom level.
-	}
+	}	
 
 	/**
 	 * Original bounds
@@ -353,4 +353,6 @@ public class ModelTest {
 		assertEquals(4.0, model.getRouteTime(),0); //There are four edges, each with a traveltime of 1.
 
 	}
+	
+
 }

@@ -114,7 +114,7 @@ public class Control {
 				PointMethods.pointOutOfBounds(b_mouseZoom, new Rectangle(0, 0, view.getCanvasWidth(), view.getCanvasHeight()));
 
 				if(Math.abs(b_mouseZoom.x - a_mouseZoom.x) < view.getCanvasWidth()/100 
-						|| Math.abs(b_mouseZoom.y - a_mouseZoom.y) < view.getCanvasHeight()/100){ 
+						|| Math.abs(b_mouseZoom.y - a_mouseZoom.y) < view.getCanvasHeight()/100) { 
 					return; //Prevents the user from zooming in too much.
 				}
 

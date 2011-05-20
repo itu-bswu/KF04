@@ -458,7 +458,7 @@ public class Model {
 		if (bounds == null) throw new NullPointerException("Trying to set the bounds to null");
 		if (bounds.width < 0) throw new IllegalArgumentException("The width of the rectangle is negative");
 		if (bounds.height < 0) throw new IllegalArgumentException("The height of the rectangle is negative");
-
+		
 		this.bounds = bounds;
 	}
 
