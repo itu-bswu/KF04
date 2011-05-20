@@ -166,6 +166,17 @@ public class Control {
 				Point2D.Double p = PointMethods.pixelToUTM(e.getPoint(), model.getBounds(), 
 						new Rectangle(0, 0, view.getCanvasWidth(), view.getCanvasHeight()));
 				String roadName = model.getClosestRoadname(p);
+				
+				// Fix Danish characters (for Mac).
+				if(System.getProperty("os.name").startsWith("Mac")){
+					roadName = roadName.replace('¯', 'ø');
+					roadName = roadName.replace('ÿ', 'Ø');
+					roadName = roadName.replace('Ê', 'æ');
+					roadName = roadName.replace('∆', 'Æ');
+					roadName = roadName.replace('Â', 'å');
+					roadName = roadName.replace('≈', 'Å');
+					roadName = roadName.replace('È', 'é');
+				}
 				view.setLabel(roadName);
 			}
 		});
