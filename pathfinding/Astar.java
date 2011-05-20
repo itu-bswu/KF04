@@ -10,6 +10,8 @@ import utils.IndexMinPQ;
 
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
+import exceptions.NoPathException;
+import exceptions.NotPassableException;
 import graphlib.Graph;
 
 /**

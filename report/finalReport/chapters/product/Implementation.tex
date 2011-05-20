@@ -46,7 +46,7 @@ Below is an illustration of the conversion from pixel to UTM.
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5\linewidth]{images/UTMillu}
+\includegraphics[width=1\linewidth]{images/UTMillu.png}
 \caption{UTMillustration}
 \label{fig:UTMconversion}
 \end{figure}
@@ -151,21 +151,71 @@ When we want to retrieve data from the map, we can give the quadtree a
 rectangle, and it will return all the roads within rectangles that intersect
 that rectangle. This technique optimizes the drawing of the roads, because we
 don’t draw roads outside of the view. However, when viewing the entire map of
-Denmark, this implementation does not help us. Therefore, it is necessary to
-only to draw the bigger roads when zoomed out. We have discussed two different
-techniques to do this. The first technique relayed on putting the bigger roads
-at the top of the quadtree when building it. Then we could specify at which
-depth we wanted to search the quadtree. The second technique relayed on dividing
-the quadtree into different parts, each containing their own road types. Going
-with this implementation, we simply specify which roads we want to draw. This
-method requires more RAM than the first one, because it requires more instances
-of object QuadTreeNode.
-%MAKE ILLUSTRATIONS
-At first glance, the first method seemed to be superior to the second, because
-it saves some RAM. However, the second implementation is easier to implement,
-and the extra RAM are such a small percentage of the overall RAM use, that it
-does not really matter. We experimented with both implementations, but decided
-to go with the later.
+Denmark, this implementation does not help us, because the rectangle contains
+every single road. Therefore, it is necessary to only to draw the bigger roads
+when zoomed out.
+
+The simplest solution would be to interate over the roads returned and then
+remove the road we do not want to draw.
+
+However, it would be more efficient to sort the roads before we put them in the
+quadtree, and then have them sorted in the quadtree. With is method we will not
+to iterate and remove the roads all the time.
+
+%SHOW AN UNSORTED QUADTREE
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\linewidth]{images/UnsortedQuadtree.png}
+\caption{Unsorted Quadtree. A quadtree were the roads are not sorted}
+\label{IMPL-USQ}
+\end{figure}
+
+We have discussed two different ways to sort the roads in the quadtree. 
+
+The first technique relayed on dividing the quadtree into different parts, each
+containing their own road types. We called this 'the multiquadtree' because it
+can be seen as multiple quadtrees that we search in individually. Going with
+this implementation, we only run thorugh the quadtree that contains the
+roadtypes we want to draw. 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\linewidth]{images/MultiQuadtree.png}
+\caption{Multiquardtree. The first node devides the quadtree into more
+quadtrees.}
+\label{IMPL-DCQ}
+\end{figure}
+
+The secound technique relayed on putting the bigger roads at the top of the
+quadtree when building it. Then we could specify at which depth we wanted to
+search the quadtree. We called this 'the depthcontrolled quadtree'.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\linewidth]{images/DepthcontrolledQuadtree.png}
+\caption{The depthcontrolled quadtree.}
+\label{IMPL-DCQ}
+\end{figure}
+
+The two methods both have advantages and disadvantages.
+
+The depth controlled quadtree would return more roads than the multiquadtree,
+because the big roads would lie in big rectangles, and therefor be drawn more
+often. 
+
+The depth controlled quadtree requires less RAM than the multiquadtree, 
+because it requires less instances of object QuadTreeNode.
+
+The multiquadtree is less efficient to search through than the
+depthcontrolled quadtree, because we must run through each quadtree
+individually.
+
+Looking at the advantages and disadvantages of these quadtrees, we have chosen
+to implement the multiquadtree. We have done this because it is the drawing of
+the roads that slows our implementation. The efficiency of our program is not
+affected by the efficiency of the quadtree searhc. The efficiency of the map is
+affected because of the number of roads drawn.
 
 \section{Serialization}
 \label{IMPL-SERI}

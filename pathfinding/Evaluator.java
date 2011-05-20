@@ -1,8 +1,8 @@
 package pathfinding;
 
-import pathfinding.NotPassableException;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
+import exceptions.NotPassableException;
 
 /**
  * Has the responsibility to evaluate a given KrakEdge (into a number) and calculate the heuristic for

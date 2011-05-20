@@ -19,8 +19,6 @@ import java.util.Set;
 
 import pathfinding.Astar;
 import pathfinding.Evaluator;
-import pathfinding.NoPathException;
-import pathfinding.NotPassableException;
 import loader.KrakLoader;
 import utils.Colors;
 import utils.MD5Checksum;
@@ -30,6 +28,8 @@ import graphlib.Graph;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
 import dataobjects.QuadTree;
+import exceptions.NoPathException;
+import exceptions.NotPassableException;
 import exceptions.NothingCloseException;
 import gui.Line;
 
@@ -37,7 +37,6 @@ import gui.Line;
  * The Model class.
  * Acts as a model in the Model-View-Controller (MVC) architectural pattern, 
  * responsible for interaction with Krak's data-set.
- * 
  * @author Jens M¿llerh¿j; Niklas Hansen
  */
 public class Model {

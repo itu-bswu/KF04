@@ -11,12 +11,12 @@ import java.io.IOException;
 
 import loader.KrakLoader;
 import org.junit.*;
-import pathfinding.NoPathException;
 import pathfinding.Evaluator;
 import utils.Properties;
 import core.Model;
 import dataobjects.KrakEdge;
 import dataobjects.KrakNode;
+import exceptions.NoPathException;
 import exceptions.NothingCloseException;
 
 /**

@@ -1,5 +1,6 @@
 package core;
 
+import exceptions.NoPathException;
 import exceptions.NothingCloseException;
 import gui.View;
 
@@ -17,7 +18,6 @@ import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import pathfinding.NoPathException;
 import pathfinding.Evaluator;
 import utils.Direction;
 import utils.PointMethods;
@@ -25,7 +25,9 @@ import utils.Properties;
 import utils.RectangleMethods;
 
 /**
- * Control class for the Map of Denmark system.
+ * Control
+ * Acts as the controller in the Model-View-Controller (MVC) architectural pattern, 
+ * responsible for controlling the interaction between the Model and the View.
  * 
  * @author Jakob Melnyk
  * @version 29 April - 2011
@@ -169,9 +171,9 @@ public class Control {
 				if(System.getProperty("os.name").startsWith("Mac")){
 					// Fix Danish characters.
 					roadName = roadName.replace('¸', '¿');
-					roadName = roadName.replace('˜', 'Â¯');
-					roadName = roadName.replace('¦', 'Â¾');
-					roadName = roadName.replace('†', 'Â®');
+					roadName = roadName.replace('˜', '¯');
+					roadName = roadName.replace('¦', '¾');
+					roadName = roadName.replace('†', '®');
 					roadName = roadName.replace('¥', 'Å’');
 					roadName = roadName.replace('…', 'ï¿½');
 					roadName = roadName.replace('©', 'Å½');

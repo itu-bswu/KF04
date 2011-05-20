@@ -41,8 +41,10 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 /**
- * The frame that visualizes the roads (Lines that are given), with controls shown as a panel to the left.
- * 
+ * View
+ * Acts as a view in the Model-View-Controller (MVC) architectural pattern, 
+ * responsible for the frame that visualizes the roads (Lines that are given),
+ * with controls shown as a panel to the left.
  * @author Emil Juul Jacobsen
  */
 public class View extends JFrame{
@@ -486,9 +488,9 @@ public class View extends JFrame{
 	}
 
 	/**
-	 * The canvas that displays draws the map itself (and pins & routes)
+	 * Canvas
+	 * The canvas that displays the map visualization itself (and pins & routes)
 	 * @author Emil
-	 *
 	 */
 	private static class Canvas extends JComponent{
 		private static final long serialVersionUID = 1L;
