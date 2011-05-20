@@ -1,13 +1,11 @@
 \chapter{User Interface analysis}
 \label{UIA}
-% We probably should look at this phrasing?
 In this chapter we describe our decisions and present our analysis and
-arguments regarding some of the features that we find interesting.
+arguments regarding possible features that we find might have been interesting
+to have implemented in our \class{Map Of Denmark} program.
 
 \section{User interface as a whole}
 \label{UIA-UIW}
-% Yo dawg, I heard you like windows, so we put a window in your window, 
-% so you can view while you view.
 When we designed the first version of the graphical user interface in the first
 part of the project, we decided to make a window inside of the graphical user
 interface where the actual map should be displayed. We chose to have this
@@ -19,24 +17,19 @@ A lot of software use a menu bar with dropdown menus for selecting different
 functions. When we designed our outline for the graphical user interface, we did
 not design it with a huge amount of functions in mind. 
 
-% We have route planning?
 The features that we have implemented in this version can easily fit in our
-simple user interface, but if features like searching for roads, route planning,
-etc. are included, then space and overview may become an issue on the left side.
+simple user interface, but if features like searching for roads or other
+features are included, then space and overview may become an issue on the left side.
 
-% Hvad menes der helt bestemt her?
-Depending on the feature, we feel it would be beneficial to let the main window
-change when different feature types are selected.
+If new features are included, we feel it would be beneficial to let the main
+window change when different feature types are selected.
 
-% ``standard'' is probably irrelevant or should be re-phrased.
-Below is a screenshot of our standard user interface. How to use it will be
+Below is a screenshot of our user interface. How to use it will be
 explained in the \class{\nameref{MAN}} on page \pageref{MAN}.
 
-% Picture should be updated to newest version.
-% Should probably be bigger / wider.
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5\linewidth]{images/PictureOfUI}
+\includegraphics[width=1\linewidth]{images/PictureOfUI}
 \caption{Screenshot of GUI}
 \label{UIA-UIW-PIC}
 \end{figure}
@@ -51,13 +44,11 @@ section \ref{BG-R} \class{\nameref{BG-R}} on page \pageref{BG-R}, it
 was required that we made it possible to zoom by dragging a box around the part 
 of the map the user wants to look closer at.
 
-% ``original view'' should probably be re-phrased, to make it clear what it is.
-% menu bar function -> menu bar item ?
 In addition to the option of using the mouse to zoom, we have implemented a
 zoom-in and out function on the GUI and a hotkey for zooming out to the original
-view. We made the original view function a hotkey only because we did not want
-to have too many buttons on the left side. We considered making it a menu bar
-function, but we did not manage to get it into this version.
+zoom level. We made the original zoom function a hotkey only because we did not
+want to have too many buttons on the left side. We considered making it a menu bar
+item, but we did not manage to get it into this version.
 
 We felt we really needed a zoom out function, so users do not need to close the
 program and start it again, when the user wants to view the map further zoomed
@@ -87,13 +78,13 @@ that is not part of the map, the move function will not do anything.
 \subsection{Hotkeys}
 \label{UIA-IF-H}
 We have implemented hotkeys for all the buttons on the graphical user interface
-plus an additional for zooming back to the original view. When we discussed the
-benefits of hotkeys, we felt it was important for experienced users of the
+plus an additional for zooming back to the original zoom level. When we
+discussed the benefits of hotkeys, we felt it was important for experienced users of the
 software should have a less cumbersome time navigating the map. 
 
 At first we just had hotkeys for the clearing of markers (mentioned in section
-\ref{UIA-IF-M}) and zooming out to the original view, but we later added the
-hotkeys for the rest of the functionalities. If more features are added in a
+\ref{UIA-IF-M}) and zooming out to the original zoom level, but we later added
+the hotkeys for the rest of the functionalities. If more features are added in a
 future version, it would be important for us that a hotkey were provided, if at
 all possible.
 
@@ -127,8 +118,7 @@ Another interesting feature in our \class{Map of Denmark} project is the option
 to switch between bike and car routes. The user interface will start with car
 selected when the program starts.
 
-% Should probably be re-phrased (what does ``marked by the user'' mean?)
-If a route is marked by the user, it will display the length and the estimated
+Whenever a route is calculated, it will display the length and the estimated
 travel time on the left part of the user interface. When the bike option is selected, 
 it recalculates the route for a bike, without visiting highways and other roads 
 that bikes cannot or are not allowed to drive on. If the user switches back to the 
@@ -177,10 +167,12 @@ much way we draw the roads, was simply too high compared to the benefits.
 
 \subsection{Dynamic route finding}
 \label{UIA-NI-DRF}
-% We should explain what a dynamic route finding is?
-% Isn't our current path-finding dynamic in a way?
 In the final project description, a dynamic route finding feature was
-suggested. We considered implementing this as we thought it was a nice feature
-to have, but it conflicted with the algorithm we use for calculating the route.
-More about the algorithms can be read in section \ref{IMPL-DVA}
-\class{\nameref{IMPL-DVA}} on page \pageref{IMPL-DVA}.
+suggested. If we had implemented the suggested dynamic route finding feature, a
+user would be able to mark a spot and then whenever he moused over a node on the
+map, he would find the route instantly.
+
+We considered implementing this as we thought it was a
+nice feature to have, but it conflicted with the algorithm we use for
+calculating the route. More about the algorithms can be read in section
+\ref{IMPL-DVA} \class{\nameref{IMPL-DVA}} on page \pageref{IMPL-DVA}.

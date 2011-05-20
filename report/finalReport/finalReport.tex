@@ -10,9 +10,10 @@
 \usepackage{nameref}
 \usepackage{fancyhdr}
 \usepackage{mathtools}
-\usepackage{wrapfig}
+\usepackage[final]{pdfpages}
 
 \pagestyle{fancy}
+%\cfoot{\thepage\ of ??}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.8ex plus 0.5ex minus 0.2ex}
@@ -41,6 +42,13 @@ Jensen and Filip Sieczkowski
 \pagebreak
 \chapter{Preface}
 \label{PRE}
+This report is the result of a project at the bachelor in Software Development 
+on the IT University of Copenhagen spanning from early March 2011 to late May
+2011. The project was given as a first semester probject in groups of 4 to 5
+randomly picked students. 2,5 months of the semester was set aside for the
+project. The time not spent on the report was used on coding, thorough testing
+and bugfixing of the actual program.
+
 \include{chapters/product/Background}
 \include{chapters/product/UI-Analysis}
 \include{chapters/product/Implementation}
@@ -49,6 +57,52 @@ Jensen and Filip Sieczkowski
 \include{chapters/product/Manual}
 \chapter{Product conclusion}
 \label{PRC}
+We believe our product live up to the project requirements described in chapter
+\ref{BG} \class{\nameref{BG}}. Our program also runs fast enough when using the
+interface. We tested this on both a fast computer and an older, slower computer
+and we did not feel it was cumbersome to use the program, even on the slower
+computer. We did not thoroughly test this however, and we cannot guarantee that
+there will not be circumstances in terms of RAM-usage where our program will run
+slowly.
+ 
+The system tests were done on a Windows 7 computer and because of this, we
+cannot be certain that all features work on other operative systems. However, 
+two of our group members use MacOSX and they have experienced no problems 
+with our program.
+
+We did all of our testing internally. For a even more thorough testing of our
+software, we could have asked other groups to test the software for us, so that
+we could get a different look on the tests. We did no usability testing
+throughout the project, and while our user interface is simple, we should have
+tested to make sure we designed our interface in the best way possible.
+
+\section{Issues in the software}
+\label{PRC-BUGS}
+We have discovered a few bugs our software that did not show itself through our
+testing, but instead manifested with regular use of the software.
+
+We have a bug in our zoom-function, which enables the user to zoom very far in
+by zooming in, then resizing the window. This caused the program to be locked at
+a very far zoomed in view, but we chose to let the user zoom out when they are
+zoomed far in. The problem with zooming too far in can still happen, but the
+view is not locked when it happens.
+
+\section{Future features}
+\label{PRC-FF}
+If we had had time, we would have included more features in our program. We feel
+our program could still do with some fine tuning for it to be of real use
+outside of living up to the requirements.
+
+We would have liked to have implemented a ``road search'' function, enabling the
+user to search for the name of a road and place a marker there. In addition, we
+would have like to implement the option for the user to view a route description
+with turns.
+
+To make the map look nicer, we attempted to implement a function for the map to
+create a ``border'' splitting up the land and sea, so that it was more obvious
+what is land and what is water. We would also have liked to make a logo for our
+program, but we did not get around to implementing it.
+
 \include{chapters/process/Constitution}
 \include{chapters/process/Diary}
 \include{chapters/process/Worksheets}
@@ -59,5 +113,6 @@ Jensen and Filip Sieczkowski
 \bibitem{algs4}
 Robert Sedgewick and Kevin Wayne. \emph {Algorithms, Fourth Edition}. Preliminary Edition Fall 2010. Addision-Wesley 2010.
 \end{thebibliography}
+\pagestyle{plain}
 \include{chapters/appendix/Appendix}
 \end{document}

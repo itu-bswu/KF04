@@ -1,18 +1,8 @@
 \chapter{UML-diagrams}
 \label{UML}
 
-% Cannot get this picture to be pretty
-\section{MVC}
-\label{UML-MVC}
-\begin{figure}[h!]
-\centering
-\includegraphics[width=1.25\linewidth]{images/mvc-map}
-\caption{UML of the MVC architecture in our Map program}
-\label{mvc-map}
-\end{figure}
-
-Figure \ref{mvc-map} shows our implementation of the MVC architecture. Because we 
-have exactly one window, we chose to name our view and controller ``\class{View}'' and 
+Figure \ref{control-flow} shows our implementation of the MVC architecture.
+Because we have exactly one window, we chose to name our view and controller ``\class{View}'' and 
 ``\class{Control}'', respectively. The same goes for the models. We only have one data 
 source (Krak's data-set), and because of that our model is called ``\class{Model}''. We could 
 have named these three classes something different that may have been more meaningful 
@@ -55,15 +45,13 @@ The easiest way to understand MVC and how the individual parts talk together, is
 an example. Let us say the user has already clicked the map and placed a pin. Now the 
 user clicks on the map again to place another pin.
 
-% Same as the other picture
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.25\linewidth]{images/control-flow}
+\includegraphics[angle=90,width=0.5\linewidth]{images/control-flow}
 \caption{The basic control flow of our Map program}
 \label{control-flow}
 \end{figure}
- 
- % Longer
+
 The controller has placed listeners in the view, so when a MouseClicked event is thrown, 
 the controller is called. First it checks if there is another pin at the spot of the click. If there 
 is, this will be removed, and the model is told to clear the route. If there is still over two 
