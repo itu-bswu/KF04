@@ -81,7 +81,13 @@ The complete coverage table can be found in appendix \ref{APP-TE-JU-PM} on page
 
 \subsection{RectangleMethodsTest}
 \label{TEST-JU-RMT}
-APP-TE-JU-RM
+As with the \class{PointMethods} and \class{Model} classes, we have created
+JUnit tests for the public methods in \class{RectangleMethods}. We considered
+doing more comprehensive testing of the ``newBounds'', ``fixByInnerBounds'' and
+``fixByOuterBounds'', but since there are no checks for \class{null} or other
+types of bad input for these methods, we felt it was unnessecary. The coverage
+table can be found in appendix \ref{APP-TE-JU-PM} on page
+\pageref{APP-TE-JU-PM}.
 
 \section{System test}
 \label{TEST-ST}
@@ -90,7 +96,9 @@ user interacting with the program. These tests the basic functionality of the
 program as well as some advanced combinations of features. The System Tests are
 a necessary addition to the unit tests since many bugs are located in the
 interactions between algorithms and the user interface, and thus cannot be found
-through unit tests. The tests have been divided into 6 groups that increase in
+through unit tests. 
+
+The tests have been divided into 6 groups that increase in
 complexity and the later tests may rely on success in previous tests. There are
 a total of 34 tests and the complete list and coverage table with instructions
 and expected results can be found in appendix \ref{APP-TE-ST} on page
