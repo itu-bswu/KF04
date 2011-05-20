@@ -33,8 +33,6 @@ public class ModelTest {
 	 */
     @BeforeClass public static void onlyOnce() {
     	
-    	System.out.println("!");
-    	
     	testGraph = loadTestGraph();
     	
     	model = new Model(testGraph);

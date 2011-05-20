@@ -58,8 +58,6 @@ public class KrakLoader {
 		}
 		br.close();
 
-		System.out.println("Adding " + nodes.size() + " nodes to graph");
-
 		// Create a graph on the nodes
 		Graph<KrakEdge, KrakNode> graph = new Graph<KrakEdge, KrakNode>(nodes);
 		
@@ -74,23 +72,15 @@ public class KrakLoader {
 
 		while (line != null) {
 			
-			System.out.println(line);
-			
 			EdgeData ed = new EdgeData(line); // parse edge entry
 			
-			System.out.println(line);
-			
 			KrakEdge edge = new KrakEdge(ed, graph); // create edge
-			System.out.println(line);
 			graph.addEdge(edge); // add edge to graph
 			edgeCount++;
 			line = br.readLine();
-			System.out.println(line);
 		}
 		br.close();
 
-		System.out.println("x");
-		
 		// Clean up interning table (sestoft)
 		KrakEdge.clear();
 		
