@@ -10,11 +10,10 @@
 \usepackage{nameref}
 \usepackage{fancyhdr}
 \usepackage{mathtools}
-\usepackage{wrapfig}
-%\usepackage{lastpage}
+\usepackage[final]{pdfpages}
 
 \pagestyle{fancy}
-%\cfoot{\thepage\ of \pageref{LastPage}}
+%\cfoot{\thepage\ of ??}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.8ex plus 0.5ex minus 0.2ex}
@@ -51,6 +50,8 @@ Jensen and Filip Sieczkowski
 \include{chapters/product/Manual}
 \chapter{Product conclusion}
 \label{PRC}
+We belive our product live up to the requirements mentioned in chapter \ref{BG}
+\class{\nameref{BG}}. 
 \include{chapters/process/Constitution}
 \include{chapters/process/Diary}
 \include{chapters/process/Worksheets}

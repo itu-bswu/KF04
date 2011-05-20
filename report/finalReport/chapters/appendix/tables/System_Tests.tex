@@ -46,11 +46,157 @@ Tests
 \end{itemize}
 \subsection{System test coverage table}
 \begin{centering}
-\begin{longtable}{|p{3.5cm}|p{3cm}|p{3cm}|p{3cm}|}
+\begin{longtable}{|p{0.20\textwidth}|p{0.30\textwidth}|p{0.30\textwidth}|p{0.20\textwidth}|}
 \hline
-Test description & Example & Expected Output & Actual Output\\
+Test & Instruction & Expected result & Actual result\\
+\hline
+Zoom in & Press the zoom in button on the navigation panel & The map should zoom
+in on the center of the map & As expected\\
+\hline
+Zoom out & Press the zoom in button on the navigation panel twice. Then press
+the zoom out button & The map should out but have the same spot centered & As
+expected\\
 \hline
 \hline
-
+Pan:north & Press the up-button on the navigation panel & The map should pan a
+bit to the north & As expected\\
+\hline
+Pan:south & Press the down-button on the navigation panel & The map should pan a
+bit to the south & As expected\\
+\hline
+Pan:east & Press the right-button on the navigation panel & The map should pan a
+bit to the east & As expected\\
+\hline
+Pan:west & Press the left-button on the navigation panel & The map should pan a
+bit to the west & As expected\\
+\hline
+\hline
+Minimum zoom & Press the zoom in button until it doesn't zoom in any further &
+The view should still be far enough out to see a couple of roads (if there are
+roads in that area) & As expected\\
+\hline
+Maximum zoom & Zoom in \textbf{five} times and then zoom out until it doesn't
+zoom out any further & The map should show the original view (max view) & As expected\\
+\hline
+\hline
+Pan out of map: north & Zoom in \textbf{two} times and press the up-button on
+the navigation panel \textbf{seven} times & The map shouldn't change on the last
+press, thus still showing some roads & As expected\\
+\hline
+Pan out of map: south & Zoom in \textbf{two} times and press the down-button on
+the navigation panel \textbf{seven} times & The map shouldn't change on the last
+press, thus still showing some roads & As expected\\
+\hline
+Pan out of map: east & Zoom in \textbf{two} times and press the right-button on
+the navigation panel \textbf{six} times & The map shouldn't change on the last
+press, thus still showing some roads & As expected\\
+\hline
+Pan out of map: west & Zoom in \textbf{two} times and press the left-button on
+the navigation panel \textbf{six} times & The map shouldn't change on the last
+press, thus still showing some roads & As expected\\
+\hline
+\hline
+Hotkey:ESCAPE & Press the ESCAPE key on the keyboard & The view should reset to
+the original view (max view) & As expected\\
+\hline
+Hotkey:C & Place a marker on the map by pressing the left mouse-button somewhere
+on the map. Press the C key on the keyboard & The marker should disappear & As
+expected\\
+\hline
+Hotkey:I & Press the I key on the keyboard & The map should zoom in on the
+center of the map & As expected\\
+\hline
+Hotkey:O & Press the I key on the keyboard, then press the O key on the keyboard
+& The map should zoom out to the original view (max view) & As expected\\
+\hline
+Hotkey:ARROW UP & Press the I key on the keyboard, then press ARROW UP & With
+the last keypress, the map should a bit to the north & As expected\\
+\hline
+Hotkey:ARROW DOWN & Press the I key on the keyboard, then press ARROW DOWN &
+With the last keypress, the map should a bit to the south & As expected\\
+\hline
+Hotkey:ARROW LEFT & Press the I key on the keyboard, then press ARROW LEFT &
+With the last keypress, the map should a bit to the west & As expected\\
+\hline
+Hotkey:ARROW RIGHT & Press the I key on the keyboard, then press ARROW RIGHT &
+With the last keypress, the map should a bit to the east & As expected\\
+\hline
+\hline
+One Marker & Place a marker on the map by pressing the left mouse-button
+somewhere on the map & You should see a marker where you clicked, but no routes
+& As expected\\
+\hline
+Two markers & Place a marker on the map by pressing the left mouse-button
+somewhere on the map, then another somewhere else. & You should see two markers
+where you clicked and a route between them & As expected\\
+\hline
+Two markers (same Node) & Zoom in on a road. Place a marker on the map and
+another right next to it. & You should not see any route. & As expected\\
+\hline
+Multiple Markers & Place a marker on the map by pressing the left mouse-button
+somewhere on the map, then place two more at other spots. & You should see three
+markers where you clicked, and the routes:  first-\textgreater second and
+second-\textgreater third & As expected\\
+\hline
+\hline
+Clear markers & Place a marker on the map by pressing the left mouse-button
+somewhere on the map. Press the Clear Markers button on the Route Options panel
+& The marker should disappear & As expected\\
+\hline
+\hline
+Change mode & Place a marker on the map by pressing the left mouse-button
+somewhere on the map, then another somewhere else. Then select Bike mode on the
+Route Options panel & The new mode should be shown as selected, and the route
+should be recalculated with the new mode and  probably change & As expected\\
+\hline
+\hline
+Closest node & Place a marker far away from any roads, then another one near
+roads & It should find a path from the closest node to where you clicked first,
+even though it is far away. & As expected\\
+\hline
+Closest node: relative to mode & Place a marker close to a path and another some
+distance away. & When in Car mode it should find the closest regular road to
+start from, when in Bike mode it should start at the path. & As expected\\
+\hline
+\hline
+Right direction on one-way road & Place a marker near the beginning of a one-way
+road, and then place another near the end. & The route should travel directly
+across the one-way road. & As expected\\
+\hline
+Wrong direction on one-way road & Place a marker near the end of a one-way road,
+and then place another near the start. & The route should not travel directly
+across the one-way road, but somewhere around it. & As expected\\
+\hline
+\hline
+Resize:Narrower & Select the right border of the window and the window
+\textbf{narrower} & It should show more at the top and bottom to adjust for the
+changed ratio. & As expected\\
+\hline
+Resize:Wider & Select the right border of the window and the window
+\textbf{wider} & It should show more at the top and bottom to adjust for the
+changed ratio. & As expected\\
+\hline
+Resize:Shorter & Select the bottom border of the window and the window
+\textbf{shorter} & It should show more at the top and bottom to adjust for the
+changed ratio. & As expected\\
+\hline
+Resize:Narrower & Select the bottom border of the window and the window
+\textbf{taller} & It should show more at the top and bottom to adjust for the
+changed ratio. & As expected\\
+\hline
+\hline
+Mouse zoom: Correct zoom & Drag a rectangle on the map with about the same ratio
+as the window, by pressing the left mouse-button somewhere and drag until having
+the right size. & The map should now show approximately the marked spot. & As
+expected\\
+\hline
+Mouse zoom: Tall rectangle & Drag a tall rectangle on the map & The map should
+show what marked but show more at the sides to adjust for the difference in
+ratio. & As expected\\
+\hline
+Mouse zoom: Tall rectangle & Drag a tall rectangle on the map & The map should
+show what marked but show more at the top and bottom to adjust for the
+difference in ratio. & As expected\\
+\hline
 \end{longtable}
 \end{centering}
