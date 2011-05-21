@@ -1,5 +1,6 @@
 package core;
 
+import exceptions.NoPathException;
 import exceptions.NothingCloseException;
 import gui.View;
 
@@ -17,7 +18,6 @@ import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import pathfinding.NoPathException;
 import pathfinding.Evaluator;
 import utils.Direction;
 import utils.PointMethods;
@@ -25,7 +25,9 @@ import utils.Properties;
 import utils.RectangleMethods;
 
 /**
- * Control class for the Map of Denmark system.
+ * Control
+ * Acts as the controller in the Model-View-Controller (MVC) architectural pattern, 
+ * responsible for controlling the interaction between the Model and the View.
  * 
  * @author Jakob Melnyk
  * @version 29 April - 2011
@@ -114,7 +116,7 @@ public class Control {
 				PointMethods.pointOutOfBounds(b_mouseZoom, new Rectangle(0, 0, view.getCanvasWidth(), view.getCanvasHeight()));
 
 				if(Math.abs(b_mouseZoom.x - a_mouseZoom.x) < view.getCanvasWidth()/100 
-						|| Math.abs(b_mouseZoom.y - a_mouseZoom.y) < view.getCanvasHeight()/100){ 
+						|| Math.abs(b_mouseZoom.y - a_mouseZoom.y) < view.getCanvasHeight()/100) { 
 					return; //Prevents the user from zooming in too much.
 				}
 

@@ -3,7 +3,8 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 
 /**
- * Line class
+ * Line
+ * The visulalization of an edge. In this case (showing a map), the line represents a road.
  */
 public class Line {
 	private Point2D.Double startPoint;

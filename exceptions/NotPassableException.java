@@ -1,5 +1,9 @@
-package pathfinding;
+package exceptions;
 
+/**
+ * An exception thrown if a road cannot be passed.
+ * @author mollerhoj3
+ */
 public class NotPassableException extends Exception {
 	/**
 	 * Generated serial version UID.

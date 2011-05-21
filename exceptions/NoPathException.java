@@ -1,5 +1,9 @@
-package pathfinding;
+package exceptions;
 
+/**
+ * An exception thrown if no path can be found.
+ * @author mollerhoj3
+ */
 public class NoPathException extends Exception {
 	/**
 	 * Generated serial version UID.
