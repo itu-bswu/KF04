@@ -3,12 +3,13 @@
 \section{WhiteBox: closestEdge}
 \label{TEST-CE}
 A white box test is a test that is made with knowledge of the internal structure
-of the method. We are using the method called ``getClosestNode'' as an example
+of the method, and uses this knowledge for making sure all flows through the 
+method is covered. We are using the ``\class{getClosestNode}'' method for this test
 since it contains both loops and conditional statements. The method is supposed
 to find the closest \class{Node} to a given point. It accomplishes this by first
 searching another method for the closest \class{Edge} (which is trivial). This
 procedure is performed with greater and greater search radius until it finds something.
-When it has found a \class{Edge} it will determine which end (\class{Node}) is
+When it has found an \class{Edge}, it will determine which end (\class{Node}) is
 closest to the point. In order to secure full coverage of the tests we have created the
 following scheme of tests and expected results (using our test graph seen on
 page \pageref{TEST-JU-MT-TG}).
@@ -38,20 +39,22 @@ making a test for reaching all sections within if-statements and make sure we
 run while-loops zero, once and multiple times\footnote{We can't run this while
 loop zero times since the loop runs when edge == null and the edge variable is
 defined as null just before the loop.}. It should be noted that the white box
-tests should be accompanied by black box tests because these tests uses the
-input needed for reaching a specific block, this means they don't check if
+tests should be accompanied by black box tests, because these tests uses the
+input needed for reaching a specific block. This means they don't check if
 invalid input breaks the program. Since some of the input overlaps with what is
-needed for the black box tests they have been located in the same method in our
+needed for the black box, tests they have been located in the same method in our
 Model Tests\footnote{In the testGetClosestNode() method, the first, third,
 fourth and fifth asserts.}.
+
 \section{JUnit}
 \label{TEST-JU}
 This section describes the JUnit tests we have made for our software. We have
 made tests for the public methods in \class{Model}, \class{PointMethods} and
 \class{RectangleMethods}.
+
 \subsection{ModelTest}
 \label{TEST-JU-MT}
-The model classes have some of the most interesting functions and algorithms of
+The model class has some of the most interesting functions and algorithms of
 our program. The most advanced functions in the model are those regarding path
 finding. The task of finding a path from one node of the graph to another,
 takes many different kinds of input. The coverage table for the JUnit tests of
@@ -59,9 +62,10 @@ the \class{Model} class can be found in appendix \ref{APP-TE-JU-MO} on page
 \pageref{APP-TE-JU-MO}.
 
 The tests are chosen so that they test for different input. But they are also
-chosen so that they test the logical problems our path finding algoritm might
-run into. In order to test these problems proberly, we constructed some simple
-testdata that we knew we could rely on:
+chosen so that they test the logical problems our path finding algorithm might
+run into. In order to test these problems properly, we constructed some simple
+test data that we knew we could rely on:
+
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=0.6\linewidth]{images/TestGraph}
@@ -98,9 +102,9 @@ a necessary addition to the unit tests since many bugs are located in the
 interactions between algorithms and the user interface, and thus cannot be found
 through unit tests. 
 
-The tests have been divided into 6 groups that increase in
+The tests have been divided into six groups that increase in
 complexity and the later tests may rely on success in previous tests. There are
 a total of 34 tests and the complete list and coverage table with instructions
 and expected results can be found in appendix \ref{APP-TE-ST} on page
 \pageref{APP-TE-ST}. All the tests in the coverage table have been done on a
-computer with the Windows 7 operative system.
+computer with the Windows 7 operating system.
