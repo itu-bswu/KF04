@@ -47,6 +47,7 @@ Here is a list of the features we had to implement:
   \item We had to make mouse zooming possible.  The user should be able to drag
   and select an area with the mouse, creating a square or rectangle, and zoom in on the
   selected area.
+  % It isn't important whether or not it is a method. Should be slightly re-phrased.
   \item We had to implement a method to find a route from one point on the map to
   another, and we had to allow the user to find that route by clicking at each
   of the points.
@@ -65,7 +66,7 @@ required to make the user able to zoom-in on the map, we found it logical to
 allow him or her to:
 \begin{itemize}
   \item Zoom out
-  \item Pan on the map
+  \item Pan around on the map
 \end{itemize}
 
 With these basic features covered, we decided which advanced featured we wanted
@@ -73,33 +74,37 @@ to implement. In order to give the user a chance to find more specific places, w
 decided to show the user the name of the road closest to the cursor. This means
 that the user can get orientated without clicking or pressing any buttons. 
 
+% Why is it due to the size of the maps, that there isn't a way of selecting bike-tours?
+% The length of the edges are present, which is the only thing needed, right?
 The most interesting feature of our \class{Map of Denmark} is perhaps the
 option of selecting whether you want to travel by car or by bicycle. Many Danish
 people use bicycles to travel and as such this feature is a very relevant and
 nice one to have in the software. It is a feature not usually seen on
 international maps - this is most likely due to the size of these maps.
 
+% ``This makes our map well suited...'' sounds a bit too confident.
 We also decided to let the user create routes with an unlimited amount of
 waypoints. This makes our map well suited for planning bicycling trips or longer
 car rides where you want to reach more than one destination. Because this
 feature can be quite demanding when a lot of waypoints are selected, we had to
-make sure that the algorithm for finding routes was fast enough so we avoided
-making use of the map cumbersome for an end-user.
+make sure that the algorithm for finding routes was fast enough to ensure that the 
+map is pleasant to use.
 
 We wanted to make sure that the shape of Denmark is recognizable when
-the user has zoomed out to show the entire country. There is a balance between
+the user is zoomed far enough out to show the entire country. There is a balance between
 showing a big amount of roads and the delay when navigating. We wanted to make
 the user able to navigate the map with an acceptable delay. 
 
 The fact that we chose specific requirements for our program gave us two big
-advantages. It both made the planning process easier, and it made the
-structuring of the code easier to choose. In the process of creating the
+advantages. It both made the planning process easier, and it did the design phase a lot 
+easier, when we knew what the program should be able to do. In the process of creating the
 program, we had to change and create new requirements for ourselves, when we
 felt some feature was necessary for the end-user to have. In the last part of
 the coding process, we decided on our final requirements and worked towards completing them. 
 
 \section{Data set}
 \label{BG-DS}
+% This could be longer.
 We have been provided with a dataset of roads and intersections in Denmark 
 from Krak. Additionally we were given some code for loading the data from the 
 text files.

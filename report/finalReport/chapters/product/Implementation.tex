@@ -32,6 +32,8 @@ We have a utility class with methods for converting the points back and forth.
 One takes a point from the view. The model and the view itself uses this formula
 for converting the pixelpoint to the UTM32-point.
 
+% Ay is something minus Ay? So what is Ay?
+% What is Ax?
 $
 a_y = canvas_{height} - a_y\\
 \\
@@ -50,11 +52,11 @@ Below is an illustration of the conversion from pixel to UTM.
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1\linewidth]{images/UTMillu}
-\caption{UTMillustration}
+\caption{Illustration of UTM conversion}
 \label{fig:UTMconversion}
 \end{figure}
 
-To convert from UTM to pixels we use the same formula but reversed.
+To convert from UTM to pixels we use the same formula, but reversed.
 
 $
 Pixel_x = \cfrac{(a_x - bounds_x)}{bounds_{width}} \times
@@ -70,6 +72,8 @@ return:  \class{point}(PIXEL$_x$, PIXEL$_y$)
 
 \section{Mousezoom}
 \label{IMPL-MZ}
+% Stop speaking of requirements in the middle of the report, unless it is necessary.
+% Perhaps a bit to technical?
 We have implemented the mouse zoom requirement by using \class{mouseEvent}s on
 our canvas. When the user presses the left mouse button down, it generates a
 \class{mousePressed} event. We record the position of the mouse at the time of
@@ -136,6 +140,7 @@ wants to sit and wait too long for the program to find a route.
 
 \section{Evaluator}
 \label{IMPL-EVA}
+% Perhaps talk a bit more about evaluators and our default evaluators (bike and car).
 In order to make our path finding algorithm flexible enough for different 
 interpretations of the ``best route'', we have added an entity called \class{Evaluator}. 
 This is an object that has the responsibility of evaluating a node relative to 
@@ -146,13 +151,15 @@ the car route. The major difference between these is that the bike's heuristics 
 on the distance, where as the car's heuristics is based on the total drive time. This 
 implementation is also a good example of making our code ready for future features, 
 since if we needed to add other means of transportation or simply variations of the ones 
-we have, we would only need to create new \class{Evaluator} objects and not change 
+we have, we would only need to create new \class{Evaluator}s and not change 
 a single line of code in the A* algorithm.
 
 \section{Quadtree}
 \label{IMPL-QT}
 % Quadtree, serialization and threading should maybe be in its own section 
 % (called optimizations or something)
+% This section reminds me of a lot of different statements, not really joined together.
+% Needs more pros and cons, and should be ``longer'' / more in depth.
 In order to improve the drawing of our map, we have implemented a data structure 
 called quadtree. The quadtree divides our map in four squares. In these four squares 
 it divides our roads again into smaller squares, and we keep doing this, until we reach 
@@ -160,43 +167,16 @@ an amount of roads that is manageable.
 When we want to retrieve data from the map, we can give the quadtree a
 rectangle, and it will return all the roads within our smaller squares that intersect
 that rectangle. This technique optimizes the drawing of the roads, because we
-<<<<<<< HEAD
 limit the amount of roads we draw.
 
 However, when viewing the entire map of Denmark, this implementation does not help 
 us. Therefore, it is necessary to only to draw the bigger roads when zoomed out. We 
-have discussed two different techniques to do this. The first technique relied on 
-putting the bigger roads at the top of the quadtree when building it. Then we could 
-specify at which depth we wanted to search the quadtree. The second technique 
-relied on dividing the roads into different quadtrees. Going with this implementation, 
-we simply specify which quadtrees we want to implement into our drawing, and that 
-way we can limit what types of roads we draw. This method requires more RAM than 
-the first one, because it requires more instances of object \class{QuadTreeNode}.
+have discussed two different techniques to do this.
 
-%MAKE ILLUSTRATIONS
-
-At first glance, the first method seemed to be superior to the second, because
-it saves some RAM. However, the second implementation is easier to implement,
-and the extra RAM are such a small percentage of the overall RAM use, that it
-does not really matter. Another plus for multiple quadtrees, is that we can make 
-as many quadtrees we want, and gradually show smaller and smaller roads, when 
-the user zoom in further.
-
-% So what did we choose? Why?
-=======
-donÕt draw roads outside of the view. However, when viewing the entire map of
-Denmark, this implementation does not help us, because the rectangle contains
-every single road. Therefore, it is necessary to only to draw the bigger roads
-when zoomed out.
-
-The simplest solution would be to interate over the roads returned and then
-remove the road we do not want to draw.
-
-However, it would be more efficient to sort the roads before we put them in the
-quadtree, and then have them sorted in the quadtree. With is method we will not
-to iterate and remove the roads all the time.
-
-%SHOW AN UNSORTED QUADTREE
+The simplest solution would be to iterate over the roads returned and then
+remove the road we do not want to draw. However, it would be more efficient to sort the 
+roads before we put them in the quadtree, and then have them sorted in the quadtree. 
+With this method we will not to iterate and remove the roads all the time.
 
 \begin{figure}[h!]
 \centering
@@ -207,21 +187,19 @@ to iterate and remove the roads all the time.
 
 We have discussed two different ways to sort the roads in the quadtree. 
 
-The first technique relayed on dividing the quadtree into different parts, each
-containing their own road types. We called this 'the multiquadtree' because it
-can be seen as multiple quadtrees that we search in individually. Going with
-this implementation, we only run thorugh the quadtree that contains the
-roadtypes we want to draw. 
+The first technique relied on dividing the types of roads into different quadtrees.
+With this implementation, we only implement the quadtrees containing the roadtypes 
+we want to draw, into our drawing.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1\linewidth]{images/MultiQuadtree.png}
-\caption{Multiquardtree. The first node devides the quadtree into more
+\caption{Multi-quadtree. First node divides the roads into more
 quadtrees.}
 \label{IMPL-DCQ}
 \end{figure}
 
-The secound technique relayed on putting the bigger roads at the top of the
+The second technique relied on putting the bigger roads at the top of the
 quadtree when building it. Then we could specify at which depth we wanted to
 search the quadtree. We called this 'the depthcontrolled quadtree'.
 
@@ -234,13 +212,15 @@ search the quadtree. We called this 'the depthcontrolled quadtree'.
 
 The two methods both have advantages and disadvantages.
 
+% And how is this different to our multi-quadtree were we always use the two upper quadtrees?
 The depth controlled quadtree would return more roads than the multiquadtree,
-because the big roads would lie in big rectangles, and therefor be drawn more
+because the big roads would lie in big rectangles, and therefore be drawn more
 often. 
 
 The depth controlled quadtree requires less RAM than the multiquadtree, 
 because it requires less instances of object QuadTreeNode.
 
+% This is almost not measurable and the pros greatly outweighs the cons.
 The multiquadtree is less efficient to search through than the
 depthcontrolled quadtree, because we must run through each quadtree
 individually.
@@ -250,7 +230,6 @@ to implement the multiquadtree. We have done this because it is the drawing of
 the roads that slows our implementation. The efficiency of our program is not
 affected by the efficiency of the quadtree searhc. The efficiency of the map is
 affected because of the number of roads drawn.
->>>>>>> ee874bd03942bdedf7503956a3f9dfa7d43ef54d
 
 \section{Serialization}
 \label{IMPL-SERI}
