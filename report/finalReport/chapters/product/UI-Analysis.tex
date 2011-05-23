@@ -7,9 +7,9 @@ to have implemented in our \class{Map Of Denmark} program.
 \section{User interface as a whole}
 \label{UIA-UIW}
 When we designed the first version of the graphical user interface in the first
-part of the project, we decided to make a window inside of the graphical user
+part of the project, we decided to make a canvas inside of the graphical user
 interface where the actual map should be displayed. We chose to have this
-window placed on the right side of our graphical user interface and interaction
+canvas placed on the right side of our graphical user interface and interaction
 with the user mainly placed on the left.
 
 We believe that this is a simple way of representing a user interface for a map.
@@ -75,7 +75,7 @@ function will not do anything.
 We have implemented hotkeys for all the buttons on the graphical user interface
 plus an additional for zooming back to the original zoom level. When we
 discussed the benefits of hotkeys, we felt it was important for experienced users of the
-software should have a less cumbersome time navigating the map. 
+software to have a less cumbersome time navigating the map. 
 
 At first we just had hotkeys for the clearing of markers (mentioned in section
 \ref{UIA-IF-M}) and zooming out to the original zoom level, but we later added
@@ -94,13 +94,13 @@ changed it, as we felt the pins we had were a bit large.
 
 We have made it possible to place more than the two markers the project
 requirements asks for. If the user places more than two markers, the software
-will find the shortest route between 1 -> 2 and 2 -> 3 and so on. This was cheap for
-us to implement, and we felt it added a nice touch to our program. 
+will find the shortest route between 1-\textgreater 2 and 2-\textgreater 3 and
+so on. This was cheap for us to implement, and we felt it added a nice touch to our program. 
 
-We have implemented two methods of removing pins from the map. We have assigned
+We have implemented two ways of removing markers from the map. We have assigned
 a hotkey to the graphical user interface button ``Clear Markers'', which removes 
-all the markers from the map. The other way of removing pins is by clicking on
-them. This functionality is both intuitive and confusing at the same time. It is
+all the markers from the map. The other way of removing markers is by clicking
+on them. This functionality is both intuitive and confusing at the same time. It is
 intuitive to click the marker you have just placed if you want to remove it, but
 it is not obvious in our interface. We believe that it is enough to have the
 ``clear all markers'' functionality for those who do not find it intuitive to
@@ -116,14 +116,14 @@ selected when the program starts.
 Whenever a route is calculated, it will display the length and the estimated
 travel time on the left part of the user interface. When the bike option is selected, 
 it recalculates the route for a bike, without visiting highways and other roads 
-that bikes cannot or are not allowed to drive on. If the user switches back to the 
+that bikes are not allowed to drive on. If the user switches back to the 
 car mode, it recalculates the route again, but not visiting small paths and other 
 roads where a car is not allowed to drive. The estimated travel time is also 
 recalculated. The user does not need to have planned a route before he/she 
 changes the type of transportation.
 
 We have implemented this to help our software target a wider group of people.
-The bike/car options were a bit costly to implement, but we categorized it as a
+The bike/car option were a bit costly to implement, but we categorized it as a
 very beneficial feature and we did not feel we could leave it out.
 
 \section{Features not implemented}
@@ -136,13 +136,13 @@ Features that we wanted to implement, but did not make it into the final version
 will be discussed in chapter \ref{PRC} \class{\nameref{PRC}} on page
 \pageref{PRC}.
 
-\subsection{Choice of roads to be displayed}
+\subsection{Choice of road types to be displayed}
 \label{UIA-NI-CRD}
-We chose not to implement the option of selecting which roads to be displayed.
-In a sense our program already does this by showing more detail the further
-zoomed in the map is. It could become very confusing if the user had the option
-of selecting roads, because the graphical user interface could become very
-cluttered, if all the roads were listed.
+We chose not to implement the option of selecting which road types to be
+displayed. In a sense our program already does this by showing more detail the
+further zoomed in the map is. It could become very confusing if the user had the
+option of selecting roads, because the graphical user interface could become
+very cluttered, if all the roads were listed.
 
 We felt that our gradually increasing level of detail is enough, and if the user were 
 to enable all types of roads at once, the map could get quite slow and cumbersome 
@@ -164,8 +164,8 @@ forces us to draw every line individually every time the user moves the viewport
 we cannot do this fast enough.
 
 In the end, we decided the benefits of the smooth scrolling were not large enough
-for us to spend a lot of time implementing this feature. The cost of changing that  
-much way we draw the roads, was simply too high compared to the benefits.
+for us to spend a lot of time implementing this feature. The cost of changing
+the way we draw the map was simply too high compared to the benefits.
 
 \subsection{Dynamic route finding}
 \label{UIA-NI-DRF}

@@ -141,7 +141,7 @@ the graphical interface.
 \label{mvc-overview}
 \end{figure}
 
-Like the picture above shows, every graphical window has its own class. These
+Figure \ref{mvc-overview} shows, every graphical window has its own class. These
 classes are called ``views''. Where we beforehand had one class to handle both
 communication with the data and the graphical windows, we now split this into
 two: ``models'' and ``controllers''.
@@ -166,4 +166,4 @@ An example of this could be that the user updates some info and presses the
 ``Save''-button. Then the controller listens to this event, passes the new data
 to the models and it gets saved.
 In our case we have listeners to (among other things) mouseclicks, so we can
-place pins when the user clicks the map.
+place markers when the user clicks the map.

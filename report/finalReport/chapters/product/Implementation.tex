@@ -36,7 +36,7 @@ describe.
 \label{IMPL-UTM}
 When the graphical user interface part of the map tries to communicate with the
 model through control, some conversions of the different kind of values are
-necessary. Both when going from coordinates in the java-coordinate system to
+necessary. Both when going from coordinates in the Java-coordinate system to
 UTM32-coordinates and back.
 
 We need to convert the values when we want to use the mousezoom and when we want
@@ -46,14 +46,14 @@ that we can create the new boundaries of the zoomed rectangle.
 
 When we place markers for pathfinding, we do the same as when we do mousezoom,
 but instead we store the point as UTM32-coordinates and whenever we move the
-map, we convert it back to pixel-coordinates so that we know where to draw.
+map, we convert it back to pixel-coordinates so that we know where to draw the
+markers.
 
-The java-coordinates have origo in the top left corner with the y-coordinate
+The Java-coordinates have origo in the top left corner with the y-coordinate
 increasing the further down the y-axis you go. UTM32-coordinates are a bit
 different. UTM32 has origo in the bottom left corner and the y-coordinate
 increasing the further up you go on the y-axis.
 
-% Re-phrasing needed probably.
 We have a utility class with methods for converting the points back and forth.
 One takes a point from the view. The model and the view itself a formula
 for converting the pixelpoint to the UTM32-point.
@@ -70,28 +70,38 @@ Below is an illustration of the conversion from pixel to UTM.
 We click on a point, 'a', on the canvas. To calculate the the UTM coordinate
 corresponding to that point, we use the formulas:
 
+\begin{center}
 $
-UTM_x = bounds_x + \cfrac{a_x}{canvas_{width}} \times bounds_{width}\\
-\\
-UTM_y = bounds_y + \cfrac{canvas_{height} - a_y}{canvas_{height}} \times bounds_{height}\\
-\\
+UTM_x = bounds_x + \cfrac{a_x}{canvas_{width}} \times bounds_{width}
 $
+\end{center}
+
+\begin{center}
+$
+UTM_y = bounds_y + \cfrac{canvas_{height} - a_y}{canvas_{height}} \times
+bounds_{height}
+$
+\end{center}
+
 
 To convert from UTM to pixels, we use the same formulas but reversed:
-
+\begin{center} 
 $
-\\
 Pixel_x = \cfrac{(a_x - bounds_x)}{bounds_{width}} \times
-canvas_{width}\\
-\\
-Pixel_y = canvas_{height} - \cfrac{a_y - bounds_y}{bounds_{height}} \times
-canvas_{height}\\
-\\
+canvas_{width}
 $
+\end{center}
+
+\begin{center}
+$
+Pixel_y = canvas_{height} - \cfrac{a_y - bounds_y}{bounds_{height}} \times
+canvas_{height}
+$
+\end{center}
 
 \section{Mousezoom}
 \label{IMPL-MZ}
-We have implemented the mouse zoom requirement by using \class{mouseEvent}s on
+We have implemented mouse zoom by using \class{mouseEvent}s on
 our canvas. When the user presses the left mouse button down, it generates a
 \class{mousePressed} event. We record the position of the mouse at the time of
 the \class{mousePressed} event and wait for the \class{mouseReleased} event.
@@ -99,11 +109,6 @@ When the left mouse button is released, it generates a \class{mouseReleased}
 event. We use the positions of the mouse at the \class{mouseReleased} event and
 the \class{mousePressed} event to calculate new bounds for the model.
 
-% Redundant?
-As mentioned in section \ref{IMPL-UTM} \class{\nameref{IMPL-UTM}}, we use
-UTM-conversion to convert pixel values into the UTM values we need.
-
-% This paragraph can probably be longer and more detailed.
 Often the user will not drag a square that is in perfect ratio with the
 canvas. If it does not have the same ratio as the canvas, we change the ratio
 of the dragged square behind the scenes. We do this by either adding length or
@@ -117,14 +122,13 @@ dragged box taller.
 \section{Dijkstra vs A*}
 \label{IMPL-DVA}
 When planning the pathfinding feature, we had to decide between two algorithms:
-Dijkstra\footnote{We had a lecture about this in the Algorithms and Data
-Structures course and read about it in \cite[p.~???]{algs4}.} and
+Dijkstras algorithm\footnote{We had a lecture about this in the Algorithms and
+Data Structures course and read about it in \cite[p.~???]{algs4}.} and
 A*\footnote{The advisors explained how this was faster and how we should
-change Dijkstra to change it to A*.}. The latter is based on Dijkstra, but
-achieves better performance by using heuristics.
+change Dijkstra to change it to A*.}. The latter is based on Dijkstras
+algorithm, but achieves better performance by using heuristics.
 
-% First sentence should be re-phrased.
-The Dijkstra algorithm uses a minimum priority queue to find the shortest path
+Dijkstras algorithm uses a minimum priority queue to find the shortest path
 from a given node to every other node by looking at the edges connecting nodes.
 The program will take a node from the priority queue and add all the other nodes
 that are connected to the current node to the priority queue. The priority queue
@@ -137,8 +141,8 @@ it is possible to trace back the route to the start node.
 
 This algorithm is great if we need to find the distance from one point to many other
 points, but can be quite slow when using it for finding a path between to nodes,
-since it just searches in all directions without thinking about in which direction the
-target node is.
+since it just searches in all directions without considering which
+direction the target node is.
 
 % ``estimated distance ... the given node'' - should be more clear.
 This is where A* comes in handy. The A* algorithm is a modification of Dijkstra's
@@ -146,7 +150,9 @@ algorithm that also looks at the estimated distance from the given node when
 determining the value for the priority queue. When using the geographical distance
 as a measure of best route, the value would be the current distance from the start
 node plus the direct distance to the target (as if there were a road directly to
-the target). With this subtle change, the algorithm will prioritize nodes that are
+the target). See figure \ref{A*vsD} for an example. 
+
+With this subtle change, the algorithm will prioritize nodes that are
 relatively closer to the target rather than those that are in the other
 direction. This makes the algorithm much faster since it will not pay much attention
 to the roads that are not in the direction of the target.
@@ -158,7 +164,7 @@ wants to sit and wait too long for the program to find a route.
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=1\linewidth]{images/AstarVSDijkstra.png}
-\label{}
+\label{A*vsD}
 \caption{A* vs. Dijkstra example. The dashed lines are the direct distances,
 used by A*. The Dijkstra algoritm will check the blue node before the red
 node, because B+A \textless C+D. The A* algoritm will check the red node
@@ -176,8 +182,8 @@ distance.
 \section{Evaluator}
 \label{IMPL-EVA}
 In order to make our path finding algorithm flexible enough for different 
-interpretations of the ``best route'', we have added an entity called \class{Evaluator}. 
-This is an object that has the responsibility of evaluating a node relative to 
+interpretations of the ``best route'', we have added an class called
+\class{Evaluator}. This is an object that has the responsibility of evaluating a node relative to 
 the target node. 
 
 The \class{Evaluator} also has the responsibility of calculating the 
@@ -212,17 +218,13 @@ a single line of code in the A* algorithm.
 
 \section{Quadtree}
 \label{IMPL-QT}
-% Quadtree, serialization and threading should maybe be in its own section
-% (called optimizations or something)
-% This section reminds me of a lot of different statements, not really joined together.
-% Needs more pros and cons, and should be ``longer'' / more in depth.
 In order to improve the drawing of our map, we have implemented a data structure
 called quadtree. The quadtree divides our map in four squares. In these four squares
 it divides our roads again into smaller squares, and we keep doing this, until we reach
 an amount of roads that is manageable.
 When we want to retrieve data from the map, we can give the quadtree a
-rectangle, and it will return all the roads within our smaller squares that intersect
-that rectangle. This technique optimizes the drawing of the roads, because we
+rectangle, and it will return all the roads within our smaller squares that
+intersect that rectangle. This technique optimizes the drawing of the roads, because we
 limit the amount of roads we draw.
 
 However, when viewing the entire map of Denmark, this implementation does not help
@@ -232,7 +234,8 @@ have discussed two different techniques to do this.
 The simplest solution would be to iterate over the roads returned and then
 remove the road we do not want to draw. However, it would be more efficient to sort the
 roads before we put them in the quadtree, and then have them sorted in the quadtree.
-With this method we will not to iterate and remove the roads all the time.
+With this method we will not have to iterate over all the raods and remove the
+them all the time.
 
 \begin{figure}[h!]
 \centering
@@ -241,7 +244,7 @@ With this method we will not to iterate and remove the roads all the time.
 \label{IMPL-USQ}
 \end{figure}
 
-We have discussed two different ways to sort the roads in the quadtree.
+We have discussed two different ways of sorting the roads in the quadtree.
 
 The first technique relied on dividing the types of roads into different quadtrees.
 With this implementation, we only implement the quadtrees containing the roadtypes
@@ -290,10 +293,9 @@ affected because of the number of roads drawn.
 \section{Serialization}
 \label{IMPL-SERI}
 We observed that the user had to wait quite a long time for the program to start. This
-was because every time we start the program, we loop through the entire dataset given
-to us by Krak. This data-set is huge, and because of this it takes quite a lot of time to
-start the program. Because we need to load all these data, the user is presented with
-a blank screen for a long time, before all these data are loaded and the program starts.
+was because every time we start the program, we loop through the entire provided
+dataset. This data set is huge, and because of this it takes quite a lot of time
+to start the program. Because we need to load all these data, the user is presented with a blank screen for a long time, before all these data are loaded and the program starts.
 
 We started looking for a way to speed up the loading process, so the user has a map in
 front of him or her quickly, when the user starts the program. What takes the most time
@@ -302,7 +304,7 @@ graph and so on), so if we could skip these steps or speed them up, we could sav
 of time.
 
 This is where serialization comes into play. By serializing an object, you transform your
-object into something that can be passed around, through streams and such. So by
+object into something that can be passed around through streams. So by
 serializing objects, you can save them to files. If the object to be serialized contains
 references to other objects, these will also be serialized (if they are Serializable /
 implements java.io.Serializable).
@@ -318,16 +320,18 @@ all over.
 
 We serialize all the quadtrees, the graph and the maxbounds-object (specifying the bounds
 of Denmark), as these are the objects we need for the program to run. When saved to the
-harddrive, it is around 65MiB, which is okay, given the sizes of harddrives today.
+harddrive, it is around 65MiB, which should not be an issue, given the sizes of
+harddrives today.
 
-We save all these objects to one single file, in order to keep the references. If we didn't do
+We save all these objects to one single file in order to keep the references. If we didn't do
 this, the references will be ruined, which can break the program. We experienced problems
-with this, as nodes and edges is both stored in the quadtrees and the graph. If we serialized
-and saved the quadtrees in one file, and the graph in other file, a given node will be saved
-twice, and when we load the data from the serialized files, the node will exist twice, and it
-won't be the same node. But if we save the objects to a file through the same stream, we only
-get one of each, which leads to less RAM usage, less harddrive usage, faster loadtimes and
-fewer bugs.
+with this, as \class{nodes} and \class{edges} are both stored in the quadtrees
+and the graph. If we serialized and saved the quadtrees in one file, and the
+graph in other file, a given \class{node} will be saved twice, and when we load
+the data from the serialized files, the \class{node} will exist twice, and it won't be
+the same node. But if we save the objects to a file through the same stream, we
+only get one of each, which leads to less RAM usage, less harddrive usage,
+faster loadtimes and fewer bugs.
 
 \subsubsection{Threading}
 By serializing our main objects, we cut several seconds of our load times. But we can do it
