@@ -269,15 +269,18 @@ often.
 The depth controlled quadtree requires less RAM than the multiquadtree,
 because it requires less instances of object \class{QuadTreeNode}.
 
-The multiquadtree is less efficient to search through than the
+The multiquadtree is slighty less efficient to search through than the
 depthcontrolled quadtree, because we must run through each quadtree
 individually.
 
 Looking at the advantages and disadvantages of these quadtrees, we have chosen
-to implement the multiquadtree. We have done this because it is the drawing of
-the roads that slows our implementation. The efficiency of our program is not
-affected by the efficiency of the quadtree search. The efficiency of the map is
-affected because of the number of roads drawn.
+to implement the multiquadtree. We have done this because it makes it a lot easier for 
+us to layer the roads by their roadtype. Also it is the drawing of the roads that slows 
+down our implementation. The time needed for searching through the quadtree, is 
+decided by the amount of roads in it, which affects the height of the tree. When using 
+more quadtrees, the amount of roads are smaller, and because of that the height is 
+smaller. Even when using multiple quadtrees, the efficiency of the map is primarily 
+affected by the number of roads drawn, and not the quadtrees.
 
 \section{Serialization}
 \label{IMPL-SERI}
