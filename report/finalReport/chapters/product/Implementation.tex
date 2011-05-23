@@ -8,20 +8,23 @@ between classes (loose coupling), and a high degree of cohesion.
 By following these principles we have achieved implementation with minimal code
 duplication and with good possibility for extension.
 
-Some of the basic thoughts on our design is explained in this figure:
+Some of the basic thoughts on our design is explained in figure
+\ref{fig:BasicDesign}, and \ref{fig:PathfindingStructure}.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1\linewidth]{images/BasicDesign}
-\label{The basic design of our implementation. The controller gets a collection
-of lines, that the view will draw.}
+\caption{The basic design of our implementation. The controller gets a
+collection of lines, that the view will draw.}
+\label{fig:BasicDesign}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1\linewidth]{images/BasicDesign}
-\label{The pathfinding part of our implementation. The static Astar function
+\includegraphics[width=0.5\linewidth]{images/PathfindingStructure}
+\caption{The pathfinding part of our implementation. The static A* function
 takes an Evaluator and a Graph and returns a path.}
+\label{fig:PathfindingStructure}
 \end{figure}
 
 This rest of this chapter describes how we have implemented some of the more
@@ -31,7 +34,6 @@ describe.
 
 \section{UTM-conversion}
 \label{IMPL-UTM}
-% But what is UTM? It isn't really explained anywhere.
 When the graphical user interface part of the map tries to communicate with the
 model through control, some conversions of the different kind of values are
 necessary. Both when going from coordinates in the java-coordinate system to
@@ -53,7 +55,7 @@ increasing the further up you go on the y-axis.
 
 % Re-phrasing needed probably.
 We have a utility class with methods for converting the points back and forth.
-One takes a point from the view. The model and the view itself uses this formula
+One takes a point from the view. The model and the view itself a formula
 for converting the pixelpoint to the UTM32-point.
 
 Below is an illustration of the conversion from pixel to UTM.
@@ -65,7 +67,7 @@ Below is an illustration of the conversion from pixel to UTM.
 \label{fig:UTMconversion}
 \end{figure}
 
-We click on a point, a, on the canvas. To calculate the the UTM coordinate
+We click on a point, 'a', on the canvas. To calculate the the UTM coordinate
 corresponding to that point, we use the formulas:
 
 $
@@ -75,7 +77,7 @@ UTM_y = bounds_y + \cfrac{canvas_{height} - a_y}{canvas_{height}} \times bounds_
 \\
 $
 
-To convert from UTM to pixels we use the same formulas but reversed.
+To convert from UTM to pixels, we use the same formulas but reversed:
 
 $
 \\
@@ -112,7 +114,7 @@ If the ratio of the dragged square is smaller than the canvas ratio, we make the
 dragged box wider. If the ratio of the dragged square is larger, we make the
 dragged box taller.
 
-\section{Dijkstra vs A-star}
+\section{Dijkstra vs A*}
 \label{IMPL-DVA}
 When planning the pathfinding feature, we had to decide between two algorithms: 
 Dijkstra and A*. The latter is based on Dijkstra, but achieves better performance by 
@@ -154,17 +156,17 @@ wants to sit and wait too long for the program to find a route.
 \centering
 \includegraphics[width=1\linewidth]{images/AstarVSDijkstra.png}
 \label{}
-\caption{Astar vs. Dijkstra example. The dashed lines are the direct distances,
-used by Astar. The Dijkstra algoritm will check the blue node before the red
-node, because B+A < C+D. The Astar algoritm will check the red node before the
-blue node, because C+D+E < B+A+F.}
+\caption{A* vs. Dijkstra example. The dashed lines are the direct distances,
+used by A*. The Dijkstra algoritm will check the blue node before the red
+node, because B+A \textless C+D. The A* algoritm will check the red node
+before the blue node, because C+D+E \textless B+A+F.}
 \end{figure}
 
 The smaller the difference from the direct distance is to the actual fastest
-possible route, the more we will benefit from the A-star technique. This
+possible route, the more we will benefit from the A* algoritm. This
 difference will often be bigger for the routes calculated for the car. This is
 because the fastest route would be a straight highway, which often is far from
-possible. We can therefore conclude that the A-star technique typically is more
+possible. We can therefore conclude that the A* algoritm typically is more
 of a benefit when calculating routes for bicycling because they rely on the
 distance.
 
