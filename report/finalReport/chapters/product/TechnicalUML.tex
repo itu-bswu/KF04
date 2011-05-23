@@ -32,8 +32,8 @@ and vice versa. We did this for being able to do this in several files, without 
 duplicate code. For our program right now, this isn't really a problem, as we only have one 
 model, one controller and a view. But if we were to have more, we would either need to copy 
 these helper-methods into the other classes (BAD), or put them in a separate class. But even 
-though we only have one of each, the helper-classes are still an advantage, as they make the 
-code cleaner and easier to maintain and test, as we can test these helper-classes.
+though we only have one of each, the helper-classes are still an advantage, as
+they make the code cleaner and easier to maintain and test, as we can test these helper-classes.
 
 So in essence, we have two parts (the model and the view) that need to communicate 
 somehow, in order to display the data on the screen. But they speak different languages, so 
@@ -47,13 +47,13 @@ user clicks on the map again to place another pin.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[angle=90,width=0.5\linewidth]{images/control-flow}
+\includegraphics[width=0.7\linewidth]{images/SimpleControlFlow}
 \caption{The basic control flow of our Map program}
 \label{control-flow}
 \end{figure}
 
-The controller has placed listeners in the view, so when a MouseClicked event is thrown, 
-the controller is called. First it checks if there is another pin at the spot of the click. If there 
+The controller has placed listeners in the view, so when a MouseClicked event is
+thrown, the controller is called. First it checks if there is another pin at the spot of the click. If there 
 is, this will be removed, and the model is told to clear the route. If there is still over two 
 pins placed, the model is asked to calculate a new route.
 
