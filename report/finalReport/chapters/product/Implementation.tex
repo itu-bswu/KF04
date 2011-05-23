@@ -311,9 +311,10 @@ By doing this, we only need to build our datastructures the first time you start
 After the objects have been created, they are been serialized and saved to files. The next
 time the user starts the program, we check whether the data has been changed. We check
 this by checking the MD5 checksum of the file, with
-\class{MD5Checksum}\footnote{We borrowed this code from \cite{MD5}} (we didn't
-write this class ourselves). When we serialize the objects, we also save the checksum to a config file. If the data hasn't been changed (i.e. the checksum is the same), we load the objects that
-we saved, instead of making them all over.
+\class{MD5Checksum}\footnote{We borrowed this code from \cite{MD5}}. When we serialize 
+the objects, we also save the checksum to a config file. If the data hasn't been changed 
+(i.e. the checksum is the same), we load the objects that we saved, instead of making them 
+all over.
 
 We serialize all the quadtrees, the graph and the maxbounds-object (specifying the bounds
 of Denmark), as these are the objects we need for the program to run. When saved to the
@@ -341,14 +342,14 @@ serializing and saving to files. By using threads, we can create the datastructu
 then immediately show the window to the user, while saving the objects to files in the
 background.
 
-During load time (when loading from the serialized files, after the window is shown to the
-user) not all quadtrees are loaded. So we did encounter a problem when querying the
-quadtrees, when not all of them were loaded. We solved this by putting the querying in
-a try/catch, and when a problem occurred (index out of bounds, when trying to access a
-quadtree not yet loaded), we simply stopped looking through more quadtrees and just
-return what we found so far. Then later on, when all quadtrees were loaded, we could
-return all edges. The user wouldn't notice the lack of roads, as the user only sees a limited
-amount of roads anyway.
+During load time (when loading from the serialized files, after the window is shown to the 
+user) not all quadtrees are loaded. So we did encounter a problem when querying the 
+quadtrees, when not all of them were loaded, as our code would try to use quadtrees 
+not yet loaded. We solved this by putting the querying in a try/catch, and when a problem 
+occurred (index out of bounds, when trying to access a quadtree not yet loaded), we simply 
+stopped looking through more quadtrees and just return what we found so far. Then later on, 
+when all quadtrees were loaded, we could return all edges. The user wouldn't notice the lack 
+of roads, as the user only sees a limited amount of roads anyway.
 
 We did encounter another problem, when trying to use the graph (for pathfinding) when the
 graph wasn't done loading. We solved this by using a simple loop, that check if the graph was

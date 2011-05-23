@@ -9,21 +9,17 @@ have named these three classes something different that may have been more meani
 in terms of the \class{Map of Denmark} context, but we chose these name in order to make 
 our architecture clear.
 
-% This section (until next section) is quite ``loose'' / quite bad.
-We wanted to keep the models as ``skinny'' as possible, 
-although our \class{Model} is quite long. But the amount of (public) methods is small, so 
-looking at it from outside, it is a skinny model. The reason we wanted to keep the models 
-skinny, is because it isn't the model's responsibility to deliver the same data in different ways, 
-do a lot of calculations or stuff like that. It only acts like a ``middle-man'', delivering data to 
-other classes. If some class want the data in another way, they will need to convert it 
-themselves.
+We wanted to keep the models as ``skinny'' as possible, although our \class{Model} is quite long. 
+But the amount of (public) methods is small, so looking at it from outside, it is a skinny model. 
+The reason we wanted to keep the models skinny, is because it isn't the model's responsibility to 
+deliver the same data in different ways, do a lot of calculations or stuff like that. It only acts like a 
+``middle-man'', delivering data to other classes. If some class want the data in another way, they 
+will need to convert it themselves.
 
-Data processing takes place in \class{Control}. It translates data that the model can 
-understand, to something the view can understand, and the other way around. For 
-an example the view only knows about pixels, but it has no idea about UTM 
-coordinates. The model only knows about UTM coordinates, but doesn't know anything 
-about pixels. So for getting these two to communicate, we need to convert pixels to 
-UTM and vice versa.
+\class{Control} makes sure the models and the view can understand each other. The view 
+only knows about pixels, but it has no idea about UTM coordinates. The model only knows 
+about UTM coordinates, but doesn't know anything about pixels. So for getting these two to 
+communicate, we need to convert pixels to UTM and vice versa.
 
 We created some helper-classes (\class{PointMethods} and \class{RectangleMethods}), 
 which are located in the \class{utils} package. These take care of checking whether a point 
@@ -41,20 +37,20 @@ we put in a middle-man (the controller), responsible for the communication betwe
 
 \section{Control flow}
 \label{UML-CF}
-The easiest way to understand MVC and how the individual parts talk together, is by using 
-an example. Let us say the user has already clicked the map and placed a pin. Now the 
-user clicks on the map again to place another pin.
+The easiest way to understand our flow through the program and how the individual parts 
+talk together, is by using an example. Let us say the user has already clicked the map and 
+placed a pin. Now the user clicks on the map again to place another pin.
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.7\linewidth]{images/SimpleControlFlow}
+\includegraphics[width=0.75\linewidth]{images/SimpleControlFlow}
 \caption{The basic control flow of our Map program}
 \label{control-flow}
 \end{figure}
 
 The controller has placed listeners in the view, so when a MouseClicked event is
-thrown, the controller is called. First it checks if there is another pin at the spot of the click. If there 
-is, this will be removed, and the model is told to clear the route. If there is still over two 
+thrown, the controller is called. First it checks if there is another pin at the spot of the click. If 
+there is, this will be removed, and the model is told to clear the route. If there is still over two 
 pins placed, the model is asked to calculate a new route.
 
 If there isn't a pin where the user clicks, we place a new pin. If the user has placed two or 
