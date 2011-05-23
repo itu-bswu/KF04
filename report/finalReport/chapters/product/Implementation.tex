@@ -117,8 +117,11 @@ dragged box taller.
 \section{Dijkstra vs A*}
 \label{IMPL-DVA}
 When planning the pathfinding feature, we had to decide between two algorithms:
-Dijkstra and A*. The latter is based on Dijkstra, but achieves better performance by
-using heuristics.
+Dijkstra\footnote{We had a lecture about this in the Algorithms and Data
+Structures course and read about it in \cite[p.~???]{algs4}.} and
+A*\footnote{The advisors explained how this was faster and how we should
+change Dijkstra to change it to A*.}. The latter is based on Dijkstra, but
+achieves better performance by using heuristics.
 
 % First sentence should be re-phrased.
 The Dijkstra algorithm uses a minimum priority queue to find the shortest path
