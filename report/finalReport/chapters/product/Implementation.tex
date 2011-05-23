@@ -258,7 +258,7 @@ won't be the same node. But if we save the objects to a file through the same st
 get one of each, which leads to less RAM usage, less harddrive usage, faster loadtimes and 
 fewer bugs.
 
-\subsubsection{Threading}
+\subsection{Threading}
 By serializing our main objects, we cut several seconds of our load times. But we can do it 
 even faster. We are serializing several objects, but only few of them are needed right from 
 the start of the program. So what we can do to speed it up even more, is loading the few 
