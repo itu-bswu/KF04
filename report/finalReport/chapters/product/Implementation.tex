@@ -1,7 +1,5 @@
 \chapter{Implementation}
 \label{IMPL}
-<<<<<<< HEAD
-
 Our implementation uses the MVC structure to create a practical class design. We
 have prioritized to make our design as simple and intuitive as possible. We used
 object oriented principles to assure that our design has both low connection
@@ -28,11 +26,6 @@ takes an Evaluator and a Graph and returns a path.}
 
 This rest of this chapter describes how we have implemented some of the more
 interesting features of the software. We aim to describe it to enough detail that this
-=======
-% Of course? That is the assignment?
-This chapter describes how we have implemented some of the more interesting
-features of the software. We aim to describe it to enough detail that this
->>>>>>> 059fb443ae603b9503bd98cd9ee5b29871dc58ad
 chapter can serve as a guideline for implementing the functionalities we
 describe.
 
@@ -63,24 +56,6 @@ We have a utility class with methods for converting the points back and forth.
 One takes a point from the view. The model and the view itself uses this formula
 for converting the pixelpoint to the UTM32-point.
 
-<<<<<<< HEAD
-=======
-% Ay is something minus Ay? So what is Ay?
-% What is Ax?
-$
-a_y = canvas_{height} - a_y\\
-\\
-UTM_x = bounds_x + \cfrac{a_x}{canvas_{width}} \times bounds_{width}\\
-\\
-UTM_y = bounds_y + \cfrac{a_y}{canvas_{height}} \times
-bounds_{height}\\
-\\
-$
-
-return \class{point}(UTM$_x$, UTM$_y$)
-
-
->>>>>>> 059fb443ae603b9503bd98cd9ee5b29871dc58ad
 Below is an illustration of the conversion from pixel to UTM.
 
 \begin{figure}[!ht]
@@ -90,12 +65,8 @@ Below is an illustration of the conversion from pixel to UTM.
 \label{fig:UTMconversion}
 \end{figure}
 
-<<<<<<< HEAD
 We click on a point, a, on the canvas. To calculate the the UTM coordinate
-cooresponing to that point, we use the formulas:
-=======
-To convert from UTM to pixels we use the same formula, but reversed.
->>>>>>> 059fb443ae603b9503bd98cd9ee5b29871dc58ad
+corresponding to that point, we use the formulas:
 
 $
 UTM_x = bounds_x + \cfrac{a_x}{canvas_{width}} \times bounds_{width}\\
@@ -118,8 +89,6 @@ $
 
 \section{Mousezoom}
 \label{IMPL-MZ}
-% Stop speaking of requirements in the middle of the report, unless it is necessary.
-% Perhaps a bit to technical?
 We have implemented the mouse zoom requirement by using \class{mouseEvent}s on
 our canvas. When the user presses the left mouse button down, it generates a
 \class{mousePressed} event. We record the position of the mouse at the time of
