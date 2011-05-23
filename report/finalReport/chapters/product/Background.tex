@@ -134,17 +134,6 @@ drawing the map and for finding the route between two points.
 
 \section{MVC structure}
 \label{BG-MVC}
-In order to achieve a decent code structure and separation of responsibilities, 
-we utilize the Model-View-Controller (MVC) architecture. By doing this, we split 
-the code into smaller sections, which can be easier to handle and easier to 
-coorporate on the code.
-
-This is because we split the code into three parts: graphical user interface 
-(``view''), data handling (``model'') and the connection between the two 
-(``controller''). Read more in section \ref{UML} \class{\nameref{UML}} on 
-page \pageref{UML}.
-
-\subsection{What is it? How does it work?}
 In order to achieve a decent code structure, it is important to split the 
 responsibilities of the program into different pieces, which work together 
 to make the program work as intended.
@@ -176,14 +165,16 @@ handle one data source. If we were to use relational databases, we would have a
 model for each table in the database. In our case we only have one data source
 (Krak's dataset), and therefore only have one model, to communicate with this.
 
-Controllers
 Now we only need a way to connect the graphical interface with the data. This is
 where controllers enter the picture. In MVC you have one controller per view.
-This controller provides the view with all the neccessary data from the models.
-The controllers also have listeners on the view, that listens to events on the
-view (like when the user presses a button, clicks his/her mouse and such). Then
-the controller can provide new data to the view or save new data from the view
-to the data source (through the models).
+This controller provides the view with all the necessary data from the models. 
+The controllers also take care of all data processing. It translates data that the 
+model can understand, to something the view can understand, and the other 
+way around. Another thing the controllers are responsible for, is listening to its view. 
+The controller have so called ``listener'', that listens to events on the view (like when 
+the user presses a button, clicks his/her mouse and such). Then the controller can 
+provide new data to the view or save new data from the view to the data source 
+(through the models).
 
 An example of this could be that the user updates some info and presses the 
 ``Save''-button. Then the controller listens to this event, passes the new data

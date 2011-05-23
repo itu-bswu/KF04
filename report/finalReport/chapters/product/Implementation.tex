@@ -317,12 +317,12 @@ background.
 
 During load time (when loading from the serialized files, after the window is shown to the 
 user) not all quadtrees are loaded. So we did encounter a problem when querying the 
-quadtrees, when not all of them were loaded. We solved this by putting the querying in 
-a try/catch, and when a problem occurred (index out of bounds, when trying to access a 
-quadtree not yet loaded), we simply stopped looking through more quadtrees and just 
-return what we found so far. Then later on, when all quadtrees were loaded, we could 
-return all edges. The user wouldn't notice the lack of roads, as the user only sees a limited 
-amount of roads anyway.
+quadtrees, when not all of them were loaded, as our code would try to use quadtrees 
+not yet loaded. We solved this by putting the querying in a try/catch, and when a problem 
+occurred (index out of bounds, when trying to access a quadtree not yet loaded), we simply 
+stopped looking through more quadtrees and just return what we found so far. Then later on, 
+when all quadtrees were loaded, we could return all edges. The user wouldn't notice the lack 
+of roads, as the user only sees a limited amount of roads anyway.
 
 We did encounter another problem, when trying to use the graph (for pathfinding) when the 
 graph wasn't done loading. We solved this by using a simple loop, that check if the graph was 
