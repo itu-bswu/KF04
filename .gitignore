@@ -8,6 +8,7 @@ data/*
 **.pdf
 **.synctex.gz
 **.toc
+**.gz
 bin/*
 **.ai
 **kdv_*.txt
