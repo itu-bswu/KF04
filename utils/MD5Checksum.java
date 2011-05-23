@@ -9,6 +9,8 @@ import java.security.MessageDigest;
  * 
  * This is not our code. The code is borrowed from Real's Java-How-to
  * Source: http://www.rgagnon.com/javadetails/java-0416.html
+ * 
+ * We have changed it slightly, but functionality is the same.
  */
 public class MD5Checksum {
 
