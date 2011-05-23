@@ -133,7 +133,7 @@ very beneficial feature and we did not feel we could leave it out.
 
 \section{Features not implemented}
 \label{UIA-NI}
-This section presents some of the features we have chosen not to implement.
+This section presents some of the features we chose not to implement.
 These features are not in the final program, because we did not feel there were
 compelling arguments for implementing them.
 
@@ -148,20 +148,25 @@ zoomed in the map is. It could become very confusing if the user had the option
 of selecting roads, because the graphical user interface could become very
 cluttered, if all the roads were listed.
 
-One advantage to this could be the option for the user to select which roads
-should be included in the route planning - ferries, highways, bridges etc. 
+We felt that our gradually increasing level of detail is enough, and if the user were 
+to enable all types of roads at once, the map could get quite slow and cumbersome 
+to use.
+
+If we were to implement something like this, it would be to give the user the choice 
+which types of roads should be included in the route planning - ferries, highways, 
+bridges etc.
 
 \subsection{Smooth scrolling}
 \label{UIA-NI-SS}
 We made an attempt to let the keyboard arrows scroll smoothly over the map, but
-we could not implement it to work fast enough, so the user would experience
-lockups and the user interface hanging at some points. A solution to this would
-be to save map at images that you can scroll across - this would be faster, but
+we could not get it to work fast enough, and the user would experience
+lockups and an unresponsive interface. A solution to this would
+be to save map as images that you can scroll across - this would be faster, but
 would require more disk space. Because we store the data the way we do, which 
 forces us to draw every line individually every time the user moves the viewport, 
 we cannot do this fast enough.
 
-In the end, we decided the benefit of the smooth scrolling was not big enough
+In the end, we decided the benefits of the smooth scrolling were not large enough
 for us to spend a lot of time implementing this feature. The cost of changing that  
 much way we draw the roads, was simply too high compared to the benefits.
 
@@ -170,7 +175,7 @@ much way we draw the roads, was simply too high compared to the benefits.
 In the final project description, a dynamic route finding feature was
 suggested. If we had implemented the suggested dynamic route finding feature, a
 user would be able to mark a spot and then whenever he moused over a node on the
-map, he would find the route instantly.
+map, it would show the route instantly.
 
 We considered implementing this as we thought it was a
 nice feature to have, but it conflicted with the algorithm we use for

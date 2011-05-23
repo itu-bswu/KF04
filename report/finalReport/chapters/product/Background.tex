@@ -2,26 +2,29 @@
 \label{BG}
 \section{Problem area}
 \label{BG-PR}
+% Web-maps -> Maps on the web / digital maps / maps on the computer?
+% A negative side-effect of the web maps, is that it isn't as easy to bring 
+% along on a trip, as a traditional road map.
 Over the last decade people have switched from traditional roadmaps 
-to using the web-maps. This is a change without any negative side-effects. 
+to using the web-maps. This is a change without any significant negative side-effects. 
 The online services remove all the problems with determining the quickest 
-route between two points and you spend no time browsing the pages of 
-the map to find what you need. With the popular smartphones the online 
-map is even more useful, since you no longer need to prepare your trip 
-before you leave.
+route between two points and you spend no time flipping the pages of 
+the map to find what you need. With the smartphones on the market today, 
+the online maps are even more useful, since you no longer need to 
+prepare your trip before you leave.
 
 The online maps have now been used for many years and haven`t been slow 
-at adopting new features to improve their usability. They have both 
-implemented satellite-maps that allow us to browse the entire planet 
+at adopting new features to improve their usability. Many has 
+implemented satellite-maps, that allow us to see the entire planet 
 from above, and lately the feature called Google Street View has upped 
-the stakes when allowing us to look at any direction from a given point 
+the stakes, when allowing us to look in any direction from a given point 
 of a road. The two maps that we use the most are Google Maps and the 
 Danish map called Krak. These maps both have the mentioned features 
 but slight differences in the way the user navigates and searches 
 for routes.
 
 Because of the widespread knowledge of the online maps, the users 
-have been accustomed to certain features and ways of using the map. 
+have grown accustomed to certain features and ways of using the map. 
 It is very important that we, with a new map program, use this knowledge 
 to our advantage and don`t try to reinvent the wheel. By using some 
 of the commonly used controls in our map, a user will be able to quickly 
@@ -38,80 +41,97 @@ Here is a list of the features we had to implement:
 \begin{itemize}
   \item We had to make a visual representation of all the roads from the
   dataset.
-  \item We had to draw different roads in different colors.
-  \item We had to adjust our drawing of the roads to the windows size of our
-  GUI.
+  \item We had to draw different kinds of roads in different colors.
+  \item We had to adjust our drawing of the roads, to the window size of our
+  user interface.
   \item We had to make mouse zooming possible.  The user should be able to drag
-  the mouse from one corner of the map to another, in order to zoom in on the
+  and select an area with the mouse, creating a square or rectangle, and zoom in on the
   selected area.
-  \item We had to implement a method to find a route from one road in the map to
+  % It isn't important whether or not it is a method. Should be slightly re-phrased.
+  \item We had to implement a method to find a route from one point on the map to
   another, and we had to allow the user to find that route by clicking at each
-  of the roads.
+  of the points.
 \end{itemize}
+% ``Of course, some of the...'' sounds a bit cocky for my taste.
+% Should probably be re-phrased a bit.
 We had to consider these requirements while
 deciding how the program should be designed. Of course, some of the
 requirements were so self explanatory that we would have made them regardless
 of them being required.
+
 \section{Our requirements}
-In the process of designing the program we made some requirements that we
-wanted to make sure was met before making more advanced features. Since it was
+In the process of designing the program, we made some requirements, that we
+wanted to make sure was met, before making more advanced features. Since it was
 required to make the user able to zoom-in on the map, we found it logical to
 allow him or her to:
 \begin{itemize}
   \item Zoom out
-  \item Scroll the map
+  \item Pan around on the map
 \end{itemize}
-With these basic features covered, we decided which advanced featured we wanted
-implement. In order to give the user a chance to find more specific places, we
-decided to show the user the name of the road closest to the cursor. This means
-that the user can get orientated without clicking or pressing any button. 
 
+With these basic features covered, we decided which advanced featured we wanted
+to implement. In order to give the user a chance to find more specific places, we
+decided to show the user the name of the road closest to the cursor. This means
+that the user can get orientated without clicking or pressing any buttons. 
+
+% Why is it due to the size of the maps, that there isn't a way of selecting bike-tours?
+% The length of the edges are present, which is the only thing needed, right?
 The most interesting feature of our \class{Map of Denmark} is perhaps the
 option of selecting whether you want to travel by car or by bicycle. Many Danish
 people use bicycles to travel and as such this feature is a very relevant and
 nice one to have in the software. It is a feature not usually seen on
 international maps - this is most likely due to the size of these maps.
 
+% ``This makes our map well suited...'' sounds a bit too confident.
 We also decided to let the user create routes with an unlimited amount of
 waypoints. This makes our map well suited for planning bicycling trips or longer
 car rides where you want to reach more than one destination. Because this
 feature can be quite demanding when a lot of waypoints are selected, we had to
-make sure that the algorithm for finding routes was fast enough so we avoided
-making use of the map cumbersome for an end-user.
+make sure that the algorithm for finding routes was fast enough to ensure that the 
+map is pleasant to use.
 
 We wanted to make sure that the shape of Denmark is recognizable when
-the user has zoomed out to show the entire country. There is a balance between
+the user is zoomed far enough out to show the entire country. There is a balance between
 showing a big amount of roads and the delay when navigating. We wanted to make
-the user able to navigate the map with a reasonable amount of delay. 
+the user able to navigate the map with an acceptable delay. 
 
 The fact that we chose specific requirements for our program gave us two big
-advantages. It both made the planning process easier, and it made the
-structuring of the code easier to choose. In the process of creating the
+advantages. It both made the planning process easier, and it did the design phase a lot 
+easier, when we knew what the program should be able to do. In the process of creating the
 program, we had to change and create new requirements for ourselves, when we
 felt some feature was necessary for the end-user to have. In the last part of
 the coding process, we decided on our final requirements and worked towards completing them. 
+
 \section{Data set}
 \label{BG-DS}
+% This could be longer.
 We have been provided with a dataset of roads and intersections in Denmark 
-from Krak. Additionally we got some code for loading the data in from the 
-text files. We have only made minor changes to the code for loading the data.
+from Krak. Additionally we were given some code for loading the data from the 
+text files.
+
 \subsection{UTM-coordinates}
 \label{BG-DS-UTM}
+% What is KrakNode? What is UTM32? How is it important?
 It is important to note that the KrakNodes are in UTM-32 coordinates. When 
 using the UTM standard the origo is placed at the south-west corner. These 
 coordinates need some conversion when using in Java since the origo is placed 
 differently.
+
 \subsection{Graph}
 \label{BG-DS-G}
-When the data has been loaded it is stored as a Graph containing KrakNodes 
-and KrakEdges. The KrakEdges are the road segments and contains the name 
-of the road, an estimated drive time, a direction of traffic and references 
-to the two KrakNodes that are at either end of the road.  The KrakNode itself 
-contains only the coordinates for the point.
-The Graph itself contains a number of useful methods for searching the data 
-like getting all edges that is connected to a KrakNode. We will be using these 
-methods extensively throughout the project both for drawing the map and for 
-finding the route between two points.
+When the data has been loaded it is stored as a \class{Graph} object containing 
+\class{KrakNode}s and \class{KrakEdge}s. The \class{KrakEdge}s are the 
+road segments and contains the name of the road, an estimated drive time, 
+a direction of traffic and references to the two \class{KrakNode}s that are at 
+either end of the road.  The \class{KrakNode} itself contains only the coordinates 
+for the point. The \class{Graph} contains a number of useful methods for 
+searching the data like getting all edges that is connected to a \class{KrakNode}. 
+We will be using these methods extensively throughout the project both for 
+drawing the map and for finding the route between two points.
+% ^ False - we use the quadtree for drawing the map, right?
+% ``Extensively'' should probably be re-phrased. It indicates ``a lot'', and it isn't 
+% that much and that important, that the user knows that.
+
 \section{MVC structure}
 \label{BG-MVC}
 In order to achieve a decent code structure and separation of responsibilities, 
@@ -120,8 +140,9 @@ the code into smaller sections, which can be easier to handle and easier to
 coorporate on the code.
 
 This is because we split the code into three parts: graphical user interface 
-(``view''), data handling (``model'') 'and the connection between the two 
-(``controller''). Read more in section \ref{UML-MVC} on page \pageref{UML-MVC}.
+(``view''), data handling (``model'') and the connection between the two 
+(``controller''). Read more in section \ref{UML} \class{\nameref{UML}} on 
+page \pageref{UML}.
 
 \subsection{What is it? How does it work?}
 In order to achieve a decent code structure, it is important to split the 
