@@ -94,14 +94,12 @@ the last part of the coding process, we decided on our final requirements and wo
 
 \section{Data set}
 \label{BG-DS}
-% This could be longer.
-We have been provided with a dataset of roads and intersections in Denmark 
+We have been provided with a data set of roads and intersections in Denmark 
 from Krak. Additionally we were given some code for loading the data from the 
 text files.
 
 \subsection{UTM-coordinates}
 \label{BG-DS-UTM}
-% What is KrakNode? What is UTM32? How is it important?
 When using the UTM standard the earth is divided into 60 rectangles that each 
 has the origo at the south-west corner. Most of Denmark is within the UTM-32 
 rectangle so all the coordinate data is given as UTM32-coordinates.
@@ -117,13 +115,9 @@ road segments and contains the name of the road, an estimated drive time,
 a direction of traffic and references to the two \class{KrakNode}s that are at 
 either end of the road.  The \class{KrakNode} itself contains only the coordinates 
 for the point. The \class{Graph} contains a number of useful methods for 
-searching the data like getting all edges that is connected to a \class{KrakNode}. 
-We will be using these methods extensively throughout the project both for 
-drawing the map and for finding the route between two points.
-% ^ False - we use the quadtree for drawing the map, right?
-% ``Extensively'' should probably be re-phrased. It indicates ``a lot'', and it isn't 
-% that much and that important, that the user knows that.
-
+searching the data like getting all edges that are connected to a
+\class{KrakNode}. We will be using these methods in the project to find a
+route between two points.
 \section{MVC structure}
 \label{BG-MVC}
 In order to achieve a decent code structure, it is important to split the 
