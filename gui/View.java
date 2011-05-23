@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.RenderingHints;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -40,10 +41,11 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 /**
- * The frame that visualizes the roads (lines that are given), with controlls to the left.
- * 
- * @author Emil
- *
+ * View
+ * Acts as a view in the Model-View-Controller (MVC) architectural pattern, 
+ * responsible for the frame that visualizes the roads (Lines that are given),
+ * with controls shown as a panel to the left.
+ * @author Emil Juul Jacobsen
  */
 public class View extends JFrame{
 
@@ -51,23 +53,25 @@ public class View extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 
-	// felter
 	private Canvas canvas;
+	private JLabel infobar;
+	
+	// navigation
 	private JButton upButton;
 	private JButton leftButton;
 	private JButton downButton;
 	private JButton rightButton;
 	private JButton zoomInButton;
 	private JButton zoomOutButton;
-	private JLabel infobar;
-	
-	private JButton clearPinsButton;
+
+	private JButton clearMarkersButton;
 	private JRadioButton carChoice;
 	private JRadioButton bikeChoice;
 
 	// names of stats
 	private JLabel routeTotalDistLabel;
 	private JLabel routeTimeLabel;
+	
 	// values of stats
 	private JLabel routeTotalDistValue;
 	private JLabel routeTimeValue;
@@ -77,10 +81,9 @@ public class View extends JFrame{
 	 * @param header The title for the frame.
 	 * @param startRatio The initial ratio of the canvas component.
 	 */
-	public View(String header, float startRatio){
+	public View(String header, double startRatio){
 
 		super(header);
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		canvas = new Canvas();
@@ -111,11 +114,12 @@ public class View extends JFrame{
 			@Override
 			public void mouseDragged(MouseEvent e){
 				Point end = e.getPoint();
-
 				Graphics2D g = (Graphics2D) canvas.getGraphics();
+				
+				// Remove any previously drawn rectangles
 				g.drawImage(canvas.getImage(), 0, 0, null);
 
-				// draw the rectangle the right way (else it will be filled)
+				// draw the rectangle the right way (if not done this way it will be filled)
 				if(start.x < end.x && start.y < end.y){
 					// pulled right down
 					g.setColor(new Color(0,0,1,0.33f));
@@ -147,6 +151,7 @@ public class View extends JFrame{
 
 			@Override
 			public void mouseReleased(MouseEvent e){
+				// repaint without any rectangles
 				canvas.repaint();
 				start = null;
 			}
@@ -203,15 +208,15 @@ public class View extends JFrame{
 	public void addOutListener(ActionListener actionListener) {
 		zoomOutButton.addActionListener(actionListener);
 	}
-	
+
 	/**
-	 * Adds an ActionListener to the Clear Pins-button in the Route Options-panel.
+	 * Adds an ActionListener to the Clear Markers-button in the Route Options-panel.
 	 * @param a
 	 */
-	public void addClearPinsListener(ActionListener a){
-		clearPinsButton.addActionListener(a);
+	public void addClearMarkersListener(ActionListener a){
+		clearMarkersButton.addActionListener(a);
 	}
-	
+
 	/**
 	 * Adds an ActionListener to all the route mode RadioButtons.
 	 * @param a 
@@ -219,22 +224,6 @@ public class View extends JFrame{
 	public void addRouteModeListener(ActionListener a){
 		carChoice.addActionListener(a);
 		bikeChoice.addActionListener(a);
-	}
-	
-	/**
-	 * Tells if the Car Choice is selected.
-	 * @return true if selected.
-	 */
-	public boolean isCarChoiceSelected(){
-		return carChoice.isSelected();
-	}
-	
-	/**
-	 * Tells if the Bike Choice is selected.
-	 * @return true if selected.
-	 */
-	public boolean isBikeChoiceSelected(){
-		return bikeChoice.isSelected();
 	}
 
 	/**
@@ -270,9 +259,25 @@ public class View extends JFrame{
 		rightButton.addKeyListener(k);
 		zoomInButton.addKeyListener(k);
 		zoomOutButton.addKeyListener(k);
-		clearPinsButton.addKeyListener(k);
+		clearMarkersButton.addKeyListener(k);
 		carChoice.addKeyListener(k);
 		bikeChoice.addKeyListener(k);
+	}
+	
+	/**
+	 * Tells if the Car Choice is selected.
+	 * @return true if selected.
+	 */
+	public boolean isCarChoiceSelected(){
+		return carChoice.isSelected();
+	}
+
+	/**
+	 * Tells if the Bike Choice is selected.
+	 * @return true if selected.
+	 */
+	public boolean isBikeChoiceSelected(){
+		return bikeChoice.isSelected();
 	}
 
 	/**
@@ -287,8 +292,8 @@ public class View extends JFrame{
 	/**
 	 * Removes all pins currently in place.
 	 */
-	public void clearPins(){
-		canvas.clearPins();
+	public void clearMarkers(){
+		canvas.clearMarkers();
 	}
 
 	/**
@@ -353,7 +358,7 @@ public class View extends JFrame{
 	 * @param routeDistance The total length of the route (in kilometers)
 	 * @param routeTime The total time to travel the route (in hours)
 	 */
-	public void setRouteInfo(float routeDistance, float routeTime) {
+	public void setRouteInfo(double routeDistance, double routeTime) {
 		routeTotalDistValue.setText(String.format("%.1f km", routeDistance));
 
 		// displaying the travel time with right precision (routeTime is given as minutes)
@@ -383,11 +388,11 @@ public class View extends JFrame{
 		rightButton = new JButton(">");
 		zoomInButton = new JButton("+");
 		zoomOutButton = new JButton("-");
-		
-		clearPinsButton = new JButton("Clear Pins");
+
+		clearMarkersButton = new JButton("Clear Markers");
 		carChoice = new JRadioButton("Car");
 		bikeChoice = new JRadioButton("Bike");
-		
+
 		infobar = new JLabel(" ",SwingConstants.CENTER);
 
 		// labels for route info
@@ -403,10 +408,9 @@ public class View extends JFrame{
 		menuPanel.setLayout(new GridBagLayout());
 		navigationPanel.setBorder(BorderFactory.createTitledBorder("Navigation"));
 		routeOptions.setBorder(BorderFactory.createTitledBorder("Route Options"));
-		// TODO: routeOptions setLayout
 		routeInfo.setBorder(BorderFactory.createTitledBorder("Route Information"));
 		routeInfoGrid.setLayout(new GridLayout(0,2));
-		
+
 		carChoice.setSelected(true);
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(carChoice);
@@ -422,8 +426,8 @@ public class View extends JFrame{
 		outer.add(canvas,BorderLayout.CENTER);
 		outer.add(menuPanel,BorderLayout.WEST);
 		outer.add(infobar,BorderLayout.SOUTH);
-		
-		routeOptions.add(clearPinsButton);
+
+		routeOptions.add(clearMarkersButton);
 		routeOptions.add(carChoice);
 		routeOptions.add(bikeChoice);
 
@@ -438,7 +442,7 @@ public class View extends JFrame{
 		c.fill = GridBagConstraints.BOTH;
 
 		menuPanel.add(navigationPanel,c);
-		
+
 		c.gridy = 1;
 		menuPanel.add(routeOptions,c);
 
@@ -452,7 +456,7 @@ public class View extends JFrame{
 
 	/**
 	 * Creates the complicated navigation panel, this is done using a GridBagLayout.
-	 * @param nav
+	 * @param nav The panel to make the buttons in.
 	 */
 	private void setupNavigation(JPanel nav) {
 		GridBagConstraints c = new GridBagConstraints();
@@ -484,9 +488,9 @@ public class View extends JFrame{
 	}
 
 	/**
-	 * The canvas that displays lines.
+	 * Canvas
+	 * The canvas that displays the map visualization itself (and pins & routes)
 	 * @author Emil
-	 *
 	 */
 	private static class Canvas extends JComponent{
 		private static final long serialVersionUID = 1L;
@@ -498,7 +502,7 @@ public class View extends JFrame{
 
 		public Canvas(){
 			try{
-				pin_img = ImageIO.read(new File("src","pin.png"));
+				pin_img = ImageIO.read(new File("src","gfx/pin.png"));
 			}catch(IOException e){
 				e.printStackTrace();
 			}
@@ -516,8 +520,8 @@ public class View extends JFrame{
 		}
 
 		/**
-		 * Gives the off-screen image that is contained within the canvas.
-		 * @return
+		 * Gives the off-screen Image that is contained within the canvas.
+		 * @return The off-screen Image.
 		 */
 		public Image getImage(){
 			return img;
@@ -526,10 +530,14 @@ public class View extends JFrame{
 		/**
 		 * Removes any stored pins.
 		 */
-		public void clearPins() {
+		public void clearMarkers() {
 			pins.clear();
 		}
 
+		/**
+		 * Adds the given pin to the collection.
+		 * @param p A point where the pin should be placed.
+		 */
 		public void addPin(Point p) {
 			pins.add(p);
 		}
@@ -553,51 +561,61 @@ public class View extends JFrame{
 
 		/**
 		 * Draws the given Lines on the off-screen image for later display on the canvas.
-		 * @param lines
+		 * @param lines The lines that should be visible.
 		 */
 		public void drawOffScreen(Collection<Line> lines){
 			if(getWidth() > 0 && getHeight() > 0){
-				//Stopwatch timer = new Stopwatch("Drawing");
 				img = new BufferedImage(getWidth(),getHeight(),BufferedImage.TYPE_INT_RGB);
 				Graphics2D g = (Graphics2D) img.getGraphics();
 
 				// draw background
 				g.setColor(getBackground());
 				g.fillRect(0, 0, getWidth(), getHeight());
+
+				// Anti-aliasing
+				g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
 				// draw lines
-				for(Line l : lines){
-					drawLine(g,l);
-				}
+				drawLines(g,lines,0.0,true);
+				drawLines(g,lines,-1.0,false);
+
+				// draw the route
 				if(route != null){
-					for(Line r : route){
-						drawLine(g,r);
-					}
+					drawLines(g,route,-1.0,false);
 				}
 
+				// draw pins and write their number
 				for(int index = 0 ; index < pins.size() ; index++){
 					g.setFont(new Font("Arial", Font.BOLD, 16));
 					g.setColor(Color.BLACK);
-					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth(), pins.get(index).y - pin_img.getHeight(), null);
-					g.setColor(Color.BLUE);
-					g.drawString(""+(index+1), pins.get(index).x + 2, pins.get(index).y - pin_img.getHeight()+12);
+					g.drawImage(pin_img, pins.get(index).x - pin_img.getWidth()/2-2, pins.get(index).y - pin_img.getHeight()-3, null);
+					String number = String.valueOf(index+1);
+					g.drawString(number, pins.get(index).x-6-(number.length()-1)*4, pins.get(index).y-14);
 				}
 
 				g.dispose();
-				//timer.printTime();
+			}
+		}
+		
+		private void drawLines(Graphics2D g, Collection<Line> lines, double ThicknessAddition, boolean darker) {			
+			for(Line l : lines){
+				if(darker){
+					g.setColor(l.getLineColor().darker().darker());
+				}
+				else{
+					g.setColor(l.getLineColor());
+				}
+				
+				g.setStroke(new BasicStroke((float) (l.getSize()*Math.max(1.0,l.getThickness()*this.getWidth() + ThicknessAddition)),BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
+				g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
+						(int)(l.getStartPoint().y*this.getHeight()),
+						(int)(l.getEndPoint().x*this.getWidth()),
+						(int)(l.getEndPoint().y*this.getHeight()));
 			}
 		}
 
-		private void drawLine(Graphics2D g, Line l) {
-			g.setColor(l.getRoadColor());
-			g.setStroke(new BasicStroke(l.getThickness()));
-			g.drawLine((int)(l.getStartPoint().x*this.getWidth()), 
-					(int)(l.getStartPoint().y*this.getHeight()),
-					(int)(l.getEndPoint().x*this.getWidth()),
-					(int)(l.getEndPoint().y*this.getHeight()));
-		}
-
 		/**
-		 * Paints the off-screen image on the canvas.
+		 * Paints the off-screen Image on the Canvas.
 		 */
 		@Override
 		public void paint(Graphics g){
@@ -614,10 +632,10 @@ public class View extends JFrame{
 	 */
 	public static void main(String[] args){
 		Collection<Line> x = new HashSet<Line>();
-		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.BLACK,1));
-		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLACK,2));
+		x.add(new Line(new Point2D.Double(0.25,0.25),new Point2D.Double(0.75,0.75),Color.YELLOW,0.01,1));
+		x.add(new Line(new Point2D.Double(0.75,0.25),new Point2D.Double(0.25,0.75),Color.BLUE,0.02,1));
 
-		final View v = new View("X marks the spot",(float) 1.0);
+		final View v = new View("X marks the spot", 1.0);
 
 		v.addPin(new Point((int)(0.25*v.getCanvasWidth()),(int)(0.25*v.getCanvasHeight())));
 		v.addPin(new Point((int)(0.75*v.getCanvasWidth()),(int)(0.75*v.getCanvasHeight())));

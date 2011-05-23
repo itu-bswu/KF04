@@ -6,7 +6,6 @@ import java.io.Serializable;
  * Represents an Edge in a graph. Can be both directed an undirected
  * 
  * @author Peter Tiedemann petert@itu.dk
- * 
  */
 public class Edge<N extends Node> implements Serializable {
 	/**
@@ -14,6 +13,9 @@ public class Edge<N extends Node> implements Serializable {
 	 */
 	private static final long serialVersionUID = -6710776563481342254L;
 
+	// indicates the edge is undriveable
+	public static final byte NON = 0;
+	
 	// indicates the edge goes from v1 -> v2
 	public static final byte FORWARD = 1;
 

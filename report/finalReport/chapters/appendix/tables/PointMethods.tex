@@ -1,0 +1,30 @@
+\begin{centering}
+\begin{longtable}{|p{0.28\textwidth}|p{0.24\textwidth}|p{0.24\textwidth}|p{0.24\textwidth}|}
+\hline
+Test description & Example & Expected Output & Actual Output\\
+\hline
+\hline
+testPixelToUTM & view:(0, 0, 800, 600) model:(0, 0, 4000, 3000) point(80, 350) &
+(400, 1250) & (400, 1250)\\
+\hline
+\hline
+testUTMToPixel & view:( 0, 0, 800, 600) model:(0, 0, 4000, 3000)
+point:(pixelToUTM( 80, 350)) & (80, 350) & (80, 350)\\
+\hline
+\hline
+testPointOutOfBounds & view:(0, 0, 800, 600) & & \\
+\hline
+Inside & Point a:(100, 400) & a = (100, 400) & (100, 400)\\
+\hline
+Far left & Point a:(-100, 400) & a = (0, 400) & a = (0, 400)\\
+\hline
+Far right & Point a:(1200, 400) & a = (800, 400) & a = (800, 400)\\
+\hline
+Far up & Point a:(100, -300) & a = (100, 0) & a = (100, 0)\\
+\hline
+Far down & Point a:(100, 2000) & a = (100, 600) & a = (100, 600)\\
+\hline
+Far left \& far south & Point a:(-100, -200) & a = (0, 0) & a = (0, 0)\\
+\hline
+\end{longtable}
+\end{centering}

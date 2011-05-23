@@ -1,0 +1,70 @@
+\begin{centering}
+\begin{longtable}{|p{0.1\textwidth}|p{0.1\textwidth}|p{0.35\textwidth}|p{0.35\textwidth}|}
+\hline
+Dato & Medlem & Løst opgave & Personlig note\\
+\hline
+\hline
+3/8/ 2011 & Jakob & Oprettede dokument & \\
+\hline
+3/14/ 2011 & Niklas & Lavede .gitignore, refaktorede kode(+prettify) & \\
+\hline
+3/15/ 2011 & Emil & Implementeret QuadTree & Der er noget galt i Map, da op/ned
+scroll virker omvendt, desuden en mystisk implementation i Direction Enum'et, det skal ændres til en switch direkte i Map.\\
+\hline
+3/17/ 2011 & Jakob & Fixede merge problems i control & Forstår ikke helt det med
+file. Skal have det forklaret på mødet. Skal bede Niklas om ikke at lave min hjemmeopgave for mig! :D\\
+\hline
+3/22/ 2011 & Jakob & Lavede noget på mousezoom & \\
+\hline
+3/24/ 2011 & Emil & Vejnavn ved klik & Er stadig nogle bugs der skal fixes\\
+\hline
+3/25/ 2011 & Emil & Resize og thickness & \\
+\hline
+3/27/ 2011 & Emil & Vejnavn... & Der står nu ingen tekst nederst når man har
+musen over 200m fra en vej, desuden ser firkanten en del federe ud (gennemsigtig blå) når man er ved at zoome\\
+\hline
+3/28/ 2011 & Jakob & Testede på hjemmecomputer & Begyndte at kigge på LateX.
+Mulighed for at zoome ud til start ville være bonus mega awesome!\\
+\hline
+3/28/ 2011 & Niklas & Optimerede RAM forbrug & Double -\textgreater Float\\
+\hline
+3/31/ 2011 & Jakob & Tegnede hvordan vi laver pixels om til UTM og skrev det
+meste af det jeg skulle skrive & Vi har nem mulighed for at lave god formatering af vores tekst - skal huske at vise hvordan fredag. Ville være fantastisk, hvis vi kunne få lagt tingene ind i ordenlige packages - so much shit in default package! Diskuter PixelToUTM e.x/width*width \\
+\hline
+3/31/ 2011 & Filip & Skrev afsnit om Line og tilføjede tykkelser på veje i map &
+\\
+\hline
+4/5/ 2011 & Emil & refactoring & Flyttet noget logik fra QuadTree til Model\\
+\hline
+4/7/ 2011 & Jakob & Refactorede control og oprettede nye klasser - lavede JUnit
+& \\
+\hline
+4/12/ 2011 & Niklas & Tilføjede multithreading loading af serialiserede filer. &
+Langsomme computere kan lave forespørgelserne i nogle af quadtrees før de er loadet. UPDATE d. 15/4/2011 - det er fixet, ved at returnere de edges og nodes som er fundet i de fundne quadtrees.\\
+\hline
+4/23/ 2011 & Jakob & Lavede clearpins & \\
+\hline
+4/28/ 2011 & Niklas & Lavede en default evaluator & Hidtil var der ikke nogen
+bestemmelse om hvad der skulle ske, hvis der ikke var valgt en evaluator. Jeg har nu lavet en Evaluator.DEFAULT, der bare refererer til Evaluator.CAR. Hvad skal der ske hvis brugeren skifter evaluator, efter ruten er lagt?\\
+\hline
+4/30/ 2011 & Niklas & Fixede serialisering & Det hjalp at serialisere til samme
+fil, med samme stream. På den måde opstår der ikke dublikater. Desuden er fylder
+dataen mindre, det går hurtigere, og bruger væsentligt mindre RAM (550MiB
+=\textgreater 260MiB)\\
+\hline
+5/1/ 2011 & Niklas & Forårs-rengøring af kode & Har flyttet klasser rundt til de
+rigtige pakker. Har desuden gennemgået koden sammen med FindBugs, og ryddet op i koden.\\
+\hline
+5/5/ 2011 & Niklas & Tilføjede anti-aliasing & Problemet var at vi tilføjede
+anti-aliasing på baggrunden også, og derfor kørte det langsomt. Prøvede kun at bruge det på stregerne, og det fungerer ganske udemærket, og er stadig hurtigt.\\
+\hline
+5/6/ 2011 & Emil & Skønhed & Implementerede "tykke" veje med outline og et mere
+differencieret quadtree PS: jeg har glemt at skrive herinde en masse gange\\
+\hline
+5/8/ 2011 & Jakob & LaTeX & Arbejdede med LaTeX og med smooth scrolling\\
+\hline
+5/14/ 2011 & Emil & White Box Test & Har skrevet white box tests til
+getClosestNode metoden, mangler dog at lave det til JUnit da jeg skal vide hvordan jeg loader test-grafen, de andre tests der bruger den virker ikke ved mig\\
+\hline
+\end{longtable}
+\end{centering}

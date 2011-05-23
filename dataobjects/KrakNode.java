@@ -15,8 +15,8 @@ public class KrakNode extends Node implements Serializable {
 	 */
 	private static final long serialVersionUID = 1678781033332952834L;
 	
-	private float X; // Geographic X, meter East in UTM zone 32
-	private float Y; // Geographic Y, meter North of Equator
+	private double X; // Geographic X, meter East in UTM zone 32
+	private double Y; // Geographic Y, meter North of Equator
 
 	/**
 	 * Constructor for objects of class KrakNode.
@@ -40,21 +40,26 @@ public class KrakNode extends Node implements Serializable {
 	/**
 	 * @return The geographic X coordinate, meter East in UTM zone 32
 	 */
-	public float getX() {
+	public double getX() {
 		return X;
 	}
 
 	/**
 	 * @return The geographic Y coordinate, meter North of Equator
 	 */
-	public float getY() {
+	public double getY() {
 		return Y;
 	}
 
-	public float distanceTo(KrakNode that){
-		float x_part = (float) Math.pow(this.getX()-that.getX(),2);
-		float y_part = (float) Math.pow(this.getY()-that.getY(),2);
+	/**
+	 * The (crow flying) distance to another node
+	 * @param that The other node
+	 * @return The distance
+	 */
+	public double distanceTo(KrakNode that){
+		double x_part = Math.pow(this.getX()-that.getX(),2);
+		double y_part = Math.pow(this.getY()-that.getY(),2);
 		//System.out.println("x="+x_part+", y="+y_part);
-		return (float) Math.sqrt(x_part + y_part);
+		return Math.sqrt(x_part + y_part);
 	}
 }

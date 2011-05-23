@@ -9,8 +9,8 @@ public class NodeData {
 	public final int ARC;
 	public int KDV; // NB: Written by InstanceCreator
 	public final int KDV_ID;
-	public final float X_COORD;
-	public final float Y_COORD;
+	public final double X_COORD;
+	public final double Y_COORD;
 
 	/**
 	 * Parses node data from line, throws an IOException if something unexpected
@@ -24,8 +24,8 @@ public class NodeData {
 		ARC = dl.getPositiveInt();
 		KDV = dl.getPositiveInt();
 		KDV_ID = dl.getPositiveInt();
-		X_COORD = dl.getPositiveFloat();
-		Y_COORD = dl.getPositiveFloat();
+		X_COORD = dl.getPositiveDouble();
+		Y_COORD = dl.getPositiveDouble();
 	}
 
 	/**

@@ -1,0 +1,120 @@
+\begin{centering}
+\begin{longtable}{|p{0.28\textwidth}|p{0.24\textwidth}|p{0.24\textwidth}|p{0.20\textwidth}|}
+\hline
+Test description & Example input & Expected Output & Actual Output\\
+\hline
+\hline
+updateBounds & & & \\
+\hline
+null & null & NullPointer-Exception & as Expected\\
+\hline
+Width negative & Rectangle(0,0,-1,0) & IllegalArgument-Exception & As expected\\
+\hline
+Height negative & Rectangle(0,0,0,1) & IllegalArgument-Exception & As expected\\
+\hline
+OutOfBounds & Rectangle(-10,-10,100,70) & IllegalArgument-Exception & As
+expected\\
+\hline
+\hline
+GetBounds & & Rectangle(4, 5, 10, 10) & As expected\\
+\hline
+\hline
+GetLines & & Collection with size 16 & As expected\\
+\hline
+\hline
+orinalBounds & & Rectangle(0, 0, 12.0, 11.5) & As expected\\
+\hline
+\hline
+UnreachablePath & 1, 12 & NoPathException & As expected\\
+\hline
+\hline
+UndriveableRoad & 5,9 & Collection larger than 1* & As expected\\
+\hline
+\hline
+ClearPath & Find  a path, see that it is not clear, then clear it and see that
+it is clear & Collection of size  0 & As expected\\
+\hline
+\hline
+Continuing path & Evaluator.BIKE & &\\ 
+\hline
+ & (1,3) & Collection of size 1 & As expected\\
+\hline
+ & (1,3) + (3,2) & Collection of size 2 & As expected\\
+\hline
+ & (1,3) + (3,2) + (2,4) & Collection of size 4 & As expected\\
+\hline
+ & (1,3) + (3,2) + (2,4) + (4,7) & Collection of size 7 & As expected\\
+\hline
+ & (1,3) + (3,2) + (2,4) + (4,7) + (7,9) & Collection of size 8 & As expected\\
+\hline
+\hline
+OneWayPath: Drive with the direction & (8,7) & Collection of size 1 & As
+expected\\
+\hline
+Drive against the direction & (7,8) & Collection of size larger than 1 & As
+expected\\
+\hline
+\hline
+Evaluator & & & \\
+\hline
+Route over a path & (10, 9) + Evaluator.CAR & Collection larger than size 1 & As
+expected\\
+\hline
+ & (10, 9) + Evaluator.BIKE & Collection of size 1 & As
+expected\\
+\hline
+Different paths found for car and bike** & (1,6) + Evaluator.CAR & Collection of
+size 1 & As expected\\
+\hline
+ & 1,6 Evaluator.BIKE & Collection larger than size 1 & As expected\\
+\hline
+\hline
+ClosestEdge & & & \\
+\hline
+Find the edge closest to a point & 10,10 distance: 200 & The edge named "Mm" &
+As expected\\
+\hline
+ & 5,8 distance: 200 & The edge named"Ii" & As expected\\
+\hline
+Make a search that is not wide enough & 100,100 distance: 10 &
+NothingClose-Exception & As expected\\
+\hline
+\hline
+ClosestNode & & & \\
+\hline
+Find the node closest to a point & 6000 , 2000 & Node with index 2 & As
+expected\\
+\hline
+ & 4000 , 7000 & Node with index 6 & As expected\\
+\hline
+Find the node closet to a point, forcing the algoritm to widen its search &
+-200, -200 & Node with index 4 & As expected\\
+\hline
+\hline
+ClosestRoadName & & & \\
+\hline
+Get the roadname of the closest node & 6050 , 1100 & "Jj" & As expected\\
+\hline
+Make a search that is not wide enough & 10000 , 5000 & " " & As expected\\
+\hline
+\hline
+RouteDistance & & & \\
+\hline
+Make a path and find it's distance & (1,4) & 10.5 & As expected\\
+\hline
+Find distance without a path & - & 0 & As expected\\
+\hline
+\hline
+RouteTime & & & \\
+\hline
+Make a path and find it's drivetime & (1,4) & 4 & As expected\\
+\hline
+Find drivetime without a path & - & 0 & As expected\\
+\hline
+\end{longtable}
+\end{centering}
+
+* Cannot go direct way to target distination because it cannot drive on the road
+between the \class{Node}s.
+
+** Car should take the fastest route, bike should take the shortest route.

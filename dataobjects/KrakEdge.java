@@ -48,7 +48,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 		this.n1 = graph.getNode(data.FNODE);
 		this.n2 = graph.getNode(data.TNODE);
 
-		length = (float) data.LENGTH;
+		length = (float)data.LENGTH;
 		type = data.TYP;
 		// sestoft: Share roadname strings to save space
 		String interned = interner.get(data.VEJNAVN);
@@ -58,6 +58,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 			roadname = data.VEJNAVN;
 			interner.put(roadname, roadname);
 		}
+		
 		String dir = data.ONE_WAY;
 		/*
 		 * tf = ensrettet modsat digitalise­rings­retning (To-From) ft =
@@ -68,15 +69,16 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 			this.direction = Edge.BACKWARD;
 		} else if (dir.equalsIgnoreCase("ft")) {
 			this.direction = Edge.FORWARD;
+		} else if (dir.equalsIgnoreCase("n")) {
+			this.direction = Edge.NON;
 		} else {
 			this.direction = Edge.BOTH;
 		}
-		DRIVETIME = data.DRIVETIME;
+		DRIVETIME = (float)data.DRIVETIME;
 	}
 	
 	/**
 	 * Convert KrakEdge to Line.
-	 * 
 	 * @return Line from KrakEdge.
 	 */
 	public Line2D.Double getLine(){
@@ -90,9 +92,7 @@ public class KrakEdge extends Edge<KrakNode> implements Serializable {
 		interner = null;
 	}
 	
-	/**
-	 * 
-	 */
+	
 	@Override
 	public String toString() {
 		return "E("+ (int)(n1.getX()-722467) + "," + (int)(n1.getY()-6183245) + ")";

@@ -65,8 +65,6 @@ public class DataLine {
 			return Integer.parseInt(s);
 		} catch (Exception e) {
 
-			System.out.println("HER: " + s);
-
 			if (s.equals("''"))
 				return -1;
 			else
@@ -80,10 +78,10 @@ public class DataLine {
 	 * 
 	 * @throws IOException
 	 */
-	public float getPositiveFloat() throws IOException {
+	public double getPositiveDouble() throws IOException {
 		String s = nextToken();
 		try {
-			return Float.parseFloat(s);
+			return Double.parseDouble(s);
 		} catch (Exception e) {
 			if (s.equals("''"))
 				return -1;
@@ -114,18 +112,5 @@ public class DataLine {
 	 */
 	public void discard() {
 		nextToken();
-	}
-
-	/**
-	 * For debugging
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		String line = "A,'',1,'foo,bar',177"; //
-		DataLine dl = new DataLine(line);
-		while (dl.hasMore()) {
-			System.out.println("[" + dl.getString() + "]");
-		}
 	}
 }

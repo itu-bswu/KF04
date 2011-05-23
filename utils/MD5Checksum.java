@@ -4,6 +4,14 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
 
+/**
+ * Class for creating a MD5 checksum of a file.
+ * 
+ * This is not our code. The code is borrowed from Real's Java-How-to
+ * Source: http://www.rgagnon.com/javadetails/java-0416.html
+ * 
+ * We have changed it slightly, but functionality is the same.
+ */
 public class MD5Checksum {
 
 	public static byte[] createChecksum(String filename) throws Exception {
@@ -22,8 +30,6 @@ public class MD5Checksum {
 		return complete.digest();
 	}
 
-	// see this How-to for a faster way to convert
-	// a byte array to a HEX string
 	public static String getMD5Checksum(String filename) throws Exception {
 		byte[] b = createChecksum(filename);
 		String result = "";
@@ -31,20 +37,5 @@ public class MD5Checksum {
 			result = result.concat(Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1));
 		}
 		return result;
-	}
-
-	public static void main(String args[]) {
-		try {
-			System.out.println(getMD5Checksum("apache-tomcat-5.5.17.exe"));
-			// output :
-			// 0bb2827c5eacf570b6064e24e0e6653b
-			// ref :
-			// http://www.apache.org/dist/
-			// tomcat/tomcat-5/v5.5.17/bin
-			// /apache-tomcat-5.5.17.exe.MD5
-			// 0bb2827c5eacf570b6064e24e0e6653b *apache-tomcat-5.5.17.exe
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

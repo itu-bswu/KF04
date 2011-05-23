@@ -1,5 +1,9 @@
 package exceptions;
 
+/**
+ * Nothing Close Exeption
+ * An exception thrown if there is nothing nearby.
+ */
 public class NothingCloseException extends Exception {
 	/**
 	 * Generated serial version UID.

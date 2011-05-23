@@ -2,53 +2,195 @@
 
 \usepackage[latin1]{inputenc}
 \usepackage[english]{babel}
+%\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{mathtools}
+\usepackage{appendix}
+\usepackage{nameref}
 \usepackage{fancyhdr}
-\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage[final]{pdfpages}
+\usepackage[font=sl]{caption}
+
 \pagestyle{fancy}
-\cfoot{\thepage\ of \pageref{LastPage}}
+\cfoot{\thepage\ of ??}
 
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.8ex plus 0.5ex minus 0.2ex}
 \newcommand{\class}[1]{\textsf{#1}}
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\thechapter.\ #1}}{}}
 
-\title{Map of Denmark\\
-\normalsize{\textit{First-Year Project, Bachelor in Software Development, \\IT
+\title{\Huge{Map of Denmark}\\
+\large{\textit{\\First-Year Project,\\ Bachelor in Software Development, \\IT
 Univ. of Copenhagen}}}
 \author{
-Group 12\thanks{Supervisors: Lars Birkedal}\thanks {Advisors: Jonas Brabrand
-Jensen and Filip Sieczkowski}:\\
-Jakob Melnyk jmel@itu.dk\\
-Niklas Hansen nikl@itu.dk\\
-Emil Juul Jacobsen ejuu@itu.dk\\
-Filip Hjermind Jensen\\
-Jens Dahl Møllerhøj jdmo@itu.dk\\
+Group 12\\
+Emil Juul Jacobsen, ejuu@itu.dk (08/04-1988)\\
+Jens Dahl Møllerhøj, jdmo@itu.dk (24/05-1990)\\
+Jakob Melnyk  jmel@itu.dk (18/02-1991)\\
+Niklas Hansen, nikl@itu.dk (18/12-1991)\\
+\\
+Supervisor: Lars Birkedal\\
+Advisors: Jonas B.
+Jensen \& Filip Sieczkowski
 }
 \date{May 25th, 2011}
 
-\begin{document}	
+\begin{document}
 \maketitle
 \tableofcontents
-
+\pagebreak
 \chapter{Preface}
-1
-%\include{chapters\product\Background}
-3
-%\include{chapters\product\UI-Analysis}
-2-4
-%\include{chapters\product\UI-implementaion}
-2-4
-%\include{chapters\product\TechnicalUML}
-4-5
-%\include{chapters\product\Tests}
-5
-%\include{chapters\product\Manual}
-4-5
+\label{PRE}
+This report is the result of a project at the bachelor in Software Development 
+on the IT University of Copenhagen spanning from early March 2011 to late May
+2011. The project was given as a first semester project in groups of 4 to 5
+randomly picked students. 2.5 months of the semester was set aside for this
+project. The time not spent on the report was spent on planning, coding, 
+thorough testing and bugfixing of the actual program.
+
+\include{chapters/product/Background}
+\include{chapters/product/UI-Analysis}
+\include{chapters/product/Implementation}
+\include{chapters/product/TechnicalUML}
+\include{chapters/product/Tests}
+\include{chapters/product/Manual}
 \chapter{Product conclusion}
-1
-%\include{chapters\process\Constitution}
-1-2
-%\include{chapters\process\Diary}
-3-4
-%\include{chapters\process\Worksheets}
-4-5
+\label{PRC}
+We believe our product live up to the project requirements described in chapter
+\ref{BG} \class{\nameref{BG}}. Our program also runs fast enough when using the
+interface, in our opnion. We tested this on both a fast computer and an older,
+slower computer and we did not feel it was cumbersome to use the program, even on the slower
+computer. We did not thoroughly test this however, and we cannot guarantee that
+there will not be circumstances where our program will run slowly.
+ 
+The system tests were done on a Windows 7 computer and because of this, we
+cannot be certain that all features work on other operating systems. However, 
+two of our group members use Mac OS X and they have experienced no problems 
+with our program besides the ones mentioned in section \ref{PRC-BUGS}.
+
+We did all of our testing internally. For a even more thorough testing of our
+software, we could have asked other groups to test the software for us, so that
+we could get a different look on the tests. We did no usability testing
+throughout the project, and while our user interface is simple, we should have
+tested to make sure we designed our interface in the best way possible.
+
+\section{Issues in the software}
+\label{PRC-BUGS}
+We have discovered a few bugs our software that did not show itself through our
+testing, but instead manifested with regular use of the software.
+
+We have a bug in our zoom-function, which enables the user to zoom very far in
+by zooming in, then resizing the window. This caused the program to be locked at
+a very far zoomed in view, but we chose to let the user zoom out when they are
+zoomed far in. The problem with zooming too far in can still happen, but the
+view is not locked when it happens.
+
+\section{Future features}
+\label{PRC-FF}
+If we had more time, we would have liked to have included more features in
+our program. We feel our program could still do with some fine tuning for it to be of real use
+outside of living up to the requirements. During development, we have focused on
+getting the basic requirements to work properly, before working on more advanced
+features. The advanced features that we would have like to implement is described 
+here:
+
+We would have liked to have implemented a ``road search'' function, enabling the
+user to search for the name of a road and place a marker there. In addition, we
+would have like to implement the option for the user to view a route description
+with turns. We were actually working on making route description, but we couldn't 
+get it nice and pretty enough in time, so we felt we would be better off without it.
+
+To make the map look nicer, we attempted to implement a function for the map to
+create an outline of Denmark, separating the land from the sea, so that it was more 
+obvious what is land and what is water. It would first of all make our program prettier, 
+but with it we would be able to draw fewer roads when zoomed out, resulting in better 
+performance. We would also have liked to make a logo for our program, but we did not 
+get around to implementing it.
+
+\include{chapters/process/Constitution}
+\include{chapters/process/Diary}
+\include{chapters/process/Worksheets}
 \chapter{Process description and reflection}
-1
+\label{PDF}
+As a group we have had some ups and downs during the last two and a half months
+we have been on this project. Filip from our group dropped out early May, so
+when we were about to start working on this report, we were down to four group
+members.
+
+We kept a pretty tight structure as far as having meetings pretty often, but
+sometimes we got a bit unfocused during the meetings. We changed from meeting
+two days of six hours to three days of four hours once lectures stopped in
+early May, and this helped a lot. While our diary was not kept up-to-date
+properply, our meeting documents helped us have a good idea of what was going with everyone in
+terms of what they were doing on the project. The meeting documents can be found
+in appendix \ref{APP-WS-MD} on page \pageref{APP-WS-MD}.
+
+Not only did the meeting documents work as our diary, they helped us remember
+what we was currently working on. If a one of the groupmembers was not present
+at a meeting, he got updates about our work by looking at the document.
+Since we had described the homework each member had to do, there was no doubt
+about what you had to work on.
+
+A lot of the work on the project - especailly writing this report and coding the
+program - was done at home. At meetings we discussed different solutions etc.
+and then we gave eachother homework until the next meeting. We were a bit sloppy
+getting things done on time, as there was rarely a day where everyone had done
+all of their ``homework''. This was rarely a huge issue since the ones that missed
+their homework had reasonable excuses and were responsible enough to get it
+done quickly.
+
+We had an internal evaluation where everyone got a chance to vent about how we
+were doing on the project, how we were working together as a group and if anyone
+had any problems with how the other members in the group worked, this was the
+time to say it. Doing this internal evaluation really gave everyone a chance to
+vent and it was also during this evaluation - where Filip was not present - that
+we decided that he really could not be part of the group if he did not show for
+meetings. It was good for us to get these problems addressed before they got any
+worse and started affecting our work.
+
+When we first sat down and created our ``Group norms'' (see \ref{GN} on page
+\pageref{GN}), we decided that we just wanted everyone to do their best. Even
+though we have members who are more dedicated and ambitious when it comes to
+this project, they respected that everyone had to work at their own pace and
+that working together on a bigger project like this was not something all
+members of the group were used to.
+
+As previously mentioned we wanted to use the meeting documents to keep track of
+time and when we needed to be done with the different parts of the project. A
+bigger plan could have been a good thing to have had, so we did not suddenly get
+surprised by needing to have working code to hand in for the different parts of
+the project.
+
+From the beginning we had much focus on getting the basic requirements done before
+spending too much time on fancy features and found out this approach suited us well.
+With these priorities we managed to get a relatively low stress level before the
+small hand-ins and achieve a more polished product at the demonstrations.
+In the final part of the project, however, we decided that we
+wanted an, at least for us, early feature and code freeze, so that we could
+focus on getting the report done early. The schedule for the last week of the
+project can be found in appendix \ref{APP-LW} on page \pageref{APP-LW}.
+
+All in all we feel pretty satisfied with how our project turned out. While we
+could have worked a bit more efficiently at times, we think we hit our level of
+ambition pretty well. The downside of having an early code freeze was that we
+did not manage to implement all the features we wanted to.
+
+As mentioned in the product conclusion, there were several parts we could
+improve in terms of the product itself, but that is often the case with projects
+like this.
+
+\begin{thebibliography}{99}
+\bibitem{algs4}
+Robert Sedgewick and Kevin Wayne. \emph {Algorithms, Fourth Edition}. Preliminary Edition Fall 2010. Addision-Wesley 2010.
+\bibitem{httpalgs4}
+Algorithms, Fourth Edition homepage: http://algs4.cs.princeton.edu/24pq/IndexMinPQ.java ; Date:
+May 23rd, 2011.
+\bibitem{MD5}
+\emph{MD5Checksum homepage}: http://www.rgagnon.com/javadetails/java-0416.html ;
+Date: May 23, 2011.
+\end{thebibliography}
+\pagestyle{plain}
+\include{chapters/appendix/Appendix}
 \end{document}

@@ -130,7 +130,9 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 					"Attempting to add edge to graph, connecting non-existing nodes "
 					+ e.getN1().index + " " + e.getN2().index);
 		}
+		
 		getEdges().get(e.getStart().index).add(e);
+		
 		if (e.direction == Edge.BOTH) {
 			getEdges().get(e.getEnd().index).add(e);
 		}
@@ -180,5 +182,4 @@ public class Graph<E extends Edge<N>, N extends Node> implements Serializable {
 
 		return newEdges;
 	}
-
 }
