@@ -213,7 +213,7 @@ a single line of code in the A* algorithm.
 \section{Quadtree}
 \label{IMPL-QT}
 In order to improve the drawing of our map, we have implemented a data structure
-called quadtree. The quadtree divides our map in four rectangles. In these four rectangles 
+called quadtree. The quadtree divides our map into four rectangles. In these four rectangles 
 it divides our roads again into smaller rectangles, and we keep doing this, until we reach
 an amount of roads that is manageable.
 When we want to retrieve data from the map, we can give the quadtree a
@@ -233,13 +233,14 @@ With this method we will not need to iterate and remove the roads all the time.
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1\linewidth]{images/UnsortedQuadtree.png}
-\caption{Unsorted Quadtree. A quadtree were the roads are not sorted}
+\caption{Unsorted Quadtree. A quadtree where the roads are not sorted}
 \label{IMPL-USQ}
 \end{figure}
 
 We have discussed two different ways to sort the roads in the quadtree. The first technique 
-relied on dividing the types of roads into different quadtrees. With this implementation, we 
-only implement the quadtrees containing the roadtypes we want to draw, into our drawing.
+relied on dividing the types of roads into different quadtrees. With this implementation, we
+have one quadtree for each level of detail we want to have and only search in the quadtrees
+that are needed for a given rectangle.
 
 \begin{figure}[h!]
 \centering
@@ -251,7 +252,7 @@ quadtrees.}
 
 The second technique relied on putting the bigger roads at the top of the
 quadtree when building it. Then we could specify at which depth we wanted to
-search the quadtree. We called this 'the depthcontrolled quadtree'.
+search the quadtree. We called this 'the depth-controlled quadtree'.
 
 \begin{figure}[h!]
 \centering
@@ -262,15 +263,15 @@ search the quadtree. We called this 'the depthcontrolled quadtree'.
 
 The two methods both have advantages and disadvantages.
 
-The depth controlled quadtree would return more roads than the multiquadtree,
+The depth-controlled quadtree would return more roads than the multiquadtree,
 because the big roads would lie in big rectangles, and therefore be drawn more
 often.
 
-The depth controlled quadtree requires less RAM than the multiquadtree,
+The depth-controlled quadtree requires less RAM than the multiquadtree,
 because it requires less instances of object \class{QuadTreeNode}.
 
 The multiquadtree is slighty less efficient to search through than the
-depthcontrolled quadtree, because we must run through each quadtree
+depth-controlled quadtree, because we must run through each quadtree
 individually.
 
 Looking at the advantages and disadvantages of these quadtrees, we have chosen
