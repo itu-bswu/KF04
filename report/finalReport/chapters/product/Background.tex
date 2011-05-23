@@ -100,15 +100,19 @@ text files.
 
 \subsection{UTM-coordinates}
 \label{BG-DS-UTM}
-When using the UTM standard the earth is divided into 60 rectangles that each 
+When using the UTM standard the earth is divided into 60 rectangles, that each 
 has the origo at the south-west corner. Most of Denmark is within the UTM-32 
-rectangle so all the coordinate data is given as UTM32-coordinates.
+rectangle, so all the coordinate data is given as UTM32-coordinates.
 These coordinates need some conversion when used in Java since the origo is placed 
-differently. This will be explained further in the section about \nameref{UTM-conversion}
-on page \pageref{UTM-conversion}.
+differently. This will be explained further in the section about \nameref{IMPL-UTM}
+on page \pageref{IMPL-UTM}.
 
 \subsection{Graph}
 \label{BG-DS-G}
+A Graph is a wrapper object for storing nodes and edges. This data can
+be considered as points (nodes) that can be connected to each other by lines
+(edges).
+
 When the data has been loaded it is stored as a \class{Graph} object containing 
 \class{KrakNode}s and \class{KrakEdge}s. The \class{KrakEdge}s are the 
 road segments and contains the name of the road, an estimated drive time, 
