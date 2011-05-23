@@ -1,10 +1,41 @@
 \chapter{Implementation}
 \label{IMPL}
+<<<<<<< HEAD
+
+Our implementation uses the MVC structure to create a practical class design. We
+have prioritized to make our design as simple and intuitive as possible. We used
+object oriented principles to assure that our design has both low connection
+between classes (loose coupling), and a high degree of cohesion.
+
+By following these principles we have achieved implementation with minimal code
+duplication and with good possibility for extension.
+
+Some of the basic thoughts on our design is explained in this figure:
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\linewidth]{images/BasicDesign}
+\label{The basic design of our implementation. The controller gets a collection
+of lines, that the view will draw.}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1\linewidth]{images/BasicDesign}
+\label{The pathfinding part of our implementation. The static Astar function
+takes an Evaluator and a Graph and returns a path.}
+\end{figure}
+
+This rest of this chapter describes how we have implemented some of the more
+interesting features of the software. We aim to describe it to enough detail that this
+=======
 % Of course? That is the assignment?
 This chapter describes how we have implemented some of the more interesting
 features of the software. We aim to describe it to enough detail that this
+>>>>>>> 059fb443ae603b9503bd98cd9ee5b29871dc58ad
 chapter can serve as a guideline for implementing the functionalities we
 describe.
+
 \section{UTM-conversion}
 \label{IMPL-UTM}
 % But what is UTM? It isn't really explained anywhere.
@@ -32,6 +63,8 @@ We have a utility class with methods for converting the points back and forth.
 One takes a point from the view. The model and the view itself uses this formula
 for converting the pixelpoint to the UTM32-point.
 
+<<<<<<< HEAD
+=======
 % Ay is something minus Ay? So what is Ay?
 % What is Ax?
 $
@@ -47,6 +80,7 @@ $
 return \class{point}(UTM$_x$, UTM$_y$)
 
 
+>>>>>>> 059fb443ae603b9503bd98cd9ee5b29871dc58ad
 Below is an illustration of the conversion from pixel to UTM.
 
 \begin{figure}[!ht]
@@ -56,19 +90,31 @@ Below is an illustration of the conversion from pixel to UTM.
 \label{fig:UTMconversion}
 \end{figure}
 
+<<<<<<< HEAD
+We click on a point, a, on the canvas. To calculate the the UTM coordinate
+cooresponing to that point, we use the formulas:
+=======
 To convert from UTM to pixels we use the same formula, but reversed.
+>>>>>>> 059fb443ae603b9503bd98cd9ee5b29871dc58ad
 
 $
+UTM_x = bounds_x + \cfrac{a_x}{canvas_{width}} \times bounds_{width}\\
+\\
+UTM_y = bounds_y + \cfrac{canvas_{height} - a_y}{canvas_{height}} \times bounds_{height}\\
+\\
+$
+
+To convert from UTM to pixels we use the same formulas but reversed.
+
+$
+\\
 Pixel_x = \cfrac{(a_x - bounds_x)}{bounds_{width}} \times
 canvas_{width}\\
 \\
-Pixel_y = \cfrac{a_y - bounds_y}{bounds_{height}} \times
+Pixel_y = canvas_{height} - \cfrac{a_y - bounds_y}{bounds_{height}} \times
 canvas_{height}\\
 \\
-Pixel_y = canvas_{height} - Pixel_y\\
-\\
 $
-return:  \class{point}(PIXEL$_x$, PIXEL$_y$)
 
 \section{Mousezoom}
 \label{IMPL-MZ}
@@ -135,8 +181,23 @@ two distinct nodes and therefore don`t need the route from the start node to all
 others. The time reduction that A* gives is also a definite plus since no user 
 wants to sit and wait too long for the program to find a route.
 
-%MŒske vi skulle have pointen med om hvilket transportmiddel A*star virker bedst
-% med?
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=1\linewidth]{images/AstarVSDijkstra.png}
+\label{}
+\caption{Astar vs. Dijkstra example. The dashed lines are the direct distances,
+used by Astar. The Dijkstra algoritm will check the blue node before the red
+node, because B+A < C+D. The Astar algoritm will check the red node before the
+blue node, because C+D+E < B+A+F.}
+\end{figure}
+
+The smaller the difference from the direct distance is to the actual fastest
+possible route, the more we will benefit from the A-star technique. This
+difference will often be bigger for the routes calculated for the car. This is
+because the fastest route would be a straight highway, which often is far from
+possible. We can therefore conclude that the A-star technique typically is more
+of a benefit when calculating routes for bicycling because they rely on the
+distance.
 
 \section{Evaluator}
 \label{IMPL-EVA}
