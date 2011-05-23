@@ -170,18 +170,33 @@ distance.
 
 \section{Evaluator}
 \label{IMPL-EVA}
-% Perhaps talk a bit more about evaluators and our default evaluators (bike and car).
-In order to make our path finding algorithm flexible enough for different
-interpretations of the ``best route'', we have added an entity called \class{Evaluator}.
-This is an object that has the responsibility of evaluating a node relative to
-the target node. The \class{Evaluator} also has the responsibility of calculating the
-heuristics that the A* algorithm relies on. By using the \class{Evaluator} we are able to
-use the same path finding algorithm for two very different tasks; the biking route and
-the car route. The major difference between these is that the bike's heuristics is based
-on the distance, where as the car's heuristics is based on the total drive time. This
-implementation is also a good example of making our code ready for future features,
-since if we needed to add other means of transportation or simply variations of the ones
-we have, we would only need to create new \class{Evaluator}s and not change
+In order to make our path finding algorithm flexible enough for different 
+interpretations of the ``best route'', we have added an entity called \class{Evaluator}. 
+This is an object that has the responsibility of evaluating a node relative to 
+the target node. 
+
+The \class{Evaluator} also has the responsibility of calculating the 
+heuristics that the A* algorithm relies on. By using the \class{Evaluator} we are able to 
+use the same path finding algorithm for two very different tasks; the biking route and 
+the car route. The major difference between these is that the bike's heuristics is based 
+on the distance, where as the car's heuristics is based on the total drive time. 
+
+\begin{center}
+dist(p_{1},p_{2})=\sqrt{(x_{1}-x_{2})^{2}+(y_{1}-y_{2})^{2}} \\
+
+time_{drive}=\frac{dist(p_{1},p_{2})}{1000\cdot \frac {speed_{max}}{60}}
+\end{center}
+
+We use these formulas to calculate the heurestics for bike routes, car routes respectively.
+There are currently three three different evaluators in the program as static variables. These
+are called BIKE, CAR and HAS_NAME. The HAS_NAME evaluator is used when getting the name of the
+road closest to the mouse. There is also a fourth variable called DEFAULT that is a help to
+any future developers if they are unsure of what to use, this variable is currently just refering
+to CAR. 
+
+The Evaluator implementation is a good example of making our code ready for future features, 
+since if we needed to add other means of transportation or simply variations of the ones 
+we have, we would only need to create new \class{Evaluator}s and not change 
 a single line of code in the A* algorithm.
 
 \section{Quadtree}

@@ -272,15 +272,15 @@ public class ModelTest {
 	@Test public void testGetClosestEdge() {
 
 		try {
-			assertEquals("Mm", model.getClosestEdge(new Point2D.Double(10000,10000),2000,Evaluator.ANYTHING).roadname);
-			assertEquals("Ii", model.getClosestEdge(new Point2D.Double(5000,8000),2000,Evaluator.ANYTHING).roadname);			
+			assertEquals("Mm", model.getClosestEdge(new Point2D.Double(10000,10000),2000,Evaluator.CAR).roadname);
+			assertEquals("Ii", model.getClosestEdge(new Point2D.Double(5000,8000),2000,Evaluator.CAR).roadname);			
 		} catch (NothingCloseException e) {
 			assertTrue(false);
 		}
 
 		//Here, the search does not go far enough to find the edge
 		try {
-			model.getClosestEdge(new Point2D.Double(100,100),10,Evaluator.ANYTHING);
+			model.getClosestEdge(new Point2D.Double(100,100),10,Evaluator.CAR);
 		} catch (NothingCloseException e) {
 			return;
 		}
@@ -293,15 +293,15 @@ public class ModelTest {
 	 */
 	@Test public void testGetClosestNode() {
 		try {		
-			assertEquals(2, model.getClosestNode(new Point2D.Double(6000,2000),Evaluator.ANYTHING).getIndex());
-			assertEquals(6, model.getClosestNode(new Point2D.Double(4000,7000),Evaluator.ANYTHING).getIndex());
+			assertEquals(2, model.getClosestNode(new Point2D.Double(6000,2000),Evaluator.CAR).getIndex());
+			assertEquals(6, model.getClosestNode(new Point2D.Double(4000,7000),Evaluator.CAR).getIndex());
 			
 			//Here, the test must spread out to find the road
-			assertEquals(4, model.getClosestNode(new Point2D.Double(-200,-200),Evaluator.ANYTHING).getIndex());
+			assertEquals(4, model.getClosestNode(new Point2D.Double(-200,-200),Evaluator.CAR).getIndex());
 			
 			// For the white box tests 3 and 4
-			assertEquals(8, model.getClosestNode(new Point2D.Double(10000,8500), Evaluator.ANYTHING).getIndex());
-			assertEquals(7, model.getClosestNode(new Point2D.Double(8500,8500), Evaluator.ANYTHING).getIndex());
+			assertEquals(8, model.getClosestNode(new Point2D.Double(10000,8500), Evaluator.CAR).getIndex());
+			assertEquals(7, model.getClosestNode(new Point2D.Double(8500,8500), Evaluator.CAR).getIndex());
 			
 		} catch (NothingCloseException e) {
 			assertTrue(false);
