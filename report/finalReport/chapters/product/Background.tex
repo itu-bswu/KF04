@@ -112,10 +112,12 @@ text files.
 \subsection{UTM-coordinates}
 \label{BG-DS-UTM}
 % What is KrakNode? What is UTM32? How is it important?
-It is important to note that the KrakNodes are in UTM-32 coordinates. When 
-using the UTM standard, the origo is placed at the south-west corner. These 
-coordinates need some conversion when using in Java since the origo is placed 
-differently.
+When using the UTM standard the earth is divided into 60 rectangles that each 
+has the origo at the south-west corner. Most of Denmark is within the UTM-32 
+rectangle so all the coordinate data is given as UTM32-coordinates.
+These coordinates need some conversion when used in Java since the origo is placed 
+differently. This will be explained further in the section about \nameref{UTM-conversion}
+on page \pageref{UTM-conversion}.
 
 \subsection{Graph}
 \label{BG-DS-G}
