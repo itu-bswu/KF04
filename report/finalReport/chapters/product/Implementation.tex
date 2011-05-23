@@ -185,15 +185,21 @@ the car route. The major difference between these is that the bike's heuristics 
 on the distance, where as the car's heuristics is based on the total drive time. 
 
 \begin{center}
-dist(p_{1},p_{2})=\sqrt{(x_{1}-x_{2})^{2}+(y_{1}-y_{2})^{2}} \\
+$
+dist(p_{1},p_{2})=\sqrt{(x_{1}-x_{2})^{2}+(y_{1}-y_{2})^{2}}
+$
+\end{center}
 
+\begin{center}
+$
 time_{drive}=\frac{dist(p_{1},p_{2})}{1000\cdot \frac {speed_{max}}{60}}
+$
 \end{center}
 
 We use these formulas to calculate the heurestics for bike routes, car routes respectively.
 There are currently three three different evaluators in the program as static variables. These
-are called BIKE, CAR and HAS_NAME. The HAS_NAME evaluator is used when getting the name of the
-road closest to the mouse. There is also a fourth variable called DEFAULT that is a help to
+are called BIKE, CAR and HAS\_NAME. The HAS\_NAME evaluator is used when getting
+the name of the road closest to the mouse. There is also a fourth variable called DEFAULT that is a help to
 any future developers if they are unsure of what to use, this variable is currently just refering
 to CAR. 
 
