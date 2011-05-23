@@ -53,12 +53,11 @@ increasing the further down the y-axis you go. UTM32-coordinates are a bit
 different. UTM32 has origo in the bottom left corner and the y-coordinate
 increasing the further up you go on the y-axis.
 
-% Re-phrasing needed probably.
 We have a utility class with methods for converting the points back and forth.
 One takes a point from the view. The model and the view itself a formula
 for converting the pixelpoint to the UTM32-point.
 
-Below is an illustration of the conversion from pixel to UTM.
+Figure \ref{fig:UTMconversion} is an illustration of the conversion from pixel to UTM.
 
 \begin{figure}[!ht]
 \centering
@@ -67,7 +66,7 @@ Below is an illustration of the conversion from pixel to UTM.
 \label{fig:UTMconversion}
 \end{figure}
 
-We click on a point, 'a', on the canvas. To calculate the the UTM coordinate
+We click on a point, 'a', on the canvas. To calculate the UTM coordinate
 corresponding to that point, we use the formulas:
 
 $
@@ -77,7 +76,7 @@ UTM_y = bounds_y + \cfrac{canvas_{height} - a_y}{canvas_{height}} \times bounds_
 \\
 $
 
-To convert from UTM to pixels, we use the same formulas but reversed:
+To convert from UTM to pixels, we use the same formulas, but reversed:
 
 $
 \\
