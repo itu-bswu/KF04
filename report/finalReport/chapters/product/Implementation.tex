@@ -212,10 +212,6 @@ a single line of code in the A* algorithm.
 
 \section{Quadtree}
 \label{IMPL-QT}
-% Quadtree, serialization and threading should maybe be in its own section
-% (called optimizations or something)
-% This section reminds me of a lot of different statements, not really joined together.
-% Needs more pros and cons, and should be ``longer'' / more in depth.
 In order to improve the drawing of our map, we have implemented a data structure
 called quadtree. The quadtree divides our map in four rectangles. In these four rectangles 
 it divides our roads again into smaller rectangles, and we keep doing this, until we reach
@@ -266,7 +262,6 @@ search the quadtree. We called this 'the depthcontrolled quadtree'.
 
 The two methods both have advantages and disadvantages.
 
-% And how is this different to our multi-quadtree were we always use the two upper quadtrees?
 The depth controlled quadtree would return more roads than the multiquadtree,
 because the big roads would lie in big rectangles, and therefore be drawn more
 often.
@@ -274,7 +269,6 @@ often.
 The depth controlled quadtree requires less RAM than the multiquadtree,
 because it requires less instances of object \class{QuadTreeNode}.
 
-% This is almost not measurable and the pros greatly outweighs the cons.
 The multiquadtree is less efficient to search through than the
 depthcontrolled quadtree, because we must run through each quadtree
 individually.
@@ -282,7 +276,7 @@ individually.
 Looking at the advantages and disadvantages of these quadtrees, we have chosen
 to implement the multiquadtree. We have done this because it is the drawing of
 the roads that slows our implementation. The efficiency of our program is not
-affected by the efficiency of the quadtree searhc. The efficiency of the map is
+affected by the efficiency of the quadtree search. The efficiency of the map is
 affected because of the number of roads drawn.
 
 \section{Serialization}
