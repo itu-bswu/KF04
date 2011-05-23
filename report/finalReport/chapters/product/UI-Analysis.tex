@@ -59,7 +59,6 @@ We have limited how far a user can zoom in and out. If the user tries to zoom
 out further than the original zoom level, the view will default to the original
 zoom level. If the user attempts to zoom in too far compared to the models view,
 the zoom function will do nothing.
-
 \subsection{Navigation}
 \label{UIA-IF-N}
 We have made it possible for the user to navigate the map by using the arrow
@@ -69,10 +68,8 @@ not specified as a requirement for the project, we felt it was a necessity to
 implement at least basic navigation functionality.
 
 Like we did with the two zoom functionalities, we have limited how far a user
-can move around the map. The user is free to move around the map, but if user
-moves outside the bounds of the map in a way where the view would show an image
-that is not part of the map, the move function will not do anything.
-
+can move around the map. If the user moves too far outside the map, the move
+function will not do anything.
 \subsection{Hotkeys}
 \label{UIA-IF-H}
 We have implemented hotkeys for all the buttons on the graphical user interface
@@ -136,7 +133,8 @@ These features are not in the final program, because we did not feel there were
 compelling arguments for implementing them.
 
 Features that we wanted to implement, but did not make it into the final version,
-will be discussed in chapter \class{\nameref{PRC}} on page \pageref{PRC}.
+will be discussed in chapter \ref{PRC} \class{\nameref{PRC}} on page
+\pageref{PRC}.
 
 \subsection{Choice of roads to be displayed}
 \label{UIA-NI-CRD}
@@ -152,7 +150,8 @@ to use.
 
 If we were to implement something like this, it would be to give the user the choice 
 which types of roads should be included in the route planning - ferries, highways, 
-bridges etc.
+bridges etc. This could be too big a choice for the user to handle though. The
+user might doubt if he or she has chosen to best options for finding a route.
 
 \subsection{Smooth scrolling}
 \label{UIA-NI-SS}
