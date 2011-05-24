@@ -502,7 +502,7 @@ public class View extends JFrame{
 
 		public Canvas(){
 			try{
-				pin_img = ImageIO.read(new File("src","gfx/pin.png"));
+				pin_img = ImageIO.read(new File("data","pin.png"));
 			}catch(IOException e){
 				e.printStackTrace();
 			}
