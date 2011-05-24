@@ -1,11 +1,11 @@
 \chapter{Tests}
 \label{TEST}
-\section{WhiteBox: closestEdge}
+\section{White box: closestEdge}
 \label{TEST-CE}
 A white box test is a test that is made with knowledge of the internal structure
-of the method, and uses this knowledge for making sure all flows through the 
-method is covered. We are using the ``\class{getClosestNode}'' method for this test
-since it contains both loops and conditional statements. The method is supposed
+of the code, and uses this knowledge to make sure all flows through the 
+code is covered. We are using the ``\class{getClosestNode}'' method for this
+test since it contains both loops and conditional statements. The method is supposed
 to find the closest \class{Node} to a given point. It accomplishes this by first
 searching another method for the closest \class{Edge} (which is trivial). This
 procedure is performed with greater and greater search radius until it finds something.
@@ -34,17 +34,19 @@ else-block & The second \class{Node} is closest & 8500, 8500, Evaluator.CAR
 \hline
 \end{tabular}
 \end{centering}
+
 This procedure is great for testing every corner of the code because we are
 making a test for reaching all sections within if-statements and make sure we
-run while-loops zero, once and multiple times\footnote{We can't run this while
+run while-loops zero, once and multiple times\footnote{We cannot run this while
 loop zero times since the loop runs when edge == null and the edge variable is
 defined as null just before the loop.}. It should be noted that the white box
 tests should be accompanied by black box tests, because these tests uses the
-input needed for reaching a specific block. This means they don't check if
+input needed for reaching a specific block. This means they do not check if
 invalid input breaks the program. Since some of the input overlaps with what is
 needed for the black box, tests they have been located in the same method in our
-Model Tests\footnote{In the testGetClosestNode() method, the first, third,
-fourth and fifth asserts.}.
+Model Tests found in appendix \ref{APP-TE-JU-MO} on page
+\pageref{APP-TE-JU-MO}\footnote{In the testGetClosestNode() method, the first,
+third, fourth and fifth asserts.}.
 
 \section{JUnit}
 \label{TEST-JU}
@@ -75,7 +77,7 @@ are directed.}
 \label{TEST-JU-MT-TG}
 \end{figure}
 
-The image \ref{TEST-JU-MT-TG} on page \pageref{TEST-JU-MT-TG} is a visualization
+Figure \ref{TEST-JU-MT-TG} on page \pageref{TEST-JU-MT-TG} is a visualization
 of the graph that we use in our tests. The graph is constructed so that we can
 test different problems that might occur in the graph our map uses.
 
@@ -91,18 +93,18 @@ As with the \class{PointMethods} and \class{Model} classes, we have created
 JUnit tests for the public methods in \class{RectangleMethods}. We considered
 doing more comprehensive testing of the ``newBounds'', ``fixByInnerBounds'' and
 ``fixByOuterBounds'', but since there are no checks for \class{null} or other
-types of bad input for these methods, we felt it was unnessecary. The coverage
+types of bad input for these methods, we felt it was unnecessary. The coverage
 table can be found in appendix \ref{APP-TE-JU-PM} on page
 \pageref{APP-TE-JU-PM}.
 
 \section{System test}
 \label{TEST-ST}
-We have written a number of system tests that needs to be performed by a
-user interacting with the program. These tests the basic functionality of the
-program as well as some advanced combinations of features. The System Tests are
+We have written a number of system tests that need to be performed by a
+user interacting with the program. These test the basic functionality of the
+program as well as some advanced combinations of features. The system tests are
 a necessary addition to the unit tests since many bugs are located in the
-interactions between algorithms and the user interface, and thus cannot be found
-through unit tests. 
+interactions between algorithms and the user interface, and thus can often not
+be found through unit tests. 
 
 The tests have been divided into six groups that increase in
 complexity and the later tests may rely on success in previous tests. There are
