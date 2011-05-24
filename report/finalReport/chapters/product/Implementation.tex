@@ -234,7 +234,9 @@ With this method we will not to iterate and remove the roads all the time.
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1\linewidth]{images/UnsortedQuadtree.png}
-\caption{Unsorted Quadtree. A quadtree were the roads are not sorted}
+\caption{Unsorted Quadtree. A quadtree were the roads are not sorted. The
+dashed lines are parts of the quadtree that we do not show for practical
+reasons.}
 \label{IMPL-USQ}
 \end{figure}
 
@@ -242,30 +244,30 @@ We have discussed two different ways to sort the roads in the quadtree.
 
 The first technique relied on dividing the types of roads into different quadtrees.
 With this implementation, we only implement the quadtrees containing the roadtypes
-we want to draw, into our drawing.
+we want to draw, into our drawing. See figure \ref{IMPL-DCMQ}.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1\linewidth]{images/MultiQuadtree.png}
-\caption{Multi-quadtree. First node divides the roads into more
-quadtrees.}
-\label{IMPL-DCQ}
+\caption{Multiple quadtrees. The user can choose which quadtrees to run
+through.}
+\label{IMPL-DCMQ}
 \end{figure}
 
 The second technique relied on putting the bigger roads at the top of the
 quadtree when building it. Then we could specify at which depth we wanted to
-search the quadtree. We called this 'the depthcontrolled quadtree'.
+search the quadtree. We called this 'the depthcontrolled quadtree', see figure
+\ref{IMPL-DCDQ}.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1\linewidth]{images/DepthcontrolledQuadtree.png}
 \caption{The depthcontrolled quadtree.}
-\label{IMPL-DCQ}
+\label{IMPL-DCDQ}
 \end{figure}
 
 The two methods both have advantages and disadvantages.
 
-% And how is this different to our multi-quadtree were we always use the two upper quadtrees?
 The depth controlled quadtree would return more roads than the multiquadtree,
 because the big roads would lie in big rectangles, and therefore be drawn more
 often.
@@ -273,7 +275,6 @@ often.
 The depth controlled quadtree requires less RAM than the multiquadtree,
 because it requires less instances of object QuadTreeNode.
 
-% This is almost not measurable and the pros greatly outweighs the cons.
 The multiquadtree is less efficient to search through than the
 depthcontrolled quadtree, because we must run through each quadtree
 individually.
@@ -281,7 +282,7 @@ individually.
 Looking at the advantages and disadvantages of these quadtrees, we have chosen
 to implement the multiquadtree. We have done this because it is the drawing of
 the roads that slows our implementation. The efficiency of our program is not
-affected by the efficiency of the quadtree searhc. The efficiency of the map is
+affected by the efficiency of the quadtree search. The efficiency of the map is
 affected because of the number of roads drawn.
 
 \section{Serialization}
