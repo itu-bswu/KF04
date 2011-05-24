@@ -1,21 +1,21 @@
 \chapter{Implementation}
 \label{IMPL}
 Our implementation uses the MVC structure to create a practical class design. We
-have prioritized to make our design as simple and intuitive as possible. We used
+have prioritized making our design as simple and intuitive as possible. We used
 object oriented principles to assure that our design has both low connection
-between classes (loose coupling), and a high degree of cohesion.
+between classes (loose coupling) and a high degree of cohesion.
 
-By following these principles we have achieved implementation with minimal code
-duplication and with good possibility for extension.
+By following these principles, we have achieved implementation with little code
+duplication and with good possibility of extension.
 
 Some of the basic thoughts on our design is explained in figure
-\ref{fig:BasicDesign}, and \ref{fig:PathfindingStructure}.
+\ref{fig:BasicDesign} and figure \ref{fig:PathfindingStructure}.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1\linewidth]{images/BasicDesign}
 \caption{The basic design of our implementation. The controller gets a
-collection of lines, that the view will draw.}
+collection of lines and the view draws them.}
 \label{fig:BasicDesign}
 \end{figure}
 
@@ -23,7 +23,8 @@ collection of lines, that the view will draw.}
 \centering
 \includegraphics[width=0.5\linewidth]{images/PathfindingStructure}
 \caption{The pathfinding part of our implementation. The static A* function
-takes an Evaluator and a Graph and returns a path.}
+takes an Evaluator, a Graph, a start \class{note} and an end \class{note} and
+returns a path.}
 \label{fig:PathfindingStructure}
 \end{figure}
 
@@ -41,22 +42,21 @@ UTM32-coordinates and back.
 
 We need to convert the values when we want to use the mousezoom and when we want
 to place the markers for pathfinding. We get an input on the graphical user
-interface when we mousezoom and this needs to be converted to UTM-coordinates so
-that we can create the new boundaries of the zoomed rectangle.
+interface when we use mouse zoom and this needs to be converted to
+UTM-coordinates so we can create the new boundaries of the zoomed rectangle.
 
-When we place markers for pathfinding, we do the same as when we do mousezoom,
+When we place markers for pathfinding, we do the same as when we mouse zoom,
 but instead we store the point as UTM32-coordinates and whenever we move the
 map, we convert it back to pixel-coordinates so that we know where to draw the
 markers.
 
-The Java-coordinates have origo in the top left corner with the y-coordinate
-increasing the further down the y-axis you go. UTM32-coordinates are a bit
+The Java-coordinates have origo placed in the top left corner with the
+y-coordinate increasing the further down the y-axis you go. UTM32-coordinates are a bit
 different. UTM32 has origo in the bottom left corner and the y-coordinate
 increasing the further up you go on the y-axis.
 
 We have a utility class with methods for converting the points back and forth.
-One takes a point from the view. The model and the view itself a formula
-for converting the pixelpoint to the UTM32-point.
+Class \class{PointMethods} uses the below calculations to convert the points.
 
 Figure \ref{fig:UTMconversion} is an illustration of the conversion from pixel to UTM.
 
@@ -102,12 +102,12 @@ $
 \section{Mousezoom}
 \label{IMPL-MZ}
 We have implemented mouse zoom by using \class{mouseEvent}s on
-our canvas. When the user presses the left mouse button down, it generates a
+our canvas. When the user presses the left mouse button, it generates a
 \class{mousePressed} event. We record the position of the mouse at the time of
 the \class{mousePressed} event and wait for the \class{mouseReleased} event.
 When the left mouse button is released, it generates a \class{mouseReleased}
-event. We use the positions of the mouse at the \class{mouseReleased} event and
-the \class{mousePressed} event to calculate new bounds for the model.
+event. We use the positions of the mouse at the \class{mousePressed} event and
+the \class{mouseReleased} event to calculate new bounds for the model.
 
 Often the user will not drag a square that is in perfect ratio with the
 canvas. If it does not have the same ratio as the canvas, we change the ratio
@@ -123,29 +123,30 @@ dragged box taller.
 \label{IMPL-DVA}
 When planning the pathfinding feature, we had to decide between two algorithms:
 Dijkstras algorithm\footnote{We had a lecture about this in the Algorithms and
-Data Structures course and read about it in \cite[p.~???]{algs4}.} and
+Data Structures course and read about it in \cite[p.~556]{algs4}.} and
 A*\footnote{The advisors explained how this was faster and how we should
-change Dijkstra to change it to A*.}. The latter is based on Dijkstras
-algorithm, but achieves better performance by using heuristics.
+change Dijkstra to turn it into A*.}. The latter is based on Dijkstras
+algorithm, but achieves better performance in some situations by using
+heuristics.
 
-Dijkstras algorithm uses a minimum priority queue to find the shortest path
-from a given node to every other node by looking at the edges connecting nodes.
-The program will take a node from the priority queue and add all the other nodes
+Dijkstras algorithm uses a minimum priority queue\footnote{The minimum priority
+queue has been borrowed from \cite{httpalgs4}} to find the shortest path from a
+given node to every other node by looking at the edges connecting the nodes. The
+algorithm will take a node from the priority queue and add all the other nodes
 that are connected to the current node to the priority queue. The priority queue
-stores a value with the node, which is the distance to the current node
-plus the length of the edge between the two. Since the priority is made to return
-the node with the smallest value associated with it, the next node in line will
+stores a value with the node, which is the distance to the current node plus the
+length of the edge between the two. Since the priority is made to return the
+node with the smallest value associated with it, the next node in line will
 always be the one which is closest to the start node. This procedure continues
 until all nodes have been visited and by logging what edge led to all the nodes,
 it is possible to trace back the route to the start node.
 
 This algorithm is great if we need to find the distance from one point to many other
-points, but can be quite slow when using it for finding a path between to nodes,
-since it just searches in all directions without considering which
+points, but can be quite slow when using it for finding a path between two
+nodes, since it just searches in all directions without considering which
 direction the target node is.
 
-% ``estimated distance ... the given node'' - should be more clear.
-This is where A* comes in handy. The A* algorithm is a modification of Dijkstra's
+This is where A* is different. The A* algorithm is a modification of Dijkstras
 algorithm that also looks at the estimated distance from the given node when
 determining the value for the priority queue. When using the geographical distance
 as a measure of best route, the value would be the current distance from the start
@@ -166,16 +167,16 @@ wants to sit and wait too long for the program to find a route.
 \includegraphics[width=1\linewidth]{images/AstarVSDijkstra.png}
 \caption{A* vs. Dijkstra example. The dashed lines are the direct distances,
 used by A*. The Dijkstra algoritm will check the blue node before the red
-node, because B+A \textless C+D. The A* algoritm will check the red node
+node, because B+A \textless C+D. The A* algorithm will check the red node
 before the blue node, because C+D+E \textless B+A+F.}
 \label{ad}
 \end{figure}
 
 The smaller the difference from the direct distance is to the actual fastest
-possible route, the more we will benefit from the A* algoritm. This
+possible route, the more we will benefit from the A* algorithm. This
 difference will often be bigger for the routes calculated for the car. This is
 because the fastest route would be a straight highway, which often is far from
-possible. We can therefore conclude that the A* algoritm typically is more
+possible. We can therefore conclude that the A* algorithm typically is more
 of a benefit when calculating routes for bicycling because they rely on the
 distance.
 
@@ -204,38 +205,40 @@ time_{drive}=\frac{dist(p_{1},p_{2})}{1000\cdot \frac {speed_{max}}{60}}
 $
 \end{center}
 
-We use these formulas to calculate the heurestics for bike routes and car routes, respectively.
-There are currently three different evaluators in the program, saved as static variables. These
-are called BIKE, CAR and HAS\_NAME. The HAS\_NAME evaluator is used when getting
-the name of the road closest to the mouse. There is also a fourth variable called DEFAULT that 
-is a help to any future developers if they are unsure of what to use. This variable is currently just 
-referring to CAR. 
+We use these formulas to calculate the heurestics for bike routes and car
+routes, respectively. There are currently three different evaluators in the
+program, saved as static variables. These are called BIKE, CAR and HAS\_NAME.
+The HAS\_NAME evaluator is used when getting the name of the road closest to the
+mouse. There is also a fourth variable called DEFAULT that is a help to any
+future developers if they are unsure of what to use. This variable is currently
+just referring to CAR.
 
-The Evaluator implementation is a good example of making our code ready for future features, 
-since if we needed to add other means of transportation or simply variations of the ones 
-we have, we would only need to create new \class{Evaluator}s and not change 
-a single line of code in the A* algorithm.
+The Evaluator implementation is a good example of making our code ready for
+future features, since if we needed to add other means of transportation or
+simply variations of the ones we have, we would only need to create new
+\class{Evaluator}s and not change a single line of code in the A* algorithm.
 
 \section{Quadtree}
 \label{IMPL-QT}
-In order to improve the drawing of our map, we have implemented a data structure
-called quadtree. The quadtree divides our map into four rectangles. In these four rectangles 
-it divides our roads again into smaller rectangles, and we keep doing this, until we reach
-an amount of roads that is manageable.
-When we want to retrieve data from the map, we can give the quadtree a
-rectangle, and it will return all the roads within our smaller rectangles that
+In order to improve the performance drawing of our map, we have implemented a
+data structure called ``quadtree''. The quadtree divides our map into four
+rectangles. In these four rectangles it divides our map again into smaller
+rectangles, and we keep doing this, until we reach an amount of roads that is
+manageable. When we want to retrieve data from the map, we can give the quadtree
+a rectangle, and it will return all the roads within our smaller rectangles that
 is contained in or intersects the given rectangle. This technique optimizes the
-drawing of the roads, because we limit the amount of roads we draw.
+drawing of the roads, because we greatly limit the amount of roads we draw.
 
 However, when viewing the entire map, this implementation does not help
-us. Therefore, it is necessary to only to draw the bigger roads when zoomed out. We
-have discussed two different techniques to do this.
+us. Therefore, it is necessary to only to draw the bigger roads when zoomed out.
+We have discussed two different ways of doing this.
 
 The simplest solution would be to iterate over the roads returned and then
-remove the road we do not want to draw. However, it would be more efficient to sort the
-roads before we put them in the quadtree, and then have them sorted in the quadtree.
-With this method we will not have to iterate over all the roads and remove the
-them all the time.
+remove the roads we do not want to draw. This is illustrated by figure
+\ref{IMPL-USQ}. However, it would be more efficient to sort the roads before we
+put them in the quadtree, and then have them sorted in the quadtree. By doing
+this, we will not have to iterate over all the roads and remove them all the
+time.
 
 \begin{figure}[h!]
 \centering
@@ -244,24 +247,25 @@ them all the time.
 \label{IMPL-USQ}
 \end{figure}
 
-We have discussed two different ways to sort the roads in the quadtree. 
+We have discussed two different ways of sorting the roads in the quadtree. 
 
-The first technique relied on dividing the types of roads into different
+The way technique relied on dividing the types of roads into different
 quadtrees. With this implementation, we have one quadtree for each level of
 detail we want to have and only search in the quadtrees that are needed for a
-given rectangle.
+given rectangle. We called this the multiquadtree. See figure \ref{IML-MTQ}.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=1\linewidth]{images/MultiQuadtree.png}
 \caption{Multi-quadtree. First node divides the roads into more
 quadtrees.}
-\label{IMPL-DCQ}
+\label{IMPL-MTQ}
 \end{figure}
 
-The second technique relied on putting the bigger roads at the top of the
+The second way relied on putting the bigger roads at the top of the
 quadtree when building it. Then we could specify at which depth we wanted to
-search the quadtree. We called this 'the depth-controlled quadtree'.
+search the quadtree. We called this 'the depth-controlled quadtree'. Illustrated
+by figure \ref{IMPL-DCQ}.
 
 \begin{figure}[h!]
 \centering
@@ -273,8 +277,8 @@ search the quadtree. We called this 'the depth-controlled quadtree'.
 The two methods both have advantages and disadvantages.
 
 The depth-controlled quadtree would return more roads than the multiquadtree,
-because the big roads would lie in big rectangles, and therefore be drawn more
-often.
+because the large roads (highways, etc.) would be in the outer rectangles, and
+therefore be drawn more often.
 
 The depth-controlled quadtree requires less RAM than the multiquadtree,
 because it requires less instances of object \class{QuadTreeNode}.
@@ -284,81 +288,90 @@ depth-controlled quadtree, because we must run through each quadtree
 individually.
 
 Looking at the advantages and disadvantages of these quadtrees, we have chosen
-to implement the multiquadtree. We have done this because it makes it a lot easier for 
-us to layer the roads by their roadtype. Also it is the drawing of the roads that slows 
-down our implementation. The time needed for searching through the quadtree, is 
-decided by the amount of roads in it, which affects the height of the tree. When using 
-more quadtrees, the amount of roads are smaller, and because of that the height is 
-smaller. Even when using multiple quadtrees, the efficiency of the map is primarily 
-affected by the number of roads drawn, and not the quadtrees.
+to implement the multiquadtree. We have done this because it makes it a lot
+easier for us to layer the roads by their roadtype. Also it is the drawing of
+the roads that slows down our implementation. The time needed for searching
+through the quadtree is decided by the amount of roads in it, which affects the
+height of the tree. When using more quadtrees, the amount of roads are smaller,
+and because of that the height is smaller. Even when using multiple quadtrees,
+the efficiency of the map is primarily affected by the number of roads drawn,
+not the amount of quadtrees.
 
 \section{Serialization}
 \label{IMPL-SERI}
-We observed that the user had to wait quite a long time for the program to start. This
-was because every time we start the program, we loop through the entire provided
-dataset. This data set is huge, and because of this it takes quite a lot of time
-to start the program. Because we need to load all these data, the user is presented with a blank screen for a long time, before all these data are loaded and the program starts.
+We observed that the user had to wait quite a long time for the program to
+start. This was because every time we start the program, we loop through the
+entire provided data set. This data set is huge, and because of this it takes
+quite a lot of time to start the program. Because we need to load all this data,
+the user is presented with a blank screen for a long time, before all this data
+are loaded and the program starts.
 
-We started looking for a way to speed up the loading process, so the user has a map in
-front of him or her quickly, when the user starts the program. What takes the most time
-is looping through the data and creating the needed datastructures (quadtrees, the
-graph and so on), so if we could skip these steps or speed them up, we could save a lot
-of time.
+We started looking for a way to speed up the loading process, so the user has a
+map in front of him or her quickly, when the user starts the program. What takes
+the most time is looping through the data and creating the needed datastructures
+(quadtrees, the graph and so on), so if we could skip these steps or speed them
+up, we could save a lot of time.
 
-This is where serialization comes into play. By serializing an object, you transform your
-object into something that can be passed around through streams. So by
-serializing objects, you can save them to files. If the object to be serialized contains
-references to other objects, these will also be serialized (if they are Serializable /
-implements java.io.Serializable).
+This is where serialization comes into play. By serializing an object, you
+transform your object into something that can be passed around through streams.
+So by serializing objects, you can save them to files. If the object to be
+serialized contains references to other objects, these will also be serialized
+(if they are Serializable / implements \class{java.io.Serializable}).
 
-By doing this, we only need to build our datastructures the first time you start the program.
-After the objects have been created, they are been serialized and saved to files. The next
-time the user starts the program, we check whether the data has been changed. We check
-this by checking the MD5 checksum of the file, with
-\class{MD5Checksum}\footnote{We borrowed this code from \cite{MD5}}. When we serialize 
-the objects, we also save the checksum to a config file. If the data hasn't been changed 
-(i.e. the checksum is the same), we load the objects that we saved, instead of making them 
-all over.
+By doing this, we only need to build our datastructures the first time you start
+the program. After the objects have been created, they are been serialized and
+saved to files. The next time the user starts the program, we check whether the
+data has been changed. We check this by checking the MD5 checksum of the file,
+with \class{MD5Checksum}\footnote{We borrowed this code from \cite{MD5}}. When
+we serialize the objects, we also save the checksum to a config file. If the
+data has not been changed (i.e. the checksum is the same), we load the objects
+that we saved, instead of making them all over. 
 
-We serialize all the quadtrees, the graph and the maxbounds-object (specifying the bounds
-of Denmark), as these are the objects we need for the program to run. When saved to the
-harddrive, it is around 65MiB, which should not be an issue, given the sizes of
-harddrives today.
+We serialize all the quadtrees, the graph and the maxbounds-object (specifying
+the bounds of Denmark), as these are the objects we need for the program to run.
+When saved to the harddrive, it is around 65MiB, which should not be an issue,
+given the size of harddrives today. 
 
-We save all these objects to one single file in order to keep the references. If we didn't do
-this, the references will be ruined, which can break the program. We experienced problems
-with this, as \class{nodes} and \class{edges} are both stored in the quadtrees
-and the graph. If we serialized and saved the quadtrees in one file, and the
-graph in other file, a given \class{node} will be saved twice, and when we load
-the data from the serialized files, the \class{node} will exist twice, and it won't be
-the same node. But if we save the objects to a file through the same stream, we
-only get one of each, which leads to less RAM usage, less harddrive usage,
-faster loadtimes and fewer bugs.
+We save all these objects to one single file in order to keep the references. If
+we did not do this, the references will be ruined, which can break the program.
+We experienced problems with this, as \class{nodes} and \class{edges} are both
+stored in the quadtrees and the graph. If we serialized and saved the quadtrees
+in one file, and the graph in other file, a given \class{node} would be saved
+twice, and when we load the data from the serialized files, the \class{node}
+will exist twice, and it won't be the same object. But if we save the objects to
+a file through the same stream, we only get one of each, which leads to less RAM
+usage, less harddrive usage, faster loadtimes and hopefully fewer bugs.
 
-\subsubsection{Threading}
-By serializing our main objects, we cut several seconds of our load times. But we can do it
-even faster. We are serializing several objects, but only few of them are needed right from
-the start of the program. So what we can do to speed it up even more, is loading the few
-necessary objects, and then load the rest in the background. We do this with threads.
-We load the few objects we need from the start, then create a new thread to load the rest
-of the objects, and in the mean time, we create the window and draw the map.
+\subsection{Threading}
+By serializing our main objects, we cut several seconds of our load times. But
+we can do it even faster. We are serializing several objects, but only few of
+them are needed right from the start of the program. So what we can do to speed
+it up even more, is loading the few necessary objects, and then load the rest in
+the background. We do this with threads. We load the few objects we need from
+the start, then create a new thread to load the rest of the objects, and in the
+mean time, we create the interface and draw the map.
 
-The same goes for the first run. The user doesn't need to wait for the program to finish
-serializing and saving to files. By using threads, we can create the datastructures, and
-then immediately show the window to the user, while saving the objects to files in the
-background.
+The same goes for the first run. The user does not need to wait for the program
+to finish serializing and saving to files. By using threads, we can create the
+data structures, and then immediately show the window to the user, while saving
+the objects to files in the background.
 
-During load time (when loading from the serialized files, after the window is shown to the 
-user) not all quadtrees are loaded. So we did encounter a problem when querying the 
-quadtrees, when not all of them were loaded, as our code would try to use quadtrees 
-not yet loaded. We solved this by putting the querying in a try/catch, and when a problem 
-occurred (index out of bounds, when trying to access a quadtree not yet loaded), we simply 
-stopped looking through more quadtrees and just return what we found so far. Then later on, 
-when all quadtrees were loaded, we could return all edges. The user wouldn't notice the lack 
-of roads, as the user only sees a limited amount of roads anyway.
+During load time (when loading from the serialized files, after the window is
+shown to the user) not all quadtrees are loaded. So we did encounter a problem
+when querying the quadtrees, when not all of them were loaded, as our code
+would try to use quadtrees not yet loaded. We solved this by putting the
+querying in a try/catch, and when a problem occurred (index out of bounds, when
+trying to access a quadtree not yet loaded), we simply stopped looking through
+more quadtrees and just return what we found so far. Then later on, when all
+quadtrees were loaded, we could return all edges. The user would not notice the
+lack of roads, as the user only sees a limited amount of roads anyway.
 
-We did encounter another problem, when trying to use the graph (for pathfinding) when the
-graph wasn't done loading. We solved this by using a simple loop, that check if the graph was
-set. As long is the graph wasn't available, the main thread would simply hold and wait for the
-loading to finish. This is probably the only time where the user would notice that everything isn't
-quite loaded, but the loading happens so fast, that it probably won't be a problem anyway.
+We did encounter another problem, when trying to use the graph (for pathfinding)
+when the graph was not done loading. We solved this by using a simple loop, that
+check if the graph was set. As long as the graph is not available, the main
+thread would simply hold and wait for the loading to finish. This is probably
+the only time where the user would notice that everything is not quite loaded,
+but the loading happens so fast, that it probably will not be a problem anyway.
+
+With the nature of threads in mind, we cannot guarantee this behaviour, but no
+problems should arise if the loading occurs in the wrong order.

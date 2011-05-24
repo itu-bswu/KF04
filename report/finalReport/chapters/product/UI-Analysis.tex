@@ -8,9 +8,10 @@ to have implemented in our \class{Map Of Denmark} program.
 \label{UIA-UIW}
 When we designed the first version of the graphical user interface in the first
 part of the project, we decided to make a canvas inside of the graphical user
-interface where the actual map should be displayed. We chose to have this
+interface, where the actual map should be displayed. We chose to have this
 canvas placed on the right side of our graphical user interface and interaction
-with the user mainly placed on the left.
+with the user mainly placed on the left. See figure \ref{UIA-UIW-PIC} for an
+example.
 
 We believe that this is a simple way of representing a user interface for a map.
 A lot of software use a menu bar with dropdown menus for selecting different
@@ -24,8 +25,8 @@ features are included, then space and overview may become an issue on the left s
 If new features are included, we feel it would be beneficial to let the main
 window change when different feature types are selected.
 
-Below is a screenshot of our user interface. How to use it will be
-explained in the \class{\nameref{MAN}} on page \pageref{MAN}.
+How to use our will be explained in the \class{\nameref{MAN}} on page
+\pageref{MAN}.
 
 \begin{figure}[!ht]
 \centering
@@ -46,8 +47,8 @@ of the map the user wants to look closer at.
 
 In addition to the option of using the mouse to zoom, we have implemented a
 zoom-in and out function on the GUI and a hotkey for zooming out to the original
-zoom level. We made the original zoom function a hotkey only because we did not
-want to have too many buttons on the left side. We considered making it a menu bar
+zoom level. We made the original zoom level function a hotkey only because we
+did not want to have too many buttons on the left side. We considered making it a menu bar
 item, but we did not manage to get it into this version.
 
 We felt we really needed a zoom out function, so users do not need to close the
@@ -63,8 +64,8 @@ the zoom function will do nothing.
 \label{UIA-IF-N}
 We have made it possible for the user to navigate the map by using the arrow
 buttons on the graphical user interface. When one of the buttons are pressed,
-the ``view'' will move in the direction specified by the button. While it was
-not specified as a requirement for the project, we felt it was a necessity to
+the ``viewport'' will move in the direction specified by the button. While it
+was not specified as a requirement for the project, we felt it was a necessity to
 implement at least basic navigation functionality.
 
 Like we did with the two zoom functionalities, we have limited how far a user
@@ -73,13 +74,13 @@ function will not do anything.
 \subsection{Hotkeys}
 \label{UIA-IF-H}
 We have implemented hotkeys for all the buttons on the graphical user interface
-plus an additional for zooming back to the original zoom level. When we
+plus an additional hotkey for zooming back to the original zoom level. When we
 discussed the benefits of hotkeys, we felt it was important for experienced users of the
 software to have a less cumbersome time navigating the map. 
 
-At first we just had hotkeys for the clearing of markers (mentioned in section
+At first we just had hotkeys for clearing the markers (mentioned in section
 \ref{UIA-IF-M}) and zooming out to the original zoom level, but we later added
-the hotkeys for the rest of the functionalities. If more features are added in a
+hotkeys for the rest of the functionalities. If more features are added in a
 future version, it would be important for us that a hotkey were provided, if at
 all possible.
 
@@ -109,7 +110,7 @@ offer them an easy way to undo a missclick.
 
 \subsection{Bike/car}
 \label{UIA-IF-BC}
-Another interesting feature in our \class{Map of Denmark} project is the option
+Another feature in our \class{Map of Denmark} project is the option
 to switch between bike and car routes. The user interface will start with car
 selected when the program starts.
 
@@ -121,6 +122,8 @@ car mode, it recalculates the route again, but not visiting small paths and othe
 roads where a car is not allowed to drive. The estimated travel time is also 
 recalculated. The user does not need to have planned a route before he/she 
 changes the type of transportation.
+
+The bike time is calculated using a set speed.
 
 We have implemented this to help our software target a wider group of people.
 The bike/car option were a bit costly to implement, but we categorized it as a
@@ -148,18 +151,18 @@ We felt that our gradually increasing level of detail is enough, and if the user
 to enable all types of roads at once, the map could get quite slow and cumbersome 
 to use.
 
-If we were to implement something like this, it would be to give the user the choice 
-which types of roads should be included in the route planning - ferries, highways, 
-bridges etc. This could be too big a choice for the user to handle though. The
+If we were to implement something like this, it would be to give the user the
+choice of which types of roads should be included in the route planning -
+ferries, highways, bridges etc. This could be too big a choice for the user to handle though. The
 user might doubt if he or she has chosen the best options for finding a route.
 
 \subsection{Smooth scrolling}
 \label{UIA-NI-SS}
 We made an attempt to let the keyboard arrows scroll smoothly over the map, but
 we could not get it to work fast enough, and the user would experience
-lockups and an unresponsive interface. A solution to this would
-be to save map as images that you can scroll across - this would be faster, but
-would require more disk space. Because we store the data the way we do, which 
+lockups and an unresponsive interface. A solution to this could
+be to save the map as images that you can scroll across - this would be faster,
+but would require more disk space. Because we store the data the way we do, which 
 forces us to draw every line individually every time the user moves the viewport, 
 we cannot do this fast enough.
 

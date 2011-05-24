@@ -3,9 +3,9 @@
 \section{White box: closestEdge}
 \label{TEST-CE}
 A white box test is a test that is made with knowledge of the internal structure
-of the method, and uses this knowledge for making sure all flows through the 
-method is covered. We are using the ``\class{getClosestNode}'' method for this test
-since it contains both loops and conditional statements. The method is supposed
+of the code, and uses this knowledge to make sure all flows through the 
+code is covered. We are using the ``\class{getClosestNode}'' method for this
+test since it contains both loops and conditional statements. The method is supposed
 to find the closest \class{Node} to a given point. It accomplishes this by first
 searching another method for the closest \class{Edge} (which is trivial). This
 procedure is performed with greater and greater search radius until it finds something.
@@ -37,16 +37,16 @@ else-block & The second \class{Node} is closest & 8500, 8500, Evaluator.CAR
 
 This procedure is great for testing every corner of the code because we are
 making a test for reaching all sections within if-statements and make sure we
-run while-loops zero, once and multiple times\footnote{We can't run this while
+run while-loops zero, once and multiple times\footnote{We cannot run this while
 loop zero times since the loop runs when edge == null and the edge variable is
 defined as null just before the loop.}. It should be noted that the white box
 tests should be accompanied by black box tests, because these tests uses the
-input needed for reaching a specific block. This means they don't check if
+input needed for reaching a specific block. This means they do not check if
 invalid input breaks the program. Since some of the input overlaps with what is
 needed for the black box, tests they have been located in the same method in our
 Model Tests found in appendix \ref{APP-TE-JU-MO} on page
-{APP-TE-JU-MO}\footnote{In the testGetClosestNode() method, the first, third,
-fourth and fifth asserts.}.
+\pageref{APP-TE-JU-MO}\footnote{In the testGetClosestNode() method, the first,
+third, fourth and fifth asserts.}.
 
 \section{JUnit}
 \label{TEST-JU}
@@ -99,7 +99,7 @@ table can be found in appendix \ref{APP-TE-JU-PM} on page
 \label{TEST-ST}
 We have written a number of system tests that need to be performed by a
 user interacting with the program. These test the basic functionality of the
-program as well as some advanced combinations of features. The System Tests are
+program as well as some advanced combinations of features. The system tests are
 a necessary addition to the unit tests since many bugs are located in the
 interactions between algorithms and the user interface, and thus can often not
 be found through unit tests. 

@@ -14,7 +14,12 @@
 \usepackage[font=sl]{caption}
 
 \pagestyle{fancy}
-\cfoot{\thepage\ of ??}
+\cfoot{\thepage\ of 82}
+
+\fancypagestyle{plain}{
+\fancyhf{}
+\cfoot{\thepage\ of 82}
+}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1.8ex plus 0.5ex minus 0.2ex}
@@ -28,7 +33,7 @@ Univ. of Copenhagen}}}
 Group 12\\
 Emil Juul Jacobsen, ejuu@itu.dk (08/04-1988)\\
 Jens Dahl Møllerhøj, jdmo@itu.dk (24/05-1990)\\
-Jakob Melnyk  jmel@itu.dk (18/02-1991)\\
+Jakob Melnyk, jmel@itu.dk (18/02-1991)\\
 Niklas Hansen, nikl@itu.dk (18/12-1991)\\
 \\
 Supervisor: Lars Birkedal\\
@@ -45,9 +50,9 @@ Jensen \& Filip Sieczkowski
 \label{PRE}
 This report is the result of a project at the bachelor in Software Development 
 on the IT University of Copenhagen spanning from early March 2011 to late May
-2011. The project was given as a first semester project in groups of 4 to 5
-randomly picked students. 2.5 months of the semester was set aside for this
-project. The time not spent on the report was spent on planning, coding, 
+2011. The project was given as a first-semester project in groups of 4 to 5
+randomly picked students. Two and a half months of the semester was set aside
+for this project. The time not spent on the report was spent on planning, coding, 
 thorough testing and bugfixing of the actual program.
 
 \include{chapters/product/Background}
@@ -60,53 +65,54 @@ thorough testing and bugfixing of the actual program.
 \label{PRC}
 We believe our product live up to the project requirements described in chapter
 \ref{BG} \class{\nameref{BG}}. Our program also runs fast enough when using the
-interface, in our opnion. We tested this on both a fast computer and an older,
+interface, in our opinion. We tested this on both a fast computer and an older,
 slower computer and we did not feel it was cumbersome to use the program, even on the slower
 computer. We did not thoroughly test this however, and we cannot guarantee that
 there will not be circumstances where our program will run slowly.
  
-The system tests were done on a Windows 7 computer and because of this, we
+The system tests were all done on a Windows 7 computer and because of this, we
 cannot be certain that all features work on other operating systems. However, 
 two of our group members use Mac OS X and they have experienced no problems 
 with our program besides the ones mentioned in section \ref{PRC-BUGS}.
 
 We did all of our testing internally. For a even more thorough testing of our
 software, we could have asked other groups to test the software for us, so that
-we could get a different look on the tests. We did no usability testing
+we could get a different look on the tests. We did not do any usability testing
 throughout the project, and while our user interface is simple, we should have
 tested to make sure we designed our interface in the best way possible.
 
 \section{Issues in the software}
 \label{PRC-BUGS}
-We have discovered a few bugs our software that did not show itself through our
-testing, but instead manifested with regular use of the software.
+We have discovered a few bugs in our software that did not show themselves
+through our testing, but instead manifested with regular use of the software.
 
 We have a bug in our zoom-function, which enables the user to zoom very far in
 by zooming in, then resizing the window. This caused the program to be locked at
 a very far zoomed in view, but we chose to let the user zoom out when they are
-zoomed far in. The problem with zooming too far in can still happen, but the
+zoomed far in. The problem with zooming in too far can still happen, but the
 view is not locked when it happens.
 
 \section{Future features}
 \label{PRC-FF}
 If we had more time, we would have liked to have included more features in
 our program. We feel our program could still do with some fine tuning for it to be of real use
-outside of living up to the requirements. During development, we have focused on
+besides living up to the requirements. During development, we have focused on
 getting the basic requirements to work properly, before working on more advanced
-features. The advanced features that we would have like to implement is described 
-here:
+features. The additional features that we would have like to implement is
+described here:
 
 We would have liked to have implemented a ``road search'' function, enabling the
 user to search for the name of a road and place a marker there. In addition, we
 would have like to implement the option for the user to view a route description
-with turns. We were actually working on making route description, but we couldn't 
-get it nice and pretty enough in time, so we felt we would be better off without it.
+with turns. We were actually working on making a route description, but we
+could not get it to look decent in time, so we felt we would be better
+off without it.
 
 To make the map look nicer, we attempted to implement a function for the map to
 create an outline of Denmark, separating the land from the sea, so that it was more 
-obvious what is land and what is water. It would first of all make our program prettier, 
-but with it we would be able to draw fewer roads when zoomed out, resulting in better 
-performance. We would also have liked to make a logo for our program, but we did not 
+obvious what is land and what is water. It would first of all make our program
+prettier, but with it we would be able to draw fewer roads when zoomed far out,
+resulting in better performance. We would also have liked to make a logo for our program, but we did not 
 get around to implementing it.
 
 \include{chapters/process/Constitution}
@@ -121,22 +127,22 @@ members.
 
 We kept a pretty tight structure as far as having meetings pretty often, but
 sometimes we got a bit unfocused during the meetings. We changed from meeting
-two days of six hours to three days of four hours once lectures stopped in
-early May, and this helped a lot. While our diary was not kept up-to-date
-properply, our meeting documents helped us have a good idea of what was going with everyone in
+two days of six hours to three days of four hours and a half once lectures
+stopped in early May, and this helped a lot. While our spreadsheet diary was not
+kept up-to-date properply, our meeting documents helped us have a good idea of what was going with everyone in
 terms of what they were doing on the project. The meeting documents can be found
 in appendix \ref{APP-WS-MD} on page \pageref{APP-WS-MD}.
 
 Not only did the meeting documents work as our diary, they helped us remember
-what we was currently working on. If a one of the groupmembers was not present
+what we was currently working on. If one of the group members was not present
 at a meeting, he got updates about our work by looking at the document.
 Since we had described the homework each member had to do, there was no doubt
 about what you had to work on.
 
 A lot of the work on the project - especailly writing this report and coding the
 program - was done at home. At meetings we discussed different solutions etc.
-and then we gave eachother homework until the next meeting. We were a bit sloppy
-getting things done on time, as there was rarely a day where everyone had done
+and then we gave each other homework until the next meeting. We were a bit
+sloppy getting things done on time, as there was rarely a day where everyone had done
 all of their ``homework''. This was rarely a huge issue since the ones that missed
 their homework had reasonable excuses and were responsible enough to get it
 done quickly.
@@ -163,10 +169,10 @@ bigger plan could have been a good thing to have had, so we did not suddenly get
 surprised by needing to have working code to hand in for the different parts of
 the project.
 
-From the beginning we had much focus on getting the basic requirements done before
-spending too much time on fancy features and found out this approach suited us well.
+From the beginning we had a lot of focus on getting the basic requirements done
+before spending too much time on fancy features and found out this approach suited us well.
 With these priorities we managed to get a relatively low stress level before the
-small hand-ins and achieve a more polished product at the demonstrations.
+small hand-ins and achieved a more polished product at the demonstrations.
 In the final part of the project, however, we decided that we
 wanted an, at least for us, early feature and code freeze, so that we could
 focus on getting the report done early. The schedule for the last week of the
@@ -186,10 +192,10 @@ like this.
 Robert Sedgewick and Kevin Wayne. \emph {Algorithms, Fourth Edition}. Preliminary Edition Fall 2010. Addision-Wesley 2010.
 \bibitem{httpalgs4}
 Algorithms, Fourth Edition homepage: http://algs4.cs.princeton.edu/24pq/IndexMinPQ.java ; Date:
-May 23rd, 2011.
+April 5th, 2011.
 \bibitem{MD5}
 \emph{MD5Checksum homepage}: http://www.rgagnon.com/javadetails/java-0416.html ;
-Date: May 23, 2011.
+Date: April 5th, 2011.
 \end{thebibliography}
 \pagestyle{plain}
 \include{chapters/appendix/Appendix}
